@@ -22,8 +22,7 @@ tech_planetary_unification = {
             factor = 0.75
             NOT = {
                 OR = {
-                    has_ethic = ethic_pacifist
-                    has_ethic = ethic_fanatic_pacifist
+                    is_pacifist = yes
                 }
             }
         }
@@ -34,8 +33,7 @@ tech_planetary_unification = {
             factor = 0.75
             NOT = {
                 OR = {
-                    has_ethic = ethic_pacifist
-                    has_ethic = ethic_fanatic_pacifist
+                    is_pacifist = yes
                 }
             }
         }

@@ -21,10 +21,7 @@ tech_dark_matter_power_core = {
     weight_modifier = {
         modifier = {
             factor = 0
-            NOR = {
-                is_country_type = fallen_empire
-                is_country_type = awakened_fallen_empire
-            }
+            is_fallen_empire = no
         }
     }
 }

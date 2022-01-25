@@ -16,11 +16,7 @@ tech_galactic_campaigns = {
     weight_modifier = {
         modifier = {
             factor = 0
-            OR = {
-                has_valid_civic = "civic_fanatic_purifiers"
-                has_valid_civic = "civic_hive_devouring_swarm"
-                has_valid_civic = "civic_machine_terminator"
-            }
+            is_homicidal = yes
         }
         modifier = {
             factor = 2
