@@ -2,6 +2,8 @@
 
 ## Author Credit
 
+* [Agreements Boost Diplomatic Weight 3.2](https://steamcommunity.com/sharedfiles/filedetails/?id=2512152163)
+* [AI-Player Exclusive Archaeology](https://steamcommunity.com/sharedfiles/filedetails/?id=2273568769)
 * [!!Ariphaos Unofficial Patch 3.2](https://steamcommunity.com/sharedfiles/filedetails/?id=1995601384) - Fixed a lot of bugs in 3.2.x.
 * [Risa's Unofficial Patch](https://steamcommunity.com/sharedfiles/filedetails/?id=803752381) - Fixed a lot of bugs in 2.1.x, and the overall inspiration for the project.
 * [Bug Fixes by alexrider803](https://steamcommunity.com/sharedfiles/filedetails/?id=1911222615) - Fixed a fair quantity of bugs in 2.3.x

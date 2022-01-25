@@ -1,0 +1,330 @@
+
+namespace = ariphaos_archaeology
+
+# on_building_starbase_outpost fires just before it is built, so we need to wait a day.
+ship_event = {
+	id = ariphaos_archaeology.1
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		owner = {
+			is_ai = yes
+			is_country_type = default
+		}
+		solar_system = {
+			NOT = { has_star_flag = ariphaos_archaeology_has_ai_dig }
+		}
+	}
+	
+	immediate = {
+		ship_event = {
+			id = ariphaos_archaeology.2
+			days = 1
+		}
+	}
+}
+
+ship_event = {
+	id = ariphaos_archaeology.2
+	hide_window = yes
+	is_triggered_only = yes
+	
+	# Sanity.
+	trigger = {
+		solar_system = {
+			exists = starbase
+			any_system_planet = {
+				has_anomaly = no
+				habitable_planet = no
+				is_star = no
+				is_colony = no
+				NOT = { exists = archaeological_site }
+			}
+		}
+	}
+	
+	immediate = {
+		random_list = {
+				90 = { }
+				10 = {
+					solar_system = {
+						random_system_planet = {
+							limit = {
+								has_anomaly = no
+								habitable_planet = no
+								is_star = no
+								is_colony = no
+								NOT = { exists = archaeological_site }
+							}
+							prevent_anomaly = yes
+							create_archaeological_site = random
+						}
+					set_star_flag = ariphaos_archaeology_has_ai_dig
+				}
+			}
+		}
+	}
+}
+
+# Clear AI digs when a player conquers
+ship_event = {
+	id = ariphaos_archaeology.3
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		exists = owner
+		owner = {
+			OR = {
+				is_ai = no
+				NOT = { is_country_type = default }
+			}
+		}
+		solar_system = {
+			has_star_flag = ariphaos_archaeology_has_ai_dig
+		}
+	}
+	
+	immediate = {
+		solar_system = {
+			every_system_planet = {
+				limit = {
+					exists = archaeological_site
+					archaeological_site = {
+						OR = {
+							is_site_type = site_ariphaos_ai_0
+							is_site_type = site_ariphaos_ai_1
+							is_site_type = site_ariphaos_ai_2
+							is_site_type = site_ariphaos_ai_3
+						}
+					}
+				}
+				archaeological_site = {
+					destroy_archaeological_site = this
+				}
+			}
+
+			remove_star_flag = ariphaos_archaeology_has_ai_dig
+		}
+	}
+}
+
+event = {
+	id = ariphaos_archaeology.4
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		every_system = {
+			limit = {
+				exists = owner
+				owner = {
+					OR = {
+						is_ai = no
+						NOT = { is_country_type = default }
+					}
+				}
+				has_star_flag = ariphaos_archaeology_has_ai_dig
+			}
+			every_system_planet = {
+				limit = {
+					exists = archaeological_site
+					archaeological_site = {
+						OR = {
+							is_site_type = site_ariphaos_ai_0
+							is_site_type = site_ariphaos_ai_1
+							is_site_type = site_ariphaos_ai_2
+							is_site_type = site_ariphaos_ai_3
+						}
+					}
+				}
+				archaeological_site = {
+					destroy_archaeological_site = this
+				}
+			}
+			remove_star_flag = ariphaos_archaeology_has_ai_dig
+		}
+	}
+}
+
+# AI result 0
+fleet_event = {
+	id = ariphaos_archaeology.10
+	title = "ariphaos_ai_archaeology_dig.name"
+	desc = "ariphaos_ai_archaeology_dig.desc"
+	picture = GFX_evt_dead_city
+	show_sound = event_alien_signal
+	
+	archaeology = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = DIG
+		small_artifact_reward = yes
+	}
+}
+
+# AI result 1
+fleet_event = {
+	id = ariphaos_archaeology.11
+	title = "ariphaos_ai_archaeology_dig.name"
+	desc = "ariphaos_ai_archaeology_dig.desc"
+	picture = GFX_evt_dead_city
+	show_sound = event_alien_signal
+	
+	archaeology = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = DIG
+		medium_artifact_reward = yes
+	}
+}
+
+# AI result 2
+fleet_event = {
+	id = ariphaos_archaeology.12
+	title = "ariphaos_ai_archaeology_dig.name"
+	desc = "ariphaos_ai_archaeology_dig.desc"
+	picture = GFX_evt_dead_city
+	show_sound = event_alien_signal
+	
+	archaeology = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = DIG
+		large_artifact_reward = yes
+	}
+}
+
+# AI result 3
+fleet_event = {
+	id = ariphaos_archaeology.13
+	title = "ariphaos_ai_archaeology_dig.name"
+	desc = "ariphaos_ai_archaeology_dig.desc"
+	picture = GFX_evt_dead_city
+	show_sound = event_alien_signal
+	
+	archaeology = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+	}
+	
+	option = {
+		name = DIG
+		great_artifact_reward = yes
+	}
+}
+
+# AI Finale Minor
+fleet_event = {
+	id = ariphaos_archaeology.20
+	title = "ariphaos_ai_archaeology_dig.name"
+	desc = "ariphaos_ai_archaeology_dig.desc"
+	picture = GFX_evt_dead_city
+	show_sound = event_alien_signal
+	
+	archaeology = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+		from.solar_system = { remove_star_flag = ariphaos_archaeology_has_ai_dig }
+		destroy_archaeological_site = from
+	}
+	
+	option = {
+		name = OK
+		ariphaos_archaeological_reward_minor = yes
+	}
+}
+
+# AI Finale Moderate
+fleet_event = {
+	id = ariphaos_archaeology.21
+	title = "ariphaos_ai_archaeology_dig.name"
+	desc = "ariphaos_ai_archaeology_dig.desc"
+	picture = GFX_evt_dead_city
+	show_sound = event_alien_signal
+	
+	archaeology = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+		from.solar_system = { remove_star_flag = ariphaos_archaeology_has_ai_dig }
+		destroy_archaeological_site = from
+	}
+	
+	option = {
+		name = OK
+		ariphaos_archaeological_reward_moderate = yes
+	}
+}
+
+# AI Finale Major
+fleet_event = {
+	id = ariphaos_archaeology.22
+	title = "ariphaos_ai_archaeology_dig.name"
+	desc = "ariphaos_ai_archaeology_dig.desc"
+	picture = GFX_evt_dead_city
+	show_sound = event_alien_signal
+	
+	archaeology = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = { 
+		from = { set_site_progress_locked = no } 
+		from.solar_system = { remove_star_flag = ariphaos_archaeology_has_ai_dig }
+		destroy_archaeological_site = from
+	}
+	
+	option = {
+		name = OK
+		ariphaos_archaeological_reward_major = yes
+	}
+}

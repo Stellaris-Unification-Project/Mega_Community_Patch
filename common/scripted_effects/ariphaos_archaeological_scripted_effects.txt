@@ -1,0 +1,298 @@
+site_laser_grid_trap_easy = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8001 } }
+		25 = { fleet_event = { id = ancrel.8002 } }
+		25 = { fleet_event = { id = ancrel.8003 } }
+	}
+}
+
+site_sentry_guns_trap_easy = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8011 } }
+		25 = { fleet_event = { id = ancrel.8012 } }
+		25 = { fleet_event = { id = ancrel.8013 } }
+	}
+}
+
+site_crusher_droids_trap_easy = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8021 } }
+		25 = { fleet_event = { id = ancrel.8022 } }
+		25 = { fleet_event = { id = ancrel.8023 } }
+	}
+}
+
+site_guardian_droids_trap_easy = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8031 } }
+		25 = { fleet_event = { id = ancrel.8032 } }
+		25 = { fleet_event = { id = ancrel.8033 } }
+	}
+}
+
+site_wildlife_easy = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8091 } }
+		25 = { fleet_event = { id = ancrel.8092 } }
+		25 = { fleet_event = { id = ancrel.8093 } }
+	}
+}
+
+site_collapsed_roof_easy = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8101 } }
+		25 = { fleet_event = { id = ancrel.8102 } }
+		25 = { fleet_event = { id = ancrel.8103 } }
+	}
+}
+
+site_laser_grid_trap_hard = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8000 } }
+		25 = { fleet_event = { id = ancrel.8001 } }
+		25 = { fleet_event = { id = ancrel.8002 } }
+	}
+}
+
+site_sentry_guns_trap_hard = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8010 } }
+		25 = { fleet_event = { id = ancrel.8011 } }
+		25 = { fleet_event = { id = ancrel.8012 } }
+	}
+}
+
+site_crusher_droids_trap_hard = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8020 } }
+		25 = { fleet_event = { id = ancrel.8021 } }
+		25 = { fleet_event = { id = ancrel.8022 } }
+	}
+}
+
+site_guardian_droids_trap_hard = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8030 } }
+		25 = { fleet_event = { id = ancrel.8031 } }
+		25 = { fleet_event = { id = ancrel.8032 } }
+	}
+}
+
+site_wildlife_hard = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8090 } }
+		25 = { fleet_event = { id = ancrel.8091 } }
+		25 = { fleet_event = { id = ancrel.8092 } }
+	}
+}
+
+site_collapsed_roof_hard = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8100 } }
+		25 = { fleet_event = { id = ancrel.8101 } }
+		25 = { fleet_event = { id = ancrel.8102 } }
+	}
+}
+
+site_laser_grid_trap_brutal = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8000 } }
+		25 = { fleet_event = { id = ancrel.8001 } }
+	}
+}
+
+site_sentry_guns_trap_brutal = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8010 } }
+		25 = { fleet_event = { id = ancrel.8011 } }
+	}
+}
+
+site_crusher_droids_trap_brutal = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8020 } }
+		25 = { fleet_event = { id = ancrel.8021 } }
+	}
+}
+
+site_guardian_droids_trap_brutal = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8030 } }
+		25 = { fleet_event = { id = ancrel.8031 } }
+	}
+}
+
+site_wildlife_brutal = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8090 } }
+		25 = { fleet_event = { id = ancrel.8091 } }
+	}
+}
+
+site_collapsed_roof_brutal = {
+	random_list = {
+		25 = { fleet_event = { id = ancrel.8100 } }
+		25 = { fleet_event = { id = ancrel.8101 } }
+	}
+}
+
+# Monty haul expedition
+site_ariphaos_archaeology_random_events_trivial = {
+	random_list = {
+		20 = { fleet_event = { id = ancrel.8040 } } # Resource Cache (good)
+		20 = { fleet_event = { id = ancrel.8050 } } # Lost Expedition (good)
+		20 = { fleet_event = { id = ancrel.8060 } } # Treasure Chamber (good)
+		20 = { fleet_event = { id = ancrel.8080 } } # Minor Artifacts Discovered (good)
+		20 = { fleet_event = { id = ancrel.8110 } } # Ancient Records (good)
+	}
+}
+
+# Not going to lose your scientist, but not as generous with goodies.
+site_ariphaos_archaeology_random_events_easy = {
+	random_list = {
+		10 = { site_laser_grid_trap_easy = yes }
+		10 = { site_sentry_guns_trap_easy = yes }
+		10 = { site_crusher_droids_trap_easy = yes }
+		10 = { site_guardian_droids_trap_easy = yes }
+		10 = { 
+			modifier = {
+				factor = 0
+				from = {
+					planet = { habitable_planet = no }
+				}
+			}
+			site_wildlife_easy = yes 
+		}
+		10 = { site_collapsed_roof_easy = yes }
+		10 = { fleet_event = { id = ancrel.8045 } } # Hidden Passage (good) (+3)
+		10 = { fleet_event = { id = ancrel.8055 } } # Bickering Archaeologists (-3)
+		10 = {  # Illness (-3)
+			modifier = {
+				factor = 0
+				owner = { is_machine_empire = yes }
+			}
+			fleet_event = { id = ancrel.8065 } # Organics only
+		}
+		10 = { fleet_event = { id = ancrel.8070 } } # Equipment Malfunction (-3)
+		50 = { site_ariphaos_archaeology_random_events_trivial = yes }
+	}
+}
+
+# Basically the same as the standard all events
+site_ariphaos_archaeology_random_events_standard = {
+	random_list = {
+		10 = { site_laser_grid_trap = yes }
+		10 = { site_sentry_guns_trap = yes }
+		10 = { site_crusher_droids_trap = yes }
+		10 = { site_guardian_droids_trap = yes }
+		10 = { 
+			modifier = {
+				factor = 0
+				from = {
+					planet = { habitable_planet = no }
+				}
+			}
+			site_wildlife = yes 
+		}
+		10 = { site_collapsed_roof = yes }
+		10 = { fleet_event = { id = ancrel.8045 } } # Hidden Passage (good)
+		10 = { fleet_event = { id = ancrel.8055 } } # Bickering Archaeologists
+		10 = {  # Illness
+			modifier = {
+				factor = 0
+				owner = { is_machine_empire = yes }
+			}
+			fleet_event = { id = ancrel.8065 } # Organics only
+		}
+		10 = { fleet_event = { id = ancrel.8070 } } # Equipment Malfunction
+		2 = { fleet_event = { id = ancrel.8075 } } # Scientist vanishes
+		50 = { site_ariphaos_archaeology_random_events_trivial = yes }
+	}
+}
+
+# Significantly more dangerous for your scientist.
+site_ariphaos_archaeology_random_events_hard = {
+	random_list = {
+		10 = { site_laser_grid_trap_hard = yes }
+		10 = { site_sentry_guns_trap_hard = yes }
+		10 = { site_crusher_droids_trap_hard = yes }
+		10 = { site_guardian_droids_trap_hard = yes }
+		10 = { 
+			modifier = {
+				factor = 0
+				from = {
+					planet = { habitable_planet = no }
+				}
+			}
+			site_wildlife_hard = yes 
+		}
+		10 = { site_collapsed_roof_hard = yes }
+		10 = { fleet_event = { id = ancrel.8045 } } # Hidden Passage (good)
+		10 = { fleet_event = { id = ancrel.8055 } } # Bickering Archaeologists
+		10 = {  # Illness
+			modifier = {
+				factor = 0
+				owner = { is_machine_empire = yes }
+			}
+			fleet_event = { id = ancrel.8065 } # Organics only
+		}
+		10 = { fleet_event = { id = ancrel.8070 } } # Equipment Malfunction
+		10 = { fleet_event = { id = ancrel.8075 } } # Scientist vanishes
+		50 = { site_ariphaos_archaeology_random_events_trivial = yes }
+	}
+}
+
+# Abandon all hope, all ye who enter here.
+site_ariphaos_archaeology_random_events_brutal = {
+	random_list = {
+		10 = { site_laser_grid_trap_brutal = yes }
+		10 = { site_sentry_guns_trap_brutal = yes }
+		10 = { site_crusher_droids_trap_brutal = yes }
+		10 = { site_guardian_droids_trap_brutal = yes }
+		10 = { 
+			modifier = {
+				factor = 0
+				from = {
+					planet = { habitable_planet = no }
+				}
+			}
+			site_wildlife_brutal = yes 
+		}
+		10 = { site_collapsed_roof_brutal = yes }
+		10 = { fleet_event = { id = ancrel.8055 } } # Bickering Archaeologists
+		10 = {  # Illness
+			modifier = {
+				factor = 0
+				owner = { is_machine_empire = yes }
+			}
+			fleet_event = { id = ancrel.8065 } # Organics only
+		}
+		10 = { fleet_event = { id = ancrel.8070 } } # Equipment Malfunction
+		10 = { fleet_event = { id = ancrel.8075 } } # Scientist vanishes
+	}
+}
+
+
+ariphaos_archaeological_reward_minor = {
+	locked_random_list = {
+		10 = { owner = { add_resource = { minor_artifacts = 10 } } }
+		10 = { owner = { add_resource = { minor_artifacts = 20 } } }
+		10 = { owner = { add_resource = { minor_artifacts = 30 } } }
+	}
+}
+
+ariphaos_archaeological_reward_moderate = {
+	locked_random_list = {
+		10 = { owner = { add_resource = { minor_artifacts = 30 } } }
+		10 = { owner = { add_resource = { minor_artifacts = 40 } } }
+		10 = { owner = { add_resource = { minor_artifacts = 50 } } }
+	}
+}
+
+ariphaos_archaeological_reward_major = {
+	locked_random_list = {
+		10 = { owner = { add_resource = { minor_artifacts = 50 } } }
+		10 = { owner = { add_resource = { minor_artifacts = 75 } } }
+		10 = { owner = { add_resource = { minor_artifacts = 100 } } }
+	}
+}

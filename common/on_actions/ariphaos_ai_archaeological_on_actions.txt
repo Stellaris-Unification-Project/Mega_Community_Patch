@@ -1,0 +1,23 @@
+
+# Player load mass clear
+on_single_player_save_game_load = {
+	events = {
+		ariphaos_archaeology.4
+	}
+}
+
+# Spawn AI sites when they build an outpost.
+on_building_starbase_outpost = {
+	events = {
+		ariphaos_archaeology.1
+		ariphaos_archaeology.3
+	}
+}
+
+# The intent here is to give the AI a bit of momentum when they conquer. Something for their science ships to do.
+on_starbase_transfer = {
+	events = {
+		ariphaos_archaeology.1
+		ariphaos_archaeology.3
+	}
+}

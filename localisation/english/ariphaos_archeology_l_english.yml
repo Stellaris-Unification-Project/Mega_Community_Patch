@@ -1,0 +1,9 @@
+﻿l_english:
+ ariphaos_ai_archaeology_dig.name: "AI Archaeology Dig"
+ ariphaos_ai_archaeology_dig.desc: ""
+ ariphaos_ai_archaeology_site: "AI Archaeology Site" 
+ site_ariphaos_ai_0: "AI Site Easy"
+ site_ariphaos_ai_1: "AI Site Standard"
+ site_ariphaos_ai_2: "AI Site Hard"
+ site_ariphaos_ai_3: "AI Site Challenging"
+ site_ariphaos_ai_4: "AI Site Type 4"

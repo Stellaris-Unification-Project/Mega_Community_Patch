@@ -1,0 +1,28 @@
+[img]https://i.imgur.com/YieHlwz.png/[/img]
+
+A small mod that allows Research Agreements, Commercial Pacts, Defensive Pacts and Migration Treaties to boost Diplomatic Weight.
+                                                                                                                  
+This mod works with Version 3.2.* of the game, and is backwards compatible with version 3.1 and 3.0.
+
+[img]https://i.imgur.com/apX87de.png[/img]
+
+In the unmodded game, Diplomatic Weight heavily favors wide empires, with little to no regard for whether anybody even likes you. If you're big enough, you'll dominate the Galactic Community, and small empires have little to no impact on the Community anymore. This mod attempts to shift the balance a bit more towards empires that actually engage in diplomacy. 
+
+With this Mod active, Agreements grant the following bonuses to your Diplomatic Weight:
+- Each Research Agreement boosts Diplomatic Weight from Technology by 20%
+- Each Commercial Pact boosts Diplomatic Weight from Economy by 20%
+- Each Migration Treaty boosts Diplomatic Weight from Population by 20%
+- Each Defensive Pact boosts Diplomatic Weight from Fleet Power by 20%
+
+These effects are capped at 10 Agreements each, for a maximum of +200% in each Category. I chose not to include Non-Aggression Pacts since they're not really "cooperative": You're not working together, but rather just agreeing not to attack each other. 
+
+Federation can also gain a few Effects:
+- Federation Leaders gain 20/40/60% Diplomatic Weight from Fleet Power if Fleet Contribution is Low/Medium/High
+- Members of Research Cooperatives gain Diplomatic Weight from Technology as if they had Research Agreements with each other
+- If the Free Migration Federation Law is active, Players gain Diplomatic Weight from Population as if they had a Migration Treaty with each member of their Federation
+
+The modifiers are recalculated at the start of each month, and appear in the list of empire-wide modifiers that you can access by clicking your flag icon in the top left corner of the UI.
+
+[img]https://i.imgur.com/E6Zj7Fl.png[/img]
+
+This Mod was designed with maximum compatibility in mind. It does not override or alter any game files and as a result, it should be compatible with just about any other mod.

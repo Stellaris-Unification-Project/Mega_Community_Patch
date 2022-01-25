@@ -1,0 +1,31 @@
+
+
+ryika_abdw_fleet_contribution = {
+	# hide_from_country_list = yes
+	diplo_weight_naval_mult = 0.2
+}
+
+ryika_abdw_research_federation = {
+	# hide_from_country_list = yes
+	diplo_weight_technology_mult = 0.2
+}
+
+ryika_abdw_migration_pacts = {
+	# hide_from_country_list = yes
+	diplo_weight_pops_mult = 0.2
+}
+
+ryika_abdw_research_agreements = {
+	# hide_from_country_list = yes
+	diplo_weight_technology_mult = 0.2
+}
+
+ryika_abdw_commercial_pacts = {
+	# hide_from_country_list = yes
+	diplo_weight_economy_mult = 0.2
+}
+
+ryika_abdw_defensive_pacts = {
+	# hide_from_country_list = yes
+	diplo_weight_naval_mult = 0.2
+}
