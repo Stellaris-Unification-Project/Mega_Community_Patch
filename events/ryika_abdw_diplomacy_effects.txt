@@ -1,0 +1,157 @@
+
+
+namespace = ryika_abdw_diplomacy_effects
+
+@ryika_abdw_category_limit = 10
+@ryika_abdw_federation_limit = 11
+
+# (Re)Apply static modifiers based on the number of agreements we have in the different categories
+country_event = {
+	id = ryika_abdw_diplomacy_effects.1
+	hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = { is_country_type = default }
+	
+	immediate = {
+		save_event_target_as = event_country
+			
+		remove_modifier = ryika_abdw_fleet_contribution
+		remove_modifier = ryika_abdw_research_federation
+		remove_modifier = ryika_abdw_research_agreements
+		remove_modifier = ryika_abdw_commercial_pacts
+		remove_modifier = ryika_abdw_migration_pacts
+		remove_modifier = ryika_abdw_defensive_pacts
+	
+		# Federations
+		if = {
+			limit = { has_federation = yes }
+			
+			federation = {
+			
+				# Fleet Contribution: The Federation Leader gains a bonus modifier to Diplomatic Weight from Fleet Power based on the active law.
+				if = {
+					limit = { event_target:event_country = { is_federation_leader = yes } }
+					set_variable = { which = ryika_abdw_federation_fleet_contribution_level value = 0 }
+					if = {
+						limit = { 
+							or = { 
+								has_federation_law = fleet_contribution_low
+								has_federation_law = fleet_contribution_low_trade
+								has_federation_law = fleet_contribution_low_research
+								has_federation_law = fleet_contribution_low_martial
+								has_federation_law = fleet_contribution_low_hegemony
+							}
+						}
+						set_variable = { which = ryika_abdw_federation_fleet_contribution_level value = 1 }
+					}
+					else_if = {
+						limit = { 
+							or = { 
+								has_federation_law = fleet_contribution_medium
+								has_federation_law = fleet_contribution_medium_trade
+								has_federation_law = fleet_contribution_medium_research
+								has_federation_law = fleet_contribution_medium_martial
+								has_federation_law = fleet_contribution_medium_hegemony
+							}
+						}
+						set_variable = { which = ryika_abdw_federation_fleet_contribution_level value = 2 }
+					}
+					else_if = {
+						limit = { 
+							or = { 
+								has_federation_law = fleet_contribution_high
+								has_federation_law = fleet_contribution_high_trade
+								has_federation_law = fleet_contribution_high_martial
+								has_federation_law = fleet_contribution_high_hegemony
+							}
+						}
+						set_variable = { which = ryika_abdw_federation_fleet_contribution_level value = 3 }
+					}
+					if = {
+						limit = { check_variable = { which = ryika_abdw_federation_fleet_contribution_level value > 0 } }
+						event_target:event_country = { 
+							add_modifier = { 
+								modifier = "ryika_abdw_fleet_contribution" 
+								multiplier = federation.ryika_abdw_federation_fleet_contribution_level 
+							} 
+						}
+					}
+				}
+			
+				# Research Federation: Members of this Federation gain a bonus modifier to Diplomatic Weight based on the number of members in the federation. 
+				if = {
+					limit = { has_federation_type = research_federation }
+					
+					if = {
+						limit = { num_members > @ryika_abdw_federation_limit }
+						set_variable = { which = ryika_abdw_federation_num_members value = @ryika_abdw_federation_limit }
+					}
+					else = {
+						set_variable = { which = ryika_abdw_federation_num_members value = trigger:num_members }
+						change_variable = { which = ryika_abdw_federation_num_members value = -1 }
+					}					
+					
+					event_target:event_country = { 
+						add_modifier = { 
+							modifier = "ryika_abdw_research_federation" 
+							multiplier = federation.ryika_abdw_federation_num_members 
+						} 
+					}
+				}
+			}
+		}
+	
+		### COMMERCIAL PACTS	
+		if = {		
+			limit = { num_commercial_pacts > 0 }
+			if = { 
+				limit = { num_commercial_pacts >= @ryika_abdw_category_limit }				
+				set_variable = { which = ryika_abdw_num_commercial_pacts value = @ryika_abdw_category_limit }
+			}
+			else = {
+				set_variable = { which = ryika_abdw_num_commercial_pacts value = trigger:num_commercial_pacts }
+			}			
+			add_modifier = { modifier = "ryika_abdw_commercial_pacts" multiplier = ryika_abdw_num_commercial_pacts }
+		}
+	
+		### RESEARCH AGREEMENTS		
+		if = {		
+			limit = { num_research_agreements > 0 }
+			if = { 
+				limit = { num_research_agreements >= @ryika_abdw_category_limit }				
+				set_variable = { which = ryika_abdw_num_research_agreements value = @ryika_abdw_category_limit }
+			}
+			else = {
+				set_variable = { which = ryika_abdw_num_research_agreements value = trigger:num_research_agreements }
+			}
+			add_modifier = { modifier = "ryika_abdw_research_agreements" multiplier = ryika_abdw_num_research_agreements }
+		}
+	
+		### MIGRATION TREATIES		
+		if = {		
+			limit = { num_migration_pacts > 0 }
+			if = { 
+				limit = { num_migration_pacts >= @ryika_abdw_category_limit }				
+				set_variable = { which = ryika_abdw_num_migration_pacts value = @ryika_abdw_category_limit }
+			}
+			else = {
+				set_variable = { which = ryika_abdw_num_migration_pacts value = trigger:num_migration_pacts }
+			}			
+			add_modifier = { modifier = "ryika_abdw_migration_pacts" multiplier = ryika_abdw_num_migration_pacts }
+		}
+	
+		### DEFENSIVE PACTS	
+		if = {		
+			limit = { num_defensive_pacts > 0 }
+			if = { 
+				limit = { num_defensive_pacts >= @ryika_abdw_category_limit }				
+				set_variable = { which = ryika_abdw_num_defensive_pacts value = @ryika_abdw_category_limit }
+			}
+			else = {
+				set_variable = { which = ryika_abdw_num_defensive_pacts value = trigger:num_defensive_pacts }
+			}			
+			add_modifier = { modifier = "ryika_abdw_defensive_pacts" multiplier = ryika_abdw_num_defensive_pacts }
+		}		
+	}
+}
