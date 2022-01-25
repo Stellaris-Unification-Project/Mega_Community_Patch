@@ -1,5 +1,15 @@
 # Mega Community Patch for Stellaris
 
+## Change Log
+
+### v.1.01
+
+Added AI Balance mods (Diplomatic & Archaeology)
+
+### v.1.00
+
+Only Patches
+
 ## Author Credit
 
 * [Agreements Boost Diplomatic Weight 3.2](https://steamcommunity.com/sharedfiles/filedetails/?id=2512152163)
