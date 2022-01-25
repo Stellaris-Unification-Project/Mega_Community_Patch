@@ -7,8 +7,7 @@ opinion_zealots_vs_materialists = {
                 has_ai_personality = awakened_fallen_empire_spiritualist
             }
             OR = {
-                has_ethic = "ethic_spiritualist"
-                has_ethic = "ethic_fanatic_spiritualist"
+                is_spiritualist = yes
             }
             OR = {
                 FROM = {

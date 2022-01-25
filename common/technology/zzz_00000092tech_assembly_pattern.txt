@@ -23,8 +23,7 @@ tech_assembly_pattern = {
         modifier = {
             factor = 1.25
             OR = {
-                has_ethic = ethic_militarist
-                has_ethic = ethic_fanatic_militarist
+                is_militarist = yes
             }
         }
     }
