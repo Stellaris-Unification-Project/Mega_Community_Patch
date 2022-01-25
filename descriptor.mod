@@ -1,7 +1,6 @@
-version="3.2.2.1"
+version="3.2.2.1.00"
 tags={
 	"Fixes"
 }
-picture="thumbnail.png"
-name="!!Base_Mod"
+name="!!Mega_Community_Patch"
 supported_version="3.2.2"
