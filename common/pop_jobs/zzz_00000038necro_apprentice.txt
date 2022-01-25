@@ -171,12 +171,10 @@ necro_apprentice = {
             planet = {
                 NOT = {
                     any_owned_pop = {
-                        NOT = {
-                            is_same_value = root
-                        }
-                        NOT = {
-                            has_job = necro_apprentice
-                        }
+                        NOR = {
+	is_same_value = root
+	has_job = necro_apprentice
+}
                         species = {
                             species_can_be_necrophaged = yes
                         }

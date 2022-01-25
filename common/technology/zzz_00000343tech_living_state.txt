@@ -37,8 +37,7 @@ tech_living_state = {
         modifier = {
             factor = 1.25
             OR = {
-                has_ethic = ethic_authoritarian
-                has_ethic = ethic_fanatic_authoritarian
+                is_authoritarian = yes
             }
         }
         modifier = {

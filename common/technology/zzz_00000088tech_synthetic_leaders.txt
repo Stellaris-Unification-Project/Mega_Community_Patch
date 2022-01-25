@@ -44,12 +44,10 @@ tech_synthetic_leaders = {
         weight = 2
         modifier = {
             factor = 0
-            NOT = {
-                has_ai_personality_behaviour = robot_exploiter
-            }
-            NOT = {
-                has_ai_personality_behaviour = robot_liberator
-            }
+            NOR = {
+	has_ai_personality_behaviour = robot_exploiter
+	has_ai_personality_behaviour = robot_liberator
+}
         }
     }
 }

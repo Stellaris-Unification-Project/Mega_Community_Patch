@@ -6345,7 +6345,7 @@ star_eater = {
     }
     num_target_locators = 0
     is_space_station = no
-    icon_frame = 7
+    icon = ship_size_military_32
     icon = ship_size_military_32
     construction_type = starbase_shipyard
     base_buildtime = 6000
