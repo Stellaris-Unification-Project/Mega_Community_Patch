@@ -1,0 +1,6 @@
+opinion_smear_campaign_insulted = {
+    opinion = {
+        base = -60
+    }
+    decay = 1
+}

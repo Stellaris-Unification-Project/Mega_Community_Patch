@@ -1,0 +1,15 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+country_event = {
+    id = utopia.106
+    title = utopia.106.name
+    desc = utopia.106.desc
+    picture = GFX_evt_think_tank
+    show_sound = event_administrative_work
+    location = capital_scope
+    is_triggered_only = yes
+    option = {
+        name = utopia.106.a
+    }
+}

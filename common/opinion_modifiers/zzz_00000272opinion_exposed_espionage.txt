@@ -1,0 +1,6 @@
+opinion_exposed_espionage = {
+    opinion = {
+        base = -60
+    }
+    decay = 1
+}

@@ -1,0 +1,54 @@
+opinion_biophage = {
+    opinion = {
+        base = 0
+        modifier = {
+            add = -50
+            is_xenophobe = no
+            OR = {
+                is_egalitarian = yes
+                is_xenophile = yes
+            }
+            NOT = {
+                is_country_type = fallen_empire
+            }
+        }
+        modifier = {
+            add = -50
+            is_xenophile = yes
+            NOT = {
+                is_country_type = fallen_empire
+            }
+        }
+        modifier = {
+            factor = 0
+            NOT = {
+                from = {
+                    any_owned_pop_species = {
+                        OR = {
+                            AND = {
+                                has_citizenship_type = {
+                                    country = from
+                                    type = citizenship_purge_machine
+                                }
+                                has_purge_type = {
+                                    country = from
+                                    type = purge_matrix
+                                }
+                            }
+                            AND = {
+                                has_citizenship_type = {
+                                    country = from
+                                    type = citizenship_slavery
+                                }
+                                has_slavery_type = {
+                                    country = from
+                                    type = slavery_matrix
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

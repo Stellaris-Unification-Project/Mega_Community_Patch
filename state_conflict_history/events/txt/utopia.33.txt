@@ -1,0 +1,71 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+country_event = {
+    id = "utopia.33"
+    title = "utopia.33.name"
+    desc = "utopia.33.desc"
+    picture = GFX_evt_dyson_sphere
+    show_sound = event_conversation
+    location = from.capital_scope
+    is_triggered_only = yes
+    option = {
+        name = utopia.33.a
+        ai_chance = {
+            factor = 10
+        }
+        hidden_effect = {
+            event_target:dysonsphere_builder = {
+                country_event = {
+                    id = utopia.38
+                    days = 5
+                }
+            }
+        }
+    }
+    option = {
+        name = utopia.33.b
+        ai_chance = {
+            factor = 10
+            modifier = {
+                factor = 0
+                OR = {
+                    is_friendly_to = event_target:dysonsphere_builder
+                    is_cordial_to = event_target:dysonsphere_builder
+                    is_protective_to = event_target:dysonsphere_builder
+                    is_loyal_to = event_target:dysonsphere_builder
+                    relative_power = {
+                        who = event_target:dysonsphere_builder
+                        category = all
+                        value = pathetic
+                    }
+                    relative_power = {
+                        who = event_target:dysonsphere_builder
+                        category = all
+                        value = inferior
+                    }
+                }
+            }
+        }
+        add_opinion_modifier = {
+            who = event_target:dysonsphere_builder
+            modifier = opinion_dysonsphere_terms_denied
+        }
+        tooltip = {
+            event_target:dysonsphere_builder = {
+                add_opinion_modifier = {
+                    who = root
+                    modifier = opinion_dysonsphere_apology_rejected
+                }
+            }
+        }
+        hidden_effect = {
+            event_target:dysonsphere_builder = {
+                country_event = {
+                    id = utopia.37
+                    days = 5
+                }
+            }
+        }
+    }
+}

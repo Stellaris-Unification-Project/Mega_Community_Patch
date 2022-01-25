@@ -1,0 +1,39 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+country_event = {
+    id = utopia.55
+    title = "utopia.55.name"
+    desc = "utopia.55.desc"
+    picture = GFX_evt_think_tank
+    show_sound = event_administrative_work
+    location = from
+    is_triggered_only = yes
+    option = {
+        name = utopia.55.a
+        hidden_effect = {
+            country_event = {
+                id = utopia.56
+                days = 10
+            }
+        }
+    }
+    option = {
+        name = utopia.55.b
+        custom_tooltip = utopia.55.b.tooltip
+        hidden_effect = {
+            country_event = {
+                id = utopia.57
+                days = 60
+                random = 20
+            }
+            set_country_flag = miracle_cream
+            event_target:target_country = {
+                country_event = {
+                    id = utopia.100
+                    days = 80
+                }
+            }
+        }
+    }
+}

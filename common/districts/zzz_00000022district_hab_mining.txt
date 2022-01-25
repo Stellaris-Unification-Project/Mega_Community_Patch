@@ -1,0 +1,185 @@
+district_hab_mining = {
+    base_buildtime = 240
+    is_capped_by_modifier = no
+    show_on_uncolonized = {
+        is_planet_class = pc_habitat
+        has_planet_flag = mining_habitat
+        NOR = {
+            is_planet_class = pc_dyson_swarm
+            has_planet_flag = xvcv_machinedlcmod_planet
+            is_planet_class = pc_archive
+        }
+    }
+    potential = {
+        is_planet_class = pc_habitat
+        has_planet_flag = mining_habitat
+        NOR = {
+            is_planet_class = pc_dyson_swarm
+            has_planet_flag = xvcv_machinedlcmod_planet
+            is_planet_class = pc_archive
+        }
+    }
+    planet_modifier = {
+        planet_housing_add = 3
+    }
+    resources = {
+        category = planet_districts_hab_mining
+        cost = {
+            minerals = 500
+        }
+        upkeep = {
+            energy = 2
+        }
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_hive_empire = yes
+            }
+        }
+        modifier = {
+            job_mining_drone_add = 4
+        }
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_machine_empire = yes
+            }
+        }
+        modifier = {
+            job_mining_drone_add = 3
+        }
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_gestalt = no
+                is_fallen_empire_spiritualist = no
+            }
+        }
+        modifier = {
+            job_miner_add = 3
+        }
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_fallen_empire_spiritualist = yes
+            }
+        }
+        modifier = {
+            job_fe_acolyte_mine_add = 3
+        }
+    }
+    triggered_desc = {
+        trigger = {
+            exists = owner
+            owner = {
+                is_gestalt = yes
+            }
+        }
+        text = job_mining_drone_effect_desc
+    }
+    triggered_desc = {
+        trigger = {
+            exists = owner
+            owner = {
+                is_gestalt = no
+                is_fallen_empire_spiritualist = no
+            }
+        }
+        text = job_miner_effect_desc
+    }
+    triggered_desc = {
+        trigger = {
+            exists = owner
+            owner = {
+                is_fallen_empire_spiritualist = yes
+            }
+        }
+        text = job_fe_acolyte_mine_effect_desc
+    }
+    ai_weight = {
+        weight = 0
+        modifier = {
+            weight = 0.5
+            has_global_flag = str_enabled_flag
+        }
+        modifier = {
+            weight = 20000
+            OR = {
+                owner = {
+                    has_monthly_income = {
+                        resource = energy
+                        value < 200
+                    }
+                }
+                planet = {
+                    has_district = district_hab_energy
+                }
+            }
+            NOT = {
+                planet = {
+                    has_district = district_hab_science
+                }
+            }
+            NOT = {
+                has_global_flag = gai_enabled_flag
+            }
+            NOT = {
+                has_global_flag = str_enabled_flag
+            }
+        }
+        modifier = {
+            weight = 20000
+            OR = {
+                owner = {
+                    has_monthly_income = {
+                        resource = energy
+                        value < 200
+                    }
+                }
+                planet = {
+                    has_district = district_hab_energy
+                }
+            }
+            NOT = {
+                planet = {
+                    has_district = district_hab_science
+                }
+            }
+            has_global_flag = gai_enabled_flag
+        }
+        modifier = {
+            weight = 20000
+            OR = {
+                owner = {
+                    has_monthly_income = {
+                        resource = energy
+                        value < 200
+                    }
+                }
+                planet = {
+                    has_district = district_hab_energy
+                }
+            }
+            NOT = {
+                planet = {
+                    has_district = district_hab_science
+                }
+            }
+            has_global_flag = str_enabled_flag
+        }
+    }
+    ai_resource_production = {
+        minerals = 1
+        trigger = {
+            always = yes
+        }
+    }
+}

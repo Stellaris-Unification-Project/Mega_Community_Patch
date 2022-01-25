@@ -1,0 +1,1 @@
+#Sadly the trade conversion was not a bug and is intentional.  I'll fix this in a BALANCE patch, but this mod is for BUGFIXES.

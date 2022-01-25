@@ -1,0 +1,51 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+ship_event = {
+    id = utopia.2016
+    title = "utopia.2016.name"
+    desc = "utopia.2016.desc"
+    picture = GFX_evt_space_debris
+    show_sound = event_radio_chatter
+    location = FROM
+    is_triggered_only = yes
+    trigger = {
+        FROM = {
+            has_star_flag = ruined_ring_system
+            any_system_megastructure = {
+                is_megastructure_type = ring_world_ruined
+            }
+        }
+    }
+    immediate = {
+        FROM = {
+            save_event_target_as = ring_system
+        }
+    }
+    option = {
+        name = "utopia.2016.a"
+        trigger = {
+            owner = {
+                has_country_flag = finished_ringworld
+            }
+        }
+    }
+    option = {
+        name = AMAZING
+        trigger = {
+            owner = {
+                NOT = {
+                    has_country_flag = finished_ringworld
+                }
+            }
+        }
+        hidden_effect = {
+            owner = {
+                country_event = {
+                    id = story.5
+                    days = 30
+                }
+            }
+        }
+    }
+}

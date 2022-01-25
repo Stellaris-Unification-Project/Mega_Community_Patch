@@ -1,0 +1,20 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+country_event = {
+    id = utopia.2000
+    title = "utopia.2000.name"
+    desc = "utopia.2000.desc"
+    picture = GFX_evt_unknown_ships
+    show_sound = event_ringworld_build_start
+    location = FROMFROM
+    is_triggered_only = yes
+    trigger = {
+        FROM = {
+            is_megastructure_type = ring_world_1
+        }
+    }
+    option = {
+        name = "utopia.2000.a"
+    }
+}

@@ -1,0 +1,42 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+country_event = {
+    id = utopia.103
+    title = utopia.103.name
+    desc = utopia.103.desc
+    picture = GFX_evt_genetic_modification
+    show_sound = event_administrative_work
+    location = event_target:missing_pops_planet
+    trackable = yes
+    is_triggered_only = yes
+    immediate = {
+        add_modifier = {
+            modifier = ageless
+            days = -1
+        }
+    }
+    option = {
+        name = utopia.103.a
+        tooltip = {
+            add_modifier = {
+                modifier = ageless
+                days = -1
+            }
+        }
+        enable_special_project = {
+            name = "cream_origin_project"
+            location = event_target:missing_pops_planet
+            owner = root
+        }
+    }
+    option = {
+        name = utopia.103.b
+        tooltip = {
+            add_modifier = {
+                modifier = ageless
+                days = -1
+            }
+        }
+    }
+}

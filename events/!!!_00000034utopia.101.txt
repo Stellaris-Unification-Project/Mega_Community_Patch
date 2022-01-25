@@ -1,0 +1,20 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+country_event = {
+    id = utopia.101
+    title = "utopia.101.name"
+    desc = "utopia.101.desc"
+    picture = GFX_evt_smugglers_in_bar
+    show_sound = event_administrative_work
+    location = event_target:missing_pops_planet
+    is_triggered_only = yes
+    immediate = {
+        event_target:missing_pops_planet = {
+            remove_modifier = pop_disappearances
+        }
+    }
+    option = {
+        name = utopia.101.a
+    }
+}

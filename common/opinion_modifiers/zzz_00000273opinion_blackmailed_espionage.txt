@@ -1,0 +1,6 @@
+opinion_blackmailed_espionage = {
+    opinion = {
+        base = -50
+    }
+    decay = 1
+}

@@ -1,0 +1,31 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+country_event = {
+    id = utopia.104
+    title = utopia.104.name
+    desc = utopia.104.desc
+    picture = GFX_evt_think_tank
+    show_sound = event_administrative_work
+    location = event_target:fountain_of_youth_country
+    is_triggered_only = yes
+    option = {
+        name = utopia.104.a
+        custom_tooltip = "utopia.104.a.tooltip"
+        hidden_effect = {
+            event_target:fountain_of_youth_country = {
+                country_event = {
+                    id = utopia.105
+                    days = 4
+                }
+            }
+        }
+    }
+    option = {
+        name = utopia.104.c
+        custom_tooltip = utopia.104.c.tooltip
+    }
+    option = {
+        name = utopia.104.d
+    }
+}

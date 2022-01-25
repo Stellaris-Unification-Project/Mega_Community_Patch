@@ -1,0 +1,32 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+country_event = {
+    id = "utopia.39"
+    desc = "utopia.39.desc"
+    location = from.capital_scope
+    is_triggered_only = yes
+    title = TRANSMISSION
+    diplomatic = yes
+    picture_event_data = {
+        portrait = from
+        room = from.ruler
+    }
+    immediate = {
+        event_target:dysonsphere_builder = {
+            add_opinion_modifier = {
+                who = event_target:dyson_sphere_neighbor
+                modifier = opinion_dysonsphere_insult
+            }
+        }
+    }
+    option = {
+        name = utopia.39.a
+    }
+    option = {
+        name = utopia.39.b
+    }
+    option = {
+        name = utopia.39.c
+    }
+}

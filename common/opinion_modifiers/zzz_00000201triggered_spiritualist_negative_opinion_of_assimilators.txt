@@ -1,0 +1,14 @@
+triggered_spiritualist_negative_opinion_of_assimilators = {
+    trigger = {
+        is_country_type = default
+        OR = {
+            is_spiritualist = yes
+        }
+        FROM = {
+            has_civic = civic_machine_assimilator
+        }
+    }
+    opinion = {
+        base = -200
+    }
+}

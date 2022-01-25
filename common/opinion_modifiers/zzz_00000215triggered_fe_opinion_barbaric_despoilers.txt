@@ -1,0 +1,14 @@
+triggered_fe_opinion_barbaric_despoilers = {
+    trigger = {
+        is_fallen_empire = yes
+        has_ethic = ethic_fanatic_xenophile
+        is_mechanical_empire = no
+        is_cyborg_empire = no
+        FROM = {
+            has_civic = civic_barbaric_despoilers
+        }
+    }
+    opinion = {
+        base = -40
+    }
+}

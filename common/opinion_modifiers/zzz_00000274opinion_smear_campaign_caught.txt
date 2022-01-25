@@ -1,0 +1,6 @@
+opinion_smear_campaign_caught = {
+    opinion = {
+        base = -50
+    }
+    decay = 1
+}

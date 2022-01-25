@@ -1,0 +1,31 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+country_event = {
+    id = utopia.108
+    title = utopia.108.name
+    desc = utopia.108.desc
+    picture = GFX_evt_think_tank
+    show_sound = event_administrative_work
+    location = capital_scope
+    is_triggered_only = yes
+    immediate = {
+        if = {
+            limit = {
+                has_modifier = energy_utopia_57
+            }
+            remove_modifier = energy_utopia_57
+        }
+    }
+    option = {
+        name = utopia.108.a
+        if = {
+            limit = {
+                has_modifier = energy_utopia_57
+            }
+            tooltip = {
+                remove_modifier = energy_utopia_57
+            }
+        }
+    }
+}

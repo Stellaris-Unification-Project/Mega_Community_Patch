@@ -1,0 +1,54 @@
+namespace = utopia
+namespace = mega
+namespace = feda
+country_event = {
+    id = utopia.62
+    title = "utopia.62.name"
+    desc = "utopia.62.desc"
+    picture = GFX_evt_think_tank
+    show_sound = event_administrative_work
+    location = event_target:think_tank_2
+    is_triggered_only = yes
+    trigger = {
+        any_owned_leader = {
+            is_researching_area = physics
+        }
+    }
+    immediate = {
+        random_owned_leader = {
+            limit = {
+                is_researching_area = physics
+            }
+            save_event_target_as = abducted_leader
+            exile_leader_as = exiled_physics_leader
+            add_experience = 400
+            if = {
+                limit = {
+                    NOT = {
+                        has_trait = leader_trait_spark_of_genius
+                    }
+                }
+                add_trait = leader_trait_spark_of_genius
+            }
+            if = {
+                limit = {
+                    NOT = {
+                        has_trait = leader_trait_maniacal
+                    }
+                }
+                add_trait = leader_trait_maniacal
+            }
+        }
+        set_country_flag = think_tank_event
+    }
+    option = {
+        name = utopia.62.a
+        hidden_effect = {
+            country_event = {
+                id = utopia.63
+                days = 360
+                random = 20
+            }
+        }
+    }
+}

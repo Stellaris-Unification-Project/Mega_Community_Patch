@@ -1,0 +1,141 @@
+district_hab_science = {
+    base_buildtime = 240
+    is_capped_by_modifier = no
+    show_on_uncolonized = {
+        is_planet_class = pc_habitat
+        has_planet_flag = research_habitat
+        NOR = {
+            is_planet_class = pc_dyson_swarm
+            has_planet_flag = xvcv_machinedlcmod_planet
+            is_planet_class = pc_archive
+        }
+    }
+    potential = {
+        is_planet_class = pc_habitat
+        has_planet_flag = research_habitat
+        NOR = {
+            is_planet_class = pc_dyson_swarm
+            has_planet_flag = xvcv_machinedlcmod_planet
+            is_planet_class = pc_archive
+        }
+    }
+    resources = {
+        category = planet_districts_hab_research
+        cost = {
+            minerals = 500
+        }
+        upkeep = {
+            energy = 2
+        }
+    }
+    planet_modifier = {
+        planet_housing_add = 3
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_regular_empire = yes
+            }
+        }
+        modifier = {
+            job_researcher_add = 3
+        }
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_hive_empire = yes
+            }
+        }
+        modifier = {
+            job_brain_drone_add = 3
+        }
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_machine_empire = yes
+            }
+        }
+        modifier = {
+            job_calculator_add = 3
+        }
+    }
+    triggered_desc = {
+        trigger = {
+            exists = owner
+            owner = {
+                is_regular_empire = yes
+            }
+        }
+        text = job_researcher_effect_desc
+    }
+    triggered_desc = {
+        trigger = {
+            exists = owner
+            owner = {
+                is_hive_empire = yes
+            }
+        }
+        text = job_brain_drone_effect_desc
+    }
+    triggered_desc = {
+        trigger = {
+            exists = owner
+            owner = {
+                is_machine_empire = yes
+            }
+        }
+        text = job_calculator_effect_desc
+    }
+    ai_weight = {
+        weight = 0
+        modifier = {
+            weight = 90000
+            has_global_flag = str_enabled_flag
+        }
+        modifier = {
+            weight = 9000
+            planet = {
+                NOT = {
+                    has_district = district_hab_energy
+                }
+            }
+            owner = {
+                has_monthly_income = {
+                    resource = minerals
+                    value > 80
+                }
+            }
+            NOT = {
+                has_global_flag = gai_enabled_flag
+            }
+            NOT = {
+                has_global_flag = str_enabled_flag
+            }
+        }
+        modifier = {
+            weight = 9000
+            planet = {
+                NOT = {
+                    has_district = district_hab_energy
+                }
+            }
+            owner = {
+                has_monthly_income = {
+                    resource = minerals
+                    value > 80
+                }
+            }
+            has_global_flag = gai_enabled_flag
+        }
+        modifier = {
+            factor = 0
+            lategame = yes
+            has_global_flag = str_enabled_flag
+        }
+    }
+}

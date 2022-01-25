@@ -1,0 +1,219 @@
+district_hab_energy = {
+    base_buildtime = 240
+    is_capped_by_modifier = no
+    show_on_uncolonized = {
+        is_planet_class = pc_habitat
+        OR = {
+            has_planet_flag = energy_habitat
+            AND = {
+                exists = from
+                from = {
+                    is_gestalt = yes
+                }
+            }
+        }
+        OR = {
+            has_planet_flag = energy_habitat
+            AND = {
+                exists = from
+                from = {
+                    is_gestalt = yes
+                }
+                NOT = {
+                    is_planet_class = pc_archive
+                }
+            }
+        }
+        NOT = {
+            is_planet_class = pc_dyson_swarm
+        }
+        NOT = {
+            has_planet_flag = xvcv_machinedlcmod_planet
+        }
+    }
+    potential = {
+        is_planet_class = pc_habitat
+        OR = {
+            has_planet_flag = energy_habitat
+            AND = {
+                exists = owner
+                owner = {
+                    is_gestalt = yes
+                }
+            }
+        }
+        OR = {
+            has_planet_flag = energy_habitat
+            AND = {
+                exists = owner
+                owner = {
+                    is_gestalt = yes
+                }
+                NOT = {
+                    is_planet_class = pc_archive
+                }
+            }
+        }
+        NOT = {
+            is_planet_class = pc_dyson_swarm
+        }
+        NOT = {
+            has_planet_flag = xvcv_machinedlcmod_planet
+        }
+    }
+    planet_modifier = {
+        planet_housing_add = 3
+    }
+    resources = {
+        category = planet_districts_hab_energy
+        cost = {
+            minerals = 500
+        }
+        upkeep = {
+            energy = 2
+        }
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_gestalt = no
+                is_fallen_empire_spiritualist = no
+            }
+        }
+        modifier = {
+            job_technician_add = 3
+        }
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_fallen_empire_spiritualist = yes
+            }
+        }
+        modifier = {
+            job_fe_acolyte_generator_add = 3
+        }
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_machine_empire = yes
+            }
+        }
+        job_technician_drone_add = 3
+    }
+    triggered_planet_modifier = {
+        potential = {
+            exists = owner
+            owner = {
+                is_hive_empire = yes
+            }
+        }
+        job_technician_drone_add = 4
+    }
+    triggered_desc = {
+        trigger = {
+            exists = owner
+            owner = {
+                is_gestalt = yes
+            }
+        }
+        text = job_technician_drone_effect_desc
+    }
+    triggered_desc = {
+        trigger = {
+            exists = owner
+            owner = {
+                is_gestalt = no
+                is_fallen_empire_spiritualist = no
+            }
+        }
+        text = job_technician_effect_desc
+    }
+    triggered_desc = {
+        trigger = {
+            exists = owner
+            owner = {
+                is_fallen_empire_spiritualist = yes
+            }
+        }
+        text = job_fe_acolyte_generator_effect_desc
+    }
+    ai_weight = {
+        weight = 0
+        modifier = {
+            weight = 0.1
+            has_global_flag = str_enabled_flag
+        }
+        modifier = {
+            weight = 20000
+            OR = {
+                owner = {
+                    has_monthly_income = {
+                        resource = energy
+                        value < 200
+                    }
+                }
+                planet = {
+                    has_district = district_hab_energy
+                }
+            }
+            NOT = {
+                planet = {
+                    has_district = district_hab_science
+                }
+            }
+            NOT = {
+                has_global_flag = gai_enabled_flag
+            }
+            NOT = {
+                has_global_flag = str_enabled_flag
+            }
+        }
+        modifier = {
+            weight = 20000
+            OR = {
+                owner = {
+                    has_monthly_income = {
+                        resource = energy
+                        value < 200
+                    }
+                }
+                planet = {
+                    has_district = district_hab_energy
+                }
+            }
+            NOT = {
+                planet = {
+                    has_district = district_hab_science
+                }
+            }
+            has_global_flag = gai_enabled_flag
+        }
+        modifier = {
+            factor = 90
+            owner = {
+                has_monthly_income = {
+                    resource = energy
+                    value < 50
+                }
+            }
+            has_global_flag = str_enabled_flag
+        }
+        modifier = {
+            factor = 200
+            lategame = yes
+            free_housing > 2
+            has_global_flag = str_enabled_flag
+        }
+    }
+    ai_resource_production = {
+        energy = 1
+        trigger = {
+            always = yes
+        }
+    }
+}

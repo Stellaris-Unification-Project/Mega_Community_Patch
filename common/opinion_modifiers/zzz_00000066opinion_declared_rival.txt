@@ -1,0 +1,10 @@
+opinion_declared_rival = {
+    opinion = {
+        base = -100
+        modifier = {
+            add = -100
+            is_fallen_empire = yes
+        }
+    }
+    unique = yes
+}
