@@ -1,0 +1,25 @@
+deassimilated_machine_world_cooperative = {
+	icon = gfx/interface/icons/planet_modifiers/pm_robots.dds
+	icon_frame = 1
+	job_replicator_add = -1
+	job_roboticist_add = 1
+}
+
+deassimilated_machine_world_neutral = {
+	icon = gfx/interface/icons/planet_modifiers/pm_robots.dds
+	icon_frame = 2
+	job_replicator_add = -1
+	planet_jobs_produces_mult = -0.1
+	pop_housing_usage_mult = 0.1
+}
+
+deassimilated_machine_world_hostile = {
+	icon = gfx/interface/icons/planet_modifiers/pm_robots.dds
+	icon_frame = 3
+	job_replicator_add = -1
+	planet_pop_assembly_mult = -0.1
+	planet_buildings_upkeep_mult = 0.1
+	planet_districts_upkeep_mult = 0.1
+	planet_jobs_produces_mult = -0.2
+	pop_housing_usage_mult = 0.1
+}

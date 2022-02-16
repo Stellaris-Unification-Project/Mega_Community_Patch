@@ -1,0 +1,251 @@
+
+civic_parliamentary_system = {
+	potential = {
+		ethics = {
+			NOT = {
+				value = ethic_gestalt_consciousness
+			}
+		}
+		authority = {
+			NOT = {
+				value = auth_corporate
+			}
+		}
+	}
+	possible = {
+		authority = {
+			value = auth_democratic
+		}
+	}
+	random_weight = {
+		base = 5
+	}
+	modifier = {
+		leader_skill_levels = 1
+		species_leader_exp_gain = 0.15
+		pop_factions_produces_mult = 0.25
+		pop_ethics_shift_speed_mult = 0.5
+	}
+}
+
+civic_feudal_realm = {
+	description = "ma_civic_tooltip_feudal_realm_effects"
+	potential = {
+		ethics = {
+			NOT = {
+				value = ethic_gestalt_consciousness
+			}
+		}
+		authority = {
+			NOR = {
+				value = auth_corporate
+				value = auth_corporate_imperial
+			}
+		}
+	}
+	possible = {
+		authority = {
+			OR = {
+				value = auth_imperial
+				value = auth_dictatorial
+			}
+		}
+	}
+	random_weight = {
+		base = 5
+	}
+	modifier = {
+    	job_noble_per_pop = 0.028
+    	country_admin_cap_mult = 0.15
+		country_produces_mult = -0.1
+	}
+}
+
+#Naval Traditions - get country modifiers on_fleet_destroyed_victim, on_fleet_destroyed_perp -????
+civic_naval_traditions = {
+	potential = {
+		ethics = {
+			NOT = {
+				value = ethic_gestalt_consciousness
+			}
+		}
+		authority = {
+			NOR = {
+				value = auth_corporate
+				value = auth_corporate_imperial
+			}
+		}
+	}
+	possible = {
+		ethics = {
+			OR = {
+				text = civic_tooltip_militarist
+				value = ethic_militarist
+				value = ethic_fanatic_militarist
+			}
+		}
+	}
+	random_weight = {
+		base = 5
+	}
+	modifier = {
+		ship_fire_rate_mult = 0.1
+		country_command_limit_add = 20
+		ships_upkeep_mult = -0.1
+	}
+}
+
+civic_functional_architecture = {
+	description = "civic_tooltip_functional_architecture_effects"
+	potential = {
+		ethics = {
+			NOT = {
+				value = ethic_gestalt_consciousness
+			}
+		}
+		authority = {
+			NOR = {
+				value = auth_corporate
+				value = auth_corporate_imperial
+			}
+		}
+	}
+	random_weight = {
+		base = 5
+	}
+	modifier = {
+		planet_structures_cost_mult = -0.15
+		planet_max_buildings_add = 1
+	}
+}
+
+#Imperialist
+civic_nationalistic_zeal = {
+	potential = {
+		ethics = {
+			NOT = {
+				value = ethic_gestalt_consciousness
+			}
+		}
+		authority = {
+			NOR = {
+				value = auth_corporate
+				value = auth_corporate_imperial
+			}
+		}
+	}
+	possible = {
+		ethics = {
+			OR = {
+				text = civic_tooltip_militarist
+				value = ethic_militarist
+				value = ethic_fanatic_militarist
+			}
+			NOT = {
+				value = ethic_fanatic_xenophile
+			}
+		}
+		civics = {
+			NOR = {
+				value = lrsk_gov_var_civic_imperial_economy
+				value = civic_xeno_militarist
+			}
+		}
+	}
+	random_weight = {
+		base = 5
+	}
+	modifier = {
+		country_war_exhaustion_mult = -0.1
+		country_claim_influence_cost_mult = -0.1
+		country_occupation_armies_add = 4
+		subject_tribute_mult = 0.10
+		country_border_friction_mult = 0.3
+	}
+}
+
+## Government Variety Pack
+
+#Imperial Economy (Dictatorial/Imperial, not Xenophile) - The regime exploits its vassals ruthlessly. (+10% subject research share, +7.5% tributary income)
+lrsk_gov_var_civic_imperial_economy = {
+  potential = {
+    ethics = { NOT = { value = ethic_gestalt_consciousness } }
+    authority = { NOT = { value = auth_corporate } }
+  }
+
+  #icon = "gfx/interface/icons/governments/civics/civic_slaver_guilds.dds"
+
+  possible = {
+    authority = {
+      OR = {
+        text = civic_tooltip_dic_imp
+        value = auth_dictatorial
+        value = auth_imperial
+      }
+    }
+    ethics = {
+      NOR = {
+        text = civic_tooltip_not_xenophile
+        value = ethic_xenophile
+        value = ethic_fanatic_xenophile
+      }
+    }
+    civics = {
+      NOR = {
+        value = civic_fanatic_purifiers
+        value = civic_inwards_perfection
+        value = civic_nationalistic_zeal
+      }
+    }
+  }
+
+  random_weight = { base = 5 }
+
+  modifier = {
+    country_vassal_naval_capacity_contribution_mult = 0.15
+    subject_tribute_mult = 0.15
+  }
+}
+
+#Universal Sovereignty (Dictatorship/Imperial, not Xenophobic) - The ruler has an inclusive ideology that embraces all forms of sentient life... as future subjects. (-25% vassal integration cost)
+lrsk_gov_var_civic_universal_sovereignty = {
+  potential = {
+    ethics = { NOT = { value = ethic_gestalt_consciousness } }
+    authority = { NOT = { value = auth_corporate } }
+  }
+
+  description = "civic_tooltip_lrsk_gov_var_civic_universal_sovereignty_effects"
+  #icon = "gfx/interface/icons/governments/civics/civic_efficient_bureaucracy.dds"
+
+  possible = {
+    authority = {
+      OR = {
+        text = civic_tooltip_dic_imp
+        value = auth_dictatorial
+        value = auth_democratic_dictatorship
+        value = auth_imperial
+      }
+    }
+    ethics = {
+      NOR = {
+        text = civic_tooltip_not_xenophobe
+        value = ethic_xenophobe
+        value = ethic_fanatic_xenophobe
+      }
+    }
+    civics = {
+      NOR = {
+        value = lrsk_gov_var_civic_supremacist_demagoguery
+      }
+    }
+  }
+
+  random_weight = { base = 5 }
+
+  modifier = {
+    subject_tribute_mult = 0.10
+    country_edict_cap_add = 2
+    edicts_cost_mult = -0.15
+    subject_integration_influence_cost_mult = -0.25
+  }
+}

@@ -1,0 +1,234 @@
+
+namespace = dpe_xenophile_mission
+
+country_event = {
+	id = dpe_xenophile_mission.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		exists = event_target:dpe_new_contact
+
+		is_at_war = no
+		is_subject = no
+		NOT = { has_country_flag = dpe_recent_xenophile_mission }
+		OR = {
+			is_xenophile = yes
+			
+			any_pop_faction = {
+				is_pop_faction_type = xenoist
+				support > 0.15
+				faction_approval > @cc_faction_happy_number
+			}
+		}
+		NOR = {
+			any_relation = {
+				is_same_species = event_target:dpe_new_contact
+				has_relation_flag = {
+					who = prev
+					flag = dpe_has_had_xenophile_mission
+				}
+			}
+			any_owned_pop = {
+				is_same_species = event_target:dpe_new_contact
+				owner = {
+					any_owned_pop = {
+						NOT = { is_same_value = prevprev }
+						is_same_species = event_target:dpe_new_contact
+						owner = {
+							any_owned_pop = {
+								NOR = {
+									is_same_value = prevprev
+									is_same_value = prevprevprevprev
+								}
+								is_same_species = event_target:dpe_new_contact
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		event_target:dpe_new_contact = {
+			is_at_war = no
+			is_subject = no
+			NOT = { has_country_flag = dpe_recent_xenophile_mission }
+
+			has_relation_flag = {
+				who = prev
+				flag = dpe_new_relation
+			}
+			NOR = {
+				is_rival = prev
+				any_relation = {
+					is_same_species = root
+					has_relation_flag = {
+						who = prev
+						flag = dpe_has_had_xenophile_mission
+					}
+				}
+				any_owned_pop = {
+					is_same_species = root
+					owner = {
+						any_owned_pop = {
+							NOT = { is_same_value = prevprev }
+							is_same_species = root
+							owner = {
+								any_owned_pop = {
+									NOR = {
+										is_same_value = prevprev
+										is_same_value = prevprevprevprev
+									}
+									is_same_species = root
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		event_target:dpe_new_contact = { save_event_target_as = event_target:dpe_new_contact }
+		random_list = {
+			8 = {
+				country_event = { id = dpe_xenophile_mission.3 }
+				modifier = {
+					factor = 0.65
+					is_xenophile = no
+				}
+				modifier = {
+					factor = 1.5
+					has_ethic = ethic_fanatic_xenophile
+				}
+				modifier = {
+					factor = 0.8
+					event_target:dpe_new_contact = {
+						is_xenophobe = yes
+					}
+				}
+				modifier = {
+					factor = 0.8
+					event_target:dpe_new_contact = {
+						NOT = { has_ai_personality_behaviour = multispecies }
+					}
+				}
+
+				modifier = {
+					factor = 2
+					any_system_within_border = {
+						has_hyperlane_to = event_target:dpe_new_contact
+					}
+				}
+				
+				modifier = {
+					factor = 2.5
+					OR = {
+						is_ai = no
+						event_target:dpe_new_contact = { is_ai = no }
+					}
+				}
+				
+				#Make sure it doesn't happen at exaggerated distances
+				modifier = {
+					factor = 0
+					event_target:dpe_new_contact = {
+						NOR = {
+							is_neighbor_of = root
+							any_system_within_border = {
+								distance = {
+									source = root.capital_scope
+									min_distance >= 0
+									max_distance <= 500
+								}
+							}
+						}
+					}
+				}
+			}
+			988 = { country_event = { id = dpe_xenophile_mission.2 days = 14 } }
+		}
+	}
+}
+
+country_event = {
+	id = dpe_xenophile_mission.3
+	title = dpe_xenophile_mission.3.name
+	desc = dpe_xenophile_mission.3.desc
+	
+	picture = GFX_evt_dpe_alien_wedding
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { is_rival = event_target:dpe_new_contact }
+	}
+	
+	immediate = {
+		set_timed_country_flag = {
+			flag = dpe_recent_xenophile_mission
+			days = 5400
+		}
+		save_event_target_as = dpe_xenophile_country
+	}
+
+	option = {
+		name = dpe_xenophile_mission.3.A
+		
+		hidden_effect = {
+			event_target:dpe_new_contact = {
+				set_timed_country_flag = {
+					flag = dpe_recent_xenophile_mission
+					days = 9000
+				}
+				country_event = { id = dpe_xenophile_mission.4 }
+			}
+		}
+
+		event_target:dpe_new_contact = {
+			DPE_Get_Attitude = yes
+		}
+
+		ai_chance = {
+			factor = 3
+			modifier = {
+				factor = 2.5
+				event_target:dpe_new_contact = {
+					is_xenophile = yes
+				}
+			}
+			modifier = {
+				factor = 1.5
+				event_target:dpe_new_contact = { is_ai = no }
+			}
+		}
+	}
+	option = {
+		name = dpe_xenophile_mission.3.B
+		
+		random_pop_faction = {
+			limit = { is_pop_faction_type = xenoist }
+			add_modifier = {
+				modifier = dpe_rejected_xenophile_mission_faction
+				days = 3600
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.75
+				is_xenophile = no
+			}
+			modifier = {
+				factor = 0.5
+				event_target:dpe_new_contact = {
+					OR = {
+						NOT = { has_ai_personality_behaviour = multispecies }
+						is_xenophobe = yes
+					}
+				}
+			}
+		}
+	}
+}

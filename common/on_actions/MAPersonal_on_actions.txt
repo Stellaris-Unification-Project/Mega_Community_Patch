@@ -1,0 +1,21 @@
+# A planet has begun the colonization process.
+# Scope = Planet
+on_colonization_started = {
+	events = {
+		mapersonal.1000				# Make sure AI name planets
+	}
+}
+
+# No scope, like on_game_start
+on_yearly_pulse = {
+	events = {
+		mapersonal.2000				# Remove rogue colonial modifier.
+	}
+}
+
+# this = country
+on_yearly_pulse_country = {
+	events = {
+		mapersonal.3000				# Delete broken countries
+	}
+}

@@ -1,0 +1,6 @@
+﻿l_english:
+ NAME_terraform_station: "[terraform_planet.GetName] $shipclass_terraform_station$"
+ DEFAULT_TERRAFORM_STATION_SECTION: "$shipclass_terraform_station$ Frame"
+ terraform_station_DESC: "$shipclass_terraform_station_desc$"
+ terraform_station_MEGASTRUCTURE_DETAILS: "$shipclass_terraform_station_desc$"
+ requires_habitable_planet: "$TRIGGER_FAIL$Cannot build on an unhabitable planet."

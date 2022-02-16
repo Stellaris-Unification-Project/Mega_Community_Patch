@@ -1,0 +1,6 @@
+spriteTypes = {
+	spriteType = {
+		name = "GFX_colony_type_ecu_trade"
+		textureFile = "gfx/interface/planetview/colony_type_ecu_trade.dds"
+	}
+}

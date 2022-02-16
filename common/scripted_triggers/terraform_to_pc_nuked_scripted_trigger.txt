@@ -1,0 +1,124 @@
+# Whether this country is eligible to use tomb world "terraforming."
+# Requires either the main species be nuked (no tech requirement), or
+# that the country is a Memorialist (any type, no tech requirement),
+# or that any species with Pops is nuked and the country has researched
+# Tomb World Adaption. Includes tooltips.
+# this = country
+eligible_for_pc_nuked_terraform_country = {
+	OR = {
+		custom_tooltip = {
+			success_text = pc_nuked_terraform_owner_species_pass
+			fail_text = pc_nuked_terraform_owner_species_fail
+			OR = {
+				has_origin = origin_post_apocalyptic
+				owner_species = { is_nuked_species = yes }
+			}
+		}
+		custom_tooltip = {
+			success_text = pc_nuked_terraform_civic_pass
+			fail_text = pc_nuked_terraform_civic_fail
+			is_memorialist_empire = yes
+			is_ai = no
+		}
+		AND = {
+			has_technology = tech_terrestrial_sculpting
+			has_technology = tech_tomb_world_adaption
+			OR = {
+				custom_tooltip = {
+					success_text = pc_nuked_terraform_any_pop_species_pass
+					fail_text = pc_nuked_terraform_any_pop_species_fail
+					has_any_nuked_pop_species = yes
+				}
+				custom_tooltip = {
+					success_text = pc_nuked_terraform_already_terraformed_pass
+					fail_text = pc_nuked_terraform_already_terraformed_fail
+					has_country_flag = terraformed_to_pc_nuked
+				}
+			}
+		}
+	}
+}
+
+# Whether this country has the potential to use tomb world "terraforming"
+# this = country
+potential_for_pc_nuked_terraform_country = {
+	OR = {
+		is_memorialist_empire = yes
+		has_any_nuked_pop_species = yes
+	}
+}
+
+# whether this species is considered "nuked"
+# this = species
+is_nuked_species = {
+	OR = {
+		has_trait = trait_pc_nuked_preference
+		has_trait = trait_survivor
+		has_trait = trait_plantoid_radiotrophic
+		has_trait = trait_harvested_radiotrophic
+		has_trait = trait_presapient_irradiated
+	}
+}
+
+# whether the country has any species (with Pops) that are considered "nuked"
+# this = country
+has_any_nuked_pop_species = {
+	any_owned_pop_species = { is_nuked_species = yes }
+}
+
+# this = country
+is_memorialist_empire = {
+	OR = {
+		has_valid_civic = civic_memorialist
+		has_valid_civic = civic_hive_memorialist
+		has_valid_civic = civic_machine_memorialist
+	}
+}
+
+# assumes the terraformer meets technology/species requirements
+# this = planet
+eligible_pc_nuked_terraform = {
+	is_artificial = no
+	OR = {
+		eligible_pc_nuked_terraform_habitable = yes
+		eligible_pc_nuked_terraform_hostile = yes
+		eligible_pc_nuked_terraform_unhabitable = yes
+	}
+}
+
+# assumes the terraformer meets technology/species requirements
+# this = planet
+eligible_pc_nuked_terraform_habitable = {
+	OR = {
+		is_planet_class = pc_alpine
+		is_planet_class = pc_arctic
+		is_planet_class = pc_arid
+		is_planet_class = pc_continental
+		is_planet_class = pc_desert
+		is_planet_class = pc_gaia
+		is_planet_class = pc_ocean
+		is_planet_class = pc_savannah
+		is_planet_class = pc_tropical
+		is_planet_class = pc_tundra
+	}
+}
+
+# assumes the terraformer meets technology/species requirements
+# this = planet
+eligible_pc_nuked_terraform_hostile = {
+	OR = {
+		is_planet_class = pc_hive
+		is_planet_class = pc_machine
+	}
+}
+
+# assumes the terraformer meets technology/species requirements
+# this = planet
+eligible_pc_nuked_terraform_unhabitable = {
+	has_modifier = terraforming_candidate
+	OR = {
+		is_planet_class = pc_barren
+		is_planet_class = pc_barren_cold
+		is_planet_class = pc_frozen
+	}
+}

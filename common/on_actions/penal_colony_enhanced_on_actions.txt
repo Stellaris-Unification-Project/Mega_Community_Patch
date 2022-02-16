@@ -1,0 +1,14 @@
+# fired when the game starts
+on_game_start = {
+	events = {
+		penal_colony_enhanced.13 # flag mod as installed
+	}
+}
+
+# fired when loading a single-player game
+on_single_player_save_game_load = {
+	events = {
+		penal_colony_enhanced.1
+		penal_colony_enhanced.13 # flag mod as installed
+	}
+}

@@ -1,0 +1,618 @@
+namespace = deassimilated_machine_world
+
+# flag mod as active
+event = {
+	id = deassimilated_machine_world.13
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_global_flag = deassimilated_machine_world_installed }
+	}
+	immediate = {
+		set_global_flag = deassimilated_machine_world_installed
+	}
+}
+
+# fired by on_planet_transfer
+# FROM = country (new owner)
+planet_event = {
+	id = deassimilated_machine_world.20
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		is_planet_class = pc_machine
+		exists = FROM
+		FROM = { is_regular_empire = yes }
+		days_passed > 0
+	}
+	immediate = {
+		if = {
+			limit = { FROM = { should_machine_world_prompt_policy = yes } }
+			planet_event = {
+				id = deassimilated_machine_world.21
+				scopes = {
+					from = FROM
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOR = {
+					has_modifier = deassimilated_machine_world_cooperative
+					has_modifier = deassimilated_machine_world_neutral
+					has_modifier = deassimilated_machine_world_hostile
+				}
+			}
+			add_deassimilated_machine_world_modifier = yes
+		}
+	}
+}
+
+# fired by deassimilated_machine_world.20 (on_planet_transfer), deassimilated_machine_world.40 (on_tech_increased),
+# deassimilated_machine_world.50 (on_post_communications_established), or deassimilated_machine_world.60 (on_colonized)
+planet_event = {
+	id = deassimilated_machine_world.21
+	is_triggered_only = yes
+	title = deassimilated_machine_world.20.title
+	desc = {
+		text = deassimilated_machine_world.20.desc.already_has_rights
+		trigger = {
+			FROM = {
+				OR = {
+					AND = {
+						has_policy_flag = robots_allowed
+						has_policy_flag = ai_full_rights
+					}
+					is_mechanical_empire = yes
+				}
+			}
+		}
+	}
+	desc = {
+		text = deassimilated_machine_world.20.desc
+		trigger = {
+			FROM  = {
+				NAND = {
+					has_policy_flag = robots_allowed
+					has_policy_flag = ai_full_rights
+				}
+				is_mechanical_empire = no
+			}
+		}
+	}
+	picture = GFX_evt_contingency_planet
+	show_sound = pc_machine
+	immediate = {
+		FROM = { set_country_flag = deassimilated_machine_world_offered_policy_change }
+	}
+	# already allowed
+	option = {
+		name = MARVELOUS
+		trigger = {
+			FROM = {
+				OR = {
+					AND = {
+						has_policy_flag = robots_allowed
+						has_policy_flag = ai_full_rights
+					}
+					is_mechanical_empire = yes
+				}
+			}
+		}
+		tooltip = {
+			FROM = {
+				every_owned_planet = {
+					limit = { is_planet_class = pc_machine }
+					add_modifier = { modifier = deassimilated_machine_world_cooperative }
+				}
+			}
+		}
+	}
+	# yes policy changes - full
+	option = {
+		name = deassimilated_machine_world.20.full
+		trigger = {
+			FROM = {
+				NAND = {
+					has_policy_flag = robots_allowed
+					has_policy_flag = ai_full_rights
+				}
+				is_mechanical_empire = no
+			}
+		}
+		allow = {
+			FROM = {
+				can_set_policy = {
+					policy = robot_pop_policy
+					option = robot_pops_allowed
+				}
+				can_set_policy = {
+					policy = artificial_intelligence_policy
+					option = ai_full_rights
+				}
+			}
+		}
+		FROM  = {
+			set_country_flag = deassimilated_machine_world_suppress_policy_change
+			if = {
+				limit = { NOT = { has_policy_flag = robots_allowed } }
+				set_policy = {
+					policy = robot_pop_policy
+					option = robot_pops_allowed
+					cooldown = yes
+				}
+			}
+			if = {
+				limit = { NOT = { has_policy_flag = ai_full_rights } }
+				set_policy = {
+					policy = artificial_intelligence_policy
+					option = ai_full_rights
+					cooldown = yes
+				}
+			}
+		}
+		tooltip = {
+			FROM = {
+				every_owned_planet = {
+					limit = { is_planet_class = pc_machine }
+					add_modifier = { modifier = deassimilated_machine_world_cooperative }
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 2
+				FROM = { is_materialist = yes }
+			}
+			modifier = {
+				factor = 5
+				FROM = {
+					has_valid_ai_personality = yes
+					has_ai_personality_behaviour = robot_liberator
+				}
+			}
+			modifier = {
+				factor = 0.5
+				FROM = {
+					has_valid_ai_personality = yes
+					has_ai_personality_behaviour = robot_exploiter
+				}
+			}
+			modifier = {
+				factor = 0.5
+				FROM = { is_spiritualist = yes }
+			}
+		}
+	}
+	# yes policy changes - servitude
+	option = {
+		name = deassimilated_machine_world.20.servitude
+		trigger = {
+			FROM = {
+				NAND = {
+					has_policy_flag = robots_allowed
+					OR = {
+						has_policy_flag = ai_servitude
+						has_policy_flag = ai_full_rights
+					}
+				}
+				is_mechanical_empire = no
+			}
+		}
+		allow = {
+			FROM = {
+				can_set_policy = {
+					policy = robot_pop_policy
+					option = robot_pops_allowed
+				}
+				can_set_policy = {
+					policy = artificial_intelligence_policy
+					option = ai_servitude
+				}
+			}
+		}
+		FROM  = {
+			set_country_flag = deassimilated_machine_world_suppress_policy_change
+			if = {
+				limit = { NOT = { has_policy_flag = robots_allowed } }
+				set_policy = {
+					policy = robot_pop_policy
+					option = robot_pops_allowed
+					cooldown = yes
+				}
+			}
+			if = {
+				limit = { NOT = { has_policy_flag = ai_servitude } }
+				set_policy = {
+					policy = artificial_intelligence_policy
+					option = ai_servitude
+					cooldown = yes
+				}
+			}
+		}
+		tooltip = {
+			FROM = {
+				every_owned_planet = {
+					limit = { is_planet_class = pc_machine }
+					add_modifier = { modifier = deassimilated_machine_world_neutral }
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				FROM = { is_materialist = yes }
+			}
+			modifier = {
+				factor = 5
+				FROM = {
+					has_valid_ai_personality = yes
+					has_ai_personality_behaviour = robot_exploiter
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = {
+					is_spiritualist = yes
+					OR = {
+						is_galactic_community_member = no
+						NOR = {
+							is_active_resolution = resolution_galacticstudies_advanced_xenostudies # 3
+							is_active_resolution = resolution_galacticstudies_ethical_guideline_refactoring # 4
+							is_active_resolution = resolution_galacticstudies_extradimensional_experimentation # 5
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1.5
+				FROM = {
+					is_galactic_community_member = yes
+					OR = {
+						is_active_resolution = resolution_galacticstudies_advanced_xenostudies # 3
+						is_active_resolution = resolution_galacticstudies_ethical_guideline_refactoring # 4
+						is_active_resolution = resolution_galacticstudies_extradimensional_experimentation # 5
+					}
+				}
+			}
+		}
+	}
+	# no policy changes - neutral or hostile depending on policies
+	option = {
+		name = deassimilated_machine_world.20.no_change
+		custom_tooltip = deassimilated_machine_world.20.no_change.tooltip
+		trigger = {
+			FROM = {
+				NAND = {
+					has_policy_flag = robots_allowed
+					has_policy_flag = ai_full_rights
+				}
+				is_mechanical_empire = no
+			}
+		}
+		FROM = {
+			if = {
+				limit = {
+					OR = {
+						has_policy_flag = robots_outlawed
+						has_policy_flag = ai_outlawed
+					}
+				}
+				tooltip = {
+					every_owned_planet = {
+						limit = { is_planet_class = pc_machine }
+						add_modifier = { modifier = deassimilated_machine_world_hostile }
+					}
+				}
+			}
+			else = {
+				tooltip = {
+					every_owned_planet = {
+						limit = { is_planet_class = pc_machine }
+						add_modifier = { modifier = deassimilated_machine_world_neutral }
+					}
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				FROM = {
+					has_valid_ai_personality = yes
+					has_ai_personality_behaviour = robot_liberator
+				}
+			}
+			modifier = {
+				factor = 5
+				FROM = {
+					has_policy_flag = robots_allowed
+					has_policy_flag = ai_servitude
+					has_valid_ai_personality = yes
+					has_ai_personality_behaviour = robot_exploiter
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+				is_spiritualist = yes
+					OR = {
+						is_galactic_community_member = no
+						NOR = {
+							is_active_resolution = resolution_galacticstudies_advanced_xenostudies # 3
+							is_active_resolution = resolution_galacticstudies_ethical_guideline_refactoring # 4
+							is_active_resolution = resolution_galacticstudies_extradimensional_experimentation # 5
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { is_materialist = yes }
+			}
+		}
+	}
+	after = {
+		hidden_effect = {
+			FROM = { reassign_deassimilated_machine_world_modifiers_country = yes }
+		}
+	}
+}
+
+# fired by on_policy_changed
+country_event = {
+	id = deassimilated_machine_world.30
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		is_regular_empire = yes
+		NOT = { has_country_flag = deassimilated_machine_world_suppress_policy_change }
+		any_owned_planet = { is_planet_class = pc_machine }
+		has_ai_technology = yes
+		OR = {
+			last_changed_policy = robot_pop_policy
+			last_changed_policy = artificial_intelligence_policy
+		}
+	}
+	immediate = {
+		random_owned_planet = {
+			limit = { is_planet_class = pc_machine }
+			save_event_target_as = pc_machine_representative
+		}
+		if = {
+			limit = { event_target:pc_machine_representative= { has_modifier = deassimilated_machine_world_neutral } }
+			set_variable = {
+				which = previous_pc_machine_opinion
+				value = 0
+			}
+		}
+		else_if = {
+			limit = { event_target:pc_machine_representative= { has_modifier = deassimilated_machine_world_cooperative } }
+			set_variable = {
+				which = previous_pc_machine_opinion
+				value = 1
+			}
+		}
+		else = {
+			set_variable = {
+				which = previous_pc_machine_opinion
+				value = 2
+			}
+		}
+		reassign_deassimilated_machine_world_modifiers_country = yes
+		# fire the visible window in any case other than hostile remaining hostile
+		if = {
+			limit = {
+				NAND = {
+					check_variable = {
+						which = previous_pc_machine_opinion
+						value = 2
+					}
+					# check the new opinion
+					event_target:pc_machine_representative = {
+						has_modifier = deassimilated_machine_world_hostile
+					}
+				}
+			}
+			country_event = {
+				id = deassimilated_machine_world.31
+			}
+		}
+	}
+}
+
+# fired by deassimilated_machine_world.30
+country_event = {
+	id = deassimilated_machine_world.31
+	is_triggered_only = yes
+	title = deassimilated_machine_world.30.title
+	desc = {
+		text = deassimilated_machine_world.30.desc
+		trigger = {
+			count_owned_planet = {
+				count = 1
+				limit = { is_planet_class = pc_machine }
+			}
+		}
+	}
+	desc = {
+		text = deassimilated_machine_world.30.desc.multi
+		trigger = {
+			count_owned_planet = {
+				count > 1
+				limit = { is_planet_class = pc_machine }
+			}
+		}
+	}
+	picture = GFX_evt_contingency_planet
+	show_sound = pc_machine
+	option = {
+		name = EXCELLENT
+		trigger = {
+			event_target:pc_machine_representative = {
+				has_modifier = deassimilated_machine_world_cooperative
+			}
+		}
+		tooltip = {
+			every_owned_planet = {
+				limit = { is_planet_class = pc_machine }
+				add_modifier = { modifier = deassimilated_machine_world_cooperative }
+			}
+		}
+	}
+	option = {
+		name = ACKNOWLEDGED
+		trigger = {
+			event_target:pc_machine_representative = {
+				has_modifier = deassimilated_machine_world_neutral
+			}
+		}
+		tooltip = {
+			every_owned_planet = {
+				limit = { is_planet_class = pc_machine }
+				add_modifier = { modifier = deassimilated_machine_world_neutral }
+			}
+		}
+	}
+	option = {
+		name = UNFORTUNATE
+		trigger = {
+			event_target:pc_machine_representative = {
+				has_modifier = deassimilated_machine_world_hostile
+			}
+		}
+		tooltip = {
+			every_owned_planet = {
+				limit = { is_planet_class = pc_machine }
+				add_modifier = { modifier = deassimilated_machine_world_hostile }
+			}
+		}
+	}
+}
+
+# fired by on_policy_changed - clears the temporary flag; should be after deassimilated_machine_world.30
+country_event = {
+	id = deassimilated_machine_world.32
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		is_regular_empire = yes
+		has_country_flag = deassimilated_machine_world_suppress_policy_change
+	}
+	immediate = {
+		remove_country_flag = deassimilated_machine_world_suppress_policy_change
+	}
+}
+
+# fired by on_tech_increased
+country_event = {
+	id = deassimilated_machine_world.40
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		is_eligible_for_machine_world_prompt = yes
+		OR = {
+			last_increased_tech = tech_synthetic_workers
+			last_increased_tech = tech_sapient_ai
+		}
+	}
+	immediate = {
+		random_owned_planet = {
+			limit = { is_planet_class = pc_machine }
+			planet_event = {
+				id = deassimilated_machine_world.21
+				scopes = {
+					from = PREV
+				}
+			}
+		}
+	}
+}
+
+# fired by on_post_communications_established - either side might get the prompt
+country_event = {
+	id = deassimilated_machine_world.50
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		exists = FROM
+		OR = {
+			AND = {
+				is_eligible_for_machine_world_prompt = yes
+				FROM = { has_communications_with_ai_using_country = yes }
+			}
+			FROM = {
+				is_eligible_for_machine_world_prompt = yes
+				ROOT = { has_communications_with_ai_using_country = yes }
+			}
+		}
+	}
+	immediate = {
+		if = {
+			limit = {
+				is_eligible_for_machine_world_prompt = yes
+				FROM = { has_communications_with_ai_using_country = yes }
+			}
+			random_owned_planet = {
+				limit = { is_planet_class = pc_machine }
+				planet_event = {
+					id = deassimilated_machine_world.21
+					scopes = {
+						from = PREV
+					}
+				}
+			}
+		}
+		FROM = {
+			if = {
+				limit = {
+					is_eligible_for_machine_world_prompt = yes
+					ROOT = { has_communications_with_ai_using_country = yes }
+				}
+				random_owned_planet = {
+					limit = { is_planet_class = pc_machine }
+					planet_event = {
+						id = deassimilated_machine_world.21
+						scopes = {
+							from = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# fired by on_colonized
+planet_event = {
+	id = deassimilated_machine_world.60
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		owner = { is_regular_empire = yes }
+		is_planet_class = pc_machine
+	}
+	immediate = {
+		if = {
+			limit = { owner = { should_machine_world_prompt_policy = yes } }
+			planet_event = {
+				id = deassimilated_machine_world.21
+				scopes = {
+					from = owner
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOR = {
+					has_modifier = deassimilated_machine_world_cooperative
+					has_modifier = deassimilated_machine_world_neutral
+					has_modifier = deassimilated_machine_world_hostile
+				}
+			}
+			add_deassimilated_machine_world_modifier = yes
+		}
+	}
+}

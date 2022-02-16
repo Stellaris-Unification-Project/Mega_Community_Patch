@@ -1,0 +1,3 @@
+@titanic_life_soldier_per_planet_maximum = 3
+@imperial_legion_soldier_maximum = 12
+@titanic_azizian_soldier_maximum = 3

@@ -1,0 +1,147 @@
+﻿l_english:
+
+ ####################################
+ # MA Personal
+ ####################################
+
+ # Vanila Overwrites
+
+ DIPLO_ACTION_ACTOR_AND_RECIPIENT_RESOURCES:2 "We will get §Y$ACTOR_RESOURCES$§! and they will get §Y$RECIPIENT_RESOURCES$§! each month as long as the deal is active."
+ mod_country_produces_mult:0 "Empire Resource Production"
+
+ envoy_events.225.desc:0 "The [Root.GetAdj] diplomatic corps has been shaken by the news emerging from the [scandal_empire.GetName]. Our [event_envoy.GetAmbassadorOrNot] [event_envoy.GetName], who had been stationed there, has gotten [event_envoy.GetHerselfHimself] into a serious mess with [scandal_empire.GetAdj] law enforcement. [event_envoy.GetSheHeCap] [event_envoy.GetIsAre] currently wanted in connection with a salacious affair involving an astonishing range of serious crimes that culminated in a brutal double murder.\n\nAs matters stand - and with rumors running wild among the [scandal_empire.GetSpeciesNamePlural] - there seems little doubt as to [event_envoy.GetName]'s guilt. The [scandal_empire.GetAdj] authorities have requested that [event_envoy.GetHerHis] diplomatic immunity be lifted so that [event_envoy.GetSheHe] can face justice for [event_envoy.GetHerHis] deeds."
+ 
+ # civic_feudal_realm:0 "Feudal Society"
+ ma_civic_tooltip_feudal_realm_effects:3 "Allows all §YSubject§! types"
+
+ job_healthcare_effect_public_desc:0 "£job_healthcare£ $job_healthcare_plural$ turn §R-0.25§! £consumer_goods£ §Y$consumer_goods$§! into §G+6§! £mod_planet_amenities_add£ §Y$PLANET_AMENITIES_TITLE$§! §G+1§! £unity£ §Y$unity$§! and §G+5%§! £mod_pop_growth_speed£ §Y$MOD_POP_GROWTH_SPEED$§!"
+
+ job_penal_overseer:0 "Inmate Overseer"
+ job_penal_overseer_plural:0 "Inmate Overseers"
+ job_penal_overseer_desc:0 "These relatively privileged inmates keep their less fortunate brethren in line."
+ job_penal_overseer_effect_desc:0 "£job_penal_overseer£ $job_penal_overseer_plural$ decrease £crime£ §Y$PLANET_CRIME_TITLE$§! and spawn £defense_army£ §YDefense Armies§!"
+ mod_job_penal_overseer_add:0 "$job_penal_overseer$ Jobs"
+ mod_job_penal_overseer_per_pop:0 "§G+1§! $job_penal_overseer$ Job per $VALUE$ Pops"
+ mod_job_penal_overseer_per_pop_short:0 "\n§G+1§! £mod_job_penal_overseer_add£ per $VALUE$ £pop£"
+
+ job_penal_toiler:0 "Toiler"
+ job_penal_toiler_desc:0 "Toilers perform the grueling menial labor required to keep crude infrastructure of the Penal Colony running."
+ mod_job_penal_toiler_add:0 "$job_penal_toiler$ Jobs"
+
+ building_penal_huts:0 "Penal Huts"
+ building_penal_huts_desc:0 "Crude dwellings for the planet's imprisoned population."
+
+ building_penal_overseer_homes:0 "Overseer Residences"
+ building_penal_overseer_homes_desc:0 "These homes are reserved for the relatively privileged inmate overseers."
+
+
+ building_penal_capital:0 "Warden's Palace"
+ building_penal_capital_desc:0 "Governing a planet of criminals is a difficult job. As such, the least we can do is grant the Warden a lavish palace from which to govern."
+
+ building_penal_major_capital:0 "Warden's Estates"
+ building_penal_major_capital_desc:0 "Sprawling, luxurious, and heavily guarded estates allow the Warden and their staff to govern the Penal Colony effectively and without the criminals breathing down their necks."
+
+ requires_penal_capital:0 "§RRequires §Y$building_penal_capital$§! on planet.§!"
+ requires_penal_major_capital_capital:0 "§RRequires §Y$building_penal_major_capital$§! on planet.§!"
+
+ ####################################
+ # MEM Overwrites
+ ####################################
+
+ building_mem_planetary_shield_generator:0 "Planetary Shield Generator"
+ building_mem_planetary_shield_generator_desc:0 "$tech_planetary_shield_generator_desc$"
+
+ mod_mem_pc_death_habitability:0 "Death World Habitability"
+
+ ####################################
+ # NSC2 Overwrites
+ ####################################
+
+ mod_deposit_blockers_time_cost_mult:0 "Clear Blocker Time"
+ mod_shipsize_military_station_medium_build_speed_mult:0 "Defense Station Build Speed"
+ mod_shipsize_military_station_large_build_speed_mult:0 "Defense Fortress Build Speed"
+
+
+ ####################################
+ # Alpha Mod - Added Stuff
+ ####################################
+
+ job_imperial_agent:0 "Imperial Agent"
+ job_imperial_agent_plural:0 "Imperial Agents"
+ job_imperial_agent_desc:0 "Dedicated to manifesting the Imperial Will across the empire by conducting inquisitions against traitors and the unfaithful."
+ job_imperial_agent_effect_desc:0 "£job_imperial_agent£ $job_imperial_agent_plural$ reduce crime and increase loyalty."
+ mod_job_imperial_agent_add:0 "$job_imperial_agent$ Jobs"
+ mod_job_imperial_agent_per_pop:0 "§G+1§! $job_imperial_agent$ Job per $VALUE$ Pops"
+ mod_job_imperial_agent_per_pop_short:0 "\n§G+1§! £mod_job_imperial_agent_add£ per $VALUE$ £pop£"
+ 
+ mod_planet_imperial_agents_produces_mult: "Imperial Agent Output"
+ mod_planet_imperial_agents_upkeep_mult: "Imperial Agent Upkeep"
+ 
+ planet_imperial_agents: "Imperial Agent Jobs"
+
+ # civic_tooltip_imperial_cult_effects: "Can build an §YInner Sanctum§! on the homeworld, which provides §G+1§! £job_imperial_agent£ §Y$job_imperial_agent$§! job per 50 £pops£ pops on the homeworld"
+
+ building_inner_sanctum: "Inner Sanctum"
+ building_inner_sanctum_desc: "The beating heart of Our Will, this temple holds the Initiate Quarters, where aspiring agents are indoctrinated; the Imperial Inquisition, where all threats to the Imperial Will are assessed and pursued; the Grand Archive of Imperial History, to assist investigations; and the Marvelous Court, the holiest of chambers, where the elite few are allowed into Our Imperial Presence."
+
+ ####################################
+ # Fatherland Fixes
+ ####################################
+
+ mod_planet_building_robot_assembly_plant_build_speed_mult:0 "Robot Assembly Plant Build Speed"
+
+ ####################################
+ # Guillis Planet Modifiers
+ ####################################
+
+ leader_trait_gpm_personal_mech:0 "Personal Mech"
+ leader_trait_gpm_personal_mech_desc:0 "Our Generals are given personal mech suits. These imposing figures on the battlefield inspire our soliders, but can be unwieldy in urban environments."
+
+ ##################
+ # ECA Overwrites #
+ ##################
+
+ private_healthcare_desc: "£job_healthcare£ $job_healthcare_plural$ produce §G+2§! £mod_trade_value_add£ §Y$TRADE_VALUE$§!, but §YPop Growth§! from $job_healthcare_plural$ is reduced by §R-1%§!."
+
+ ###########################
+ # United Fleet Overwrites #
+ ###########################
+
+ DESTROYER_BOW_G2: "Missile Bow"
+ DESTROYER_STERN_G1: "Missile Stern"
+ CORVETTE_MID_T1PD1: "Picket Missile"
+ CRUISER_STERN_PD2: "Picket Stern"
+ CRUISER_BOW_G1S2: "Missile Bow"
+ CRUISER_BOW_G1PD2: "Picket Bow"
+
+ #########################
+ # Fatherland Overwrites #
+ #########################
+
+ fatherland_setup.101_base_desc:0 "§BFatherland: Colonial Empires§! Main Options\n§W - - Statistics - -§!\n§RRogue Colonies§!\nCurrent = [root.fatherland_currentglobal_rogues] | Global Max = [root.fatherland_globalmax_rogues]. | Destroyed = [root.fatherland_destroyed_rogues].\n§MHegiran States§!\nCurrent = [root.fatherland_currentglobal_hegirans] | Global Max = [root.fatherland_globalmax_hegirans]. | Destroyed = [root.fatherland_destroyed_hegirans]."
+ fatherland_setup.101_fw_desc:0 "§BFatherland: Colonial Empires§! + §GFrontier Worlds Expansion§!\n§W - - Statistics - -§!\n§GFrontier Worlds§!\nCurrent = [root.fatherland_currentglobal_fw] | Global Max = [root.fatherland_globalmax_fw]. | Destroyed = [root.fatherland_destroyed_fw].\n§RRogue Colonies§!\nCurrent = [root.fatherland_currentglobal_rogues] | Global Max = [root.fatherland_globalmax_rogues]. | Destroyed = [root.fatherland_destroyed_rogues].\n§MHegiran States§!\nCurrent = [root.fatherland_currentglobal_hegirans] | Global Max = [root.fatherland_globalmax_hegirans]. | Destroyed = [root.fatherland_destroyed_hegirans]."
+
+ #########################################
+ # Guilli's Planet Modifiers Overwrites #
+ ########################################
+
+ gpm_james_web:0 "James Webb Space Telescope"
+ gpm_james_web_desc:0 "The James Webb Space Telescope was considered one of humanity's greatest achievements. It gave an unprecedented look into the beginnings of the universe."
+ 
+ ###################
+ # ESAP Overwrites #
+ ###################
+
+ ap_esap_xenophile_1_desc:0 "Do we not destroy our enemies when we make them our friends?"
+
+ #######################
+ # Immersive Beautiful #
+ #######################
+
+ FLAG_CATEGORY_zz_ma_zz_ma_z_flag_ibs_original:0 "Original"
+ FLAG_CATEGORY_zz_ma_z_flag_acg_1:0 "Anime Culture"
+ FLAG_CATEGORY_zz_ma_z_flag_ai_random:0 "random"
+ FLAG_CATEGORY_zz_ma_z_flag_space:0 "Industrial Science Fiction"
+ FLAG_CATEGORY_zz_ma_z_flag_misc_1:0 "Misc 1"
+ FLAG_CATEGORY_zz_ma_z_flag_misc_2:0 "Misc 2"
+ FLAG_CATEGORY_zz_ma_z_flag_misc_3:0 "Misc 3"

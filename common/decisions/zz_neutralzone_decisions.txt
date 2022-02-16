@@ -1,0 +1,225 @@
+decision_establish_starbases = {
+	resources = {
+		category = decisions
+		cost = {
+			influence = 250
+		}
+	}
+	
+	potential = {
+		exists = space_owner
+		space_owner = { 
+			is_same_value = from
+		}
+		is_star = yes
+		from = {
+			is_subject = yes
+			#is_ai = no		
+		}
+		solar_system = {
+			any_neighbor_system = {
+				NOR = {
+					exists = space_owner
+					exists = starbase
+				}
+				not = {
+					any_system_planet = {
+						is_colony = yes
+					}
+				}
+				not = {
+					any_ship_in_system = {
+						exists = owner
+						owner = { is_hostile = root.space_owner }
+					}
+				}
+			}
+		}
+	}
+	
+	effect = {
+		solar_system = {
+			every_neighbor_system = {
+				limit = {
+					NOR = {
+						exists = space_owner
+						exists = starbase
+					}
+					not = {
+						any_system_planet = {
+							is_colony = yes
+						}
+					}
+					not = {
+						any_ship_in_system = {
+							exists = owner
+							owner = { is_hostile = root.space_owner }
+						}
+					}
+				}
+				create_starbase = {
+					size = starbase_outpost
+					owner = root.space_owner
+				}			
+			}
+		}
+	}
+	
+	ai_weight = {
+		weight = 0
+	}
+}
+
+decision_neutral_zoning = {
+	resources = {
+		category = decisions
+		cost = {
+			influence = 50
+		}
+	}
+	
+	potential = {
+		exists = space_owner
+		space_owner = { 
+			is_same_value = from
+		}
+		is_star = yes
+		from = {
+			is_subject = no
+			#is_ai = no		
+		}
+		or = {
+			and = {
+				from = { is_ai = no }
+				solar_system = {
+					any_neighbor_system = {
+						or = {
+							has_star_flag = sf_neutral_zone
+							and = {
+								exists = space_owner
+								space_owner = { 
+									is_country_type = default
+									not = { is_same_value = from }
+								}
+							}
+						}
+					}
+				}
+			}
+			and = {
+				from = { 
+					is_ai = yes
+					is_country_type = default
+					nor = {
+						has_policy_flag = diplo_stance_belligerent
+						has_policy_flag = diplo_stance_expansionist
+						has_policy_flag = diplo_stance_supremacist
+						has_policy_flag = diplo_stance_hunger
+						has_policy_flag = diplo_stance_extermination
+						has_policy_flag = diplo_stance_purification
+						has_policy_flag = diplo_stance_primitive
+					}					
+				}
+				solar_system = {
+					any_neighbor_system = {
+						exists = space_owner
+						space_owner = { 
+							not = { is_same_value = from }
+							is_country_type = default
+							or = {
+								has_policy_flag = diplo_stance_belligerent
+								has_policy_flag = diplo_stance_expansionist
+								has_policy_flag = diplo_stance_supremacist
+								has_policy_flag = diplo_stance_hunger
+								has_policy_flag = diplo_stance_extermination
+								has_policy_flag = diplo_stance_purification									
+							}
+						}
+					}
+				}			
+			}
+		}
+	}
+	
+	allow = {
+		not = {
+			solar_system = {
+				any_system_planet = {
+					is_colony = yes
+				}
+			}
+		}
+		not = {
+			solar_system = {
+				any_ship_in_system = {
+					is_ship_class = shipclass_observation_station
+				}
+			}
+		}		
+	}
+	
+	effect = {
+		planet_event = { id = neutralzoneevents.1 }
+	}
+	
+	ai_weight = {
+		weight = 0
+	}
+}
+
+decision_end_neutral_zoning = {	
+	resources = {
+		category = decisions
+		cost = {
+			influence = 25
+		}
+	}
+	
+	potential = {
+		is_star = yes
+	}
+	
+	allow = {
+		from = {
+			is_ai = no
+		}
+		solar_system = {
+			any_neighbor_system = {
+				has_star_flag = sf_neutral_zone
+			}
+		}		
+	}
+	
+	effect = {
+		hidden_effect = {
+			from = {
+				save_event_target_as = disbandingcountry
+			}
+			solar_system = {
+				every_neighbor_system = {
+					limit = { 
+						has_star_flag = sf_neutral_zone 
+					}
+					every_fleet_in_system = {
+						limit = {
+							or = {
+								is_ship_class = shipclass_starbase
+								is_ship_class = shipclass_military_station
+								is_ship_class = shipclass_research_station
+								is_ship_class = shipclass_mining_station
+							}
+						}
+						set_controller = event_target:disbandingcountry
+						set_owner = event_target:disbandingcountry
+					}
+					remove_star_flag = sf_neutral_zone
+				}
+			}
+		}
+	}
+	
+	ai_weight = {
+		weight = 0
+		factor = 0
+	}
+}

@@ -1,0 +1,4 @@
+﻿l_english:
+ MODIFY_GALAXY_SPECIES: "Modify all $SPECIES|Y$ Pops in the galaxy by adding the §Y$TRAIT_ADD$§! trait and removing the §Y$TRAIT_REMOVE$§! trait"
+ MODIFY_GALAXY_SPECIES_ADD: "Modify all $SPECIES|Y$ Pops in the galaxy by adding the §Y$TRAIT$§! trait"
+ MODIFY_GALAXY_SPECIES_REMOVE: "Modify all $SPECIES|Y$ Pops in the galaxy by removing the §Y$TRAIT$§! trait"

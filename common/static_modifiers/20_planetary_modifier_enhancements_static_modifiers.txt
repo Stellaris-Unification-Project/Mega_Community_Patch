@@ -1,0 +1,7 @@
+extensive_moon_system_moon = {
+	planet_miners_produces_mult = 0.10
+	district_mining_max = 2
+	station_gatherers_produces_mult = 0.10
+	icon = "gfx/interface/icons/planet_modifiers/pm_extensive_moon_system.dds"
+	icon_frame = 1
+}

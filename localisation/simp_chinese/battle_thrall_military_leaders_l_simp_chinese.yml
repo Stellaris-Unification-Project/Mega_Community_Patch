@@ -1,0 +1,9 @@
+﻿l_simp_chinese:
+ necrophage_only_allows_necrophage_leaders: "$TRIGGER_FAIL$只有食尸体人口才能成为§Y领袖§!。"
+ nerve_stapled_cannot_lead: "$TRIGGER_FAIL$该物种没有足够的精神能力领导。"
+ military_service_full_servitor_tooltip: "该类物种可以出产§H$GENERALS$§!和§H$ADMIRALS$§!。"
+ military_service_full_servitor_tooltip_delayed: "§LAlthough allowing Organic Advisors in military roles presents massive risks to our dear $pop_cat_bio_trophy_plural$, their effectiveness at chaos and violence cannot be denied.§!"
+ military_service_full_default_tooltip: "该类物种可以出产§H$ARMIES$§!、§H$GENERALS$§!和§H$ADMIRALS$§!。"
+ military_service_full_default_tooltip_delayed: "§L他们是我军当之无愧的主力。§!"
+ # missing base-game localisation
+ effect_random_owned_pop_species: "$effect_random_owned_species$"

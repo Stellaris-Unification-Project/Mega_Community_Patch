@@ -1,0 +1,66 @@
+terraform_station = {
+	entity = aesthetic_megastructure_terraform_station_entity
+	construction_entity = aesthetic_megastructure_terraform_station_construction_entity
+	portrait = GFX_spaceport_background # OR GFX_starbase_background
+	entity_offset = { x = -25 y = 25 }
+	scale_offset = yes
+	rotate_to_center = yes
+	place_entity_on_planet_plane = no
+	build_time = 30
+	resources = {
+		category = megastructures
+		cost = {
+			minerals = 100
+		}
+	}
+	show_galactic_map_icon = no
+	construction_blocked_by_others = no
+	prerequisites = { tech_terrestrial_sculpting }
+	potential = { always = no }
+	placement_rules = {
+		planet_possible = {
+			custom_tooltip = {
+				fail_text = "requires_surveyed_planet"
+				habitable_planet = yes
+				is_surveyed = {
+					who = from
+					status = yes
+				}
+			}
+			if = {
+				limit = {
+					is_surveyed = { # prevent leaking habitability information
+						who = from
+						status = yes
+					}
+				}
+				custom_tooltip = {
+					fail_text = "requires_habitable_planet"
+					habitable_planet = yes
+				}
+			}
+			custom_tooltip = {
+				fail_text = "requires_no_anomaly"
+				has_anomaly = no
+			}
+			custom_tooltip = {
+				fail_text = "requires_not_minor_planetary_body"
+				NOR = {
+					is_asteroid = yes
+					is_moon = yes
+				}
+			}
+			custom_tooltip = {
+				fail_text = "requires_not_star"
+				is_star = no
+			}
+			custom_tooltip = {
+				fail_text = "requires_not_ring_world"
+				is_ringworld = no
+			}
+		}
+	}
+	on_build_start = { }
+	on_build_cancel = { }
+	on_build_complete = { }
+}

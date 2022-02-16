@@ -1,0 +1,874 @@
+### Planet Modifiers
+
+# allow multiple modifiers, disallow gaia (was add = 0 instead of factor)
+pm_hazardous_weather = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = "pc_gaia" # Gaia Worlds are Paradise Planets, hence no Hazardous Weather conditions.
+				has_planet_modifier = "pm_hazardous_weather"
+			}
+		}
+	}
+
+	modifier = "hazardous_weather"
+}
+
+# allow multiple modifiers
+pm_dangerous_wildlife = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+			}
+		}
+		modifier = {
+			factor = 2
+			has_planet_modifier = "pm_lush"
+		}
+		modifier = {
+			factor = 2
+			has_planet_modifier = "pm_high_gravity"
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				has_planet_modifier = "pm_dangerous_wildlife"
+				has_planet_modifier = "pm_titanic_life"
+			}
+		}
+	}
+
+	modifier = "dangerous_wildlife"
+}
+
+# allow multiple modifiers, disallow gaia (was add = 0 instead of factor)
+pm_weak_magnetic_field = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 2
+			has_planet_modifier = "pm_low_gravity"
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = "pc_gaia" # Gaia Worlds are Paradise Planets, hence there should be no negative modifiers.
+				has_planet_modifier = "pm_weak_magnetic_field"
+				has_planet_modifier = "pm_strong_magnetic_field"
+			}
+		}
+	}
+
+	modifier = "weak_magnetic_field"
+}
+
+# allow multiple modifiers, disallow gaia (was add = 0 instead of factor)
+pm_strong_magnetic_field = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 2
+			has_planet_modifier = "pm_high_gravity"
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = "pc_gaia" # Gaia Worlds are Paradise Planets, hence there should be no negative modifiers.
+				has_planet_modifier = "pm_strong_magnetic_field"
+				has_planet_modifier = "pm_weak_magnetic_field"
+			}
+		}
+	}
+
+	modifier = "strong_magnetic_field"
+}
+
+# allow multiple modifiers
+pm_unstable_tectonics = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+			}
+		}
+		modifier = {
+			add = 1
+			is_planet_class = "pc_relic"
+		}
+		modifier = {
+			factor = 4
+			has_planet_modifier = "pm_high_gravity"
+		}
+		modifier = {
+			factor = 0
+			has_planet_modifier = "pm_unstable_tectonics"
+		}
+	}
+
+	modifier = "unstable_tectonics"
+}
+
+# allow multiple modifiers, disallow gaia (was add = 0 instead of factor)
+pm_tidal_locked = {
+	spawn_chance = {
+		modifier = {
+			add = 1
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = "pc_gaia" # Gaia Worlds are Paradise Planets, hence there should be no negative modifiers.
+				has_planet_modifier = "pm_tidal_locked"
+			}
+		}
+		modifier = {
+			factor = 3
+			is_moon = yes
+		}
+	}
+
+	modifier = "tidal_locked"
+}
+
+# allow multiple modifiers
+pm_chthonian_planet = {
+	spawn_chance = {
+		modifier = {
+			add = 30
+			is_planet_class = "pc_molten"
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				has_planet_modifier = "pm_chthonian_planet"
+				has_planet_modifier = "pm_mineral_poor"
+				colonizable_planet = yes
+			}
+		}
+	}
+
+	modifier = "chthonian_planet"
+}
+
+# allow multiple modifiers, disallow gaia (was add = 0 instead of factor)
+pm_asteroid_impacts = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+			}
+		}
+		modifier = {
+			add = 1
+			is_planet_class = "pc_relic"
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = "pc_gaia" # Gaia Worlds are Paradise Planets, hence there should be no negative modifiers.
+				has_planet_modifier = "pm_asteroid_impacts"
+			}
+		}
+	}
+
+	modifier = "asteroid_impacts"
+}
+
+# allow multiple modifiers, disallow for non-gas giants
+pm_extensive_moon_system = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			is_planet_class = "pc_gas_giant"
+		}
+		modifier = {
+			factor = 2
+			num_moons > 1
+		}
+		modifier = {
+			factor = 2
+			num_moons > 2
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				has_planet_modifier = "pm_extensive_moon_system"
+				has_moon = no
+				NOT = { is_planet_class = "pc_gas_giant" }
+			}
+		}
+	}
+
+	modifier = "extensive_moon_system"
+}
+
+# allow multiple modifiers
+pm_carbon_world = {
+	spawn_chance = {
+		modifier = {
+			factor = 4
+			has_planet_modifier = "pm_high_gravity"
+			OR = {
+				is_planet_class = "pc_barren"
+				is_planet_class = "pc_barren_cold"
+			}
+		}
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_barren"
+				is_planet_class = "pc_barren_cold"
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				has_planet_modifier = "pm_carbon_world"
+				has_planet_modifier = "pm_mineral_poor"
+			}
+		}
+	}
+
+	modifier = "carbon_world"
+}
+
+# allow multiple modifiers, disallow gaia (was add = 0 instead of factor)
+pm_wild_storms = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = "pc_gaia" # Gaia Worlds are Paradise Planets, hence there should be no negative modifiers.
+				has_planet_modifier = "pm_wild_storms"
+			}
+		}
+	}
+
+	modifier = "wild_storms"
+}
+
+# allow multiple modifiers
+pm_low_gravity = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 2
+			planet_size < 14
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 2
+			planet_size < 12
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 2
+			planet_size < 7
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 0.5
+			planet_size > 19
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = "pc_gaia" # Gaia Worlds are Paradise Planets, hence there should be no negative modifiers.
+				has_planet_modifier = "pm_high_gravity"
+				has_planet_modifier = "pm_low_gravity"
+			}
+		}
+	}
+
+	modifier = "low_gravity"
+}
+
+# allow multiple modifiers, disallow gaia (was add = 0 instead of factor)
+pm_high_gravity = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 2
+			planet_size > 19
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 2
+			planet_size > 22
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 0.5
+			planet_size < 16
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 0
+			planet_size < 12
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = "pc_gaia" # Gaia Planets are basically Paradise Worlds and shouldn't suffer from bad planet modifiers.
+				has_planet_modifier = "pm_low_gravity"
+				has_planet_modifier = "pm_high_gravity"
+			}
+		}
+	}
+
+	modifier = "high_gravity"
+}
+
+# allow multiple modifiers
+pm_mineral_rich = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_gaia"
+			}
+		}
+		modifier = {
+			add = 5
+			is_planet_class = "pc_relic"
+		}
+		modifier = {
+			add = 1
+			is_planet_class = "pc_nuked"
+		}
+		modifier = {
+			factor = 4
+			has_planet_modifier = "pm_high_gravity"
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				has_planet_modifier = "pm_mineral_poor"
+				has_planet_modifier = "pm_mineral_rich"
+				has_planet_modifier = "pm_ultra_rich"
+			}
+		}
+	}
+
+	modifier = "mineral_rich"
+}
+
+# allow multiple modifiers
+pm_ultra_rich = {
+	spawn_chance = {
+		modifier = {
+			add = 1
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_gaia"
+				is_planet_class = "pc_relic"
+				is_planet_class = "pc_nuked"
+			}
+		}
+		modifier = {
+			factor = 8
+			has_planet_modifier = "pm_high_gravity"
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				has_planet_modifier = "pm_mineral_poor"
+				has_planet_modifier = "pm_mineral_rich"
+				has_planet_modifier = "pm_ultra_rich"
+			}
+		}
+	}
+
+	modifier = "ultra_rich"
+}
+
+# allow multiple modifiers, disallow gaia (was add = 0 instead of factor)
+pm_mineral_poor = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_molten"
+				is_planet_class = "pc_barren"
+				is_planet_class = "pc_barren_cold"
+				is_planet_class = "pc_toxic"
+				is_planet_class = "pc_frozen"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 4
+			has_planet_modifier = "pm_low_gravity"
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = "pc_gaia" #Gaia Worlds are Paradise Planets, hence there should be no negative modifiers.
+				has_planet_modifier = "pm_mineral_poor"
+				has_planet_modifier = "pm_mineral_rich"
+				has_planet_modifier = "pm_ultra_rich"
+				has_planet_modifier = "pm_carbon_world"
+				has_planet_modifier = "pm_chthonian_planet"
+			}
+		}
+	}
+
+	modifier = "mineral_poor"
+}
+
+# allow multiple modifiers
+pm_titanic_life = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_gaia"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 2
+			has_planet_modifier = "pm_lush"
+		}
+		modifier = {
+			factor = 8
+			has_planet_modifier = "pm_high_gravity"
+		}
+		modifier = {
+			factor = 0.5
+			has_planet_modifier = "pm_low_gravity"
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				has_planet_modifier = "pm_titanic_life"
+				has_planet_modifier = "pm_dangerous_wildlife"
+			}
+		}
+	}
+
+	modifier = "titanic_life"
+}
+
+# allow multiple modifiers
+pm_asteroid_belt = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_molten"
+				is_planet_class = "pc_barren"
+				is_planet_class = "pc_barren_cold"
+				is_planet_class = "pc_toxic"
+				is_planet_class = "pc_frozen"
+				is_planet_class = "pc_gaia"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 2
+			has_planet_modifier = "pm_low_gravity"
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				has_planet_modifier = "pm_asteroid_belt"
+				has_moon = yes
+				is_moon = yes
+			}
+		}
+	}
+
+	modifier = "asteroid_belt"
+}
+
+# allow multiple modifiers
+pm_natural_beauty = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			add = 30
+			is_planet_class = "pc_gaia"
+		}
+		modifier = {
+			factor = 0
+			has_planet_modifier = "pm_natural_beauty"
+		}
+	}
+
+	modifier = "natural_beauty"
+}
+
+# allow multiple modifiers
+pm_atmospheric_aphrodisiac = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_gaia"
+			}
+		}
+		modifier = {
+			factor = 0
+			has_planet_modifier = "pm_atmospheric_aphrodisiac"
+		}
+	}
+
+	modifier = "atmospheric_aphrodisiac"
+}
+
+# allow multiple modifiers
+pm_atmospheric_hallucinogen = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_tropical"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_gaia"
+			}
+		}
+		modifier = {
+			factor = 0
+			has_planet_modifier = "pm_atmospheric_hallucinogen"
+		}
+	}
+
+	modifier = "atmospheric_hallucinogen"
+}
+
+# allow multiple modifiers, allow on wet/gaia
+pm_lush = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			is_wet = yes
+		}
+		modifier = {
+			add = 30
+			is_planet_class = "pc_gaia"
+		}
+		modifier = {
+			factor = 2
+			has_planet_modifier = "pm_low_gravity"
+			OR = {
+				is_wet = yes
+				is_planet_class = "pc_gaia"
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				has_planet_modifier = "pm_bleak"
+				has_planet_modifier = "pm_lush"
+			}
+		}
+	}
+
+	modifier = "lush_planet"
+}
+
+# allow multiple modifiers, disallow on gaia
+pm_bleak = {
+	spawn_chance = {
+		modifier = {
+			add = 10
+			OR = {
+				is_planet_class = "pc_desert"
+				is_planet_class = "pc_arid"
+				is_planet_class = "pc_continental"
+				is_planet_class = "pc_ocean"
+				is_planet_class = "pc_tundra"
+				is_planet_class = "pc_arctic"
+				is_planet_class = "pc_alpine"
+				is_planet_class = "pc_savannah"
+				is_planet_class = "pc_relic"
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = "pc_gaia"
+				has_planet_modifier = "pm_bleak"
+				has_planet_modifier = "pm_lush"
+			}
+		}
+	}
+
+	modifier = "bleak_planet"
+}

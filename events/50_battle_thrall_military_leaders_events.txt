@@ -1,0 +1,168 @@
+namespace = battle_thrall_military_leaders
+
+# flag mod as active
+event = {
+	id = battle_thrall_military_leaders.13
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_global_flag = battle_thrall_military_leaders_installed }
+	}
+	immediate = {
+		set_global_flag = battle_thrall_military_leaders_installed
+	}
+}
+
+# root = country
+# from = leader
+# triggered by on_leader_spawned
+country_event = {
+	id = battle_thrall_military_leaders.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOR = {
+			has_country_flag = disable_gender_clones_on_leader_spawned
+			has_active_event = { leader.1 }
+		}
+		exists = from
+		from = {
+			OR = {
+				leader_class = admiral
+				leader_class = general
+			}
+		}
+		any_pool_leader = { is_same_value = from }
+		any_owned_pop_species = {
+			has_citizenship_type = {
+				country = prev
+				type = citizenship_slavery
+			}
+			has_slavery_type = {
+				country = prev
+				type = slavery_military
+			}
+			has_military_service_type = {
+				country = prev
+				type = military_service_full
+			}
+		}
+	}
+	immediate = {
+		log = "battle_thrall_military_leaders.1 detected spawned military leader [From.GetName] for the [This.GetRealName] with Full Military Service for Battle Thralls..."
+		random_owned_pop = {
+			limit = { can_be_military_leader = yes }
+			species = { save_event_target_as = leader_new_species }
+		}
+		from = {
+			if = {
+				limit = { species = { NOT = { is_same_species = event_target:leader_new_species } } }
+				species = { save_event_target_as = leader_prev_species }
+				set_timed_leader_flag = {
+					flag = force_gender_match_species
+					days = 1
+				}
+				set_timed_leader_flag = {
+					flag = clone_should_be_recruitable
+					days = 1
+				}
+				log = "...and rerolled the leader's species from [leader_prev_species.GetName]..."
+				change_species = event_target:leader_new_species
+				set_name = random
+				log = "...to [leader_new_species.GetName]"
+				fire_on_action = {
+					on_action = on_leader_species_changed
+					scopes = {
+						from = event_target:leader_prev_species
+					}
+				}
+			}
+			else = {
+				log = "...but did not make changes because the rerolled species was the same as the leader's current species ([This.Species.GetName])"
+			}
+		}
+	}
+}
+
+# follows the random event for a new random admiral (leader.1); triggered by on_fleet_destroyed_perp
+# root = owner of fleet 1 (combatant)
+# from = owner of fleet 2 (destroyed)
+# fromfrom = fleet 1
+# fromfromfrom = fleet 2
+country_event = {
+	id = battle_thrall_military_leaders.2
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_country_flag = disable_gender_clones_on_leader_spawned }
+		has_active_event = { leader.1 }
+		exists = last_created_leader
+		last_created_leader = { leader_class = admiral }
+		is_same_empire = last_created_leader.owner
+		any_owned_leader = { is_same_value = last_created_leader }
+		any_owned_pop_species = {
+			NOT = { is_same_species = prev.owner_species }
+			has_military_service_type = {
+				country = prev
+				type = military_service_full
+			}
+		}
+	}
+	immediate = {
+		last_created_leader = { save_event_target_as = spawned_admiral }
+		log = "battle_thrall_military_leaders.2 detected spawned admiral [spawned_admiral.GetName] from leader.1 for the [This.GetRealName] with Full Military Service for a non-main species..."
+		log = "...where the fleet [FromFrom.GetName] defeated the [FromFromFrom.GetName] fleet from the [From.GetRealName]..."
+		random_owned_pop = {
+			limit = { can_be_military_leader = yes }
+			species = { save_event_target_as = leader_new_species }
+		}
+		event_target:spawned_admiral = {
+			if = {
+				limit = { species = { NOT = { is_same_species = event_target:leader_new_species } } }
+				species = { save_event_target_as = leader_prev_species }
+				set_timed_leader_flag = {
+					flag = force_gender_match_species
+					days = 1
+				}
+				log = "...and rerolled the leader's species from [leader_prev_species.GetName]..."
+				change_species = event_target:leader_new_species
+				# name randomization unnecessary - handled automatically by create_leader
+				log = "...to [leader_new_species.GetName]"
+				fire_on_action = {
+					on_action = on_leader_species_changed
+					scopes = {
+						from = event_target:leader_prev_species
+					}
+				}
+			}
+			else = {
+				log = "...but did not make changes because the rerolled species was the same as the leader's current species ([This.Species.GetName])"
+			}
+		}
+	}
+}
+
+# triggered by on_leader_species_changed
+# root = leader, post-modification
+# from = species, pre-modification (if known)
+leader_event = {
+	id = battle_thrall_military_leaders.7
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			has_leader_flag = force_gender_match_species
+			NOT = { has_global_flag = nonbinary_leaders_installed }
+		}
+		NOT = { has_leader_flag = leader_replaced_by_clone }
+		exists = from
+		from = { is_scope_type = species }
+		btml_leader_new_species_allows_current_gender = no
+		owner = { NOT = { has_country_flag = disable_gender_clones_on_leader_spawned } }
+
+	}
+	immediate = {
+		log = "battle_thrall_military_leaders.7 [This.GetName]"
+		btml_leader_spawned_match_gender_to_species = yes
+	}
+}

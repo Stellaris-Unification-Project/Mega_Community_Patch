@@ -1,0 +1,21 @@
+# Ecumenpolis
+col_ecu_mix = {
+	icon = GFX_colony_type_workers
+
+	potential = {
+		OR = {
+			uses_district_set = city_world
+			et_uses_planetary_diversity_arcology_district_set = yes
+		}
+	}
+
+	planet_modifier = {
+		# matches col_ring_mix
+		planet_immigration_pull_mult = 0.2
+		planet_jobs_produces_mult = 0.05
+	}
+
+	weight_modifier = {
+		base = 10
+	}
+}

@@ -1,0 +1,17 @@
+defined_text = { # country
+	name = GetMilitaryServiceFullTooltip
+	text = {
+		trigger = { has_valid_civic = civic_machine_servitor }
+		localization_key = military_service_full_servitor_tooltip
+	}
+	default = military_service_full_default_tooltip
+}
+
+defined_text = { # country
+	name = GetMilitaryServiceFullTooltipDelayed
+	text = {
+		trigger = { has_valid_civic = civic_machine_servitor }
+		localization_key = military_service_full_servitor_tooltip_delayed
+	}
+	default = military_service_full_default_tooltip_delayed
+}

@@ -1,0 +1,29 @@
+former_ruler_admin_bonus = {
+	country_admin_cap_add = 10
+}
+
+former_heir_admin_bonus = {
+	country_admin_cap_add = 5
+}
+
+former_ruler_research_bonus = {
+	icon = gfx/interface/icons/research_icon.dds
+	country_base_physics_research_produces_add = 10
+	country_base_society_research_produces_add = 10
+	country_base_engineering_research_produces_add = 10
+}
+
+former_heir_research_bonus = {
+	icon = gfx/interface/icons/research_icon.dds
+	country_base_physics_research_produces_add = 5
+	country_base_society_research_produces_add = 5
+	country_base_engineering_research_produces_add = 5
+}
+
+former_ruler_naval_bonus = {
+	country_naval_cap_add = 6
+}
+
+former_heir_naval_bonus = {
+	country_naval_cap_add = 3
+}

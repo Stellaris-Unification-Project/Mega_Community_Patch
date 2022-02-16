@@ -1,0 +1,96 @@
+col_penal = {
+	icon = GFX_colony_type_penal
+
+	potential = {
+		has_modifier = penal_colony
+	}
+
+	weight_modifier = {
+		base = 1000
+	}
+
+	planet_modifier = {
+		job_criminal_per_pop = 0.1 # ...some criminals refuse to work
+	}
+
+	# inmate unhappiness increases stability
+	triggered_planet_modifier = {
+		potential = {
+			pop_percentage = {
+				percentage > 0.5
+				limit = {
+					is_pop_category = inmate
+					happiness <= 0.5
+					happiness > 0.4
+				}
+				exclude = { pop_has_happiness = no }
+			}
+		}
+		modifier = {
+			planet_stability_add = 1.5
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			pop_percentage = {
+				percentage > 0.5
+				limit = {
+					is_pop_category = inmate
+					happiness <= 0.4
+					happiness > 0.3
+				}
+				exclude = { pop_has_happiness = no }
+			}
+		}
+		modifier = {
+			planet_stability_add = 3
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			pop_percentage = {
+				percentage > 0.5
+				limit = {
+					is_pop_category = inmate
+					happiness <= 0.3
+					happiness > 0.2
+				}
+				exclude = { pop_has_happiness = no }
+			}
+		}
+		modifier = {
+			planet_stability_add = 6
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			pop_percentage = {
+				percentage > 0.5
+				limit = {
+					is_pop_category = inmate
+					happiness <= 0.2
+					happiness > 0.1
+				}
+				exclude = { pop_has_happiness = no }
+			}
+		}
+		modifier = {
+			planet_stability_add = 12
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			pop_percentage = {
+				percentage > 0.5
+				limit = {
+					is_pop_category = inmate
+					happiness <= 0.1
+				}
+				exclude = { pop_has_happiness = no }
+			}
+		}
+		modifier = {
+			planet_stability_add = 24
+		}
+	}
+}

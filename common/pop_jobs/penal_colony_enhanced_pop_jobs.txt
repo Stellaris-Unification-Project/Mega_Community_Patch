@@ -1,0 +1,215 @@
+warden = {
+	category = ruler
+	condition_string = BATTLE_THRALL_JOB_TRIGGER
+	icon = enforcer
+	building_icon = building_penal_colony_enclave
+	clothes_texture_index = 5
+
+	possible_pre_triggers = {
+		has_owner = yes
+		is_being_purged = no
+		is_being_assimilated = no
+		is_sapient = yes
+	}
+
+	possible = {
+		hidden_trigger = {
+			exists = owner
+			OR = {
+				NOT = { has_trait = trait_mechanical }
+				owner = { has_technology = tech_synthetic_workers }
+			}
+		}
+		if = {
+			limit = {
+				exists = owner
+				owner = { pce_is_necrophage_empire = yes }
+				NOT = { species = { has_species_flag = allow_military_leaders_honored_protectors@prev.owner } }
+			}
+			custom_tooltip = {
+				text = RULER_JOB_NECROPHAGE_TRIGGER
+				has_trait = trait_necrophage
+				is_enslaved = no
+				is_being_purged = no
+				is_being_assimilated = no
+			}
+		}
+		else = {
+			battle_thrall_job_check_trigger = yes
+		}
+	}
+
+	resources = {
+		category = planet_enforcers
+		produces = {
+			unity = 4
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_valid_civic = civic_police_state }
+			}
+			unity = 2
+		}
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_active_tradition = tr_domination_judgment_corps }
+			}
+			unity = 2
+		}
+		upkeep = {
+			consumer_goods = 2
+		}
+	}
+
+	pop_modifier = {
+		pop_defense_armies_add = 1
+	}
+
+	planet_modifier = {
+		planet_amenities_add = 4
+		planet_stability_add = 2.5
+		pop_cat_inmate_happiness = -0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			OR = {
+				has_trait = trait_robot_domestic_protocols
+				has_trait = trait_charismatic
+			}
+		}
+		modifier = {
+			planet_amenities_add = 0.8
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = { has_trait = trait_repugnant }
+		modifier = {
+			planet_amenities_add = -0.8
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_active_tradition = tr_domination_judgment_corps }
+		}
+		modifier = {
+			planet_stability_add = 0.5
+			pop_cat_inmate_happiness = -0.01
+		}
+	}
+
+	weight = {
+		weight = @ruler_job_weight
+		modifier = {
+			factor = 0.2
+			has_citizenship_rights = no
+			NOT = { has_trait = trait_mechanical }
+		}
+		modifier = {
+			factor = 0.65
+			has_trait = trait_presapient_proles
+		}
+		modifier = {
+			factor = 1.5
+			has_trait = trait_latent_psionic
+		}
+		modifier = {
+			factor = 2
+			has_trait = trait_psionic
+		}
+		modifier = {
+			factor = 2
+			has_trait = trait_resilient
+		}
+		modifier = {
+			factor = 2
+			has_trait = trait_very_strong
+		}
+		modifier = {
+			factor = 1.5
+			has_trait = trait_strong
+		}
+		modifier = {
+			factor = 10
+			is_enslaved = yes
+			has_slavery_type = { type = slavery_military }
+		}
+		modifier = {
+			factor = 0.5
+			has_trait = trait_weak
+		}
+		modifier = {
+			factor = 0.1
+			can_take_servant_job = yes
+		}
+		modifier = {
+			factor = 10
+			has_job = warden
+		}
+		modifier = {
+			factor = 1.25
+			has_trait = trait_cybernetic
+		}
+		modifier = {
+			factor = 2
+			has_trait = trait_presapient_earthbound
+		}
+		modifier = {
+			factor = 1.1
+			has_trait = trait_limited_regeneration
+		}
+		modifier = {
+			factor = 1.1
+			has_trait = trait_brainslug
+			exists = owner
+		}
+		modifier = {
+			factor = 1.05
+			has_trait = trait_presapient_natural_intellectuals
+			exists = owner
+		}
+		modifier = {
+			factor = 20
+			has_job = warden
+			OR = {
+				has_trait = trait_robust
+				has_trait = trait_robot_efficient_processors
+			}
+		}
+		modifier = {
+			factor = 1.25
+			OR = {
+				has_trait = trait_robot_propaganda_machines
+				has_trait = trait_traditional
+			}
+		}
+		modifier = {
+			factor = 0.75
+			has_trait = trait_quarrelsome
+		}
+		modifier = {
+			factor = 2
+			has_trait = trait_lithoid
+		}
+		modifier = {
+			factor = 1.25
+			OR = {
+				has_trait = trait_robot_domestic_protocols
+				has_trait = trait_charismatic
+			}
+		}
+		modifier = {
+			factor = 0.75
+			has_trait = trait_repugnant
+		}
+		modifier = {
+			factor = 1.5
+			has_trait = trait_necrophage
+		}
+	}
+}

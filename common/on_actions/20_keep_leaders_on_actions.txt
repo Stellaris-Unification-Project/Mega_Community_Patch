@@ -1,0 +1,98 @@
+# fired when the game starts
+on_game_start = {
+	events = {
+		keep_leaders.13 # flag mod as installed
+	}
+}
+
+# fired when loading a single-player game
+on_single_player_save_game_load = {
+	events = {
+		keep_leaders.13 # flag mod as installed
+	}
+}
+
+# fired when a country finishes being integrated
+# this = overlord
+# from = subject
+on_subject_integrated = {
+	events = {
+		keep_leaders.5
+	}
+}
+
+# fired for the attacker upon victory (before controller is switched)
+# this = country, leader attacker
+# from = country, planet owner
+# fromfrom = planet
+on_planet_attackers_win = {
+	events = {
+		keep_leaders.2
+	}
+}
+
+# fired when a leader has died
+# this = country
+# from = leader
+on_leader_death = {
+	events = {
+		keep_leaders.100
+		keep_leaders_bonus_traits.21
+	}
+}
+
+# fired when a leader has been fired
+# this = country
+# from = leader
+on_leader_fired = {
+	events = {
+		keep_leaders_bonus_traits.21
+	}
+}
+
+# fired when my custom code changes a leader's owner
+# this = leader (post-owner change)
+on_leader_owner_changed = {
+	events = {
+	}
+}
+
+# fired as new ruler has been set
+# this = country
+on_ruler_set = {
+	events = {
+		keep_leaders_bonus_traits.20
+	}
+}
+
+# fired when a ruler is ousted and goes back to their pre-ruler class
+# this = country
+# from = Previous ruler, already has the new class
+on_ruler_back_to_pre_ruler_class = {
+	events = {
+		keep_leaders_bonus_traits.19
+		keep_leaders_bonus_traits.20
+	}
+}
+
+# fired before a primitive planet changes ownership
+# this = planet (before ownership change)
+# from = country, imminent owner
+on_primitive_planet_transferring = {
+	events = {
+		keep_leaders.4
+	}
+}
+
+# fired after a primitive planet has changed ownership
+# this = planet (after ownership change)
+# from = country, primitive former owner
+on_primitive_planet_transferred = {
+	events = {
+		keep_leaders.3
+		keep_leaders.21
+		keep_leaders.31
+		keep_leaders.41
+		keep_leaders.51
+	}
+}

@@ -1,0 +1,4 @@
+﻿l_braz_por:
+ any_galaxy_species_trigger: "Qualquer Espécie na Galáxia"
+ military_service_full_tooltip: "[From.GetMilitaryServiceFullTooltip]"
+ military_service_full_tooltip_delayed: "[From.GetMilitaryServiceFullTooltipDelayed]"

@@ -1,0 +1,6 @@
+ambient_object = {
+	name = "terraform_bombardment_effects_object"
+	entity = "terraform_bombardment_effects"
+	selectable = no
+	show_name = no
+}

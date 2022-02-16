@@ -1,0 +1,15 @@
+# this = planet that have been fired upon
+# from = fleet that fired
+on_destroy_planet_with_PLANET_KILLER_NANOBOTS = {
+	events = {
+		primitive_conquest_enhancements.20
+	}
+}
+
+# this = planet that have been fired upon
+# from = fleet that fired
+on_destroy_planet_with_PLANET_KILLER_DELUGE = {
+	events = {
+		primitive_conquest_enhancements.30
+	}
+}

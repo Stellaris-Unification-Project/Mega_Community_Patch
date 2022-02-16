@@ -1,0 +1,147 @@
+namespace = terraform_to_pc_nuked
+
+# flag mod as active
+# triggered by on_game_start and on_single_player_save_game_load
+event = {
+	id = terraform_to_pc_nuked.13
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_global_flag = terraform_to_pc_nuked_installed }
+	}
+	immediate = {
+		set_global_flag = terraform_to_pc_nuked_installed
+	}
+}
+
+# set up "terraform" graphics
+# triggered by on_terraforming_begun
+# this = planet
+# from = country, terraformer
+planet_event = {
+	id = terraform_to_pc_nuked.1
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		OR = {
+			eligible_pc_nuked_terraform_habitable = yes
+			eligible_pc_nuked_terraform_hostile = yes
+		}
+		NOT = { solar_system = { any_system_ambient_object = { has_ambient_object_flag = terraform_bombardment@prevprev } } }
+		space_owner = {
+			eligible_for_pc_nuked_terraform_country = yes
+			NAND = {
+				has_global_flag = terraform_stations_aesthetic_installed
+				owner_main_species = { is_nuked_species = no }
+			}
+		}
+	}
+	immediate = {
+		create_ambient_object = {
+			type = terraform_bombardment_effects_object
+			use_3d_location = yes
+			scale = 0.13
+			entity_scale_to_size = yes
+			effect = {
+				set_ambient_object_flag = terraform_bombardment@prev
+			}
+		}
+		planet_event = {
+			id = terraform_to_pc_nuked.3
+			days = 30
+		}
+	}
+}
+
+# clean up "terraform" graphics
+# triggered by on_terraforming_complete and terraform_to_pc_nuked.3
+# this = planet
+# from = country, terraformer
+planet_event = {
+	id = terraform_to_pc_nuked.2
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		solar_system = { any_system_ambient_object = { has_ambient_object_flag = terraform_bombardment@prevprev } }
+	}
+	immediate = {
+		solar_system = {
+			every_system_ambient_object = {
+				limit = { has_ambient_object_flag = terraform_bombardment@prevprev }
+				destroy_ambient_object = this
+			}
+		}
+	}
+}
+
+# check to see if terraforming has stopped - if so, fire the cleanup event, otherwise check again in a month
+# triggered by terraform_to_pc_nuked.1 and terraform_to_pc_nuked.3
+# this = planet
+# from = country, terraformer
+planet_event = {
+	id = terraform_to_pc_nuked.3
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		solar_system = { any_system_ambient_object = { has_ambient_object_flag = terraform_bombardment@prevprev } }
+	}
+	immediate = {
+		if = {
+			limit = { is_terraforming = yes }
+			planet_event = {
+				id = terraform_to_pc_nuked.3
+				days = 30
+				scopes = {
+					from = from
+				}
+			}
+		}
+		else = {
+			planet_event = {
+				id = terraform_to_pc_nuked.2
+				scopes = {
+					from = from
+				}
+			}
+		}
+	}
+}
+
+# triggered by on_game_start, on_yearly_pulse, and and on_single_player_save_game_load
+event = {
+	id = terraform_to_pc_nuked.4
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_playable_country = {
+			limit = {
+				NOT = { has_technology = tech_pc_nuked_terraform }
+				OR = {
+					owner_main_species = { is_nuked_species = yes }
+					is_memorialist_empire = yes
+				}
+			}
+			give_technology = {
+				tech = tech_pc_nuked_terraform
+				message = no
+			}
+		}
+	}
+}
+
+# triggered by on_post_government_changed
+country_event = {
+	id = terraform_to_pc_nuked.5
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_technology = tech_pc_nuked_terraform }
+		is_memorialist_empire = yes
+	}
+	immediate = {
+		give_technology = {
+			tech = tech_pc_nuked_terraform
+			message = no
+		}
+	}
+}

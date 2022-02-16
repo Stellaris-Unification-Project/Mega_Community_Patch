@@ -1,0 +1,33 @@
+# THIS = country
+has_available_titanic_life_capacity = {
+	is_variable_set = titanic_life_soldier_count
+	is_variable_set = titanic_life_soldier_queued_count
+	is_variable_set = titanic_life_soldier_maximum
+	check_variable_arithmetic = {
+		which = titanic_life_soldier_count
+		add = titanic_life_soldier_queued_count
+		value < titanic_life_soldier_maximum
+	}
+}
+
+# THIS = country
+has_available_titanic_azizian_capacity = {
+	is_variable_set = titanic_azizian_soldier_count
+	is_variable_set = titanic_azizian_soldier_queued_count
+	check_variable_arithmetic = {
+		which = titanic_azizian_soldier_count
+		add = titanic_azizian_soldier_queued_count
+		value < @titanic_azizian_soldier_maximum
+	}
+}
+
+# THIS = country
+has_available_imperial_legion_capacity = {
+	is_variable_set = imperial_legion_soldier_count
+	is_variable_set = imperial_legion_soldier_queued_count
+	check_variable_arithmetic = {
+		which = imperial_legion_soldier_count
+		add = imperial_legion_soldier_queued_count
+		value < @imperial_legion_soldier_maximum
+	}
+}

@@ -1,0 +1,138 @@
+
+
+ftm_open_transfer_window = {
+	length = 1
+	icon = "GFX_fleet_capacity_icon"
+	resources = {
+		category = edicts
+		cost = {
+			energy = 0
+		}
+	}
+
+	effect = {
+		hidden_effect = {
+			if = {
+				limit = {
+					has_global_flag = ftm_edict_is_launch
+				}
+				country_event = { id = ftm_transfer.14 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_global_flag = ftm_edict_is_launch
+					}
+				}
+				country_event = { id = ftm_transfer.1 }
+			}
+		}
+	}
+
+	potential = {
+		NOR = {
+			has_global_flag = z_modmenu_installed
+			has_global_flag = modmenu_installed
+		}
+	}
+
+	ai_weight = {
+		weight = 0
+	}
+}
+
+# ftm_open_market_window = {
+# 	length = 1
+# 	icon = "GFX_fleet_capacity_icon"
+# 	resources = {
+# 		category = edicts
+# 		cost = {
+# 			energy = 0
+# 		}
+# 	}
+
+# 	effect = {
+# 		hidden_effect = {
+# 			country_event = { id = ftm_market.999 }
+# 		}
+# 	}
+
+# 	potential = {
+# 		always = no
+# 		# NOT = { has_global_flag = ftm_market_not_can_use }
+# 		# NOT = {
+# 		# 	has_global_flag = z_modmenu_installed
+# 		# }
+# 		# NOT = {
+# 		# 	has_global_flag = modmenu_installed
+# 		# }
+# 	}
+
+# 	ai_weight = {
+# 		weight = 0
+# 	}
+# }
+
+# ftm_open_auction_window = {
+# 	length = 1
+# 	icon = "GFX_fleet_capacity_icon"
+# 	resources = {
+# 		category = edicts
+# 		cost = {
+# 			energy = 0
+# 		}
+# 	}
+
+# 	effect = {
+# 		hidden_effect = {
+# 			country_event = { id = ftm_auction.999 }
+# 		}
+# 	}
+
+# 	potential = {
+# 		always = no
+# 		# NOT = { has_global_flag = ftm_auction_not_can_use }
+# 		# NOT = {
+# 		# 	has_global_flag = z_modmenu_installed
+# 		# }
+# 		# NOT = {
+# 		# 	has_global_flag = modmenu_installed
+# 		# }
+# 	}
+
+# 	ai_weight = {
+# 		weight = 0
+# 	}
+# }
+
+# ftm_open_rent_window = {
+# 	length = 1
+# 	icon = "GFX_fleet_capacity_icon"
+# 	resources = {
+# 		category = edicts
+# 		cost = {
+# 			energy = 0
+# 		}
+# 	}
+
+# 	effect = {
+# 		hidden_effect = {
+# 			country_event = { id = ftm_rent.999 }
+# 		}
+# 	}
+
+# 	potential = {
+# 		always = no
+# 		# NOT = { has_global_flag = ftm_rent_not_can_use }
+# 		# NOT = {
+# 		# 	has_global_flag = z_modmenu_installed
+# 		# }
+# 		# NOT = {
+# 		# 	has_global_flag = modmenu_installed
+# 		# }
+# 	}
+
+# 	ai_weight = {
+# 		weight = 0
+# 	}
+# }

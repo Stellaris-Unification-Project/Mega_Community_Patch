@@ -1,0 +1,21 @@
+namespace = gpm_start_menu
+
+### Menu with options:
+# low amount of modifiers
+# normal amount of modifiers (recomended)
+# high amount of modifiers
+
+country_event = {
+	id = gpm_start_menu.1
+	title = gpm_start_menu.1.name
+	desc = gpm_start_menu.1.desc
+	picture = GFX_evt_gpm_guillis_planet_modifiers
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		set_global_flag = gpm_galaxy_age_old
+		country_event = { id = gpm_engine.0 days = 1 }
+	}
+}

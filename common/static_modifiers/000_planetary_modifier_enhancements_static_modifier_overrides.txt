@@ -1,0 +1,54 @@
+# modifiers that affect job-based mineral production but can also spawn on unhabitable worlds now also affect mining station output by the same amount
+asteroid_impacts = {
+	pop_environment_tolerance = -0.05
+	planet_miners_produces_mult = 0.05
+	station_gatherers_produces_mult = 0.05
+	district_mining_max = 2
+	icon = "gfx/interface/icons/planet_modifiers/pm_asteroid_impacts.dds"
+	icon_frame = 2
+}
+
+extensive_moon_system = {
+	station_gatherers_produces_mult = 0.10
+	icon = "gfx/interface/icons/planet_modifiers/pm_extensive_moon_system.dds"
+	icon_frame = 1
+}
+
+carbon_world = {
+	planet_miners_produces_mult = 0.15
+	station_gatherers_produces_mult = 0.15
+	icon = "gfx/interface/icons/planet_modifiers/pm_carbon_world.dds"
+	icon_frame = 1
+}
+
+asteroid_belt = {
+	planet_miners_produces_mult = 0.10
+	district_mining_max = 3
+	station_gatherers_produces_mult = 0.10
+	icon = "gfx/interface/icons/planet_modifiers/pm_asteroid_belt.dds"
+	icon_frame = 1
+}
+
+mineral_rich = {
+	planet_miners_produces_mult = 0.15
+	district_mining_max = 4
+	station_gatherers_produces_mult = 0.15
+	icon = "gfx/interface/icons/planet_modifiers/pm_mineral_rich.dds"
+	icon_frame = 1
+}
+
+ultra_rich = {
+	planet_miners_produces_mult = 0.25
+	district_mining_max = 8
+	station_gatherers_produces_mult = 0.25
+	icon = "gfx/interface/icons/planet_modifiers/pm_ultra_rich.dds"
+	icon_frame = 1
+}
+
+mineral_poor = {
+	planet_miners_produces_mult = -0.25
+	district_mining_max = -3
+	station_gatherers_produces_mult = -0.25
+	icon = "gfx/interface/icons/planet_modifiers/pm_mineral_poor.dds"
+	icon_frame = 3
+}

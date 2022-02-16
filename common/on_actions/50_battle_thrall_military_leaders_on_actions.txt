@@ -1,0 +1,46 @@
+# fired when the game starts
+on_game_start = {
+	events = {
+		battle_thrall_military_leaders.13 # flag mod as installed
+	}
+}
+
+# fired when loading a single-player game
+on_single_player_save_game_load = {
+	events = {
+		battle_thrall_military_leaders.13 # flag mod as installed
+		honored_protectors_decree.1 # attempt to upgrade old single-player games
+	}
+}
+
+# fired when a new leader is generated for an empire, to be available for recruitment
+# this = country
+# from = leader
+on_leader_spawned = {
+	events = {
+		battle_thrall_military_leaders.1
+	}
+}
+
+# this = owner of fleet 1 (combatant)
+# from = owner of fleet 2 (destroyed)
+# fromfrom = fleet 1
+# fromfromfrom = fleet 2
+on_fleet_destroyed_perp = {
+	events = {
+		# leader.1 # uncomment this for testing with every fleet destruction
+		battle_thrall_military_leaders.2
+	}
+}
+
+# fired when my custom code changes a leader's species.  You might attach an event
+# here to handle custom traits in another mod that should be added or removed (or
+# converted) based on information about the leader (possibly taking in to account
+# things like their owner).
+# this = leader, post-modification
+# from = species, pre-modification (if known)
+on_leader_species_changed = {
+	events = {
+		battle_thrall_military_leaders.7
+	}
+}

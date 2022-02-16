@@ -1,0 +1,17 @@
+tech_pc_nuked_terraform = {
+	icon = tech_tomb_world_adaption
+	cost = 0
+	area = society
+	tier = 0
+	start_tech = no
+	category = { new_worlds }
+	weight = 0
+	feature_flags = {
+		build_terraform_station
+	}
+	is_rare = yes
+	is_reverse_engineerable = no
+	weight_modifier = {
+		factor = 0
+	}
+}

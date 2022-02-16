@@ -1,0 +1,92 @@
+namespace = mzilli_tf
+
+event = {
+	id = mzilli_tf.1
+	title = OK
+	desc = OK
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		# Flags Mercury
+		random_system = {
+			limit = { has_star_flag = sol }
+			if = {
+				limit = {
+					NOT = {
+						any_system_planet = {
+							is_planet_class = pc_barren_cold
+							has_planet_flag = planet_mercury
+						}
+					}
+				}
+				random_system_planet = {
+					limit = {
+						is_planet_class = pc_barren_cold
+						is_moon = no
+					}
+					set_planet_flag = planet_mercury
+				}
+			}
+		}
+		every_galaxy_planet = {
+			limit = {
+				has_modifier = mzilli_terraforming_candidate
+				OR = {
+					AND = {
+						exists = space_owner
+						space_owner = { has_origin = "origin_machine" }
+					}
+					has_planet_flag = planet_mercury
+					has_planet_flag = crisis_vital_planet
+					solar_system = { is_star_class = sc_black_hole }
+					solar_system = { is_star_class = sc_pulsar }
+					solar_system = { is_star_class = sc_neutron_star }
+					is_planet_class = pc_dormant
+					is_planet_class = pc_dormant_cold
+					is_planet_class = pc_dormant_frozen
+					is_planet_class = pc_dormant_toxic
+				}
+			}
+			remove_modifier = mzilli_terraforming_candidate
+			#set_planet_flag = removed_tf_candidate
+			#solar_system = { set_star_flag = removed_tf_candidate }
+		}
+		every_galaxy_planet = {
+			limit = {
+				OR = {
+					is_planet_class = pc_black_hole
+					is_planet_class = pc_neutron_star
+					is_planet_class = pc_pulsar
+				}
+				has_moon = yes
+				any_moon = {
+					OR = {
+						has_modifier = mzilli_terraforming_candidate
+						any_moon = { has_modifier = mzilli_terraforming_candidate }
+					}
+				}
+			}
+			#solar_system = { set_star_flag = removed_tf_candidate }
+			every_moon = {
+				if = {
+					limit = { has_modifier = mzilli_terraforming_candidate }
+					remove_modifier = mzilli_terraforming_candidate
+					#set_planet_flag = removed_tf_candidate
+				}
+				else_if = {
+					limit = { any_moon = { has_modifier = mzilli_terraforming_candidate } }
+					every_moon = {
+						limit = { has_modifier = mzilli_terraforming_candidate }
+						remove_modifier = mzilli_terraforming_candidate
+						#set_planet_flag = removed_tf_candidate
+					}
+				}
+			}
+		}
+		random_country = {
+			limit = { has_country_flag = giga_host }
+			country_event = { id = mzilli_tf.5 }
+		}
+	}
+}

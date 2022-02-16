@@ -1,0 +1,95 @@
+namespace = giga_flusion
+
+####################################################
+### Paluush ########################################
+####################################################
+#Flusion Textures
+event = {
+	id = giga_flusion.100
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = {
+			has_global_flag = katzenartig_imperium_happened #Won't happen if Katzenartig got to space
+		}
+		exists = event_target:gigaflusion
+		any_galaxy_planet = {
+			AND = {
+				has_planet_flag = gigaflusion
+				exists = owner
+				owner = {
+					NOT = {
+						has_country_flag = flusion_primitives #Not owned by primitives anymore
+					}
+				}
+				NOT = {
+					has_planet_flag = flusion_nuked #Didn't already apply it
+				}
+			}
+		}
+	}
+
+	immediate = {
+		event_target:gigaflusion = {
+			remove_planet_flag = kaiser_wc
+		}
+		every_galaxy_planet = {
+			limit = {
+				has_modifier = katzen_orbital_bombardment_shield
+			}
+			remove_modifier = katzen_orbital_bombardment_shield
+		}
+		every_galaxy_planet = { #No more project
+			limit = {
+				has_planet_flag = muno_project_event
+			}
+			remove_planet_flag = muno_project_event
+		}
+		every_country = { #Remove the invasion modifier
+			limit = {
+				has_modifier = planning_flusionian_invasion
+			}
+			remove_modifier = planning_flusionian_invasion
+		}
+		every_country = { #Remove the invasion modifier
+			limit = {
+				has_country_flag = planning_flusionfall
+			}
+			remove_country_flag = planning_flusionfall
+			country_event = { id = giga_flusion.333 }
+		}
+		if = {
+			limit = { #Flusion got nuked
+				any_galaxy_planet = {
+					has_planet_flag = gigaflusion
+					is_planet_class = pc_nuked
+				}
+			}
+			random_megastructure = { #Destroy the project
+				limit = {
+					is_megastructure_type = flusion_attack_moon_0
+				}
+				delete_megastructure = THIS
+			}
+		}
+		else_if = { #Flusion got invaded and Katzens nuked it
+			limit = {
+				any_galaxy_planet = {
+					has_planet_flag = gigaflusion
+					is_planet_class = pc_katzenland
+				}
+			}
+			remove_modifier = culture_shock_machine_age
+			remove_modifier = culture_shock_atomic_age
+			remove_modifier = culture_shock_early_space_age
+			set_planet_flag = flusion_nuked
+			random_megastructure = { #Destroy the project
+				limit = {
+					is_megastructure_type = flusion_attack_moon_0
+				}
+				delete_megastructure = THIS
+			}
+		}
+	}
+}

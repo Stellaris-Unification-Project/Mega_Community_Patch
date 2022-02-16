@@ -1,0 +1,4 @@
+﻿l_polish:
+ any_galaxy_species_trigger: "Dowolny gatunków w galaktyce"
+ military_service_full_tooltip: "[From.GetMilitaryServiceFullTooltip]"
+ military_service_full_tooltip_delayed: "[From.GetMilitaryServiceFullTooltipDelayed]"

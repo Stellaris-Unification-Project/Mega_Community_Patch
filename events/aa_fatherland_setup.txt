@@ -1,0 +1,27 @@
+namespace = fatherland_setup
+
+country_event = { #### MULTIPLAYER SETUP
+    id = fatherland_setup.95
+    hide_window = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		is_multiplayer = yes
+		is_ai = no
+		NOT = { has_country_flag = fatherland_first_time }
+	}
+
+    immediate = {
+    	if = {
+    		limit = {
+    			has_country_flag = giga_host
+    		}
+    		set_country_flag = fatherland_mp_elector
+			country_event = { id = fatherland_setup.100 }
+    	}
+    	else = {
+    		set_country_flag = fatherland_first_time
+			set_country_flag = fatherland_multiplayer_first_time
+    	}
+	}
+}

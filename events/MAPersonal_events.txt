@@ -1,0 +1,72 @@
+###############################
+# MA Personal Events
+###############################
+
+namespace = mapersonal
+
+# Have AI name planets
+planet_event = {
+	id = mapersonal.1000
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		owner = {
+			is_ai = yes
+			is_country_type_with_subjects = yes
+		}
+	}
+
+	immediate = {
+		set_name = random
+	}
+}
+
+# Remove Planet Modifier
+event = {
+	id = mapersonal.2000
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_galaxy_planet = {
+			limit = {
+				has_owner = no
+				has_modifier = rogue_colonial_world
+			}
+			remove_modifier = rogue_colonial_world
+		}
+	}
+}
+
+
+######
+
+country_event = {
+	id = mapersonal.3000
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_country_type = default
+		is_ai = yes
+		NOR = {
+			has_authority = auth_democratic
+			has_authority = auth_oligarchic
+			has_authority = auth_dictatorial
+			has_authority = auth_imperial
+			has_authority = auth_corporate
+			has_authority = auth_democratic_dictatorship
+			has_authority = auth_strict_democratic
+			has_authority = auth_corporate_imperial
+			has_authority = auth_direct_democratic
+			has_authority = auth_hive_mind
+			has_authority = auth_machine_intelligence
+			has_authority = auth_ancient_machine_intelligence
+		}
+	}
+
+	immediate = {
+		destroy_country = yes
+	}
+}

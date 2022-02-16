@@ -1,0 +1,90 @@
+# beware, this iterates every planet; it's intended to be called once to set up modifiers on_game_start
+# if you want to apply Extensive Moon System Moon to a single planet's moons, call the planet-specific effect instead of this one
+find_and_apply_extensive_moon_system_child_modifier = {
+    every_galaxy_planet = {
+		limit = {
+			is_planet_class = pc_gas_giant
+			has_moon = yes
+			OR = {
+				has_planet_modifier = pm_extensive_moon_system
+				has_modifier = extensive_moon_system
+			}
+		}
+		planet_event = {
+			id = planetary_modifier_enhancements.2
+		}
+	}
+}
+
+# use this if you want to apply Extensive Moon System Moon to a single planet's moons
+# this = planet
+apply_extensive_moon_system_child_modifier_planet = {
+	every_moon = {
+		limit = {
+			NOR = {
+				has_planet_modifier = pm_extensive_moon_system_moon
+				has_modifier = extensive_moon_system_moon
+				has_planet_modifier = pm_extensive_moon_system_moon
+				has_modifier = extensive_moon_system_moon
+			}
+		}
+		add_modifier = { modifier = extensive_moon_system_moon }
+		planet_event = {
+			id = planetary_modifier_enhancements.2
+		}
+	}
+}
+
+# beware, this iterates every planet; it's intended to be called once to set up deposits on_game_start
+find_and_add_minerals_to_mineral_plentiful_unhabitable_planets = {
+	every_galaxy_planet = {
+		limit = {
+			can_have_habitable_deposits = no
+			can_have_mineral_deposits = yes
+			NOR = {
+				has_deposit_for = shipclass_mining_station
+				has_deposit_for = shipclass_research_station
+			}
+			OR = {
+				has_planet_modifier = pm_ultra_rich
+				has_planet_modifier = pm_mineral_rich
+				has_planet_modifier = pm_mineral_poor
+				has_planet_modifier = pm_carbon_world
+				has_planet_modifier = pm_asteroid_belt
+				has_planet_modifier = pm_asteroid_impacts
+				has_modifier = ultra_rich
+				has_modifier = mineral_rich
+				has_modifier = mineral_poor
+				has_modifier = carbon_world
+				has_modifier = asteroid_belt
+				has_modifier = asteroid_impacts
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_planet_modifier = pm_ultra_rich
+					has_modifier = ultra_rich
+				}
+			}
+			add_deposit = d_minerals_5
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_planet_modifier = pm_mineral_poor
+					has_planet_modifier = pm_asteroid_impacts
+					has_modifier = mineral_poor
+					has_modifier = asteroid_impacts
+				}
+			}
+			add_deposit = d_minerals_1
+		}
+		else = {
+			random_list = {
+				3 = { add_deposit = d_minerals_2 }
+				1 = { add_deposit = d_minerals_3 }
+			}
+		}
+	}
+}

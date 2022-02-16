@@ -1,0 +1,9 @@
+﻿l_french:
+ necrophage_only_allows_necrophage_leaders: "$TRIGGER_FAIL$Seules les pops nécrophages peuvent fournir des §Ypersonnalités§!."
+ nerve_stapled_cannot_lead: "$TRIGGER_FAIL$ Cette espèce n'a pas les capacités mentales suffisantes pour commander."
+ military_service_full_servitor_tooltip: "Cette espèce peut être donner naissance à des §H$GENERALS$§! et §H$ADMIRALS$§!."
+ military_service_full_servitor_tooltip_delayed: "§LAlthough allowing Organic Advisors in military roles presents massive risks to our dear $pop_cat_bio_trophy_plural$, their effectiveness at chaos and violence cannot be denied.§!"
+ military_service_full_default_tooltip: "Cette espèce peut être recrutée au sein d'§H$ARMIES$§! et donner naissance à des §H$GENERALS$§! et §H$ADMIRALS$§!."
+ military_service_full_default_tooltip_delayed: "§LCette espèce fournit sans doute possible certains des plus membres les plus compétents de nos forces armées.§!"
+ # missing base-game localisation
+ effect_random_owned_pop_species: "$effect_random_owned_species$"

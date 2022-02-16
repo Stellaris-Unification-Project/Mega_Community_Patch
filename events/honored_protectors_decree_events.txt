@@ -1,0 +1,847 @@
+namespace = honored_protectors_decree
+
+# triggered by on_single_player_save_game_load
+# tries to fix up old savegames with non-country-specific flags
+event = {
+	id = honored_protectors_decree.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		any_galaxy_species = {
+			OR = {
+				has_species_flag = allow_military_leaders_for_xenophobe
+				has_species_flag = allow_military_leaders_for_necrophage
+			}
+		}
+	}
+	immediate = {
+		every_country = {
+			limit = { is_eligible_to_designate_honored_protectors = yes }
+			every_owned_pop_species = {
+				limit = {
+					OR = {
+						has_species_flag = allow_military_leaders_for_necrophage
+						has_species_flag = allow_military_leaders_for_xenophobe
+					}
+				}
+				set_species_flag = allow_military_leaders_honored_protectors@prev
+			}
+		}
+		every_galaxy_species = {
+			if = {
+				limit = { has_species_flag = allow_military_leaders_for_xenophobe }
+				remove_species_flag = allow_military_leaders_for_xenophobe
+			}
+			if = {
+				limit = { has_species_flag = allow_military_leaders_for_necrophage }
+				remove_species_flag = allow_military_leaders_for_necrophage
+			}
+		}
+	}
+}
+
+country_event = {
+	id = honored_protectors_decree.2
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_eligible_to_designate_honored_protectors = yes
+		NOT = { has_country_flag = honored_protectors_open }
+	}
+	immediate = {
+		set_country_flag = honored_protectors_open
+		set_variable = {
+			which = num_potential_protectors
+			value = 0
+		}
+		every_galaxy_species = {
+			limit = {
+				NOR = {
+					is_same_species = prev
+					has_species_flag = allow_military_leaders_honored_protectors@prev
+				}
+				has_citizenship_type = {
+					type = citizenship_slavery
+					country = prev
+				}
+				has_slavery_type = {
+					type = slavery_military
+					country = prev
+				}
+			}
+			prev = {
+				change_variable = {
+					which = num_potential_protectors
+					value = 1
+				}
+			}
+			set_species_flag = potential_protectors@prev
+		}
+		country_event = {
+			id = honored_protectors_decree.3
+		}
+	}
+}
+
+country_event = {
+	id = honored_protectors_decree.3
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_eligible_to_designate_honored_protectors = yes
+		has_country_flag = honored_protectors_open
+	}
+	immediate = {
+		set_variable = {
+			which = num_subset_potential_protectors
+			value = 0
+		}
+		accumulate_potential_protector_if_available = { DISCRIMINATOR = "0" }
+		accumulate_potential_protector_if_available = { DISCRIMINATOR = "1" }
+		accumulate_potential_protector_if_available = { DISCRIMINATOR = "2" }
+		accumulate_potential_protector_if_available = { DISCRIMINATOR = "3" }
+		accumulate_potential_protector_if_available = { DISCRIMINATOR = "4" }
+		accumulate_potential_protector_if_available = { DISCRIMINATOR = "5" }
+		accumulate_potential_protector_if_available = { DISCRIMINATOR = "6" }
+		accumulate_potential_protector_if_available = { DISCRIMINATOR = "7" }
+		accumulate_potential_protector_if_available = { DISCRIMINATOR = "8" }
+		accumulate_potential_protector_if_available = { DISCRIMINATOR = "9" }
+		country_event = {
+			id = honored_protectors_decree.4
+		}
+	}
+}
+
+country_event = {
+	id = honored_protectors_decree.4
+	title = honored_protectors_decree.4.title
+	desc = honored_protectors_decree.4.desc
+	picture = GFX_evt_ground_combat # also considered: announcement, interior_battle, victorious_army
+	is_triggered_only = yes
+	trigger = {
+		is_eligible_to_designate_honored_protectors = yes
+		has_country_flag = honored_protectors_open
+	}
+	immediate = {
+		save_event_target_as = protected_country
+	}
+	option = {
+		name = honored_protectors_decree.4.reroll
+		custom_tooltip = honored_protectors_decree.4.reroll.tooltip
+		trigger = {
+			check_variable = {
+				which = num_potential_protectors
+				value > 0
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = honored_protectors_decree.3
+			}
+		}
+		ai_chance = {
+			factor = 1.5
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_potential_protectors
+					value <= 0
+				}
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.a
+		custom_tooltip_with_params = {
+			description = honored_protectors_decree.4.option.tooltip
+			description_parameters = {
+				NAME = "[potential_protectors0.GetName]"
+			}
+		}
+		hidden_effect = { event_target:potential_protectors0 = { set_species_honored_protectors = yes } }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_subset_potential_protectors
+					value <= 0
+				}
+			}
+			modifier = {
+				factor = 0
+				event_target:potential_protectors0 = { has_trait = trait_weak }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors0 = { has_trait = trait_presapient_proles }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors0 = { has_trait = trait_limited_regeneration }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors0 = { has_trait = trait_cybernetic }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors0 = { has_trait = trait_strong }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors0 = { has_trait = trait_resilient }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors0 = { has_trait = trait_presapient_earthbound }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors0 = { has_trait = trait_very_strong }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors0 = { has_trait = trait_lithoid }
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = is_eldanaer_stellar_authority
+				event_target:potential_protectors0 = { has_species_flag = zdremite_species@event_target:protected_country }
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.b
+		custom_tooltip_with_params = {
+			description = honored_protectors_decree.4.option.tooltip
+			description_parameters = {
+				NAME = "[potential_protectors1.GetName]"
+			}
+		}
+		trigger = {
+			check_variable = {
+				which = num_subset_potential_protectors
+				value > 1
+			}
+		}
+		hidden_effect = { event_target:potential_protectors1 = { set_species_honored_protectors = yes } }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_subset_potential_protectors
+					value <= 1
+				}
+			}
+			modifier = {
+				factor = 0
+				event_target:potential_protectors1 = { has_trait = trait_weak }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors1 = { has_trait = trait_presapient_proles }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors1 = { has_trait = trait_limited_regeneration }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors1 = { has_trait = trait_cybernetic }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors1 = { has_trait = trait_strong }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors1 = { has_trait = trait_resilient }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors1 = { has_trait = trait_presapient_earthbound }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors1 = { has_trait = trait_very_strong }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors1 = { has_trait = trait_lithoid }
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = is_eldanaer_stellar_authority
+				event_target:potential_protectors1 = { has_species_flag = zdremite_species@event_target:protected_country }
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.c
+		custom_tooltip_with_params = {
+			description = honored_protectors_decree.4.option.tooltip
+			description_parameters = {
+				NAME = "[potential_protectors2.GetName]"
+			}
+		}
+		trigger = {
+			check_variable = {
+				which = num_subset_potential_protectors
+				value > 2
+			}
+		}
+		hidden_effect = { event_target:potential_protectors2 = { set_species_honored_protectors = yes } }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_subset_potential_protectors
+					value <= 2
+				}
+			}
+			modifier = {
+				factor = 0
+				event_target:potential_protectors2 = { has_trait = trait_weak }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors2 = { has_trait = trait_presapient_proles }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors2 = { has_trait = trait_limited_regeneration }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors2 = { has_trait = trait_cybernetic }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors2 = { has_trait = trait_strong }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors2 = { has_trait = trait_resilient }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors2 = { has_trait = trait_presapient_earthbound }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors2 = { has_trait = trait_very_strong }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors2 = { has_trait = trait_lithoid }
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = is_eldanaer_stellar_authority
+				event_target:potential_protectors2 = { has_species_flag = zdremite_species@event_target:protected_country }
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.d
+		custom_tooltip_with_params = {
+			description = honored_protectors_decree.4.option.tooltip
+			description_parameters = {
+				NAME = "[potential_protectors3.GetName]"
+			}
+		}
+		trigger = {
+			check_variable = {
+				which = num_subset_potential_protectors
+				value > 3
+			}
+		}
+		hidden_effect = { event_target:potential_protectors3 = { set_species_honored_protectors = yes } }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_subset_potential_protectors
+					value <= 3
+				}
+			}
+			modifier = {
+				factor = 0
+				event_target:potential_protectors3 = { has_trait = trait_weak }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors3 = { has_trait = trait_presapient_proles }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors3 = { has_trait = trait_limited_regeneration }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors3 = { has_trait = trait_cybernetic }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors3 = { has_trait = trait_strong }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors3 = { has_trait = trait_resilient }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors3 = { has_trait = trait_presapient_earthbound }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors3 = { has_trait = trait_very_strong }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors3 = { has_trait = trait_lithoid }
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = is_eldanaer_stellar_authority
+				event_target:potential_protectors3 = { has_species_flag = zdremite_species@event_target:protected_country }
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.e
+		custom_tooltip_with_params = {
+			description = honored_protectors_decree.4.option.tooltip
+			description_parameters = {
+				NAME = "[potential_protectors4.GetName]"
+			}
+		}
+		trigger = {
+			check_variable = {
+				which = num_subset_potential_protectors
+				value > 4
+			}
+		}
+		hidden_effect = { event_target:potential_protectors4 = { set_species_honored_protectors = yes } }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_subset_potential_protectors
+					value <= 4
+				}
+			}
+			modifier = {
+				factor = 0
+				event_target:potential_protectors4 = { has_trait = trait_weak }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors4 = { has_trait = trait_presapient_proles }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors4 = { has_trait = trait_limited_regeneration }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors4 = { has_trait = trait_cybernetic }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors4 = { has_trait = trait_strong }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors4 = { has_trait = trait_resilient }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors4 = { has_trait = trait_presapient_earthbound }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors4 = { has_trait = trait_very_strong }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors4 = { has_trait = trait_lithoid }
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = is_eldanaer_stellar_authority
+				event_target:potential_protectors4 = { has_species_flag = zdremite_species@event_target:protected_country }
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.f
+		custom_tooltip_with_params = {
+			description = honored_protectors_decree.4.option.tooltip
+			description_parameters = {
+				NAME = "[potential_protectors5.GetName]"
+			}
+		}
+		trigger = {
+			check_variable = {
+				which = num_subset_potential_protectors
+				value > 5
+			}
+		}
+		hidden_effect = { event_target:potential_protectors5 = { set_species_honored_protectors = yes } }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_subset_potential_protectors
+					value <= 5
+				}
+			}
+			modifier = {
+				factor = 0
+				event_target:potential_protectors5 = { has_trait = trait_weak }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors5 = { has_trait = trait_presapient_proles }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors5 = { has_trait = trait_limited_regeneration }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors5 = { has_trait = trait_cybernetic }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors5 = { has_trait = trait_strong }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors5 = { has_trait = trait_resilient }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors5 = { has_trait = trait_presapient_earthbound }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors5 = { has_trait = trait_very_strong }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors5 = { has_trait = trait_lithoid }
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = is_eldanaer_stellar_authority
+				event_target:potential_protectors5 = { has_species_flag = zdremite_species@event_target:protected_country }
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.g
+		custom_tooltip_with_params = {
+			description = honored_protectors_decree.4.option.tooltip
+			description_parameters = {
+				NAME = "[potential_protectors6.GetName]"
+			}
+		}
+		trigger = {
+			check_variable = {
+				which = num_subset_potential_protectors
+				value > 6
+			}
+		}
+		hidden_effect = { event_target:potential_protectors6 = { set_species_honored_protectors = yes } }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_subset_potential_protectors
+					value <= 6
+				}
+			}
+			modifier = {
+				factor = 0
+				event_target:potential_protectors6 = { has_trait = trait_weak }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors6 = { has_trait = trait_presapient_proles }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors6 = { has_trait = trait_limited_regeneration }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors6 = { has_trait = trait_cybernetic }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors6 = { has_trait = trait_strong }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors6 = { has_trait = trait_resilient }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors6 = { has_trait = trait_presapient_earthbound }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors6 = { has_trait = trait_very_strong }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors6 = { has_trait = trait_lithoid }
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = is_eldanaer_stellar_authority
+				event_target:potential_protectors6 = { has_species_flag = zdremite_species@event_target:protected_country }
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.h
+		custom_tooltip_with_params = {
+			description = honored_protectors_decree.4.option.tooltip
+			description_parameters = {
+				NAME = "[potential_protectors7.GetName]"
+			}
+		}
+		trigger = {
+			check_variable = {
+				which = num_subset_potential_protectors
+				value > 7
+			}
+		}
+		hidden_effect = { event_target:potential_protectors7 = { set_species_honored_protectors = yes } }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_subset_potential_protectors
+					value <= 7
+				}
+			}
+			modifier = {
+				factor = 0
+				event_target:potential_protectors7 = { has_trait = trait_weak }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors7 = { has_trait = trait_presapient_proles }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors7 = { has_trait = trait_limited_regeneration }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors7 = { has_trait = trait_cybernetic }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors7 = { has_trait = trait_strong }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors7 = { has_trait = trait_resilient }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors7 = { has_trait = trait_presapient_earthbound }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors7 = { has_trait = trait_very_strong }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors7 = { has_trait = trait_lithoid }
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = is_eldanaer_stellar_authority
+				event_target:potential_protectors7 = { has_species_flag = zdremite_species@event_target:protected_country }
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.i
+		custom_tooltip_with_params = {
+			description = honored_protectors_decree.4.option.tooltip
+			description_parameters = {
+				NAME = "[potential_protectors8.GetName]"
+			}
+		}
+		trigger = {
+			check_variable = {
+				which = num_subset_potential_protectors
+				value > 8
+			}
+		}
+		hidden_effect = { event_target:potential_protectors8 = { set_species_honored_protectors = yes } }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_subset_potential_protectors
+					value <= 8
+				}
+			}
+			modifier = {
+				factor = 0
+				event_target:potential_protectors8 = { has_trait = trait_weak }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors8 = { has_trait = trait_presapient_proles }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors8 = { has_trait = trait_limited_regeneration }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors8 = { has_trait = trait_cybernetic }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors8 = { has_trait = trait_strong }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors8 = { has_trait = trait_resilient }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors8 = { has_trait = trait_presapient_earthbound }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors8 = { has_trait = trait_very_strong }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors8 = { has_trait = trait_lithoid }
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = is_eldanaer_stellar_authority
+				event_target:potential_protectors8 = { has_species_flag = zdremite_species@event_target:protected_country }
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.j
+		custom_tooltip_with_params = {
+			description = honored_protectors_decree.4.option.tooltip
+			description_parameters = {
+				NAME = "[potential_protectors9.GetName]"
+			}
+		}
+		trigger = {
+			check_variable = {
+				which = num_subset_potential_protectors
+				value > 9
+			}
+		}
+		hidden_effect = { event_target:potential_protectors9 = { set_species_honored_protectors = yes } }
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				check_variable = {
+					which = num_subset_potential_protectors
+					value <= 9
+				}
+			}
+			modifier = {
+				factor = 0
+				event_target:potential_protectors9 = { has_trait = trait_weak }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors9 = { has_trait = trait_presapient_proles }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors9 = { has_trait = trait_limited_regeneration }
+			}
+			modifier = {
+				factor = 1.5
+				event_target:potential_protectors9 = { has_trait = trait_cybernetic }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors9 = { has_trait = trait_strong }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors9 = { has_trait = trait_resilient }
+			}
+			modifier = {
+				factor = 2
+				event_target:potential_protectors9 = { has_trait = trait_presapient_earthbound }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors9 = { has_trait = trait_very_strong }
+			}
+			modifier = {
+				factor = 3
+				event_target:potential_protectors9 = { has_trait = trait_lithoid }
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = is_eldanaer_stellar_authority
+				event_target:potential_protectors9 = { has_species_flag = zdremite_species@event_target:protected_country }
+			}
+		}
+	}
+	option = {
+		name = honored_protectors_decree.4.cancel
+		custom_tooltip = honored_protectors_decree.4.cancel.tooltip
+		add_resource = {
+			influence = 100
+		}
+		hidden_effect = {
+			country_event = {
+				id = honored_protectors_decree.5
+			}
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+country_event = {
+	id = honored_protectors_decree.5
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_galaxy_species = {
+			limit = { has_species_flag = potential_protectors@prev }
+			remove_species_flag = potential_protectors@prev
+		}
+		clear_variable = num_potential_protectors
+		clear_variable = num_subset_potential_protectors
+		remove_country_flag = honored_protectors_open
+	}
+}

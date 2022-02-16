@@ -1,0 +1,128 @@
+# this = species
+btml_has_species_trait_with_leader_trait = {
+	OR = {
+		has_trait = trait_cybernetic
+		has_trait = trait_erudite
+		has_trait = trait_psionic
+		has_trait = trait_latent_psionic
+		has_trait = trait_brainslug
+		has_trait = trait_clone_soldier_fertile
+	}
+}
+
+# this = species
+btml_is_species_smart_enough_for_leadership = {
+	is_sapient = yes
+	NOR = {
+		has_trait = trait_syncretic_proles
+		has_trait = trait_nerve_stapled
+	}
+}
+
+# this = species
+btml_is_mechanical_or_machine = {
+	OR = {
+		has_trait = trait_mechanical
+		has_trait = trait_machine_unit
+	}
+}
+
+# this = country
+btml_is_necrophage_empire = {
+	AND = {
+		has_origin = origin_necrophage
+		has_trait = trait_necrophage
+	}
+}
+
+# this = country
+is_eligible_to_designate_organic_advisors = {
+	has_valid_civic = civic_machine_servitor
+}
+
+# this = country
+is_eligible_to_designate_honored_protectors = {
+	OR = {
+		btml_is_necrophage_empire = yes
+		is_xenophobe = yes
+	}
+}
+
+# this follows the game's default rules - does not account for Gender Nonbinary Leaders
+# this = leader, after species change
+btml_leader_new_species_allows_current_gender = {
+	switch = {
+		trigger = gender
+		indeterminable = {
+			species = {
+				OR = {
+					species_gender = indeterminable
+					AND = {
+						species_gender = not_set
+						btml_species_class_uses_gender = no
+					}
+				}
+			}
+		}
+		female = {
+			species = {
+				OR = {
+					AND = {
+						species_gender = not_set
+						btml_species_can_set_is_female = yes
+					}
+					species_gender = female
+				}
+			}
+		}
+		male = {
+			species = {
+				OR = {
+					AND = {
+						species_gender = not_set
+						btml_species_can_set_is_female = yes
+					}
+					species_gender = male
+				}
+			}
+		}
+	}
+}
+
+# this = species
+btml_species_can_set_is_female = {
+	NOR = {
+		species_gender = indeterminable
+		AND = {
+			species_gender = not_set
+			btml_species_class_uses_gender = no
+		}
+	}
+}
+
+# this = species
+btml_species_class_uses_gender = {
+	# NOTE: this assumes custom species classes use gender (the default)
+	NOR = {
+		is_species_class = MACHINE
+		is_species_class = ROBOT
+		is_species_class = AI # contingency
+		is_species_class = SWARM # praethoryn
+		is_species_class = EXD # extradimensionals: unbidden/aberrant/vehement
+	}
+}
+
+# this = leader, with new species
+# from = species, previous
+btml_leader_species_gender_change_requires_clone = {
+	OR = {
+		AND = {
+			species = { btml_species_can_set_is_female = no }
+			from = { btml_species_can_set_is_female = yes }
+		}
+		AND = {
+			species = { btml_species_can_set_is_female = yes }
+			from = { btml_species_can_set_is_female = no }
+		}
+	}
+}

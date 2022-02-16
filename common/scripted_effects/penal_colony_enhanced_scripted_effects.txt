@@ -1,0 +1,28 @@
+# this = planet
+convert_capital_to_penal_capital = {
+	if = {
+		limit = { has_building = building_colony_shelter }
+		remove_building = building_colony_shelter
+		add_building = building_penal_colony_barracks
+	}
+	else_if = {
+		limit = { has_building = building_capital }
+		remove_building = building_capital
+		add_building = building_penal_colony_administration
+	}
+	else_if = {
+		limit = { has_building = building_major_capital }
+		remove_building = building_major_capital
+		add_building = building_penal_colony_complex
+	}
+	else_if = {
+		limit = { has_building = building_system_capital }
+		remove_building = building_system_capital
+		add_building = building_penal_colony_enclave
+	}
+	else_if = {
+		limit = { has_building = building_imperial_capital }
+		remove_building = building_imperial_capital
+		add_building = building_penal_colony_enclave
+	}
+}

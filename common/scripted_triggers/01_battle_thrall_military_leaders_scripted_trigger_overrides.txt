@@ -1,0 +1,6 @@
+# overrides trigger from common/scripted_triggers/00_scripted_triggers.txt so that Battle Thralls can be military leaders by changing
+# the logic to ONLY verify whether the Pop's species has Full Military Service - the species rights do the required gatekeeping
+# this = pop
+can_be_military_leader = {
+	has_military_service_type = { type = military_service_full }
+}

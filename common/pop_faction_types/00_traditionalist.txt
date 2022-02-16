@@ -9,10 +9,25 @@ traditionalist = {
 	unique = yes
 	support_multiplier = 1
 	
+	resources = {
+		category = pop_factions
+		produces = {
+			trigger = {
+				owner = { years_passed > 10
+				has_encountered_other_species = yes }
+			}
+			influence = 2
+		}		
+	}
+
 	is_potential = {
 		years_passed > 10
 		has_encountered_other_species = yes
-		NOT = { has_ethic = ethic_gestalt_consciousness }
+		NOR = {
+			has_ethic = ethic_gestalt_consciousness
+			has_country_flag = suppress_vanilla_factions
+			has_modifier = banned_spiritualist
+		}
 	}
 	
 	parameters = {
@@ -36,6 +51,14 @@ traditionalist = {
 	
 	attraction = {
 		base = 150
+		
+		modifier = {
+			factor = 0
+			exists = from
+			from = {
+				has_modifier = banned_faction
+			}
+		}
 		
 		modifier = {
 			factor = 1.25
@@ -64,8 +87,8 @@ traditionalist = {
 					has_trait = "trait_robotic_1"
 					has_trait = "trait_robotic_2"
 					has_trait = "trait_robotic_3"
-				}			
-			}			
+				}
+			}
 		}
 
 		modifier = {
@@ -74,17 +97,40 @@ traditionalist = {
 		}		
 	}
 
+	demand = {
+		title = "FACTION_OUTRAGED_GC"
+		unfulfilled_title = "FACTION_OUTRAGED_GC"
+		desc = "FACTION_OUTRAGED_GC_DESC"
+
+		fulfilled_effect = -20
+		unfulfilled_effect = -0.001
+
+		potential = {
+			exists = owner
+			owner = {
+				has_country_flag = faction_spiritualist_outraged_gc
+			}
+		}
+
+		trigger = {
+			owner = {
+				has_country_flag = faction_spiritualist_outraged_gc
+			}
+		}
+	}
+
 	demand = { # "TRADITIONALIST_NO_ROBOTS"
 		title = "TRADITIONALIST_NO_ROBOTS"
 		unfulfilled_title = "TRADITIONALIST_ROBOTS"
 		desc = "TRADITIONALIST_NO_ROBOTS_DESC"
 		
 		unfulfilled_effect = -5
+		fulfilled_effect = 0.001
 		
 		potential = {
 			exists = owner
 			owner = {
-				can_set_robot_policy = yes			
+				can_set_robot_policy = yes
 			}
 		}
 		
@@ -101,11 +147,13 @@ traditionalist = {
 		desc = "TRADITIONALIST_NO_ROBOT_RIGHTS_DESC"
 
 		unfulfilled_effect = -10
+		fulfilled_effect = 0.001
 
 		potential = {
 			exists = owner
 			owner = {
 				can_set_ai_policy = yes
+				NOT = { has_policy_flag = ai_full_rights }
 			}
 		}
 
@@ -122,11 +170,13 @@ traditionalist = {
 		desc = "TRADITIONALIST_NO_FULL_ROBOT_RIGHTS_DESC"
 
 		unfulfilled_effect = -20
+		fulfilled_effect = 0.001
 
 		potential = {
 			exists = owner
 			owner = {
 				can_set_ai_policy = yes
+				has_policy_flag = ai_full_rights
 			}
 		}
 
@@ -165,6 +215,7 @@ traditionalist = {
 		desc = "TRADITIONALIST_NO_TOMB_WORLDS_DESC"
 
 		unfulfilled_effect = -5
+		fulfilled_effect = 0.001
 
 		potential = {
 			exists = owner
@@ -195,11 +246,13 @@ traditionalist = {
 		desc = "TRADITIONALIST_GAIA_WORLDS_DESC"
 
 		fulfilled_effect = 5
+		unfulfilled_effect = -0.001
 
 		potential = {
 			exists = owner
 			owner = {
 				has_surveyed_class = pc_gaia
+				has_ascension_perk = ap_consecrated_worlds
 			}
 		}
 
@@ -244,6 +297,7 @@ traditionalist = {
 		desc = "TRADITIONALIST_PSIONIC_PURSUIT_DESC"
 
 		fulfilled_effect = 10
+		unfulfilled_effect = -0.001
 
 		potential = {
 			host_has_dlc = "Utopia"
@@ -269,6 +323,7 @@ traditionalist = {
 		desc = "TRADITIONALIST_FLESH_IS_STRONG_DESC"
 
 		unfulfilled_effect = -30
+		fulfilled_effect = 0.001
 
 		potential = {
 			exists = owner
@@ -292,6 +347,7 @@ traditionalist = {
 		desc = "TRADITIONALIST_SPIRITUALIST_POPS_DESC"
 
 		fulfilled_effect = 5
+		unfulfilled_effect = -0.001
 
 		potential = {
 			exists = owner
@@ -320,6 +376,7 @@ traditionalist = {
 		desc = "TRADITIONALIST_UNSPIRITUALIST_DESC"
 
 		unfulfilled_effect = -10
+		fulfilled_effect = 0.001
 
 		potential = {
 			exists = owner
@@ -347,6 +404,7 @@ traditionalist = {
 		desc = "TRADITIONALIST_SHROUD_BOON_DESC"
 
 		fulfilled_effect = 5
+		unfulfilled_effect = -0.001
 
 		potential = {
 			exists = owner
@@ -368,6 +426,7 @@ traditionalist = {
 		desc = "TRADITIONALIST_SHROUD_CURSE_DESC"
 
 		fulfilled_effect = -5
+		unfulfilled_effect = 0.001
 
 		potential = {
 			exists = owner
@@ -476,6 +535,11 @@ traditionalist = {
 								is_ai = no
 								is_country_type = default			
 								has_communications = prev
+								has_intel_level = {
+									who = prev
+									category = government
+									level >= 1
+								}
 							}
 							country_event = { id = factions.2000 }
 						}
@@ -596,12 +660,83 @@ traditionalist = {
 				parameter:empire = {
 					has_modifier = suppressed_spiritualist
 				}
+				not = { has_modifier = banned_faction }
 			}
 
 			effect = {
 				remove_modifier = suppressed_faction
 				parameter:empire = {
 					remove_modifier = suppressed_spiritualist
+				}
+			}
+			
+			ai_weight = {
+				base = 0
+			}
+		}
+		ban_faction = {
+			title = "BAN_FACTION"
+			description = "BAN_FACTION_DESC"
+			
+			potential = {
+				exists = owner
+				parameter:empire = { 
+					has_modifier = suppressed_spiritualist
+					is_spiritualist = no
+				}
+				not = { has_modifier = banned_faction }
+			}
+
+			effect = {
+				hidden_effect = {
+					save_event_target_as = MyFaction
+					parameter:empire = {
+						every_owned_pop = {
+							limit = {
+								member_of_faction = event_target:MyFaction
+							}
+							random_list = {
+								10 = {
+									add_modifier = { modifier = pop_faction_banned days = 360 }							
+								}
+								85 = {
+									add_modifier = { modifier = pop_faction_banned days = 720 }
+								}
+								5 = {
+									add_modifier = { modifier = pop_faction_banned days = 1800 }
+								}
+							}
+						}
+					}
+				}
+				add_modifier = { modifier = banned_faction days = 1800 }
+				parameter:empire = {
+					if = {
+						limit = {
+							not = { has_modifier = banned_spiritualist }
+						}
+						add_modifier = { modifier = banned_spiritualist days = -1 }
+					}
+				}
+			}
+			
+			ai_weight = {
+				base = 0
+			}
+		}
+		cancel_ban_faction = {
+			title = "CANCEL_BAN_FACTION"
+			description = "CANCEL_BAN_FACTION_DESC"
+			
+			potential = {
+				exists = owner
+				has_modifier = banned_faction
+			}
+
+			effect = {
+				remove_modifier = banned_faction
+				parameter:empire = {
+					remove_modifier = banned_spiritualist
 				}
 			}
 			

@@ -1,0 +1,65 @@
+# THIS = country
+should_recalculate_former_ruler_country_modifiers = {
+	OR = {
+		has_modifier = former_ruler_admin_bonus
+		has_modifier = former_heir_admin_bonus
+		has_modifier = former_ruler_research_bonus
+		has_modifier = former_heir_research_bonus
+		has_modifier = former_ruler_naval_bonus
+		has_modifier = former_heir_naval_bonus
+		any_owned_leader = {
+			OR = {
+				has_trait = leader_trait_former_ruler_machine_intelligence_governor
+				has_trait = leader_trait_former_ruler_machine_intelligence_admiral
+				has_trait = leader_trait_former_ruler_machine_intelligence_scientist
+				has_trait = leader_trait_former_ruler_hive_governor
+				has_trait = leader_trait_former_ruler_hive_admiral
+				has_trait = leader_trait_former_ruler_governor
+				has_trait = leader_trait_former_ruler_scientist
+				has_trait = leader_trait_former_ruler_admiral
+				has_trait = leader_trait_former_heir_governor
+				has_trait = leader_trait_former_heir_scientist
+				has_trait = leader_trait_former_heir_admiral
+			}
+		}
+	}
+}
+
+# THIS = leader
+has_former_ruler_trait = {
+	OR = {
+		has_trait = leader_trait_former_ruler_machine_intelligence_governor
+		has_trait = leader_trait_former_ruler_machine_intelligence_scientist
+		has_trait = leader_trait_former_ruler_machine_intelligence_admiral
+		has_trait = leader_trait_former_ruler_machine_intelligence_ruler
+		has_ruler_trait = leader_trait_former_ruler_machine_intelligence_ruler
+		has_trait = leader_trait_former_ruler_machine_intelligence_ruler_industrial
+		has_ruler_trait = leader_trait_former_ruler_machine_intelligence_ruler_industrial
+		has_trait = leader_trait_former_ruler_machine_intelligence_ruler_science
+		has_ruler_trait = leader_trait_former_ruler_machine_intelligence_ruler_science
+		has_trait = leader_trait_former_ruler_machine_intelligence_ruler_caretaker
+		has_ruler_trait = leader_trait_former_ruler_machine_intelligence_ruler_caretaker
+		has_trait = leader_trait_former_ruler_hive_governor
+		has_trait = leader_trait_former_ruler_hive_admiral
+		has_trait = leader_trait_former_ruler_hive_ruler
+		has_ruler_trait = leader_trait_former_ruler_hive_ruler
+		has_trait = leader_trait_former_ruler_governor
+		has_trait = leader_trait_former_ruler_scientist
+		has_trait = leader_trait_former_ruler_admiral
+		has_trait = leader_trait_former_ruler_general
+		has_trait = leader_trait_former_ruler_ruler
+		has_ruler_trait = leader_trait_former_ruler_ruler
+	}
+}
+
+# THIS = leader
+has_former_heir_trait = {
+	OR = {
+		has_trait = leader_trait_former_heir_governor
+		has_trait = leader_trait_former_heir_scientist
+		has_trait = leader_trait_former_heir_admiral
+		has_trait = leader_trait_former_heir_general
+		has_trait = leader_trait_former_heir_ruler
+		has_ruler_trait = leader_trait_former_heir_ruler
+	}
+}

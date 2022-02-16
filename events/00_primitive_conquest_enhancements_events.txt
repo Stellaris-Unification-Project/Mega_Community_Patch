@@ -1,0 +1,340 @@
+namespace = primitive_conquest_enhancements
+
+# NB NOTE: after more investigation, this event adds districts and buildings a bit more intelligently,
+# following the example in observation.3009 (which now points here). It also accounts for conquering lithoid
+# primitives, which logically wouldn't have needed farming, and phototrophic/raditrophic  species which need
+# more energy.  The base game has addressed some of these issues, but not the main primitive conquest event.
+# fired by on_primitive_planet_transferred
+# root = planet (after ownership change)
+# from = country, primitive former owner
+planet_event = {
+	id = primitive_conquest_enhancements.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "primitive planet transferred: add districts/buildings to [This.GetName] ([From.GetName]), constructing for the [This.Owner.GetRealName]"
+		from = {
+			save_event_target_as = conquered_primitive_civilization
+			owner_species = { save_event_target_as = conquered_primitive_species }
+		}
+		if = {
+			limit = { uses_district_set = ring_world }
+			if = {
+				limit = { owner = { has_valid_civic = civic_machine_servitor } }
+				set_variable = {
+					which = num_primitive_pops
+					value = trigger:num_pops
+				}
+				while = {
+					limit = {
+						check_variable = {
+							which = num_primitive_pops
+							value > 0
+						}
+					}
+					add_building_if_free = { BUILDING = building_organic_sanctuary }
+					change_variable = {
+						which = num_primitive_pops
+						value = -10
+					}
+				}
+				clear_variable = num_primitive_pops
+			}
+			else = {
+				add_primitive_conquest_rw_urban_district = yes
+				if = {
+					limit = {
+						OR = {
+							num_pops > 5
+							from = { has_bronze_age_or_greater = yes }
+						}
+					}
+					if = {
+						limit = { event_target:conquered_primitive_civilization = { is_lithoid_empire = no } }
+						add_district_if_free = { DISTRICT = district_rw_farming }
+						add_building_if_free = { BUILDING = building_chemical_plant }
+					}
+					else_if = {
+						limit = { owner = { is_gestalt = no } }
+						add_primitive_conquest_rw_urban_district = yes
+						if = {
+							limit = {
+								OR = {
+									num_pops > 11
+									from = { has_renaissance_age_or_greater = yes }
+								}
+							}
+							add_primitive_conquest_unity_building_building_if_free = yes
+							if = {
+								limit = {
+									OR = {
+										num_pops > 15
+										from = { has_steam_age_or_greater = yes }
+									}
+								}
+								add_primitive_conquest_admin_building_if_free = yes
+							}
+						}
+					}
+					if = {
+						limit = {
+							OR = {
+								num_pops > 15
+								from = { has_steam_age_or_greater = yes }
+							}
+						}
+						add_building_if_free = { BUILDING = building_factory_1 }
+						if = {
+							limit = {
+								OR = {
+									num_pops > 20
+									from = { has_industrial_age_or_greater = yes }
+								}
+							}
+							add_building_if_free = { BUILDING = building_foundry_1 }
+							add_building_if_free = { BUILDING = building_research_lab_1 }
+							if = {
+								limit = {
+									OR = {
+										num_pops > 22
+										from = { has_machine_age_or_greater = yes }
+									}
+								}
+								if = {
+									limit = { owner = { is_gestalt = no } }
+									add_district_if_free = { DISTRICT = district_rw_commercial }
+								}
+								else = {
+									add_district_if_free = { DISTRICT = district_rw_generator }
+								}
+								add_building_if_free = { BUILDING = building_crystal_plant }
+							}
+						}
+					}
+				}
+			}
+		}
+		else = {
+			set_variable = {
+				which = count_machine_servitor_urban
+				value = 0
+			}
+			add_primitive_conquest_urban_district = yes
+			add_primitive_conquest_food_district = yes
+			if = {
+				limit = {
+					OR = {
+						num_pops > 5
+						from = { has_bronze_age_or_greater = yes }
+					}
+				}
+				add_primitive_conquest_food_district = yes
+				add_primitive_conquest_mining_district = yes
+				if = {
+					limit = {
+						OR = {
+							num_pops > 9
+							from = { has_iron_age_or_greater = yes }
+						}
+					}
+					add_primitive_conquest_mining_district = yes
+					if = {
+						limit = {
+							OR = {
+								num_pops > 11
+								from = { has_renaissance_age_or_greater = yes }
+							}
+						}
+						add_primitive_conquest_food_district = yes
+						if = {
+							limit = {
+								OR = {
+									num_pops > 15
+									from = { has_steam_age_or_greater = yes }
+								}
+							}
+							add_primitive_conquest_urban_district = yes
+							add_district_if_free = { DISTRICT = district_industrial }
+							if = {
+								limit = {
+									OR = {
+										num_pops > 20
+										from = { has_industrial_age_or_greater = yes }
+									}
+								}
+								add_primitive_conquest_generator_district = yes
+								add_primitive_conquest_generator_district = yes
+								add_district_if_free = { DISTRICT = district_industrial }
+								if = {
+									limit = {
+										OR = {
+											num_pops > 22
+											from = { has_machine_age_or_greater = yes }
+										}
+									}
+									add_building_if_free = { BUILDING = building_research_lab_1 }
+									if = {
+										limit = {
+											OR = {
+												num_pops > 24
+												from = { has_atomic_age_or_greater = yes }
+											}
+										}
+										add_primitive_conquest_urban_district = yes
+										if = {
+											limit = {
+												OR = {
+													num_pops > 26
+													from = { has_early_space_age_or_greater = yes }
+												}
+											}
+											add_primitive_conquest_unity_building_building_if_free = yes
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			clear_variable = count_machine_servitor_urban
+		}
+	}
+}
+
+# triggered by on_destroy_planet_with_PLANET_KILLER_NANOBOT
+# fires on_primitive_planet_transferring before the Nanobot Diffuser activates
+# this = planet that has been fired upon
+# from = fleet that fired
+planet_event = {
+	id = primitive_conquest_enhancements.20
+	hide_window = yes
+	is_triggered_only = yes
+	pre_triggers = {
+		has_owner = yes
+	}
+	trigger = {
+		num_pops > 0
+		owner = { is_country_type = primitive }
+	}
+	immediate = {
+		owner = {
+			set_country_flag = colossus_transfer@prev
+			set_country_flag = nanobot_assimilated@prev
+		}
+		fire_on_action = {
+			on_action = on_primitive_planet_transferring
+			scopes = {
+				from = from.owner
+			}
+		}
+	}
+}
+
+# triggered by on_destroy_planet_with_PLANET_KILLER_NANOBOT
+# fires on_primitive_planet_transfered after the Nanobot Diffuser has been activated
+# this = planet that has been fired upon
+# from = fleet that fired
+planet_event = {
+	id = primitive_conquest_enhancements.21
+	hide_window = yes
+	is_triggered_only = yes
+	pre_triggers = {
+		has_owner = yes
+	}
+	trigger = {
+		any_country = {
+			is_country_type = primitive
+			has_country_flag = colossus_transfer@prev
+			has_country_flag = nanobot_assimilated@prev
+			capital_scope = { is_planet = prevprev }
+		}
+	}
+	immediate = {
+		random_country = {
+			limit = {
+				is_country_type = primitive
+				has_country_flag = colossus_transfer@prev
+				has_country_flag = nanobot_assimilated@prev
+				capital_scope = { is_planet = prevprev }
+			}
+			save_event_target_as = former_owner
+		}
+		fire_on_action = {
+			on_action = on_primitive_planet_transferred
+			scopes = {
+				from = event_target:former_owner
+			}
+		}
+	}
+}
+
+# triggerd by on_destroy_planet_with_PLANET_KILLER_DELUGE
+# fires on_primitive_planet_transferring before the Deluge Machine activates
+# this = planet that has been fired upon
+# from = fleet that fired
+planet_event = {
+	id = primitive_conquest_enhancements.30
+	hide_window = yes
+	is_triggered_only = yes
+	pre_triggers = {
+		has_owner = yes
+	}
+	trigger = {
+		num_pops > 0
+		owner = { is_country_type = primitive }
+		any_owned_species = { has_trait = trait_aquatic }
+	}
+	immediate = {
+		owner = {
+			set_country_flag = colossus_transfer@prev
+			set_country_flag = orbitally_drenched@prev
+		}
+		fire_on_action = {
+			on_action = on_primitive_planet_transferring
+			scopes = {
+				from = from.owner
+			}
+		}
+	}
+}
+
+# triggered by on_destroy_planet_with_PLANET_KILLER_DELUGE
+# fires on_primitive_planet_transfered after the Deluge Machine has been activated
+# this = planet that have been fired upon
+# from = fleet that fired
+planet_event = {
+	id = primitive_conquest_enhancements.31
+	hide_window = yes
+	is_triggered_only = yes
+	pre_triggers = {
+		has_owner = yes
+	}
+	trigger = {
+		num_pops > 0
+		any_owned_species = { has_trait = trait_aquatic }
+		any_country = {
+			is_country_type = primitive
+			has_country_flag = colossus_transfer@prev
+			has_country_flag = orbitally_drenched@prev
+			capital_scope = { is_planet = prevprev }
+		}
+	}
+	immediate = {
+		random_country = {
+			limit = {
+				is_country_type = primitive
+				has_country_flag = colossus_transfer@prev
+				has_country_flag = orbitally_drenched@prev
+				capital_scope = { is_planet = prevprev }
+			}
+			save_event_target_as = former_owner
+		}
+		fire_on_action = {
+			on_action = on_primitive_planet_transferred
+			scopes = {
+				from = event_target:former_owner
+			}
+		}
+	}
+}

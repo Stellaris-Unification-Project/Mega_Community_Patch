@@ -1,0 +1,4 @@
+﻿l_english:
+ any_galaxy_species_trigger: "Any Species in the Galaxy"
+ military_service_full_tooltip: "[From.GetMilitaryServiceFullTooltip]"
+ military_service_full_tooltip_delayed: "[From.GetMilitaryServiceFullTooltipDelayed]"

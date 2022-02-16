@@ -12,6 +12,10 @@ supremacist = {
 	resources = {
 		category = pop_factions
 		produces = {
+			trigger = {
+				owner = { years_passed > 10
+				has_encountered_other_species = yes }
+			}
 			influence = 2
 		}
 	}
@@ -22,6 +26,7 @@ supremacist = {
 		NOR = {
 			has_ethic = ethic_gestalt_consciousness
 			has_country_flag = suppress_vanilla_factions
+			has_modifier = banned_xenophobe2
 		}
 	}
 
@@ -55,6 +60,14 @@ supremacist = {
 	attraction = {
 		base = 100
 
+		modifier = {
+			factor = 0
+			exists = from
+			from = {
+				has_modifier = banned_faction
+			}
+		}
+		
 		modifier = {
 			factor = 1.25
 			exists = from
@@ -744,6 +757,7 @@ supremacist = {
 			potential = {
 				exists = owner
 				parameter:empire = { has_modifier = suppressed_xenophobe }
+				not = { has_modifier = banned_faction }
 			}
 
 			effect = {
@@ -758,7 +772,77 @@ supremacist = {
 					}
 				}
 			}
+			
+			ai_weight = {
+				base = 0
+			}
+		}
+		ban_faction = {
+			title = "BAN_FACTION"
+			description = "BAN_FACTION_DESC"
+			
+			potential = {
+				exists = owner
+				parameter:empire = { 
+					has_modifier = suppressed_xenophobe
+					is_xenophobe = no
+				}
+				not = { has_modifier = banned_faction }
+			}
 
+			effect = {
+				hidden_effect = {
+					save_event_target_as = MyFaction
+					parameter:empire = {
+						every_owned_pop = {
+							limit = {
+								member_of_faction = event_target:MyFaction
+							}
+							random_list = {
+								10 = {
+									add_modifier = { modifier = pop_faction_banned days = 360 }							
+								}
+								85 = {
+									add_modifier = { modifier = pop_faction_banned days = 720 }
+								}
+								5 = {
+									add_modifier = { modifier = pop_faction_banned days = 1800 }
+								}
+							}
+						}
+					}
+				}
+				add_modifier = { modifier = banned_faction days = 1800 }
+				parameter:empire = {
+					if = {
+						limit = {
+							not = { has_modifier = banned_xenophobe2 }
+						}
+						add_modifier = { modifier = banned_xenophobe2 days = -1 }
+					}
+				}
+			}
+			
+			ai_weight = {
+				base = 0
+			}
+		}
+		cancel_ban_faction = {
+			title = "CANCEL_BAN_FACTION"
+			description = "CANCEL_BAN_FACTION_DESC"
+			
+			potential = {
+				exists = owner
+				has_modifier = banned_faction
+			}
+
+			effect = {
+				remove_modifier = banned_faction
+				parameter:empire = {
+					remove_modifier = banned_xenophobe2
+				}
+			}
+			
 			ai_weight = {
 				base = 0
 			}

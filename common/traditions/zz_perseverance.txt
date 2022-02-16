@@ -1,0 +1,16 @@
+tr_est_perseverance_finish = {
+	modifier = {	
+		leader_age = 20
+		ascension_perks_add = 1
+	}
+	
+	tradition_swap = {
+		name = tr_est_perseverance_finish_machines
+		trigger = { is_machine_empire = yes }	
+		modifier = {		
+			ship_hull_mult = 0.15
+			ascension_perks_add = 1
+		}
+		weight = { factor = 1 }
+	}
+}

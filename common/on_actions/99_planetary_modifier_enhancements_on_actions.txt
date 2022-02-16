@@ -1,0 +1,14 @@
+# fires when the game starts
+on_game_start = {
+	events = {
+		planetary_modifier_enhancements.13
+		planetary_modifier_enhancements.1
+	}
+}
+
+# fired when loading a single-player game
+on_single_player_save_game_load = {
+	events = {
+		planetary_modifier_enhancements.13 # flag mod as installed
+	}
+}

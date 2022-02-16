@@ -1,0 +1,212 @@
+inmate = {
+	rank = 0
+	clothes_texture_index = 2
+	display_category = worker
+	change_job_threshold = 1.15
+	demotion_time = 0
+	display_unemployment = no
+	assign_to_pop = {
+		is_sapient = yes
+		NOR = {
+			has_job_category = ruler
+			has_job = enforcer
+			has_job = telepath
+			has_job = soldier
+		}
+		exists = planet
+		planet = {
+			OR = {
+				has_designation = col_penal
+				has_modifier = penal_colony
+			}
+		}
+		exists = owner
+		owner = { is_gestalt = no }
+	}
+	weight = { weight = 13 }
+	# these resettlement settings attempt to duplicate the base costs for their respective categories
+	allow_resettlement = { NOT = { has_job = criminal } }
+	resettlement_cost = {
+		trigger = { has_job_category = specialist }
+		energy = 250
+	}
+	resettlement_cost = {
+		trigger = { has_job_category = worker }
+		energy = 100
+	}
+	resettlement_cost = {
+		trigger = { has_job_category = slave }
+		energy = 50
+	}
+	resettlement_cost = {
+		trigger = {
+			has_job_category = specialist
+			exists = owner
+			owner = { NOT = { has_valid_civic = civic_corvee_system } }
+		}
+		influence = 25
+	}
+	resettlement_cost = {
+		trigger = {
+			has_job_category = worker
+			exists = owner
+			owner = { NOT = { has_valid_civic = civic_corvee_system } }
+		}
+		influence = 10
+	}
+	pop_modifier = {
+		pop_happiness = -0.25
+		pop_political_power = -0.75
+		pop_housing_usage_base = 0.75
+		pop_amenities_usage_base = 0.75
+		# inmates are forced to work harder, like chattel slaves
+		planet_jobs_productive_produces_mult = 0.1
+		# but they have a big penalty to research due to communications restrictions and lack of information clearance
+		planet_jobs_physics_research_produces_mult = -0.9
+		planet_jobs_society_research_produces_mult = -0.9
+		planet_jobs_engineering_research_produces_mult = -0.9
+	}
+	triggered_pop_modifier = {
+		potential = {
+			exists = planet
+			planet = { has_modifier = bleak_planet }
+		}
+		pop_happiness = -0.05
+	}
+	triggered_pop_modifier = {
+		potential = {
+			NOR = {
+				ideal_planet_class = pc_nuked
+				has_trait = trait_pc_nuked_preference
+				has_trait = trait_survivor
+				has_trait = trait_plantoid_radiotrophic
+				has_trait = trait_harvested_radiotrophic
+				has_trait = trait_presapient_irradiated
+			}
+			exists = planet
+			planet = { is_planet_class = pc_nuked }
+		}
+		pop_happiness = -0.05
+	}
+	triggered_planet_modifier = {
+		potential = { always = yes }
+		planet_crime_add = 4
+	}
+	triggered_planet_modifier = {
+		potential = { is_unemployed = yes }
+		# unemployed inmates do crime - but unemployment_penalty is only Pops scope
+		planet_crime_add = 4
+		trade_value_add = -5
+		branch_office_criminal_syndicate_value_add = 5
+	}
+	triggered_planet_modifier = {
+		potential = { can_assemble_budding_pop = yes }
+		planet_pop_assembly_organic_add = @plantoid_budding_rate
+	}
+	# intentionally ignores special living standard policy effects
+	should_apply_unemployment_penalties = { always = yes }
+	resources = {
+		category = pop_category_inmates
+
+		# Luxuries Upkeep (based on built-in worker strata)
+		upkeep = {
+			trigger = { has_shared_burden_living_standard_type = yes }
+			consumer_goods = @living_standard_luxuries_shared_burden
+		}
+		upkeep = {
+			trigger = { has_very_high_living_standard_type = yes }
+			consumer_goods = @living_standard_luxuries_very_high
+		}
+		upkeep = {
+			trigger = { has_high_living_standard_type = yes }
+			consumer_goods = @living_standard_luxuries_high
+		}
+		upkeep = {
+			trigger = {
+				OR = {
+					has_normal_living_standard_type = yes
+					has_academic_living_standard_type = yes
+					has_decadent_living_standard_type = yes
+				}
+			}
+			consumer_goods = @living_standard_luxuries_normal
+		}
+		upkeep = {
+			trigger = { has_stratified_living_standard_type = yes }
+			consumer_goods = @living_standard_luxuries_low
+		}
+		upkeep = {
+			trigger = { has_low_living_standard_type = yes }
+			consumer_goods = @living_standard_luxuries_very_low
+		}
+
+		# Organic Upkeep
+		upkeep = {
+			trigger = { has_phototrophic_energy_upkeep = yes }
+			energy = @living_standard_phototrophic_normal
+		}
+		upkeep = {
+			trigger = {
+				is_organic_species = yes
+				is_phototrophic = no
+				is_lithoid = no
+				OR = {
+					has_very_high_living_standard_type = yes
+					has_high_living_standard_type = yes
+				}
+			}
+			food = @living_standard_food_normal
+		}
+		upkeep = {
+			trigger = { is_phototrophic = yes }
+			food = @living_standard_phototrophic_normal
+		}
+
+		# Lithoid Upkeep
+		upkeep = {
+			trigger = {
+				is_organic_species = yes
+				is_lithoid = yes
+			}
+			minerals = @living_standard_food_normal
+		}
+
+		# Robotic Upkeep
+		upkeep = {
+			trigger = { is_robotic_species = yes }
+			energy = @living_standard_energy_normal
+		}
+
+		# Lithoid Trait Production
+		produces = {
+			trigger = {
+				is_lithoid = yes
+				has_trait = trait_lithoid_scintillating
+			}
+			rare_crystals = @lithoid_trait_resource_production
+		}
+		produces = {
+			trigger = {
+				is_lithoid = yes
+				has_trait = trait_lithoid_gaseous_byproducts
+			}
+			exotic_gases = @lithoid_trait_resource_production
+		}
+		produces = {
+			trigger = {
+				is_lithoid = yes
+				has_trait = trait_lithoid_volatile_excretions
+			}
+			volatile_motes = @lithoid_trait_resource_production
+		}
+
+		# Police State Production
+		produces = {
+			trigger = {
+				exists = owner
+				owner = { has_valid_civic = civic_police_state }
+			}
+			unity = 1
+		}
+	}
+}

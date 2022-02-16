@@ -1,0 +1,382 @@
+# this = planet
+# DISTRICT = the district type to add
+add_district_if_free = {
+	if = {
+		limit = {
+			num_free_districts = {
+				type = $DISTRICT$
+				value > 0
+			}
+		}
+		add_district = $DISTRICT$
+	}
+	else_if = {
+		limit = { free_district_slots > 0 }
+		add_deposit_for_district = { DISTRICT = $DISTRICT$ }
+	}
+}
+
+# this = planet
+add_building_if_free = {
+	if = {
+		limit = { free_building_slots > 0 }
+		add_building = $BUILDING$
+	}
+}
+
+# this = planet
+# DISTRICT = the district for which to potentially add a deposit supports the built-in planet classes that have district-limiting deposits
+add_deposit_for_district = {
+	add_district = {
+		district_type = $DISTRICT$
+		ignore_cap = yes
+	}
+	if = {
+		limit = {
+			num_free_districts = {
+				type = district_generator
+				value < 0
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					is_cold = yes
+					is_wet = yes
+					is_planet_class = pc_nuked
+				}
+			}
+			add_deposit = d_hot_springs
+		}
+		else_if = {
+			limit = { is_dry = yes }
+			add_deposit = d_arid_highlands
+		}
+		else_if = {
+			limit = { is_planet_class = pc_gaia }
+			add_deposit = d_buzzing_plains
+		}
+		else = {
+			remove_last_built_district = yes
+		}
+	}
+	else_if = {
+		limit = {
+			num_free_districts = {
+				type = district_mining
+				value < 0
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					is_planet_class = pc_alpine
+					is_planet_class = pc_arctic
+					is_planet_class = pc_arid
+					is_planet_class = pc_continental
+					is_planet_class = pc_nuked
+				}
+			}
+			add_deposit = d_veiny_cliffs
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_planet_class = pc_tropical
+					is_planet_class = pc_savannah
+					is_planet_class = pc_desert
+					is_planet_class = pc_ocean
+					is_planet_class = pc_tundra
+				}
+			}
+			add_deposit = d_mineral_fields
+		}
+		else_if = {
+			limit = { is_planet_class = pc_gaia }
+			add_deposit = d_mineral_striations
+		}
+		else = {
+			remove_last_built_district = yes
+		}
+	}
+	else_if = {
+		limit = {
+			num_free_districts = {
+				type = district_farming
+				value < 0
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					is_planet_class = pc_nuked
+					is_planet_class = pc_arctic
+				}
+			}
+			add_deposit = d_lichen_fields
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_planet_class = pc_arid
+					is_planet_class = pc_savannah
+				}
+			}
+			add_deposit = d_bountiful_plains
+		}
+		else_if = {
+			limit = { is_planet_class = pc_continental }
+			add_deposit = d_rugged_woods
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_planet_class = pc_ocean
+					is_planet_class = pc_tropical
+				}
+			}
+			add_deposit = d_green_hills
+		}
+		else_if = {
+			limit = {
+				OR = {
+					is_planet_class = pc_alpine
+					is_planet_class = pc_tundra
+				}
+			}
+			add_deposit = d_forgiving_tundra
+		}
+		else_if = {
+			limit = { is_planet_class = pc_desert }
+			add_deposit = d_nutritious_mudland
+		}
+		else_if = {
+			limit = { is_planet_class = pc_gaia }
+			add_deposit = d_natural_farmland
+		}
+		else = {
+			remove_last_built_district = yes
+		}
+	}
+	else = {
+		remove_last_built_district = yes
+	}
+}
+
+# this = planet
+add_primitive_conquest_rw_urban_district = {
+	if = {
+		limit = { owner = { is_machine_empire = yes  } }
+		add_district_if_free = { DISTRICT = district_rw_nexus }
+	}
+	else_if = {
+		limit = { owner = { is_hive_empire = yes } }
+		add_district_if_free = { DISTRICT = district_rw_hive }
+	}
+	else = {
+		add_district_if_free = { DISTRICT = district_rw_city }
+	}
+}
+
+# this = planet
+# count_machine_servitor_urban is a variable in the planet scope - rogue servitors get organic sanctuaries if the value is zero or even
+add_primitive_conquest_urban_district = {
+	if = {
+		limit = { owner = { is_machine_empire = yes } }
+		if = { 
+			limit = {
+				owner = { has_valid_civic = civic_machine_servitor }
+				is_variable_set = count_machine_servitor_urban
+				check_variable_arithmetic = {
+					which = count_machine_servitor_urban
+					modulo = 2
+					value = 0
+				}
+			}
+			add_building_if_free = { BUILDING = building_organic_sanctuary }
+		}
+		else = {
+			add_district_if_free = { DISTRICT = district_nexus }
+		}
+		if = {
+			limit = { is_variable_set = count_machine_servitor_urban }
+			change_variable = {
+				which = count_machine_servitor_urban
+				value = 1
+			}
+		}
+	}
+	else_if = {
+		limit = { owner = { is_hive_empire = yes } }
+		add_district_if_free = { DISTRICT = district_hive }
+	}
+	else = {
+		add_district_if_free = { DISTRICT = district_city }
+	}
+}
+
+# this = planet
+# event_target:conquered_primitive_civilization should be country
+add_primitive_conquest_food_district = {
+	if = {
+		limit = { event_target:conquered_primitive_civilization = { is_lithoid_empire = yes } }
+		add_primitive_conquest_mining_district = yes
+	}
+	else_if = {
+		limit = {
+			event_target:conquered_primitive_species = { is_phototrophic = yes }
+			num_districts = {
+				type = district_farming
+				value >= 2
+			}
+		}
+		add_primitive_conquest_generator_district = yes
+	}
+	else = {
+		add_primitive_conquest_farming_district = yes
+	}
+}
+
+# this = planet
+add_primitive_conquest_mining_district = {
+	if = {
+		limit = {
+			OR = {
+				uses_district_set = shattered_ring_world
+				uses_district_set = hive_world
+				uses_district_set = machine_world
+			}
+		}
+		add_district_if_free = { DISTRICT = district_mining_uncapped }
+	}
+	else = {
+		add_district_if_free = { DISTRICT = district_mining }
+	}
+}
+
+# this = planet
+add_primitive_conquest_generator_district = {
+	if = {
+		limit = {
+			uses_district_set = shattered_ring_world
+			owner = {
+				is_gestalt = no
+				is_fallen_empire = no
+			}
+		}
+		add_district_if_free = { DISTRICT = district_srw_commercial }
+	}
+	else_if = {
+		limit = {
+			OR = {
+				uses_district_set = hive_world
+				uses_district_set = machine_world
+				uses_district_set = shattered_ring_world
+			}
+		}
+		add_district_if_free = { DISTRICT = district_generator_uncapped }
+	}
+	else = {
+		add_district_if_free = { DISTRICT = district_generator }
+	}
+}
+
+# this = planet
+add_primitive_conquest_farming_district = {
+	if = {
+		limit = {
+			OR = {
+				uses_district_set = hive_world
+				uses_district_set = shattered_ring_world
+				AND = {
+					is_planet_class = pc_ocean
+					owner = { is_anglers_empire = yes }
+				}
+			}
+		}
+		add_district_if_free = { DISTRICT = district_farming_uncapped }
+	}
+	else = {
+		add_district_if_free = { DISTRICT = district_farming }
+	}
+}
+
+# this = planet
+add_primitive_conquest_admin_building_if_free = {
+	if = {
+		limit = { owner = { is_machine_empire = yes } }
+		add_building_if_free = { BUILDING = building_uplink_node }
+	}
+	else_if = {
+		limit = { owner = { is_hive_empire = yes } }
+		add_building_if_free = { BUILDING = building_hive_node }
+	}
+	else = {
+		add_building_if_free = { BUILDING = building_bureaucratic_1 }
+	}
+}
+
+# this = planet
+add_primitive_conquest_security_building_if_free = {
+	if = {
+		limit = { owner = { is_gestalt = no } }
+		add_building_if_free = { BUILDING = building_precinct_house }
+	}
+	else = {
+		add_building_if_free = { BUILDING = building_sentinel_posts }
+	}
+}
+
+# this = planet
+add_primitive_conquest_unity_building_building_if_free = {
+	if = {
+		limit = { owner = { is_machine_empire = yes } }
+		if = {
+			limit = { owner = { has_valid_civic = civic_machine_memorialist } }
+			add_building_if_free = { BUILDING = building_galactic_memorial_1 }
+		}
+		else = {
+			add_building_if_free = { BUILDING = building_simulation_1 }
+		}
+	}
+	else_if = {
+		limit = { owner = { is_hive_empire = yes } }
+		if = {
+			limit = { owner = { has_valid_civic = civic_hive_memorialist } }
+			add_building_if_free = { BUILDING = building_galactic_memorial_1 }
+		}
+		else = {
+			add_building_if_free = { BUILDING = building_hive_node }
+		}
+	}
+	else = {
+		if = {
+			limit = { owner = { is_spiritualist = yes } }
+			if = {
+				limit = {
+					owner = {
+						OR = {
+							has_valid_civic = civic_death_cult
+							has_valid_civic = civic_death_cult_corporate
+						}
+					}
+				}
+				add_building_if_free = { BUILDING = building_sacrificial_temple_1 }
+			}
+			else = {
+				add_building_if_free = { BUILDING = building_temple }
+			}
+		}
+		else_if = {
+			limit = { owner = { has_valid_civic = civic_memorialist } }
+			add_building_if_free = { BUILDING = building_galactic_memorial_1 }
+		}
+		else_if = {
+			limit = { owner = { is_megacorp = yes } }
+			add_building_if_free = { BUILDING = building_corporate_monument }
+		}
+		else = {
+			add_building_if_free = { BUILDING = building_autochthon_monument }
+		}
+	}
+}

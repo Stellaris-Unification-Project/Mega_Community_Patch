@@ -1,0 +1,1485 @@
+namespace = GalaxyBankEvents
+
+event = {# Create Bank Country
+	id = GalaxyBankEvents.0
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = { 
+		NOT = { any_country = { is_country_type = galaxy_bank_home } }
+		OR = {
+			AND = { years_passed >= 0 has_global_flag = galaxy_bank_delay_immediate }
+			AND = { years_passed >= 5 has_global_flag = galaxy_bank_delay_05 }
+			AND = { years_passed >= 10 has_global_flag = galaxy_bank_delay_10 }
+			AND = { years_passed >= 25 has_global_flag = galaxy_bank_delay_25 }
+			AND = { years_passed >= 50 has_global_flag = galaxy_bank_delay_50 }
+			AND = { years_passed >= 100 has_global_flag = galaxy_bank_delay_100 }
+		}
+	}
+	immediate = {
+		create_species = {
+			name = random
+			class = random_non_machine
+			portrait = random
+			traits = random
+		}
+		random_country = {
+			create_country = {
+				name = "Global Galaxy Bank"
+				type = galaxy_bank_home
+				species = last_created_species
+				civics = { civic = civic_galaxy_bank }
+				authority = auth_corporate
+				flag = random
+				name_list = "BANK"
+			}
+			last_created_country = { save_global_event_target_as = bank_country randomize_flag_symbol = "corporate" }
+			every_country = { establish_communications = event_target:bank_country }
+			every_playable_country = { limit = { is_ai = no } country_event = { id = GalaxyBankEvents.1 } }
+		}
+	}
+}
+
+country_event = {# Initialize Variables for Every Countries
+	id = GalaxyBankEvents.1
+	title = GalaxyBankEvents.1.Name
+	desc = GalaxyBankEvents.1.Desc
+	picture = GFX_evt_city_planet
+	show_sound = event_cityscape
+	is_triggered_only = yes
+	trigger = {}
+	immediate = {
+		set_variable = { which = galaxy_bank_energy_var value = 2500 }
+		set_variable = { which = galaxy_bank_mineral_var value = 2500 }
+		set_variable = { which = galaxy_bank_food_var value = 1250 }
+		set_variable = { which = galaxy_bank_consumer_var value = 500 }
+		set_variable = { which = galaxy_bank_alloy_var value = 300 }
+		set_variable = { which = galaxy_bank_actions_var value = 0 }
+		set_variable = { which = galaxy_bank_millenium_ticket_var value = 0 }
+		set_variable = { which = galaxy_bank_loans_var value = 0 }
+	}
+	option = { name = "Establish Communications" hidden_effect = { country_event = { id = GalaxyBankEvents.2 } } }
+}
+
+country_event = {# Intro Message
+	id = GalaxyBankEvents.2
+	title = Galaxy.Bank.Title
+	desc = GalaxyBankEvents.2.Desc
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	option = { custom_gui = "enclave_trader_option" name = "Let's See That!" hidden_effect = { country_event = { id = GalaxyBankEvents.100 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Bye" }
+}
+
+### Initialiser
+# if multiplayer -> spawn engine with default settings (50 years)
+# if not multiplayer -> show menu and let user decide
+event = {
+	id = GalaxyBankEvents.10
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = { limit = { is_multiplayer = yes } set_global_flag = galaxy_bank_delay_50 }
+		else_if = { limit = { is_multiplayer = no } random_playable_country = { limit = { is_ai = no } country_event = { id = GalaxyBankEvents.11 } } }
+	}
+}
+
+country_event = {
+	id = GalaxyBankEvents.11
+	title = GalaxyBankEvents.11.Name
+	desc = GalaxyBankEvents.11.Desc
+	picture = GFX_evt_city_planet
+	show_sound = event_cityscape
+	is_triggered_only = yes
+	trigger = { is_multiplayer = no }
+	immediate = {}
+	option = { name = GalaxyBankEvents.11.Immediate set_global_flag = galaxy_bank_delay_immediate hidden_effect = { country_event = { id = GalaxyBankEvents.0 } } }
+	option = { name = GalaxyBankEvents.11.Five set_global_flag = galaxy_bank_delay_05 }
+	option = { name = GalaxyBankEvents.11.Ten set_global_flag = galaxy_bank_delay_10 }
+	option = { name = GalaxyBankEvents.11.TwentyFive set_global_flag = galaxy_bank_delay_25 }
+	option = { name = GalaxyBankEvents.11.Fifty set_global_flag = galaxy_bank_delay_50 }
+	option = { name = GalaxyBankEvents.11.Hundread set_global_flag = galaxy_bank_delay_100 }
+}
+
+event = { # 5 Years Taxes or Profits
+	id = GalaxyBankEvents.50
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_country = {
+			limit = {
+				OR = {
+					check_variable = { which = "galaxy_bank_energy_var" value > 0 }
+					check_variable = { which = "galaxy_bank_mineral_var" value > 0 }
+					check_variable = { which = "galaxy_bank_food_var" value > 0 }
+					check_variable = { which = "galaxy_bank_consumer_var" value > 0 }
+					check_variable = { which = "galaxy_bank_alloy_var" value > 0 }
+				}
+			}
+			if = { 
+				limit = { check_variable = { which = galaxy_bank_actions_var value <= 0 } }
+				multiply_variable = { which = "galaxy_bank_energy_var" value = 0.90 }
+				multiply_variable = { which = "galaxy_bank_mineral_var" value = 0.90 }
+				multiply_variable = { which = "galaxy_bank_food_var" value = 0.90 }
+				multiply_variable = { which = "galaxy_bank_consumer_var" value = 0.90 }
+				multiply_variable = { which = "galaxy_bank_alloy_var" value = 0.90 }
+			}
+			else_if = { 
+				limit = { check_variable = { which = galaxy_bank_actions_var value = 1 } }
+				multiply_variable = { which = "galaxy_bank_energy_var" value = 1.00 }
+				multiply_variable = { which = "galaxy_bank_mineral_var" value = 1.00 }
+				multiply_variable = { which = "galaxy_bank_food_var" value = 1.00 }
+				multiply_variable = { which = "galaxy_bank_consumer_var" value = 1.00 }
+				multiply_variable = { which = "galaxy_bank_alloy_var" value = 1.00 }
+			}
+			else_if = { 
+				limit = { check_variable = { which = galaxy_bank_actions_var value = 5 } }
+				multiply_variable = { which = "galaxy_bank_energy_var" value = 1.05 }
+				multiply_variable = { which = "galaxy_bank_mineral_var" value = 1.05 }
+				multiply_variable = { which = "galaxy_bank_food_var" value = 1.05 }
+				multiply_variable = { which = "galaxy_bank_consumer_var" value = 1.05 }
+				multiply_variable = { which = "galaxy_bank_alloy_var" value = 1.05 }
+			}
+			else_if = { 
+				limit = { check_variable = { which = galaxy_bank_actions_var value = 10 } }
+				multiply_variable = { which = "galaxy_bank_energy_var" value = 1.10 }
+				multiply_variable = { which = "galaxy_bank_mineral_var" value = 1.10 }
+				multiply_variable = { which = "galaxy_bank_food_var" value = 1.10 }
+				multiply_variable = { which = "galaxy_bank_consumer_var" value = 1.10 }
+				multiply_variable = { which = "galaxy_bank_alloy_var" value = 1.10 }
+			}
+			else_if = { 
+				limit = { check_variable = { which = galaxy_bank_actions_var value = 25 } }
+				multiply_variable = { which = "galaxy_bank_energy_var" value = 1.20 }
+				multiply_variable = { which = "galaxy_bank_mineral_var" value = 1.20 }
+				multiply_variable = { which = "galaxy_bank_food_var" value = 1.20 }
+				multiply_variable = { which = "galaxy_bank_consumer_var" value = 1.20 }
+				multiply_variable = { which = "galaxy_bank_alloy_var" value = 1.20 }
+			}
+			else_if = { 
+				limit = { check_variable = { which = galaxy_bank_actions_var value = 35 } }
+				multiply_variable = { which = "galaxy_bank_energy_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_mineral_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_food_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_consumer_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_alloy_var" value = 1.30 }
+			}
+		}
+	}
+}
+
+event = { # 2 Years Profits
+	id = GalaxyBankEvents.51
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_country = {
+			limit = {
+				OR = {
+					check_variable = { which = "galaxy_bank_energy_var" value > 0 }
+					check_variable = { which = "galaxy_bank_mineral_var" value > 0 }
+					check_variable = { which = "galaxy_bank_food_var" value > 0 }
+					check_variable = { which = "galaxy_bank_consumer_var" value > 0 }
+					check_variable = { which = "galaxy_bank_alloy_var" value > 0 }
+				}
+			}
+			if = {
+				limit = { check_variable = { which = galaxy_bank_actions_var value = 50 } }
+				multiply_variable = { which = "galaxy_bank_energy_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_mineral_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_food_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_consumer_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_alloy_var" value = 1.30 }
+			}
+		}
+	}
+}
+
+event = { # Year Profits
+	id = GalaxyBankEvents.52
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_country = {
+			limit = {
+				OR = {
+					check_variable = { which = "galaxy_bank_energy_var" value > 0 }
+					check_variable = { which = "galaxy_bank_mineral_var" value > 0 }
+					check_variable = { which = "galaxy_bank_food_var" value > 0 }
+					check_variable = { which = "galaxy_bank_consumer_var" value > 0 }
+					check_variable = { which = "galaxy_bank_alloy_var" value > 0 }
+				}
+			}
+			if = {
+				limit = { check_variable = { which = galaxy_bank_actions_var value = 75 } }
+				multiply_variable = { which = "galaxy_bank_energy_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_mineral_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_food_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_consumer_var" value = 1.30 }
+				multiply_variable = { which = "galaxy_bank_alloy_var" value = 1.30 }
+			}
+			else_if = {
+				limit = { check_variable = { which = galaxy_bank_actions_var value = 90 } }
+				multiply_variable = { which = "galaxy_bank_energy_var" value = 1.50 }
+				multiply_variable = { which = "galaxy_bank_mineral_var" value = 1.50 }
+				multiply_variable = { which = "galaxy_bank_food_var" value = 1.50 }
+				multiply_variable = { which = "galaxy_bank_consumer_var" value = 1.50 }
+				multiply_variable = { which = "galaxy_bank_alloy_var" value = 1.50 }
+			}
+			else_if = {
+				limit = { check_variable = { which = galaxy_bank_actions_var value = 100 } }
+				multiply_variable = { which = "galaxy_bank_energy_var" value = 1.75 }
+				multiply_variable = { which = "galaxy_bank_mineral_var" value = 1.75 }
+				multiply_variable = { which = "galaxy_bank_food_var" value = 1.75 }
+				multiply_variable = { which = "galaxy_bank_consumer_var" value = 1.75 }
+				multiply_variable = { which = "galaxy_bank_alloy_var" value = 1.75 }
+			}
+			if = { limit = { check_variable = { which = "galaxy_bank_energy_var" value <= -1000000 } } set_variable = { which = "galaxy_bank_energy_var" value = 2147483.647 } }
+			if = { limit = { check_variable = { which = "galaxy_bank_mineral_var" value <= -1000000 } } set_variable = { which = "galaxy_bank_mineral_var" value = 2147483.647 } }
+			if = { limit = { check_variable = { which = "galaxy_bank_food_var" value <= -1000000 } } set_variable = { which = "galaxy_bank_food_var" value = 2147483.647 } }
+			if = { limit = { check_variable = { which = "galaxy_bank_consumer_var" value <= -1000000 } } set_variable = { which = "galaxy_bank_consumer_var" value = 2147483.647 } }
+			if = { limit = { check_variable = { which = "galaxy_bank_alloy_var" value <= -1000000 } } set_variable = { which = "galaxy_bank_alloy_var" value = 2147483.647 } }
+			if = { limit = { check_variable = { which = "galaxy_bank_loans_var" value <= -1000000 } } set_variable = { which = "galaxy_bank_loans_var" value = 2147483.647 } }
+		}
+	}
+}
+
+country_event = {# Communication to Main Menu
+	id = GalaxyBankEvents.99
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = { FROM = { is_country_type = galaxy_bank_home } }
+	immediate = { 
+		if = { limit = { has_country_flag = galaxy_bank_no_communication } country_event = { id = GalaxyBankEvents.1000 } }
+		else_if = { limit = { has_country_flag = galaxy_bank_loan_cant NOT = { has_country_flag = galaxy_bank_no_communication } } country_event = { id = GalaxyBankEvents.133 } }
+		else_if = { limit = { NOR = { has_country_flag = galaxy_bank_no_communication has_country_flag = galaxy_bank_loan_cant } } country_event = { id = GalaxyBankEvents.100 } }
+	}
+}
+
+country_event = {# Main Menu
+	id = GalaxyBankEvents.100
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = {
+		trigger = {
+			text = Galaxy.Bank.Welcome
+			text = newline
+			text = Galaxy.Bank.Desc
+			text = newline
+			text = "Galaxy.Bank.Energy.Deposit"
+			text = "Galaxy.Bank.Minerals.Deposit"
+			text = "Galaxy.Bank.Food.Deposit"
+			text = "Galaxy.Bank.Consumers.Deposit"
+			text = "Galaxy.Bank.Alloys.Deposit"
+			text = newline
+			success_text = { text = "Galaxy.Bank.Tax" has_no_bank_actions = yes }
+			success_text = { text = "Galaxy.Bank.Actions.1" check_variable = { which = galaxy_bank_actions_var value = 1 } }
+			success_text = { text = "Galaxy.Bank.Actions.5" check_variable = { which = galaxy_bank_actions_var value = 5 } }
+			success_text = { text = "Galaxy.Bank.Actions.10" check_variable = { which = galaxy_bank_actions_var value = 10 } }
+			success_text = { text = "Galaxy.Bank.Actions.25" check_variable = { which = galaxy_bank_actions_var value = 25 } }
+			success_text = { text = "Galaxy.Bank.Actions.35" check_variable = { which = galaxy_bank_actions_var value = 35 } }
+			success_text = { text = "Galaxy.Bank.Actions.50" check_variable = { which = galaxy_bank_actions_var value = 50 } }
+			success_text = { text = "Galaxy.Bank.Actions.75" check_variable = { which = galaxy_bank_actions_var value = 75 } }
+			success_text = { text = "Galaxy.Bank.Actions.90" check_variable = { which = galaxy_bank_actions_var value = 90 } }
+			success_text = { text = "Galaxy.Bank.Actions.100" check_variable = { which = galaxy_bank_actions_var value = 100 } }
+			text = newline
+			text = "Galaxy.Bank.Loans.Submenu"
+		}
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Transactions.Menu" hidden_effect = { country_event = { id = GalaxyBankEvents.110 } } }
+	option = { 
+		name = "Galaxy.Bank.Missions.Menu"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Trust.1" event_target:bank_country = { trust = { who = root value >= 50 } } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Mission.Updated" NOT = { has_country_flag = bank_updated_mission } }
+		}
+		hidden_effect = { country_event = { id = GalaxyBankEvents.120 } }
+	}
+	option = {
+		name = "Galaxy.Bank.Loans.Menu"
+		custom_gui = "enclave_trader_option"
+		hidden_effect = { country_event = { id = GalaxyBankEvents.130 } }
+	}
+	option = {
+		name = "Galaxy.Bank.Actions.Menu"
+		custom_gui = "enclave_trader_option"
+		allow = {
+			custom_tooltip = { fail_text = "Galaxy.Bank.Trust.2" event_target:bank_country = { trust = { who = root value >= 100 } } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Delay" NOT = { has_country_flag = bank_actions_sell } }
+		}
+		hidden_effect = { country_event = { id = GalaxyBankEvents.150 } }
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Bye" default_hide_option = yes }
+}
+
+country_event = {# Transaction Menu
+	id = GalaxyBankEvents.110
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = {
+		trigger = {
+			text = Galaxy.Bank.Transaction
+			text = newline
+			text = "Galaxy.Bank.Energy.Deposit"
+			text = "Galaxy.Bank.Minerals.Deposit"
+			text = "Galaxy.Bank.Food.Deposit"
+			text = "Galaxy.Bank.Consumers.Deposit"
+			text = "Galaxy.Bank.Alloys.Deposit"
+			text = newline
+			success_text = { text = "Galaxy.Bank.Tax" has_no_bank_actions = yes }
+			success_text = { text = "Galaxy.Bank.Actions.1" check_variable = { which = galaxy_bank_actions_var value = 1 } }
+			success_text = { text = "Galaxy.Bank.Actions.5" check_variable = { which = galaxy_bank_actions_var value = 5 } }
+			success_text = { text = "Galaxy.Bank.Actions.10" check_variable = { which = galaxy_bank_actions_var value = 10 } }
+			success_text = { text = "Galaxy.Bank.Actions.25" check_variable = { which = galaxy_bank_actions_var value = 25 } }
+			success_text = { text = "Galaxy.Bank.Actions.35" check_variable = { which = galaxy_bank_actions_var value = 35 } }
+			success_text = { text = "Galaxy.Bank.Actions.50" check_variable = { which = galaxy_bank_actions_var value = 50 } }
+			success_text = { text = "Galaxy.Bank.Actions.75" check_variable = { which = galaxy_bank_actions_var value = 75 } }
+			success_text = { text = "Galaxy.Bank.Actions.90" check_variable = { which = galaxy_bank_actions_var value = 90 } }
+			success_text = { text = "Galaxy.Bank.Actions.100" check_variable = { which = galaxy_bank_actions_var value = 100 } }
+			text = newline 
+			text = "Galaxy.Bank.Stellaris.Limit"
+		}
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Transaction.1" hidden_effect = { country_event = { id = GalaxyBankEvents.111 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Transaction.2" hidden_effect = { country_event = { id = GalaxyBankEvents.112 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Transaction.3" hidden_effect = { country_event = { id = GalaxyBankEvents.113 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Transaction.4" hidden_effect = { country_event = { id = GalaxyBankEvents.114 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Transaction.5" hidden_effect = { country_event = { id = GalaxyBankEvents.115 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Main Menu" hidden_effect = { country_event = { id = GalaxyBankEvents.100 } } default_hide_option = yes  }
+}
+
+country_event = {# Transaction Energy
+	id = GalaxyBankEvents.111
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = { 
+		trigger = { 
+			text = "Galaxy.Bank.Transaction" 
+			text = newline 
+			text = "Galaxy.Bank.Energy.Deposit" 
+			text = newline 
+			success_text = { text = "Galaxy.Bank.Tax" has_no_bank_actions = yes }
+			success_text = { text = "Galaxy.Bank.Actions.1" check_variable = { which = galaxy_bank_actions_var value = 1 } }
+			success_text = { text = "Galaxy.Bank.Actions.5" check_variable = { which = galaxy_bank_actions_var value = 5 } }
+			success_text = { text = "Galaxy.Bank.Actions.10" check_variable = { which = galaxy_bank_actions_var value = 10 } }
+			success_text = { text = "Galaxy.Bank.Actions.25" check_variable = { which = galaxy_bank_actions_var value = 25 } }
+			success_text = { text = "Galaxy.Bank.Actions.35" check_variable = { which = galaxy_bank_actions_var value = 35 } }
+			success_text = { text = "Galaxy.Bank.Actions.50" check_variable = { which = galaxy_bank_actions_var value = 50 } }
+			success_text = { text = "Galaxy.Bank.Actions.75" check_variable = { which = galaxy_bank_actions_var value = 75 } }
+			success_text = { text = "Galaxy.Bank.Actions.90" check_variable = { which = galaxy_bank_actions_var value = 90 } }
+			success_text = { text = "Galaxy.Bank.Actions.100" check_variable = { which = galaxy_bank_actions_var value = 100 } }
+			text = newline 
+			text = "Galaxy.Bank.Stellaris.Limit"
+		} 
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Deposit.1" allow = { has_resource = { type = energy amount >= 1000 } } add_resource = { energy = -1000 } hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = 950 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_energy_var value = 50 } } country_event = { id = GalaxyBankEvents.111 } event_target:bank_country = { add_trust = { who = root amount = 1 } } } custom_tooltip = opinion1 }
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Deposit.2" allow = { has_resource = { type = energy amount >= 2500 } } add_resource = { energy = -2500 } hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = 2375 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_energy_var value = 125 } } country_event = { id = GalaxyBankEvents.111 } event_target:bank_country = { add_trust = { who = root amount = 2 } } } custom_tooltip = opinion2 }
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Deposit.3" allow = { has_resource = { type = energy amount >= 5000 } } add_resource = { energy = -5000 } hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = 4750 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_energy_var value = 250 } } country_event = { id = GalaxyBankEvents.111 } event_target:bank_country = { add_trust = { who = root amount = 4 } } } custom_tooltip = opinion4 }
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Deposit.4" allow = { has_resource = { type = energy amount >= 10000 } } add_resource = { energy = -10000 } hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = 9500 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_energy_var value = 500 } } country_event = { id = GalaxyBankEvents.111 } event_target:bank_country = { add_trust = { who = root amount = 8 } } } custom_tooltip = opinion8 }
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Deposit.5" allow = { has_resource = { type = energy amount >= 20000 } } add_resource = { energy = -20000 } hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = 19000 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_energy_var value = 1000 } } country_event = { id = GalaxyBankEvents.111 } event_target:bank_country = { add_trust = { who = root amount = 16 } } } custom_tooltip = opinion16 }
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Deposit.All" allow = { has_resource = { type = energy amount >= 30000 } } custom_tooltip = deposit.all.energy hidden_effect = { galaxy_bank_deposit_credits_1000000_times = yes country_event = { id = GalaxyBankEvents.111 } event_target:bank_country = { add_trust = { who = root amount = 100 } } } custom_tooltip = opinion100 }
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Take.1" allow = { check_variable = { which = galaxy_bank_energy_var value >= 1050 } } add_resource = { energy = 1000 } hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -1050 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_energy_var value = 50 } } country_event = { id = GalaxyBankEvents.111 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Take.2" allow = { check_variable = { which = galaxy_bank_energy_var value >= 2625 } } add_resource = { energy = 2500 } hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -2625 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_energy_var value = 125 } } country_event = { id = GalaxyBankEvents.111 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Take.3" allow = { check_variable = { which = galaxy_bank_energy_var value >= 5250 } } add_resource = { energy = 5000 } hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -5250 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_energy_var value = 250 } } country_event = { id = GalaxyBankEvents.111 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Take.4" allow = { check_variable = { which = galaxy_bank_energy_var value >= 10500 } } add_resource = { energy = 10000 } hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -10500 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_energy_var value = 500 } } country_event = { id = GalaxyBankEvents.111 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Energy.Take.5" allow = { check_variable = { which = galaxy_bank_energy_var value >= 21000 } } add_resource = { energy = 20000 } hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -21000 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_energy_var value = 1000 } } country_event = { id = GalaxyBankEvents.111 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Transaction Menu" hidden_effect = { country_event = { id = GalaxyBankEvents.110 } } default_hide_option = yes  }
+}
+
+country_event = {# Transaction Minerals
+	id = GalaxyBankEvents.112
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = { 
+		trigger = { 
+			text = "Galaxy.Bank.Transaction" 
+			text = newline 
+			text = "Galaxy.Bank.Minerals.Deposit" 
+			text = newline 
+			success_text = { text = "Galaxy.Bank.Tax" has_no_bank_actions = yes }
+			success_text = { text = "Galaxy.Bank.Actions.1" check_variable = { which = galaxy_bank_actions_var value = 1 } }
+			success_text = { text = "Galaxy.Bank.Actions.5" check_variable = { which = galaxy_bank_actions_var value = 5 } }
+			success_text = { text = "Galaxy.Bank.Actions.10" check_variable = { which = galaxy_bank_actions_var value = 10 } }
+			success_text = { text = "Galaxy.Bank.Actions.25" check_variable = { which = galaxy_bank_actions_var value = 25 } }
+			success_text = { text = "Galaxy.Bank.Actions.35" check_variable = { which = galaxy_bank_actions_var value = 35 } }
+			success_text = { text = "Galaxy.Bank.Actions.50" check_variable = { which = galaxy_bank_actions_var value = 50 } }
+			success_text = { text = "Galaxy.Bank.Actions.75" check_variable = { which = galaxy_bank_actions_var value = 75 } }
+			success_text = { text = "Galaxy.Bank.Actions.90" check_variable = { which = galaxy_bank_actions_var value = 90 } }
+			success_text = { text = "Galaxy.Bank.Actions.100" check_variable = { which = galaxy_bank_actions_var value = 100 } }
+			text = newline 
+			text = "Galaxy.Bank.Stellaris.Limit"
+		} 
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Deposit.1" allow = { has_resource = { type = minerals amount >= 1000 } } add_resource = { minerals = -1000 } hidden_effect = { change_variable = { which = galaxy_bank_mineral_var value = 950 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_mineral_var value = 50 } } country_event = { id = GalaxyBankEvents.112 } event_target:bank_country = { add_trust = { who = root amount = 1 } } } custom_tooltip = opinion1 }
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Deposit.2" allow = { has_resource = { type = minerals amount >= 2500 } } add_resource = { minerals = -2500 } hidden_effect = { change_variable = { which = galaxy_bank_mineral_var value = 2375 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_mineral_var value = 125 } } country_event = { id = GalaxyBankEvents.112 } event_target:bank_country = { add_trust = { who = root amount = 2 } } } custom_tooltip = opinion2 }
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Deposit.3" allow = { has_resource = { type = minerals amount >= 5000 } } add_resource = { minerals = -5000 } hidden_effect = { change_variable = { which = galaxy_bank_mineral_var value = 4750 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_mineral_var value = 250 } } country_event = { id = GalaxyBankEvents.112 } event_target:bank_country = { add_trust = { who = root amount = 4 } } } custom_tooltip = opinion4 }
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Deposit.4" allow = { has_resource = { type = minerals amount >= 10000 } } add_resource = { minerals = -10000 } hidden_effect = { change_variable = { which = galaxy_bank_mineral_var value = 9500 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_mineral_var value = 500 } } country_event = { id = GalaxyBankEvents.112 } event_target:bank_country = { add_trust = { who = root amount = 8 } } } custom_tooltip = opinion8 }
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Deposit.5" allow = { has_resource = { type = minerals amount >= 20000 } } add_resource = { minerals = -20000 } hidden_effect = { change_variable = { which = galaxy_bank_mineral_var value = 19000 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_mineral_var value = 1000 } } country_event = { id = GalaxyBankEvents.112 } event_target:bank_country = { add_trust = { who = root amount = 16 } } } custom_tooltip = opinion16 }
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Deposit.All" allow = { has_resource = { type = minerals amount >= 30000 } } custom_tooltip = deposit.all.minerals hidden_effect = { galaxy_bank_deposit_minerals_1000000_times = yes country_event = { id = GalaxyBankEvents.112 } event_target:bank_country = { add_trust = { who = root amount = 100 } } } custom_tooltip = opinion100 }
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Take.1" allow = { check_variable = { which = galaxy_bank_mineral_var value >= 1050 } } add_resource = { minerals = 1000 } hidden_effect = { change_variable = { which = galaxy_bank_mineral_var value = -1050 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_mineral_var value = 50 } } country_event = { id = GalaxyBankEvents.112 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Take.2" allow = { check_variable = { which = galaxy_bank_mineral_var value >= 2625 } } add_resource = { minerals = 2500 } hidden_effect = { change_variable = { which = galaxy_bank_mineral_var value = -2625 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_mineral_var value = 125 } } country_event = { id = GalaxyBankEvents.112 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Take.3" allow = { check_variable = { which = galaxy_bank_mineral_var value >= 5250 } } add_resource = { minerals = 5000 } hidden_effect = { change_variable = { which = galaxy_bank_mineral_var value = -5250 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_mineral_var value = 250 } } country_event = { id = GalaxyBankEvents.112 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Take.4" allow = { check_variable = { which = galaxy_bank_mineral_var value >= 10500 } } add_resource = { minerals = 10000 } hidden_effect = { change_variable = { which = galaxy_bank_mineral_var value = -10500 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_mineral_var value = 500 } } country_event = { id = GalaxyBankEvents.112 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Minerals.Take.5" allow = { check_variable = { which = galaxy_bank_mineral_var value >= 21000 } } add_resource = { minerals = 20000 } hidden_effect = { change_variable = { which = galaxy_bank_mineral_var value = -21000 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_mineral_var value = 1000 } } country_event = { id = GalaxyBankEvents.112 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Transaction Menu" hidden_effect = { country_event = { id = GalaxyBankEvents.110 } } default_hide_option = yes  }
+}
+
+country_event = {# Transaction Foods
+	id = GalaxyBankEvents.113
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = { 
+		trigger = { 
+			text = "Galaxy.Bank.Transaction" 
+			text = newline 
+			text = "Galaxy.Bank.Food.Deposit" 
+			text = newline 
+			success_text = { text = "Galaxy.Bank.Tax" has_no_bank_actions = yes }
+			success_text = { text = "Galaxy.Bank.Actions.1" check_variable = { which = galaxy_bank_actions_var value = 1 } }
+			success_text = { text = "Galaxy.Bank.Actions.5" check_variable = { which = galaxy_bank_actions_var value = 5 } }
+			success_text = { text = "Galaxy.Bank.Actions.10" check_variable = { which = galaxy_bank_actions_var value = 10 } }
+			success_text = { text = "Galaxy.Bank.Actions.25" check_variable = { which = galaxy_bank_actions_var value = 25 } }
+			success_text = { text = "Galaxy.Bank.Actions.35" check_variable = { which = galaxy_bank_actions_var value = 35 } }
+			success_text = { text = "Galaxy.Bank.Actions.50" check_variable = { which = galaxy_bank_actions_var value = 50 } }
+			success_text = { text = "Galaxy.Bank.Actions.75" check_variable = { which = galaxy_bank_actions_var value = 75 } }
+			success_text = { text = "Galaxy.Bank.Actions.90" check_variable = { which = galaxy_bank_actions_var value = 90 } }
+			success_text = { text = "Galaxy.Bank.Actions.100" check_variable = { which = galaxy_bank_actions_var value = 100 } }
+			text = newline 
+			text = "Galaxy.Bank.Stellaris.Limit"
+		} 
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Food.Deposit.1" allow = { has_resource = { type = food amount >= 1000 } } add_resource = { food = -1000 } hidden_effect = { change_variable = { which = galaxy_bank_food_var value = 950 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_food_var value = 50 } } country_event = { id = GalaxyBankEvents.113 } event_target:bank_country = { add_trust = { who = root amount = 1 } } } custom_tooltip = opinion1 }
+	option = { custom_gui = "enclave_trader_option" name = "Food.Deposit.2" allow = { has_resource = { type = food amount >= 2500 } } add_resource = { food = -2500 } hidden_effect = { change_variable = { which = galaxy_bank_food_var value = 2375 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_food_var value = 125 } } country_event = { id = GalaxyBankEvents.113 } event_target:bank_country = { add_trust = { who = root amount = 2 } } } custom_tooltip = opinion2 }
+	option = { custom_gui = "enclave_trader_option" name = "Food.Deposit.3" allow = { has_resource = { type = food amount >= 5000 } } add_resource = { food = -5000 } hidden_effect = { change_variable = { which = galaxy_bank_food_var value = 4750 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_food_var value = 250 } } country_event = { id = GalaxyBankEvents.113 } event_target:bank_country = { add_trust = { who = root amount = 4 } } } custom_tooltip = opinion4 }
+	option = { custom_gui = "enclave_trader_option" name = "Food.Deposit.4" allow = { has_resource = { type = food amount >= 10000 } } add_resource = { food = -10000 } hidden_effect = { change_variable = { which = galaxy_bank_food_var value = 9500 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_food_var value = 500 } } country_event = { id = GalaxyBankEvents.113 } event_target:bank_country = { add_trust = { who = root amount = 8 } } } custom_tooltip = opinion8 }
+	option = { custom_gui = "enclave_trader_option" name = "Food.Deposit.5" allow = { has_resource = { type = food amount >= 20000 } } add_resource = { food = -20000 } hidden_effect = { change_variable = { which = galaxy_bank_food_var value = 19000 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_food_var value = 1000 } } country_event = { id = GalaxyBankEvents.113 } event_target:bank_country = { add_trust = { who = root amount = 16 } } } custom_tooltip = opinion16 }
+	option = { custom_gui = "enclave_trader_option" name = "Food.Deposit.All" allow = { has_resource = { type = food amount >= 30000 } } custom_tooltip = deposit.all.foods hidden_effect = { galaxy_bank_deposit_foods_1000000_times = yes country_event = { id = GalaxyBankEvents.113 } event_target:bank_country = { add_trust = { who = root amount = 100 } } } custom_tooltip = opinion100 }
+	option = { custom_gui = "enclave_trader_option" name = "Food.Take.1" allow = { check_variable = { which = galaxy_bank_food_var value >= 1050 } } add_resource = { food = 1000 } hidden_effect = { change_variable = { which = galaxy_bank_food_var value = -1050 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_food_var value = 50 } } country_event = { id = GalaxyBankEvents.113 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Food.Take.2" allow = { check_variable = { which = galaxy_bank_food_var value >= 2625 } } add_resource = { food = 2500 } hidden_effect = { change_variable = { which = galaxy_bank_food_var value = -2625 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_food_var value = 125 } } country_event = { id = GalaxyBankEvents.113 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Food.Take.3" allow = { check_variable = { which = galaxy_bank_food_var value >= 5250 } } add_resource = { food = 5000 } hidden_effect = { change_variable = { which = galaxy_bank_food_var value = -5250 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_food_var value = 250 } } country_event = { id = GalaxyBankEvents.113 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Food.Take.4" allow = { check_variable = { which = galaxy_bank_food_var value >= 10500 } } add_resource = { food = 10000 } hidden_effect = { change_variable = { which = galaxy_bank_food_var value = -10500 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_food_var value = 500 } } country_event = { id = GalaxyBankEvents.113 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Food.Take.5" allow = { check_variable = { which = galaxy_bank_food_var value >= 21000 } } add_resource = { food = 20000 } hidden_effect = { change_variable = { which = galaxy_bank_food_var value = -21000 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_food_var value = 1000 } } country_event = { id = GalaxyBankEvents.113 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Transaction Menu" hidden_effect = { country_event = { id = GalaxyBankEvents.110 } } default_hide_option = yes  }
+}
+
+country_event = {# Transaction Consumer Goods
+	id = GalaxyBankEvents.114
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = { 
+		trigger = { 
+			text = "Galaxy.Bank.Transaction" 
+			text = newline 
+			text = "Galaxy.Bank.Consumers.Deposit" 
+			text = newline 
+			success_text = { text = "Galaxy.Bank.Tax" has_no_bank_actions = yes }
+			success_text = { text = "Galaxy.Bank.Actions.1" check_variable = { which = galaxy_bank_actions_var value = 1 } }
+			success_text = { text = "Galaxy.Bank.Actions.5" check_variable = { which = galaxy_bank_actions_var value = 5 } }
+			success_text = { text = "Galaxy.Bank.Actions.10" check_variable = { which = galaxy_bank_actions_var value = 10 } }
+			success_text = { text = "Galaxy.Bank.Actions.25" check_variable = { which = galaxy_bank_actions_var value = 25 } }
+			success_text = { text = "Galaxy.Bank.Actions.35" check_variable = { which = galaxy_bank_actions_var value = 35 } }
+			success_text = { text = "Galaxy.Bank.Actions.50" check_variable = { which = galaxy_bank_actions_var value = 50 } }
+			success_text = { text = "Galaxy.Bank.Actions.75" check_variable = { which = galaxy_bank_actions_var value = 75 } }
+			success_text = { text = "Galaxy.Bank.Actions.90" check_variable = { which = galaxy_bank_actions_var value = 90 } }
+			success_text = { text = "Galaxy.Bank.Actions.100" check_variable = { which = galaxy_bank_actions_var value = 100 } }
+			text = newline 
+			text = "Galaxy.Bank.Stellaris.Limit"
+		} 
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Deposit.1" allow = { has_resource = { type = consumer_goods amount >= 250 } } add_resource = { consumer_goods = -250 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = 238 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 12 } } country_event = { id = GalaxyBankEvents.114 } event_target:bank_country = { add_trust = { who = root amount = 1 } } } custom_tooltip = opinion1 }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Deposit.2" allow = { has_resource = { type = consumer_goods amount >= 500 } } add_resource = { consumer_goods = -500 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = 475 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 25 } } country_event = { id = GalaxyBankEvents.114 } event_target:bank_country = { add_trust = { who = root amount = 2 } } } custom_tooltip = opinion2 }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Deposit.3" allow = { has_resource = { type = consumer_goods amount >= 1000 } } add_resource = { consumer_goods = -1000 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = 950 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 50 } } country_event = { id = GalaxyBankEvents.114 } event_target:bank_country = { add_trust = { who = root amount = 4 } } } custom_tooltip = opinion4 }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Deposit.4" allow = { has_resource = { type = consumer_goods amount >= 2000 } } add_resource = { consumer_goods = -2000 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = 1900 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 100 } } country_event = { id = GalaxyBankEvents.114 } event_target:bank_country = { add_trust = { who = root amount = 8 } } } custom_tooltip = opinion8 }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Deposit.5" allow = { has_resource = { type = consumer_goods amount >= 5000 } } add_resource = { consumer_goods = -5000 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = 4750 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 250 } } country_event = { id = GalaxyBankEvents.114 } event_target:bank_country = { add_trust = { who = root amount = 16 } } } custom_tooltip = opinion16 }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Deposit.6" allow = { has_resource = { type = consumer_goods amount >= 10000 } } add_resource = { consumer_goods = -10000 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = 9500 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 500 } } country_event = { id = GalaxyBankEvents.114 } event_target:bank_country = { add_trust = { who = root amount = 32 } } } custom_tooltip = opinion32 }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Deposit.All" allow = { has_resource = { type = consumer_goods amount >= 20000 } } custom_tooltip = deposit.all.consumers hidden_effect = { galaxy_bank_deposit_consumers_1000000_times = yes country_event = { id = GalaxyBankEvents.114 } event_target:bank_country = { add_trust = { who = root amount = 100 } } } custom_tooltip = opinion100 }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Take.1" allow = { check_variable = { which = galaxy_bank_consumer_var value >= 262 } } add_resource = { consumer_goods = 250 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = -262 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 12 } } country_event = { id = GalaxyBankEvents.114 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Take.2" allow = { check_variable = { which = galaxy_bank_consumer_var value >= 525 } } add_resource = { consumer_goods = 500 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = -525 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 25 } } country_event = { id = GalaxyBankEvents.114 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Take.3" allow = { check_variable = { which = galaxy_bank_consumer_var value >= 1050 } } add_resource = { consumer_goods = 1000 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = -1050 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 50 } } country_event = { id = GalaxyBankEvents.114 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Take.4" allow = { check_variable = { which = galaxy_bank_consumer_var value >= 2100 } } add_resource = { consumer_goods = 2000 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = -2100 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 100 } } country_event = { id = GalaxyBankEvents.114 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Take.5" allow = { check_variable = { which = galaxy_bank_consumer_var value >= 5250 } } add_resource = { consumer_goods = 5000 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = -5250 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 250 } } country_event = { id = GalaxyBankEvents.114 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Consumer.Take.6" allow = { check_variable = { which = galaxy_bank_consumer_var value >= 10500 } } add_resource = { consumer_goods = 10000 } hidden_effect = { change_variable = { which = galaxy_bank_consumer_var value = -10500 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_consumer_var value = 500 } } country_event = { id = GalaxyBankEvents.114 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Transaction Menu" hidden_effect = { country_event = { id = GalaxyBankEvents.110 } } default_hide_option = yes  }
+}
+
+country_event = {# Transaction Alloys
+	id = GalaxyBankEvents.115
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = { 
+		trigger = { 
+			text = "Galaxy.Bank.Transaction" 
+			text = newline 
+			text = "Galaxy.Bank.Alloys.Deposit" 
+			text = newline 
+			success_text = { text = "Galaxy.Bank.Tax" has_no_bank_actions = yes }
+			success_text = { text = "Galaxy.Bank.Actions.1" check_variable = { which = galaxy_bank_actions_var value = 1 } }
+			success_text = { text = "Galaxy.Bank.Actions.5" check_variable = { which = galaxy_bank_actions_var value = 5 } }
+			success_text = { text = "Galaxy.Bank.Actions.10" check_variable = { which = galaxy_bank_actions_var value = 10 } }
+			success_text = { text = "Galaxy.Bank.Actions.25" check_variable = { which = galaxy_bank_actions_var value = 25 } }
+			success_text = { text = "Galaxy.Bank.Actions.35" check_variable = { which = galaxy_bank_actions_var value = 35 } }
+			success_text = { text = "Galaxy.Bank.Actions.50" check_variable = { which = galaxy_bank_actions_var value = 50 } }
+			success_text = { text = "Galaxy.Bank.Actions.75" check_variable = { which = galaxy_bank_actions_var value = 75 } }
+			success_text = { text = "Galaxy.Bank.Actions.90" check_variable = { which = galaxy_bank_actions_var value = 90 } }
+			success_text = { text = "Galaxy.Bank.Actions.100" check_variable = { which = galaxy_bank_actions_var value = 100 } }
+			text = newline 
+			text = "Galaxy.Bank.Stellaris.Limit"
+		} 
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Deposit.1" allow = { has_resource = { type = alloys amount >= 250 } } add_resource = { alloys = -250 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = 238 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 12 } } country_event = { id = GalaxyBankEvents.115 } event_target:bank_country = { add_trust = { who = root amount = 1 } } } custom_tooltip = opinion1 }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Deposit.2" allow = { has_resource = { type = alloys amount >= 500 } } add_resource = { alloys = -500 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = 475 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 25 } } country_event = { id = GalaxyBankEvents.115 } event_target:bank_country = { add_trust = { who = root amount = 2 } } } custom_tooltip = opinion2 }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Deposit.3" allow = { has_resource = { type = alloys amount >= 1000 } } add_resource = { alloys = -1000 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = 950 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 50 } } country_event = { id = GalaxyBankEvents.115 } event_target:bank_country = { add_trust = { who = root amount = 4 } } } custom_tooltip = opinion4 }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Deposit.4" allow = { has_resource = { type = alloys amount >= 2000 } } add_resource = { alloys = -2000 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = 1900 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 100 } } country_event = { id = GalaxyBankEvents.115 } event_target:bank_country = { add_trust = { who = root amount = 8 } } } custom_tooltip = opinion8 }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Deposit.5" allow = { has_resource = { type = alloys amount >= 5000 } } add_resource = { alloys = -5000 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = 4750 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 250 } } country_event = { id = GalaxyBankEvents.115 } event_target:bank_country = { add_trust = { who = root amount = 16 } } } custom_tooltip = opinion16 }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Deposit.6" allow = { has_resource = { type = alloys amount >= 10000 } } add_resource = { alloys = -10000 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = 9500 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 500 } } country_event = { id = GalaxyBankEvents.115 } event_target:bank_country = { add_trust = { who = root amount = 32 } } } custom_tooltip = opinion32 }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Deposit.All" allow = { has_resource = { type = alloys amount >= 20000 } } custom_tooltip = deposit.all.alloys hidden_effect = { galaxy_bank_deposit_alloys_1000000_times = yes country_event = { id = GalaxyBankEvents.115 } event_target:bank_country = { add_trust = { who = root amount = 100 } } } custom_tooltip = opinion100 }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Take.1" allow = { check_variable = { which = galaxy_bank_alloy_var value >= 262 } } add_resource = { alloys = 250 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = -262 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 12 } } country_event = { id = GalaxyBankEvents.115 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Take.2" allow = { check_variable = { which = galaxy_bank_alloy_var value >= 525 } } add_resource = { alloys = 500 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = -525 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 25 } } country_event = { id = GalaxyBankEvents.115 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Take.3" allow = { check_variable = { which = galaxy_bank_alloy_var value >= 1050 } } add_resource = { alloys = 1000 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = -1050 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 50 } } country_event = { id = GalaxyBankEvents.115 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Take.4" allow = { check_variable = { which = galaxy_bank_alloy_var value >= 2100 } } add_resource = { alloys = 2000 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = -2100 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 100 } } country_event = { id = GalaxyBankEvents.115 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Take.5" allow = { check_variable = { which = galaxy_bank_alloy_var value >= 5250 } } add_resource = { alloys = 5000 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = -5250 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 250 } } country_event = { id = GalaxyBankEvents.115 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Alloy.Take.6" allow = { check_variable = { which = galaxy_bank_alloy_var value >= 10500 } } add_resource = { alloys = 10000 } hidden_effect = { change_variable = { which = galaxy_bank_alloy_var value = -10500 } if = { limit = { pay_no_taxes = yes } change_variable = { which = galaxy_bank_alloy_var value = 500 } } country_event = { id = GalaxyBankEvents.115 } } }
+	option = { custom_gui = "enclave_trader_option" name = "Transaction Menu" hidden_effect = { country_event = { id = GalaxyBankEvents.110 } } default_hide_option = yes  }
+}
+
+country_event = {# Mission Menu
+	id = GalaxyBankEvents.120
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = Galaxy.Bank.Missions
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Mission.Debrief" 
+		hidden_effect = {
+			random_list = {
+				10 = { country_event = { id = GalaxyBankEvents.121 } }
+				20 = { country_event = { id = GalaxyBankEvents.123 } }
+				20 = { country_event = { id = GalaxyBankEvents.125 } }
+				20 = { country_event = { id = GalaxyBankEvents.127 } }
+			}
+		} 
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Main Menu" hidden_effect = { country_event = { id = GalaxyBankEvents.100 } } default_hide_option = yes }
+}
+
+country_event = {# Mission - Pirates
+	id = GalaxyBankEvents.121
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	immediate = { set_timed_country_flag = { flag = bank_updated_mission days = 720 } }
+	desc = {
+		trigger = {
+			text = "Galaxy.Bank.Missions.Pirates"
+			text = newline
+			text = "Galaxy.Bank.Missions.Informations"
+		}
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Mission.Accept" 	 
+		hidden_effect = { hidden_effect = { country_event = { id = GalaxyBankEvents.100 } galaxy_bank_mission_pirates = yes } }
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Mission.Refuse" 	 
+		hidden_effect = { hidden_effect = { country_event = { id = GalaxyBankEvents.100 } } event_target:bank_country = { add_trust = { who = root amount = -5 } } }
+		custom_tooltip = opinion-5
+		default_hide_option = yes
+	}
+}
+
+ship_event = {# Mission - Pirates - Completed
+	id = GalaxyBankEvents.122
+	title = GalaxyBankEvents.122.Name
+	desc = GalaxyBankEvents.122.Desc
+	picture = GFX_evt_pirate_armada
+	show_sound = event_ship_thrusters
+	location = event_target:special_project_target
+	is_triggered_only = yes
+	immediate =	{ galaxy_bank_project_finish_select_ship = yes }
+	option = { 
+		name = "Bank.Mission.Transaction.Energy.5000"   
+		hidden_effect = {
+			event_target:galaxy_bank_target_finished_project = { destroy_ship = this }
+			root.owner = { change_variable = { which = galaxy_bank_energy_var value = 5500 } }
+		}
+		custom_tooltip = bank.mission.transfer.info
+	}
+	option = { 
+		name = "Bank.Mission.Transaction.Minerals.5000"   
+		hidden_effect = {
+			event_target:galaxy_bank_target_finished_project = { destroy_ship = this }
+			root.owner = { change_variable = { which = galaxy_bank_mineral_var value = 5500 } }
+		}
+		custom_tooltip = bank.mission.transfer.info
+	}
+}
+
+country_event = {# Mission - Planet
+	id = GalaxyBankEvents.123
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	immediate = { set_timed_country_flag = { flag = bank_updated_mission days = 720 } }
+	desc = {
+		trigger = {
+			text = "Galaxy.Bank.Missions.ScanPlanet"
+			text = newline
+			text = "Galaxy.Bank.Missions.Informations"
+		}
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Mission.Accept" 	 
+		hidden_effect = { hidden_effect = { country_event = { id = GalaxyBankEvents.100 } galaxy_bank_mission_planet = yes } }
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Mission.Refuse" 	 
+		hidden_effect = { hidden_effect = { country_event = { id = GalaxyBankEvents.100 } } event_target:bank_country = { add_trust = { who = root amount = -5 } } }
+		custom_tooltip = opinion-5
+		default_hide_option = yes
+	}
+}
+
+ship_event = {# Mission - Planet - Completed
+	id = GalaxyBankEvents.124
+	title = GalaxyBankEvents.124.Name
+	desc = GalaxyBankEvents.124.Desc
+	picture = GFX_evt_alien_nature
+	show_sound = event_alien_nature
+	location = event_target:special_project_target
+	is_triggered_only = yes
+	option = { 
+		name = "Bank.Mission.Transaction.Energy.2000"   
+		hidden_effect = { root.owner = { change_variable = { which = galaxy_bank_energy_var value = 2200 } } }
+		custom_tooltip = bank.mission.transfer.info
+	}
+	option = { 
+		name = "Bank.Mission.Transaction.Minerals.2000"   
+		hidden_effect = { root.owner = { change_variable = { which = galaxy_bank_mineral_var value = 2200 } } }
+		custom_tooltip = bank.mission.transfer.info
+	}
+}
+
+country_event = {# Mission - Debris
+	id = GalaxyBankEvents.125
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	immediate = { set_timed_country_flag = { flag = bank_updated_mission days = 720 } }
+	desc = {
+		trigger = {
+			text = "Galaxy.Bank.Missions.ScanDebris"
+			text = newline
+			text = "Galaxy.Bank.Missions.Informations"
+		}
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Mission.Accept" 	 
+		hidden_effect = { hidden_effect = { country_event = { id = GalaxyBankEvents.100 } galaxy_bank_mission_debris = yes } }
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Mission.Refuse" 	 
+		hidden_effect = { hidden_effect = { country_event = { id = GalaxyBankEvents.100 } } event_target:bank_country = { add_trust = { who = root amount = -5 } } }
+		custom_tooltip = opinion-5
+		default_hide_option = yes
+	}
+}
+
+ship_event = {# Mission - Debris - Completed
+	id = GalaxyBankEvents.126
+	title = GalaxyBankEvents.126.Name
+	desc = GalaxyBankEvents.126.Desc
+	picture = GFX_evt_space_debris
+	show_sound = event_scanner
+	location = event_target:special_project_target
+	is_triggered_only = yes
+	immediate = { galaxy_bank_project_finish_select_object = yes }
+	option = { 
+		name = "Bank.Mission.Transaction.Energy.2000"   
+		hidden_effect = {
+			event_target:galaxy_bank_target_finished_project = { destroy_ambient_object = this }
+			root.owner = { change_variable = { which = galaxy_bank_energy_var value = 2200 } }
+		}
+		custom_tooltip = bank.mission.transfer.info
+	}
+	option = { 
+		name = "Bank.Mission.Transaction.Consumers.600"   
+		hidden_effect = {
+			event_target:galaxy_bank_target_finished_project = { destroy_ambient_object = this }
+			root.owner = { change_variable = { which = galaxy_bank_alloy_var value = 660 } }
+		}
+		custom_tooltip = bank.mission.transfer.info
+	}
+}
+
+country_event = {# Mission - Ship
+	id = GalaxyBankEvents.127
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	immediate = { set_timed_country_flag = { flag = bank_updated_mission days = 720 } }
+	desc = {
+		trigger = {
+			text = "Galaxy.Bank.Missions.ScanShip"
+			text = newline
+			text = "Galaxy.Bank.Missions.Informations"
+		}
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Mission.Accept" 	 
+		hidden_effect = { hidden_effect = { country_event = { id = GalaxyBankEvents.100 } galaxy_bank_mission_ship = yes } }
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Mission.Refuse" 	 
+		hidden_effect = { hidden_effect = { country_event = { id = GalaxyBankEvents.100 } } event_target:bank_country = { add_trust = { who = root amount = -5 } } }
+		custom_tooltip = opinion-5
+		default_hide_option = yes
+	}
+}
+
+ship_event = {# Mission - Ship - Completed
+	id = GalaxyBankEvents.128
+	title = GalaxyBankEvents.128.Name
+	desc = GalaxyBankEvents.128.Desc
+	picture = GFX_evt_ship_in_orbit
+	show_sound = event_ship_bridge
+	location = event_target:special_project_target
+	is_triggered_only = yes
+	immediate = { galaxy_bank_project_finish_select_object = yes }
+	option = { 
+		name = "Bank.Mission.Transaction.Energy.2000"   
+		hidden_effect = {
+			event_target:galaxy_bank_target_finished_project = { destroy_ambient_object = this }
+			root.owner = { change_variable = { which = galaxy_bank_energy_var value = 2200 } }
+		}
+		custom_tooltip = bank.mission.transfer.info
+	}
+	option = { 
+		name = "Bank.Mission.Transaction.Alloys.500"   
+		hidden_effect = {
+			event_target:galaxy_bank_target_finished_project = { destroy_ambient_object = this }
+			root.owner = { change_variable = { which = galaxy_bank_consumer_var value = 550 } }
+		}
+		custom_tooltip = bank.mission.transfer.info
+	}
+}
+
+country_event = {# Loan Menu
+	id = GalaxyBankEvents.130
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = {
+		trigger = {
+			text = "Galaxy.Bank.Loans"
+			text = newline
+			text = "Galaxy.Bank.Energy.Deposit"
+			text = newline
+			text = "Galaxy.Bank.Loans.Submenu"
+		}
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Loans.Check" 
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Trust.2" event_target:bank_country = { trust = { who = root value >= 100 } } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.High" check_variable = { which = galaxy_bank_loans_var value <= 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loan.Delay" NOT = { has_country_flag = bank_loans_min_delays } }
+		}
+		hidden_effect = { country_event = { id = GalaxyBankEvents.131 } }
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Loans.Refund" 
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.Any" check_variable = { which = galaxy_bank_loans_var value > 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.Energy" check_variable = { which = galaxy_bank_energy_var value > 0 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loan.Delay" NOT = { has_country_flag = bank_loans_min_delays } }		
+		}
+		hidden_effect = {
+			country_event = { id = GalaxyBankEvents.130 } 
+			galaxy_bank_pay_loan_1000000_times = yes
+		}
+		custom_tooltip = loan.refund
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Main Menu" hidden_effect = { country_event = { id = GalaxyBankEvents.100 } } default_hide_option = yes }
+}
+
+country_event = {# Loan Submenu
+	id = GalaxyBankEvents.131
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = {
+		trigger = {
+			text = "Galaxy.Bank.Energy.Deposit"
+			text = newline
+			text = "Galaxy.Bank.Loans.Submenu"
+		}
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Loan.25000" hidden_effect = { country_event = { id = GalaxyBankEvents.130 } country_event = { id = GalaxyBankEvents.132 days = 1800 } set_timed_country_flag = { flag = bank_loans_min_delays days = 720 } change_variable = { which = galaxy_bank_energy_var value = 27500 } change_variable = { which = galaxy_bank_loans_var value = 26250 } } custom_tooltip = loan.25000 }
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Loan.50000" hidden_effect = { country_event = { id = GalaxyBankEvents.130 } country_event = { id = GalaxyBankEvents.132 days = 1800 } set_timed_country_flag = { flag = bank_loans_min_delays days = 720 } change_variable = { which = galaxy_bank_energy_var value = 55000 } change_variable = { which = galaxy_bank_loans_var value = 52500 } } custom_tooltip = loan.50000 }
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Loan.100000" hidden_effect = { country_event = { id = GalaxyBankEvents.130 } country_event = { id = GalaxyBankEvents.132 days = 1800 } set_timed_country_flag = { flag = bank_loans_min_delays days = 720 } change_variable = { which = galaxy_bank_energy_var value = 110000 } change_variable = { which = galaxy_bank_loans_var value = 105000 } } custom_tooltip = loan.100000 }
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Loan.200000" hidden_effect = { country_event = { id = GalaxyBankEvents.130 } country_event = { id = GalaxyBankEvents.132 days = 1800 } set_timed_country_flag = { flag = bank_loans_min_delays days = 720 } change_variable = { which = galaxy_bank_energy_var value = 220000 } change_variable = { which = galaxy_bank_loans_var value = 210000 } } custom_tooltip = loan.200000 }
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Loans.Back" hidden_effect = { country_event = { id = GalaxyBankEvents.130 } } default_hide_option = yes }
+}
+
+country_event = {# Loan Recall
+	id = GalaxyBankEvents.132
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = {
+		trigger = {
+			success_text = { 
+				text = "Galaxy.Bank.Energy.Recall.1" 
+				NOR = {
+					has_country_flag = galaxy_bank_loan_recall_2 
+					has_country_flag = galaxy_bank_loan_recall_3 
+					has_country_flag = galaxy_bank_loan_recall_4 
+				}
+			}
+			success_text = { text = "Galaxy.Bank.Energy.Recall.2" has_country_flag = galaxy_bank_loan_recall_2 }
+			success_text = { text = "Galaxy.Bank.Energy.Recall.3" has_country_flag = galaxy_bank_loan_recall_3 }
+			success_text = { text = "Galaxy.Bank.Energy.Recall.4" has_country_flag = galaxy_bank_loan_recall_4 }
+			text = newline
+			text = "Galaxy.Bank.Energy.Deposit"
+			text = newline
+			text = "Galaxy.Bank.Loans.Submenu"
+		}
+	}
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Loans.Refund" 
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.Any" check_variable = { which = galaxy_bank_loans_var value > 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.Energy" check_variable = { which = galaxy_bank_energy_var value > 0 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loan.Delay" NOT = { has_country_flag = bank_loans_min_delays } }		
+		}
+		hidden_effect = {
+			country_event = { id = GalaxyBankEvents.132 } 
+			galaxy_bank_pay_loan_1000000_times = yes
+			if = { limit = { check_variable = { which = galaxy_bank_loans_var value <= 0 } } galaxy_bank_loan_remove_flags = yes }
+		}	
+		custom_tooltip = loan.refund
+	}
+	option = {
+		custom_gui = "enclave_trader_option" 
+		trigger = { NOT = { has_country_flag = galaxy_bank_loan_recall_4 } }
+		allow = { custom_tooltip = { fail_text = "Galaxy.Bank.Loans.Any" check_variable = { which = galaxy_bank_loans_var value > 0 } } }
+		name = "Galaxy.Bank.Loans.Later" 
+		hidden_effect = { multiply_variable = { which = "galaxy_bank_loans_var" value = 1.05 } country_event = { id = GalaxyBankEvents.132 days = 1800 } galaxy_bank_loan_set_flags = yes } 
+		custom_tooltip = loan.increase
+	}
+	option = {
+		custom_gui = "enclave_trader_option" 
+		trigger = { has_country_flag = galaxy_bank_loan_recall_4 }
+		name = "Galaxy.Bank.Loans.Cant" 
+		hidden_effect = { country_event = { id = GalaxyBankEvents.133 } event_target:bank_country = { add_trust = { who = root amount = -100 } } set_country_flag = galaxy_bank_loan_cant galaxy_bank_loan_remove_flags = yes } 
+		custom_tooltip = opinion-100
+	}
+	option = {
+		custom_gui = "enclave_trader_option" 
+		allow = { custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } }
+		name = "Galaxy.Bank.Bye" 
+		hidden_effect = { galaxy_bank_loan_remove_flags = yes } 
+		default_hide_option = yes 
+	}
+}
+
+country_event = {# Loan Cant Pay
+	id = GalaxyBankEvents.133
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = {
+		trigger = {
+			text = "Galaxy.Bank.Loans.Proposition"
+			text = newline
+			text = "Galaxy.Bank.Loans.Submenu"
+		}
+	}
+	option = {
+		custom_gui = "enclave_trader_option" 
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value > 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.NoPops" any_owned_planet = { num_pops > 1 } }
+		}
+		name = "Galaxy.Bank.Loans.Proposition.1" 
+		hidden_effect = { country_event = { id = GalaxyBankEvents.133 } galaxy_bank_pay_loan_sell_slaves_10000_times = yes }
+		add_modifier = { modifier = "galaxy_bank_sold_slaves" days = 1800 }	
+		custom_tooltip = loan.proposition.1
+	}
+	option = {
+		custom_gui = "enclave_trader_option" 
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value > 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.NoRessources" has_ressources_for_loans = yes }		
+		}
+		name = "Galaxy.Bank.Loans.Proposition.2" 
+		hidden_effect = { country_event = { id = GalaxyBankEvents.133 } galaxy_bank_pay_loan_sell_ressources_1000000_times = yes }
+		custom_tooltip = loan.proposition.2
+	}
+	option = {
+		custom_gui = "enclave_trader_option" 
+		trigger = { has_country_flag = galaxy_bank_loan_target }
+		allow = { NOT = { has_country_flag = galaxy_bank_loan_delay } }
+		name = "Galaxy.Bank.Loans.Delay" 
+		hidden_effect = { country_event = { id = GalaxyBankEvents.133 days = 720 random = 360 } set_country_flag = galaxy_bank_loan_delay }
+		custom_tooltip = loan.delay
+	}
+	option = {
+		custom_gui = "enclave_trader_option" 
+		trigger = { NOT = { has_country_flag = galaxy_bank_loan_target } }
+		allow = { custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value > 0 } } }
+		name = "Galaxy.Bank.Loans.Refuse" 
+		hidden_effect = { 
+			event_target:bank_country = { add_trust = { who = root amount = -100 } }
+			galaxy_bank_loan_remove_flags = yes
+			set_country_flag = galaxy_bank_loan_target
+			set_timed_country_flag = { flag = galaxy_bank_no_communication days = 720 }
+			multiply_variable = { which = "galaxy_bank_loans_var" value = 1.30 }
+			country_event = { id = GalaxyBankEvents.2000 days = 360 random = 180 }
+		}
+		custom_tooltip = opinion-100
+		custom_tooltip = loan.refuse
+	}
+	option = {
+		custom_gui = "enclave_trader_option" 
+		trigger = { has_country_flag = galaxy_bank_loan_target }
+		allow = { has_resource = { type = energy amount >= 75000 } }
+		name = "Galaxy.Bank.Loans.Apologize" 
+		hidden_effect = { 
+			galaxy_bank_player_apologize = yes 
+			country_event = { id = GalaxyBankEvents.133 days = 720 random = 360 }
+		}
+		add_resource = { energy = -75000 }
+		custom_tooltip = loan.apologize
+	}
+	option = {
+		custom_gui = "enclave_trader_option" 
+		trigger = { has_country_flag = galaxy_bank_loan_target }
+		allow = { custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value > 0 } } }
+		name = "Galaxy.Bank.Loans.StillRefuse" 
+	}
+	option = {
+		custom_gui = "enclave_trader_option" 
+		allow = { custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } }
+		name = "Galaxy.Bank.Bye"
+		hidden_effect = { galaxy_bank_player_apologize = yes remove_country_flag = galaxy_bank_loan_cant remove_country_flag = galaxy_bank_loan_delay }
+		default_hide_option = yes 	
+	}
+}
+
+country_event = {# Actions Menu
+	id = GalaxyBankEvents.150
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = {
+		trigger = {
+			success_text = { text = "Galaxy.Bank.Tax" has_no_bank_actions = yes }
+			success_text = { text = "Galaxy.Bank.Actions.1" check_variable = { which = galaxy_bank_actions_var value = 1 } }
+			success_text = { text = "Galaxy.Bank.Actions.5" check_variable = { which = galaxy_bank_actions_var value = 5 } }
+			success_text = { text = "Galaxy.Bank.Actions.10" check_variable = { which = galaxy_bank_actions_var value = 10 } }
+			success_text = { text = "Galaxy.Bank.Actions.25" check_variable = { which = galaxy_bank_actions_var value = 25 } }
+			success_text = { text = "Galaxy.Bank.Actions.35" check_variable = { which = galaxy_bank_actions_var value = 35 } }
+			success_text = { text = "Galaxy.Bank.Actions.50" check_variable = { which = galaxy_bank_actions_var value = 50 } }
+			success_text = { text = "Galaxy.Bank.Actions.75" check_variable = { which = galaxy_bank_actions_var value = 75 } }
+			success_text = { text = "Galaxy.Bank.Actions.90" check_variable = { which = galaxy_bank_actions_var value = 90 } }
+			success_text = { text = "Galaxy.Bank.Actions.100" check_variable = { which = galaxy_bank_actions_var value = 100 } }
+			text = newline
+			text = "Galaxy.Bank.Energy.Deposit"
+			text = newline
+			text = "Galaxy.Bank.Millenium.Ticket"
+			text = newline
+			text = "Galaxy.Bank.Loans.Submenu"
+			text = newline 
+			text = "Galaxy.Bank.Stellaris.Limit"
+		}
+	}
+	option = {
+		name = "Galaxy.Bank.Actions.Millenium.Ticket"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.1000000" check_variable = { which = galaxy_bank_energy_var value >= 1000000 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Enought" check_variable = { which = galaxy_bank_actions_var value >= 75 } }
+		}
+		hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -1000000 } change_variable = { which = galaxy_bank_millenium_ticket_var value = 1 } country_event = { id = GalaxyBankEvents.150 } }
+		custom_tooltip = Galaxy.Bank.Actions.Tickets
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Main Menu" hidden_effect = { country_event = { id = GalaxyBankEvents.100 } } default_hide_option = yes }
+	option = { 
+		name = "Galaxy.Bank.Actions.1.Buy"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Delay" NOT = { has_country_flag = bank_actions_sell } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.50000" check_variable = { which = galaxy_bank_energy_var value >= 50000 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Own" check_variable = { which = galaxy_bank_actions_var value < 1 } }
+		}
+		hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -50000 } set_timed_country_flag = { flag = bank_actions_sell days = 1800 } country_event = { id = GalaxyBankEvents.150 } galaxy_bank_buy_actions = yes }
+		custom_tooltip = Galaxy.Bank.Actions.1
+		custom_tooltip = Bank.Action.Transaction.Energy.50000
+	}
+	option = { 
+		name = "Galaxy.Bank.Actions.5.Buy"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Delay" NOT = { has_country_flag = bank_actions_sell } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.100000" check_variable = { which = galaxy_bank_energy_var value >= 100000 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Own" check_variable = { which = galaxy_bank_actions_var value < 5 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Enought" check_variable = { which = galaxy_bank_actions_var value >= 1 } }
+		}
+		hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -100000 } set_timed_country_flag = { flag = bank_actions_sell days = 1800 } country_event = { id = GalaxyBankEvents.150 } galaxy_bank_buy_actions = yes }
+		custom_tooltip = Galaxy.Bank.Actions.5
+		custom_tooltip = Bank.Action.Transaction.Energy.100000
+	}
+	option = { 
+		name = "Galaxy.Bank.Actions.10.Buy"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Delay" NOT = { has_country_flag = bank_actions_sell } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.220000" check_variable = { which = galaxy_bank_energy_var value >= 220000 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Own" check_variable = { which = galaxy_bank_actions_var value < 10 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Enought" check_variable = { which = galaxy_bank_actions_var value >= 5 } }
+		}
+		hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -220000 } set_timed_country_flag = { flag = bank_actions_sell days = 1800 } country_event = { id = GalaxyBankEvents.150 } galaxy_bank_buy_actions = yes }
+		custom_tooltip = Galaxy.Bank.Actions.10
+		custom_tooltip = Bank.Action.Transaction.Energy.220000
+	}
+	option = { 
+		name = "Galaxy.Bank.Actions.25.Buy"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Delay" NOT = { has_country_flag = bank_actions_sell } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.500000" check_variable = { which = galaxy_bank_energy_var value >= 500000 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Own" check_variable = { which = galaxy_bank_actions_var value < 25 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Enought" check_variable = { which = galaxy_bank_actions_var value >= 10 } }
+		}
+		hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -500000 } set_timed_country_flag = { flag = bank_actions_sell days = 1800 } country_event = { id = GalaxyBankEvents.150 } galaxy_bank_buy_actions = yes }
+		custom_tooltip = Galaxy.Bank.Actions.25
+		custom_tooltip = Bank.Action.Transaction.Energy.500000
+	}
+	option = { 
+		name = "Galaxy.Bank.Actions.35.Buy"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Delay" NOT = { has_country_flag = bank_actions_sell } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.750000" check_variable = { which = galaxy_bank_energy_var value >= 750000 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Own" check_variable = { which = galaxy_bank_actions_var value < 35 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Enought" check_variable = { which = galaxy_bank_actions_var value >= 25 } }
+		}
+		hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -750000 } set_timed_country_flag = { flag = bank_actions_sell days = 1800 } country_event = { id = GalaxyBankEvents.150 } galaxy_bank_buy_actions = yes }
+		custom_tooltip = Galaxy.Bank.Actions.35
+		custom_tooltip = Bank.Action.Transaction.Energy.750000
+	}
+	option = { 
+		name = "Galaxy.Bank.Actions.50.Buy"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Delay" NOT = { has_country_flag = bank_actions_sell } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.1000000" check_variable = { which = galaxy_bank_energy_var value >= 1000000 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Own" check_variable = { which = galaxy_bank_actions_var value < 50 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Enought" check_variable = { which = galaxy_bank_actions_var value >= 35 } }
+		}
+		hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -1000000 } set_timed_country_flag = { flag = bank_actions_sell days = 1800 } country_event = { id = GalaxyBankEvents.150 } galaxy_bank_buy_actions = yes }
+		custom_tooltip = Galaxy.Bank.Actions.50
+		custom_tooltip = Bank.Action.Transaction.Energy.1000000
+	}
+	option = { 
+		name = "Galaxy.Bank.Actions.75.Buy"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Delay" NOT = { has_country_flag = bank_actions_sell } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.1500000" check_variable = { which = galaxy_bank_energy_var value >= 1500000 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Own" check_variable = { which = galaxy_bank_actions_var value < 75 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Enought" check_variable = { which = galaxy_bank_actions_var value >= 50 } }
+		}
+		hidden_effect = { change_variable = { which = galaxy_bank_energy_var value = -1500000 } set_timed_country_flag = { flag = bank_actions_sell days = 1800 } country_event = { id = GalaxyBankEvents.150 } galaxy_bank_buy_actions = yes }
+		custom_tooltip = Galaxy.Bank.Actions.75
+		custom_tooltip = Bank.Action.Transaction.Energy.1500000
+	}
+	option = { 
+		name = "Galaxy.Bank.Actions.90.Buy"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Delay" NOT = { has_country_flag = bank_actions_sell } }
+			#custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.2000000" check_variable = { which = galaxy_bank_energy_var value >= 2000000 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.2000000" check_variable = { which = galaxy_bank_millenium_ticket_var value >= 2 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Own" check_variable = { which = galaxy_bank_actions_var value < 90 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Enought" check_variable = { which = galaxy_bank_actions_var value >= 75 } }
+		}
+		hidden_effect = { change_variable = { which = galaxy_bank_millenium_ticket_var value = -2 } set_timed_country_flag = { flag = bank_actions_sell days = 1800 } country_event = { id = GalaxyBankEvents.150 } galaxy_bank_buy_actions = yes }
+		custom_tooltip = Galaxy.Bank.Actions.90
+		custom_tooltip = Bank.Action.Transaction.Energy.2000000
+	}
+	option = { 
+		name = "Galaxy.Bank.Actions.100.Buy"
+		custom_gui = "enclave_trader_option"
+		allow = { 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Loans.No" check_variable = { which = galaxy_bank_loans_var value <= 0 } } 
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Delay" NOT = { has_country_flag = bank_actions_sell } }
+			#custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.5000000" check_variable = { which = galaxy_bank_energy_var value >= 5000000 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Account.Money.5000000" check_variable = { which = galaxy_bank_millenium_ticket_var value >= 5 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Own" check_variable = { which = galaxy_bank_actions_var value < 100 } }
+			custom_tooltip = { fail_text = "Galaxy.Bank.Actions.Enought" check_variable = { which = galaxy_bank_actions_var value >= 90 } }
+		}
+		hidden_effect = { change_variable = { which = galaxy_bank_millenium_ticket_var value = -5 } country_event = { id = GalaxyBankEvents.150 } galaxy_bank_buy_actions = yes }
+		custom_tooltip = Galaxy.Bank.Actions.100
+		custom_tooltip = Bank.Action.Transaction.Energy.5000000
+	}
+}
+
+country_event = {# No Communication
+	id = GalaxyBankEvents.1000
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = {
+		trigger = {
+			text = "Galaxy.Bank.Energy.NoCommunication"
+			text = newline
+			text = "Galaxy.Bank.Loans.Submenu"
+		}
+	}
+	option = { custom_gui = "enclave_trader_option" name = "Galaxy.Bank.Bye" default_hide_option = yes }
+}
+
+country_event = {# Warning Message Incoming Mercenary Fleets
+	id = GalaxyBankEvents.2000
+	title = GalaxyBankEvents.2000.Name
+	desc = GalaxyBankEvents.2000.Desc
+	picture = GFX_evt_unknown_ships
+	show_sound = event_red_alert
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = galaxy_bank_loan_target
+	}
+	immediate = {
+		create_bank_country_faction = yes
+		event_target:bank_country_faction = { set_faction_hostility = { target = PREVPREV set_hostile = yes set_neutral = no set_friendly = no } }
+		galaxy_bank_global_assault = yes
+	}
+	option = { name = BATTLESTATIONS }
+}
+
+#From = Planet scope
+#This = Fleet scope
+fleet_event = {#Fleet Arrive at Colony Orbit
+	id = GalaxyBankEvents.2001
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_fleet_flag = galaxy_bank_mercenary_fleet
+		#from.owner = { has_country_flag = galaxy_bank_loan_target }
+		#from = { NOR = { has_planet_flag = galaxy_bank_planet_attacked has_modifier = bank_looted_planet } is_occupied_flag = no }
+	}
+	immediate = { 
+		if = {
+			limit = {
+				from.owner = { has_country_flag = galaxy_bank_loan_target }
+				from = { NOR = { has_planet_flag = galaxy_bank_planet_attacked has_modifier = bank_looted_planet } is_occupied_flag = no }
+			}
+			from = { 
+				planet_event = { id = GalaxyBankEvents.2002 }
+				planet_event = { id = GalaxyBankEvents.2003 days = 60 } 
+				set_timed_planet_flag = { flag = galaxy_bank_planet_attacked days = 380 } 
+			}
+		}
+		else_if = {
+			limit = {
+				from.owner = { has_country_flag = galaxy_bank_loan_target }
+				from = { OR = { has_modifier = bank_looted_planet is_occupied_flag = yes } }
+			}
+			from.owner = { galaxy_bank_player_next_colony_target = yes }
+			remove_auto_move_target = yes
+			auto_move_to_planet = { target = event_target:bank_target_location destroy_on_arrival = yes clear_auto_move_on_arrival = yes }	
+		}
+	}
+}
+
+planet_event = {# Mercenary Fleet Prepare Planet Invasion
+	id = GalaxyBankEvents.2002
+	title = GalaxyBankEvents.2002.Name
+	desc = GalaxyBankEvents.2002.Desc
+	picture = GFX_evt_fleet_from_surface
+	show_sound = event_ship_thrusters
+	is_triggered_only = yes
+	location = ROOT
+	option = { name = "Prepare for Land Invasion!" }
+}
+
+planet_event = {# Mercenary Fleet Spawns Army on Planet
+	id = GalaxyBankEvents.2003
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		owner = { has_country_flag = galaxy_bank_loan_target }
+		is_occupied_flag = no
+		NOT = { has_modifier = bank_looted_planet }
+	}
+	immediate = {
+		while = { count = 10 create_army = { name = "Mercenary Army" owner = event_target:bank_country_faction species = event_target:bank_country_faction type = "assault_army" } }
+	}
+}
+
+# Root = Planet
+# From = Planet Owner
+# FromFrom = Planet Controller (the one occupying)
+planet_event = {#Planet is Occupied
+	id = GalaxyBankEvents.2004
+	title = GalaxyBankEvents.2004.Name
+	desc = GalaxyBankEvents.2004.Desc
+	picture = GFX_evt_victorious_army
+	show_sound = event_ground_battle
+	is_triggered_only = yes
+	location = ROOT
+	trigger = {
+		FromFrom = { is_country_type = galaxy_bank_faction }
+	}
+	immediate = {
+		add_modifier = { modifier = "bank_looted_planet" days = 3600 }		
+		remove_planet_flag = defeated_galaxy_bank_invasion_1
+		remove_planet_flag = defeated_galaxy_bank_invasion_2
+		remove_planet_flag = defeated_galaxy_bank_invasion_3
+		while = {
+			count = 1000
+			if = {
+				limit = { From = { check_variable = { which = galaxy_bank_loans_var value > 0 } } num_pops > 1 }
+				change_variable = { which = galaxy_bank_loans_var value = -1000 }
+				random_owned_pop = { kill_pop = yes }
+			}
+		}
+		From = {
+			if = {#Planets Remaining
+				limit = { has_valaible_colony_target_for_bank = yes }
+				event_target:bank_country_faction = {
+					while = {
+						count = 100
+						random_owned_fleet = {
+							limit = { exists = orbit orbit = {  planet = { exists = owner owner = { has_country_flag = galaxy_bank_loan_target } is_same_value = ROOT } } }
+							root.owner = { galaxy_bank_player_next_colony_target = yes }
+							remove_auto_move_target = yes
+							auto_move_to_planet = { target = event_target:bank_target_location destroy_on_arrival = no clear_auto_move_on_arrival = yes }			
+						}
+					}
+				}
+			}
+			else_if = {#Player Defeated
+				limit = { has_valaible_colony_target_for_bank = no }				
+				country_event = { id = GalaxyBankEvents.2010 days = 5 }
+			}
+		}	
+	}
+}
+
+event = {# Yearly Invasion
+	id = GalaxyBankEvents.2005
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		random_country = {
+			limit = { is_country_type = galaxy_bank_faction }
+			while = {
+					count = 10
+					random_owned_fleet = {
+					limit = { galaxy_bank_fleet_orbit_planet = yes }
+					orbit = {
+						planet = { 
+							while = { count = 10 create_army = { name = "Mercenary Army" owner = event_target:bank_country_faction species = event_target:bank_country_faction type = "assault_army" } }
+							if = { limit = { has_planet_flag = defeated_galaxy_bank_invasion_1 } while = { count = 10 create_army = { name = "Mercenary Army" owner = event_target:bank_country_faction species = event_target:bank_country_faction type = "assault_army" } } }
+							if = { limit = { has_planet_flag = defeated_galaxy_bank_invasion_2 } while = { count = 10 create_army = { name = "Mercenary Army" owner = event_target:bank_country_faction species = event_target:bank_country_faction type = "assault_army" } } }
+							if = { limit = { has_planet_flag = defeated_galaxy_bank_invasion_3 } while = { count = 10 create_army = { name = "Mercenary Army" owner = event_target:bank_country_faction species = event_target:bank_country_faction type = "assault_army" } } }
+							set_timed_planet_flag = { flag = galaxy_bank_planet_attacked days = 380 }
+						}
+					}
+				}
+			}
+		}
+	}	
+}
+
+
+# Triggers country_event for the defender upon victory
+# Root = country, planet owner
+# From = country, attack leader
+# FromFrom = planet
+country_event = {#Planet is Defeated Invasion
+	id = GalaxyBankEvents.2006
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = galaxy_bank_loan_target
+		from = { is_country_type = galaxy_bank_faction }
+		#FromFrom = {}
+	}
+	immediate = {
+		FromFrom = {
+			if = { limit = { NOR = { has_planet_flag = defeated_galaxy_bank_invasion_1 has_planet_flag = defeated_galaxy_bank_invasion_2 has_planet_flag = defeated_galaxy_bank_invasion_3 } } set_planet_flag = defeated_galaxy_bank_invasion_1 }
+			else_if = { limit = { has_planet_flag = defeated_galaxy_bank_invasion_1 NOR = { has_planet_flag = defeated_galaxy_bank_invasion_2 has_planet_flag = defeated_galaxy_bank_invasion_3 } } set_planet_flag = defeated_galaxy_bank_invasion_2 }
+			else_if = { limit = { has_planet_flag = defeated_galaxy_bank_invasion_1 has_planet_flag = defeated_galaxy_bank_invasion_2 NOT = { has_planet_flag = defeated_galaxy_bank_invasion_3 } } set_planet_flag = defeated_galaxy_bank_invasion_3 }
+		}
+	}	
+}
+
+country_event = {# Player is Defeated
+	id = GalaxyBankEvents.2010
+	title = GalaxyBankEvents.2010.Name
+	desc = GalaxyBankEvents.2010.Desc
+	picture = GFX_evt_busy_spaceport
+	show_sound = event_activating_unknown_technology
+	is_triggered_only = yes
+	location = ROOT
+	option = { name = "A Shame!" hidden_effect = { galaxy_bank_player_defeated = yes } custom_tooltip = player_surrender.bank }
+}
+
+country_event = {# Any Pirate Mission - Failed
+	id = GalaxyBankEvents.3000
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = "Galaxy.Bank.Missions.Failed" 
+	immediate = { galaxy_bank_project_failed_destroy_pirates = yes }
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Bye" 
+		default_hide_option = yes 
+		hidden_effect = { event_target:bank_country = { add_trust = { who = root amount = -5 } } }
+		custom_tooltip = opinion-5
+	}
+}
+
+country_event = {# Any Object Mission - Failed
+	id = GalaxyBankEvents.3001
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = "Galaxy.Bank.Missions.Failed" 
+	immediate = { galaxy_bank_project_failed_destroy_objects = yes }
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Bye" 
+		default_hide_option = yes 
+		hidden_effect = { event_target:bank_country = { add_trust = { who = root amount = -5 } } }
+		custom_tooltip = opinion-5
+	}
+}
+
+country_event = {# Any Mission - Failed
+	id = GalaxyBankEvents.3002
+	title = Galaxy.Bank.Title
+	diplomatic = yes
+	force_open = yes
+	is_triggered_only = yes
+	custom_gui = "enclave_trader_window"
+	picture_event_data = { portrait = event_target:bank_country room = caravaneer_home_room planet_background = event_target:bank_country }
+	desc = "Galaxy.Bank.Missions.Failed"
+	option = { 
+		custom_gui = "enclave_trader_option" 
+		name = "Galaxy.Bank.Bye" 
+		default_hide_option = yes 
+		hidden_effect = { event_target:bank_country = { add_trust = { who = root amount = -5 } } }
+		custom_tooltip = opinion-5
+	}
+}
+
+country_event = {# Value Test
+	id = GalaxyBankEvents.5000
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		set_variable = { which = galaxy_bank_energy_var value = 2147483.647 }
+		set_variable = { which = galaxy_bank_mineral_var value = 2147483.647 }
+		set_variable = { which = galaxy_bank_food_var value = 2147483.647 }
+		set_variable = { which = galaxy_bank_consumer_var value = 2147483.647 }
+		set_variable = { which = galaxy_bank_alloy_var value = 2147483.647 }
+		set_variable = { which = galaxy_bank_actions_var value = 2147483.647 }
+	}
+}

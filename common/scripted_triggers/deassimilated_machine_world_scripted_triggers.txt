@@ -1,0 +1,40 @@
+# THIS = country
+is_eligible_for_machine_world_prompt = {
+	is_regular_empire = yes
+	NOT = { has_country_flag = deassimilated_machine_world_offered_policy_change }
+	any_owned_planet = { is_planet_class = pc_machine }
+}
+
+# THIS = country
+should_machine_world_prompt_policy = {
+	is_eligible_for_machine_world_prompt = yes
+	OR = {
+		has_ai_technology = yes
+		any_relation = {
+			has_communications_with_ai_using_country = yes
+		}
+	}
+}
+
+# THIS = country
+has_ai_technology = {
+	OR = {
+		has_technology = tech_synthetic_workers
+		has_technology = tech_sapient_ai
+	}
+}
+
+# THIS = country, potential AI user
+# PREV = country, country with comms
+has_communications_with_ai_using_country = {
+	has_communications = PREV
+	OR = {
+		has_ai_technology = yes
+		is_machine_empire = yes
+	}
+	OR = {
+		is_country_type = default
+		has_ai_personality_behaviour = robot_exploiter
+		has_ai_personality_behaviour = robot_liberator
+	}
+}

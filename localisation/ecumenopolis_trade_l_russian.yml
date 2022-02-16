@@ -1,0 +1,11 @@
+﻿l_russian:
+ col_ecu_trade: "Коммерческий Экуменополис"
+ col_ecu_trade_desc: "Огромный город-планета, который специализируется на непрерывном обмене товаров и благ, а также на работе с финансовыми инструментами\n\nПозволяет строить §Y$district_arcology_commercial_plural$§!"
+ mod_planet_built_speed_mult_suffix: "Скорость строительства"
+ mod_planet_district_arcology_commercial_build_speed_mult: "$district_arcology_commercial$ $mod_planet_built_speed_mult_suffix$"
+ mod_planet_building_commercial_zone_build_speed_mult: "$building_commercial_zone$ $mod_planet_built_speed_mult_suffix$"
+ mod_planet_building_commercial_megaplex_build_speed_mult: "$building_commercial_megaplex$ $mod_planet_built_speed_mult_suffix$"
+ mod_planet_building_galactic_stock_exchange_build_speed_mult: "$building_galactic_stock_exchange$ $mod_planet_built_speed_mult_suffix$"
+ district_arcology_commercial: "Коммерческая аркология"
+ district_arcology_commercial_plural: "Коммерческии аркологии"
+ district_arcology_commercial_desc: "Бесконечные уровни офисов для поддержания обмена благами, товароварами, управления финансовыми инструментами и других тайных задач, которые движут галактической экономикой.\n\nПривлекает больше £job_merchant£ §Y$job_merchant_plural$§! когда планета специализирована как §Y$col_ecu_trade$§!."

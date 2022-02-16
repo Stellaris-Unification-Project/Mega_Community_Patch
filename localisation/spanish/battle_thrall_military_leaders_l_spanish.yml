@@ -1,0 +1,9 @@
+﻿l_spanish:
+ necrophage_only_allows_necrophage_leaders: "$TRIGGER_FAIL$Solo la población necrófaga puede ser §Ylíder§!."
+ nerve_stapled_cannot_lead: "$TRIGGER_FAIL$Esta especie no tiene suficiente capacidad mental para dirigir"
+ military_service_full_servitor_tooltip: "La especie pueden producir §H$GENERALS$§! y §H$ADMIRALS$§!"
+ military_service_full_servitor_tooltip_delayed: "§LAlthough allowing Organic Advisors in military roles presents massive risks to our dear $pop_cat_bio_trophy_plural$, their effectiveness at chaos and violence cannot be denied.§!"
+ military_service_full_default_tooltip: "La especie pueden producir §H$ARMIES$§!, §H$GENERALS$§! y §H$ADMIRALS$§!"
+ military_service_full_default_tooltip_delayed: "§LSin duda son de los más competentes de nuestras fuerzas armadas.§!"
+ # missing base-game localisation
+ effect_random_owned_pop_species: "$effect_random_owned_species$"

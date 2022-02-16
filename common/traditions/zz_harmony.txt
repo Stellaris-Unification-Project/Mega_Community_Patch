@@ -1,0 +1,29 @@
+
+tr_harmony_mind_and_body = {
+
+	modifier = {
+		leader_age = 15
+		leader_skill_levels = 1
+	}
+
+	tradition_swap = {
+		name = tr_harmony_unity_of_self
+
+		# gain unity per pop necrophaged
+
+		trigger = {
+			has_origin = origin_necrophage
+		}
+		weight = {
+			factor = 2
+		}
+	}
+
+	ai_weight = {
+		factor = 1000
+		modifier = {
+			factor = 10
+			has_origin = origin_necrophage
+		}
+	}
+}

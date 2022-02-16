@@ -1,0 +1,11 @@
+# this = planet
+et_uses_planetary_diversity_arcology_district_set = {
+	OR = {
+		uses_district_set = pdecocity
+		uses_district_set = pdpalacearc
+		uses_district_set = pdmilarc
+		uses_district_set = pdcorpoarc
+		uses_district_set = pdbiocapital
+		uses_district_set = pdmachinecapital
+	}
+}

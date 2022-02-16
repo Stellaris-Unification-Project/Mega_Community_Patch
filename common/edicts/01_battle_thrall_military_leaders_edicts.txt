@@ -1,0 +1,176 @@
+designate_honored_protectors = {
+	length = 0
+	icon = "GFX_edict_type_policy"
+	edict_cap_usage = 0
+	resources = {
+		category = edicts
+		cost = {
+			influence = 100
+		}
+	}
+	modifier = { }
+	potential = {
+		is_homicidal = no
+		is_eligible_to_designate_honored_protectors = yes
+	}
+	allow = {
+		hidden_trigger = { NOT = { has_country_flag = honored_protectors_open } }
+		any_galaxy_species = {
+			hidden_trigger = {
+				NOT = { is_same_species = prev }
+			}
+			custom_tooltip = {
+				fail_text = edict_designate_honored_protectors.not_already_designated
+				NOT = { has_species_flag = allow_military_leaders_honored_protectors@prev }
+			}
+			has_citizenship_type = {
+				type = citizenship_slavery
+				country = prev
+			}
+			has_slavery_type = {
+				type = slavery_military
+				country = prev
+			}
+		}
+	}
+	effect = {
+		hidden_effect = {
+			country_event = {
+				id = honored_protectors_decree.2
+			}
+		}
+	}
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = @EdictMedPrio
+			has_policy_flag = slavery_allowed
+			any_enslaved_species = {
+				has_slavery_type = {
+					type = slavery_military
+					country = prev
+				}
+			}
+			NOT = {
+				any_enslaved_species = {
+					has_species_flag = allow_military_leaders_honored_protectors@prev
+					has_slavery_type = {
+						type = slavery_military
+						country = prev
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 10
+			has_country_flag = is_eldanaer_stellar_authority
+			any_enslaved_species = {
+				has_species_flag = zdremite_species@prev
+				has_slavery_type = {
+					type = slavery_military
+					country = prev
+				}
+			}
+		}
+	}
+}
+
+designate_organic_advisors = {
+	length = 0
+	icon = "GFX_edict_type_policy"
+	edict_cap_usage = 0
+	resources = {
+		category = edicts
+		cost = {
+			influence = 100
+		}
+	}
+	modifier = { }
+	potential = {
+		is_eligible_to_designate_organic_advisors = yes
+	}
+	allow = {
+		hidden_trigger = { NOT = { has_country_flag = organic_advisors_open } }
+		any_owned_pop_species = {
+			hidden_trigger = { NOT = { is_same_species = prev } }
+			has_citizenship_type = {
+				type = citizenship_organic_trophy
+				country = prev
+			}
+			custom_tooltip = {
+				fail_text = edict_designate_organic_advisors.not_already_designated
+				NOT = { has_species_flag = allow_leaders_organic_advisors@prev }
+			}
+			custom_tooltip = {
+				fail_text = species_is_not_organic
+				btml_is_mechanical_or_machine = no
+			}
+			custom_tooltip = {
+				fail_text = nerve_stapled_cannot_lead
+				btml_is_species_smart_enough_for_leadership = yes
+			}
+		}
+	}
+	effect = {
+		hidden_effect = {
+			country_event = {
+				id = organic_advisors_decree.2
+			}
+		}
+	}
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = @EdictMedPrio
+			any_owned_pop_species = {
+				has_citizenship_type = {
+					type = citizenship_organic_trophy
+					country = prev
+				}
+				btml_is_species_smart_enough_for_leadership = yes
+				btml_has_species_trait_with_leader_trait = yes
+			}
+			NOT = { any_owned_pop_species = { has_species_flag = allow_leaders_organic_advisors@prev } }
+		}
+	}
+}
+
+revoke_organic_advisors = {
+	length = 0
+	icon = "GFX_edict_type_policy"
+	edict_cap_usage = 0
+	resources = {
+		category = edicts
+		cost = {
+			influence = 100
+		}
+	}
+	modifier = { }
+	potential = {
+		is_eligible_to_designate_organic_advisors = yes
+	}
+	allow = {
+		hidden_trigger = { NOT = { has_country_flag = organic_advisors_open } }
+		any_owned_pop_species = {
+			hidden_trigger = { NOT = { is_same_species = prev } }
+			has_citizenship_type = {
+				type = citizenship_organic_trophy
+				country = prev
+			}
+			custom_tooltip = {
+				fail_text = edict_revoke_organic_advisors.already_designated
+				has_species_flag = allow_leaders_organic_advisors@prev
+			}
+		}
+	}
+	effect = {
+		hidden_effect = {
+			country_event = {
+				id = organic_advisors_decree.6
+			}
+		}
+	}
+	ai_weight = {
+		weight = 0
+	}
+}

@@ -1,0 +1,75 @@
+# root = species
+# this = country
+can_generate_army_from_species = {
+	root = {
+		OR = {
+			has_military_service_type = {
+				type = military_service_full
+				country = prev
+			}
+			has_military_service_type = {
+				type = military_service_limited
+				country = prev
+			}
+		}
+		NAND = {
+			prev = { has_valid_civic = civic_machine_servitor }
+			is_robotic_species = no
+		}
+	}
+}
+
+# Checks whether any leaders (scientists etc) can be formed from this pop
+# root = country
+# this = pop
+can_generate_leader_from_pop = {
+	OR = {
+		has_citizenship_rights = yes
+		species = {
+			has_species_flag = allow_leaders_organic_advisors@root
+			has_citizenship_type = {
+				type = citizenship_organic_trophy
+				country = root
+			}
+		}
+	}
+	btml_is_species_smart_enough_for_leadership = yes
+	OR = {
+		is_robot_pop = no
+		root = {
+			OR = {
+				has_technology = tech_synthetic_leaders
+				is_machine_empire = yes
+				is_mechanical_empire = yes
+			}
+		}
+	}
+	OR = {
+		is_same_species = root
+		root = { btml_is_necrophage_empire = no }
+	}
+}
+
+# Checks whether this species is eligible to become rulers through elections
+# root = country
+# this = species
+can_generate_leader_from_species = {
+	is_sapient = yes
+	OR = {
+		NAND = {
+			NOT = { root = { has_technology = "tech_synthetic_leaders" } }
+			has_trait = "trait_mechanical"
+		}
+		has_citizenship_type = {
+			type = citizenship_full
+			country = root
+		}
+		AND = {
+			has_species_flag = allow_leaders_organic_advisors@root
+			has_citizenship_type = {
+				type = citizenship_organic_trophy
+				country = root
+			}
+		}
+	}
+}

@@ -147,7 +147,7 @@ underground_trade_worker = {
 	condition_string = SPECIALIST_JOB_TRIGGER
 	building_icon = building_holo_theatres
 	clothes_texture_index = 3
-	#icon = clerk
+	# icon = clerk
 
 	possible_pre_triggers = {
 		has_owner = yes
@@ -873,6 +873,7 @@ gas_plant_engineer_gestalt = {
 # Feral Overload - Exterminate Option - Cave Cleaners
 
 # Ordinary Species
+# Modified: Added amenities for agrarian idyll (lithoid)
 cave_cleaner = {
 	category = worker
 	condition_string = WORKER_JOB_TRIGGER
@@ -895,6 +896,47 @@ cave_cleaner = {
 		}
 		modifier = {
 			planet_jobs_minerals_produces_mult = 0.1
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = yes
+			}
+		}
+		modifier = {
+			planet_amenities_add = 2
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = yes
+			}
+			OR = {
+				has_trait = trait_robot_domestic_protocols
+				has_trait = trait_charismatic
+			}
+		}
+		modifier = {
+			planet_amenities_add = 0.4
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = yes
+			}
+			has_trait = trait_repugnant
+		}
+		modifier = {
+			planet_amenities_add = -0.4
 		}
 	}
 
@@ -923,8 +965,31 @@ cave_cleaner = {
 			has_trait = trait_necrophage
 		}
 		modifier = {
+			factor = 1.1
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = yes
+			}
+		}
+		modifier = {
 			factor = 1.5
 			has_job = cave_cleaner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = yes
+			}
+			OR = {
+				has_trait = trait_robot_domestic_protocols
+				has_trait = trait_charismatic
+			}
+		}
+		modifier = {
+			factor = 0.5
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = yes
+			}
+			has_trait = trait_repugnant
 		}
 		modifier = {
 			factor = 0
@@ -1005,7 +1070,8 @@ cave_cleaner_gestalt = {
 	}
 }
 
-#Dinosaur Hunters
+# Dinosaur Hunters
+# Modified: Removed the amenities-related weights for agrarian idyll (lithoid)
 titan_hunter = {
 	category = worker
 
@@ -1044,6 +1110,50 @@ titan_hunter = {
 		}
 	}
 
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = no
+			}
+		}
+		modifier = {
+			planet_amenities_add = 2
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = no
+			}
+			OR = {
+				has_trait = trait_robot_domestic_protocols
+				has_trait = trait_charismatic
+			}
+		}
+		modifier = {
+			planet_amenities_add = 0.4
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = no
+			}
+			has_trait = trait_repugnant
+		}
+		modifier = {
+			planet_amenities_add = -0.4
+		}
+	}
+
 	resources = {
 		category = planet_farmers
 		produces = {
@@ -1062,7 +1172,11 @@ titan_hunter = {
 		}
 		modifier = {
 			factor = 1.1
-			owner = { has_valid_civic = civic_agrarian_idyll }
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = no
+			}
 		}
 		modifier = {
 			factor = 10
@@ -1110,7 +1224,11 @@ titan_hunter = {
 		}
 		modifier = {
 			factor = 1.5
-			owner = { has_valid_civic = civic_agrarian_idyll }
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = no
+			}
 			OR = {
 				has_trait = trait_robot_domestic_protocols
 				has_trait = trait_charismatic
@@ -1118,7 +1236,11 @@ titan_hunter = {
 		}
 		modifier = {
 			factor = 0.5
-			owner = { has_valid_civic = civic_agrarian_idyll }
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = no
+			}
 			has_trait = trait_repugnant
 		}
 
@@ -1214,7 +1336,8 @@ robot_caretaker = {
 	}
 }
 
-#Turtle Miner Regular
+# Turtle Miner Regular
+# Modified: Added amenities for agrarian idyll (lithoid)
 turtle_miner = {
 	category = worker
 
@@ -1276,6 +1399,38 @@ turtle_miner = {
 			energy = 2
 		}
 	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_agrarian_idyll }
+		}
+		modifier = {
+			planet_amenities_add = 2
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_agrarian_idyll }
+			OR = {
+				has_trait = trait_robot_domestic_protocols
+				has_trait = trait_charismatic
+			}
+		}
+		modifier = {
+			planet_amenities_add = 0.4
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_agrarian_idyll }
+			has_trait = trait_repugnant
+		}
+		modifier = {
+			planet_amenities_add = -0.4
+		}
+	}
 
 	weight = {
 		weight = @worker_job_weight
@@ -1331,6 +1486,25 @@ turtle_miner = {
 		modifier = {
 			factor = 1.1
 			has_trait = trait_nerve_stapled
+		}
+		modifier = {
+			factor = 1.5
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+			}
+			OR = {
+				has_trait = trait_robot_domestic_protocols
+				has_trait = trait_charismatic
+			}
+		}
+		modifier = {
+			factor = 0.5
+			exists = owner
+			owner = {
+				has_valid_civic = civic_agrarian_idyll
+			}
+			has_trait = trait_repugnant
 		}
 
 		modifier = {

@@ -1,0 +1,6 @@
+﻿l_polish:
+ district_rw_commercial_desc: "Ten segment świata pierścieniowego został przeznaczony do handlu.\n\nPrzyciąga więcej £job_merchant£ §Y$job_merchant_plural$§! gdy segment pierścienia jest oznaczony jako §Y$col_ring_trade$§!."
+ district_hab_commercial_desc: "Gwarna dzielnica handlowa stacji mieszkalnej, w której kupcy i urzędnicy prowadzą swoje interesy.\n\nPrzyciąga więcej £job_merchant£ §Y$job_merchant_plural$§! gdy stacja mieszkalna jest oznaczona jako §Y$col_habitat_trade$§!."
+ district_srw_commercial_desc: "Dzielnica biur i fabryk, w której produkuje się i sprzedaje towary.\n\nPrzyciąga więcej £job_merchant£ §Y$job_merchant_plural$§! gdy segment pierścienia jest oznaczony jako §Y$col_srw_trade$§!."
+ tr_prosperity_interstellar_franchising_desc: "§Y$district_city_plural$§! zapewniają §Y1§! dodatkowe miejsce pracy £job_clerk£ §Y$job_clerk$§!.\n$pc_habitat$ §Y$district_hab_commercial_plural$§!, $pc_ringworld_habitable$ §Y$district_rw_commercial_plural$§! i $pc_city$ §Y$district_arcology_housing_plural$§! wytwarzają również dodatkowe miejsce pracy £job_clerk£ §Y$job_clerk$§!."
+ col_ring_mix_desc: "Ogromny świat pierścieniowy, którego masywna powierzchnia przeznaczona jest na wszystkie dziedziny produkcji"

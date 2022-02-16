@@ -1,0 +1,33 @@
+namespace = pasmod_init_setup
+
+event = {
+	id = pasmod_init_setup.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_global_flag = pasmod_enabled }
+	}
+
+	immediate = {
+		set_global_flag = pasmod_enabled
+		set_global_flag = pasmod_main_feature
+		set_global_flag = pasmod_ai_use_main_feature
+		every_playable_country = {
+			limit = { is_ai = no }
+			set_country_flag = pasmod_set_devastation_25
+		}
+		every_country = {
+			limit = { is_ai = yes }
+			set_country_flag = pasmod_set_devastation_0
+			set_country_flag = pasmod_mod_ships_enabled
+		}
+	}
+
+	after = {
+		random_country = {
+			limit = { has_country_flag = giga_host }
+			country_event = { id = pasmod_etc.1 }
+		}
+	}
+}

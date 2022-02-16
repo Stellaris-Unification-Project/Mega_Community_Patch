@@ -1,0 +1,42 @@
+defined_text = { # expects country
+	name = GetMachineWorldOpinionDesc
+	# var previous_pc_machine_opinion 0 = neutral 1 = cooperative 2 = hostile
+	text = {
+		trigger = {
+			has_policy_flag = robots_allowed
+			has_policy_flag = ai_full_rights
+		}
+		localization_key = deassimilated_machine_world.30.cooperative
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = previous_pc_machine_opinion
+				value = 1
+			}
+			has_policy_flag = robots_allowed
+			has_policy_flag = ai_servitude
+		}
+		localization_key = deassimilated_machine_world.30.neutral.downgrade
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = previous_pc_machine_opinion
+				value = 2
+			}
+			has_policy_flag = robots_allowed
+			has_policy_flag = ai_servitude
+		}
+		localization_key = deassimilated_machine_world.30.neutral.upgrade
+	}
+	text = {
+		trigger = {
+			OR = {
+				has_policy_flag = robots_outlawed
+				has_policy_flag = ai_outlawed
+			}
+		}
+		localization_key = deassimilated_machine_world.30.hostile
+	}
+}

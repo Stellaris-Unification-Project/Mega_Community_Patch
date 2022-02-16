@@ -1,0 +1,4 @@
+﻿l_russian:
+ any_galaxy_species_trigger: "Любая раса в галактике"
+ military_service_full_tooltip: "[From.GetMilitaryServiceFullTooltip]"
+ military_service_full_tooltip_delayed: "[From.GetMilitaryServiceFullTooltipDelayed]"

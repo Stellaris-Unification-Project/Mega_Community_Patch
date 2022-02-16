@@ -1,0 +1,70 @@
+# this = species
+# event_target:protected_country = country, who is designating this species as protectors
+set_species_honored_protectors = {
+	if = {
+		limit = {
+			has_citizenship_type = {
+				type = citizenship_slavery
+				country = event_target:protected_country
+			}
+			has_slavery_type = {
+				type = slavery_military
+				country = event_target:protected_country
+			}
+			event_target:protected_country = { is_eligible_to_designate_honored_protectors = yes }
+		}
+		set_species_flag = allow_military_leaders_honored_protectors@event_target:protected_country
+		if = {
+			limit = {
+				NOT = {
+					has_military_service_type = {
+						type = military_service_full
+						country = event_target:protected_country
+					}
+				}
+			}
+			set_military_service_type = {
+				type = military_service_full
+				country = event_target:protected_country
+				cooldown = yes
+			}
+		}
+	}
+	event_target:protected_country = {
+		country_event = {
+			id = honored_protectors_decree.5
+		}
+	}
+}
+
+# this = species
+# DISCRIMINATOR = something to give the event target a unique name
+accumulate_potential_protector_if_available = {
+	if = {
+		limit = {
+			check_variable = {
+				which = num_subset_potential_protectors
+				value < 10
+			}
+			check_variable = {
+				which = num_potential_protectors
+				value > 0
+			}
+		}
+		random_galaxy_species = {
+			limit = { has_species_flag = potential_protectors@prev }
+			remove_species_flag = potential_protectors@prev
+			prev = {
+				change_variable = {
+					which = num_subset_potential_protectors
+					value = 1
+				}
+				change_variable = {
+					which = num_potential_protectors
+					value = -1
+				}
+			}
+			save_event_target_as = potential_protectors$DISCRIMINATOR$
+		}
+	}
+}

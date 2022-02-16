@@ -1,0 +1,44 @@
+namespace = gpm_relics
+
+# Gain all relics from your new subject
+# This = subject
+# From = subject's overlord
+country_event = {
+	id = gpm_relics.1100
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		exists = from
+		from = {
+			OR = {
+				is_country_type = default
+				is_fallen_empire = yes
+			}
+		}
+		exists = this
+		this = {
+			OR = {
+				is_country_type = default
+				is_fallen_empire = yes
+			}
+			NOR = {
+				is_subject_type = "protectorate"
+				is_subject_type = "signatory"
+				is_subject_type = "devstate"
+				is_subject_type = "dummy_vassal"
+			}
+		}		
+		# additional preventive check against primitives
+		NOT = {
+			this = {
+				is_country_type = primitive
+			}
+		}
+	}
+
+	immediate = {
+		from = { country_event = { id = gpm_relics.1101 } }
+		log = "GPM: Country Subjugated - overlord = [from.GetName];; subject = [this.GetName]"
+	}
+}

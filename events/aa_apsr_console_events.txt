@@ -1,0 +1,725 @@
+namespace = apsr
+
+# заняты:
+# 901-924, 987-999
+
+# 997 - стартовое окно
+
+# 986 - окно с параметрами генерации ресурсов
+
+# 996 - выбор генерации определенного количества (1-10)
+# 993 - выбор генерации определенного количества (11-20)
+# 990 - выбор генерации определенного количества (21-30)
+
+# 901-924 - генерация ресурсов (1 - один, 2 - два и т.д.)
+
+# 994 - рандомное количество (от ... до ...) страница 1
+# 989 - рандомное количество (от ... до ...) страница 2
+
+# 999 - ручная генерация (1-10)
+# 998 - ручная генерация (11-20)
+# 988 - ручная генерация (21-30)
+
+# 995 - выбор могут генерироваться дополнительные аномалии или нет
+
+# 992 - генерация ресурсов на столицах (выбор "битва столиц")
+# 991 - сообщение что ресурсов меньше чем столиц (выбор "битва столиц")
+
+# 987 - окно FAQ
+
+# 800 - окно дополнительных настроек
+# 810-813 - окно настройки Терминала
+# 820-823 - окно настройки САО
+# 830-833 - окно настройки улучшений
+
+
+
+
+
+### стартовое окно с выбором ###
+
+country_event = {
+	id = apsr.997
+	title = "apsr.997.title"
+	desc = {
+		trigger = {
+			NOT = {
+				has_global_flag = apsr_setup_finished
+			}
+		}
+		text = "apsr.997.desc"
+	}
+	desc = {
+		trigger = {
+			has_global_flag = apsr_setup_finished
+		}
+		text = "apsr.997.desc_ready"
+	}
+	picture = GFX_evt_apsr_logo
+	is_triggered_only = yes
+			
+	trigger = {
+		NOT = {
+			has_global_flag = apsr_console_stop
+		}
+		has_country_flag = giga_host
+		is_ai = no
+	}
+	
+	immediate = {
+		set_global_flag = apsr_console_stop
+		set_global_flag = apsr_mod_on
+		set_country_flag = apsr_server_country
+		set_variable = {
+			which = apsr_ancients_count
+			value = 0
+		}
+		
+		# FOR CAPITAL BATTLE
+		save_global_event_target_as = apsr_is_server
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = apsr_server_capital_battle_counts_set
+				}
+			}
+			set_variable = {
+				which = apsr_capital_battle_total_available_resources
+				value = 24
+			}
+			set_variable = {
+				which = apsr_capital_battle_safe_available_resources
+				value = 12
+			}
+			set_variable = {
+				which = apsr_capital_battle_empires_with_origins
+				value = 0
+			}
+			set_variable = {
+				which = apsr_capital_battle_empires_without_origins
+				value = 0
+			}
+			every_country = {
+				limit = { 
+					AND = {
+						is_country_type = default 
+						has_origin = apsr_origin_unique_capital
+					}
+				}
+				event_target:apsr_is_server = {
+					change_variable = {
+						which = apsr_capital_battle_total_available_resources
+						value = -1
+					}
+					change_variable = {
+						which = apsr_capital_battle_safe_available_resources
+						value = -1
+					}
+				}
+			}
+			every_country = {
+				limit = { 
+					AND = {
+						is_country_type = default 
+						OR = {
+							has_origin = origin_default
+							has_origin = origin_mechanists
+							has_origin = origin_syncretic_evolution
+							has_origin = origin_scion
+							has_origin = origin_galactic_doorstep
+							has_origin = origin_shoulders_of_giants
+							has_origin = origin_lost_colony
+						}
+					}
+				}
+				event_target:apsr_is_server = {
+					change_variable = {
+						which = apsr_capital_battle_empires_with_origins
+						value = 1
+					}
+				}
+			}
+			every_country = {
+				limit = { 
+					AND = {
+						is_country_type = default 
+						NOR = {
+							has_origin = origin_default
+							has_origin = origin_mechanists
+							has_origin = origin_syncretic_evolution
+							has_origin = origin_scion
+							has_origin = origin_galactic_doorstep
+							has_origin = origin_shoulders_of_giants
+							has_origin = origin_lost_colony
+						}
+					}
+				}
+				event_target:apsr_is_server = {
+					change_variable = {
+						which = apsr_capital_battle_empires_without_origins
+						value = 1
+					}
+				}
+			}
+			set_country_flag = apsr_server_capital_battle_counts_set
+		}
+	}
+
+# Быстрый старт (включить все)
+	option = {
+		name = apsr.997.quick_start
+		custom_tooltip = apsr.997.quick_start.tooltip
+		trigger = {
+			NOT = {
+				has_global_flag = apsr_setup_finished
+			}
+		}
+		hidden_effect = {
+			set_global_flag = apsr_setup_finished
+			set_global_flag = apsr_generation_24
+			country_event = { id = apsr.924 days = 5 }
+			country_event = { id = apsr.6 days = 6 }
+			remove_global_flag = apsr_advanced_set_off
+			remove_global_flag = apsr_advanced_count_1
+			remove_global_flag = apsr_advanced_count_2
+			remove_global_flag = apsr_advanced_count_4
+			remove_global_flag = apsr_advanced_count_5
+			remove_global_flag = apsr_advanced_factor_050
+			remove_global_flag = apsr_advanced_factor_200
+			remove_global_flag = apsr_terminal_set_off
+			remove_global_flag = apsr_terminal_factor_025
+			remove_global_flag = apsr_terminal_factor_050
+			remove_global_flag = apsr_terminal_factor_200
+			remove_global_flag = apsr_terminal_factor_300
+			remove_global_flag = apsr_terminal_set_ai_off
+			remove_global_flag = apsr_sao_set_off
+			remove_global_flag = apsr_sao_replay_set_off
+			remove_global_flag = apsr_sao_factor_less
+			remove_global_flag = apsr_sao_factor_more
+		}
+	}
+	
+# START	
+	option = {
+		name = apsr.997.start
+		custom_tooltip = apsr.997.start.tooltip
+		custom_tooltip = apsr.997.start.info_1
+		if = {
+			limit = {
+				NOT = {
+					has_global_flag = apsr_advanced_set_off
+				}
+			}
+			custom_tooltip = apsr.800.setup_advanced.info_1_1
+		}
+		if = {
+			limit = {
+				has_global_flag = apsr_advanced_set_off
+			}
+			custom_tooltip = apsr.800.setup_advanced.info_1_2
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_advanced_set_off
+					}
+					has_global_flag = apsr_advanced_count_1
+				}
+			}
+			custom_tooltip = apsr.800.setup_advanced.info_2_1
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_advanced_set_off
+					}
+					has_global_flag = apsr_advanced_count_2
+				}
+			}
+			custom_tooltip = apsr.800.setup_advanced.info_2_2
+		}
+		if = {
+			limit = {
+				NOR = {
+					has_global_flag = apsr_advanced_set_off
+					
+					has_global_flag = apsr_advanced_count_1
+					
+					has_global_flag = apsr_advanced_count_2
+					
+					has_global_flag = apsr_advanced_count_4
+					
+					has_global_flag = apsr_advanced_count_5
+					
+				}
+			}
+			custom_tooltip = apsr.800.setup_advanced.info_2_3
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_advanced_set_off
+					}
+					has_global_flag = apsr_advanced_count_4
+				}
+			}
+			custom_tooltip = apsr.800.setup_advanced.info_2_4
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_advanced_set_off
+					}
+					has_global_flag = apsr_advanced_count_5
+				}
+			}
+			custom_tooltip = apsr.800.setup_advanced.info_2_5
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_advanced_set_off
+					}
+					has_global_flag = apsr_advanced_factor_050
+				}
+			}
+			custom_tooltip = apsr.800.setup_advanced.info_3_1
+		}
+		if = {
+			limit = {
+				NOR = {
+					has_global_flag = apsr_advanced_set_off
+					
+					OR = {
+							has_global_flag = apsr_advanced_factor_050
+							has_global_flag = apsr_advanced_factor_200
+						}
+				}
+			}
+			custom_tooltip = apsr.800.setup_advanced.info_3_2
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_advanced_set_off
+					}
+					has_global_flag = apsr_advanced_factor_200
+				}
+			}
+			custom_tooltip = apsr.800.setup_advanced.info_3_3
+		}
+		custom_tooltip = apsr.997.start.info_2
+		if = {
+			limit = {
+				NOT = {
+					has_global_flag = apsr_terminal_set_off
+				}
+			}
+			custom_tooltip = apsr.800.setup_terminal.info_1_1
+		}
+		if = {
+			limit = {
+				has_global_flag = apsr_terminal_set_off
+			}
+			custom_tooltip = apsr.800.setup_terminal.info_1_2
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_terminal_set_off
+					}
+					has_global_flag = apsr_terminal_factor_025
+				}
+			}
+			custom_tooltip = apsr.800.setup_terminal.info_2_1
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_terminal_set_off
+					}
+					has_global_flag = apsr_terminal_factor_050
+				}
+			}
+			custom_tooltip = apsr.800.setup_terminal.info_2_2
+		}
+		if = {
+			limit = {
+				NOR = {
+					has_global_flag = apsr_terminal_set_off
+					
+					OR = {
+							has_global_flag = apsr_terminal_factor_025
+							has_global_flag = apsr_terminal_factor_050
+							has_global_flag = apsr_terminal_factor_200
+							has_global_flag = apsr_terminal_factor_300
+						}
+				}
+			}
+			custom_tooltip = apsr.800.setup_terminal.info_2_3
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_terminal_set_off
+					}
+					has_global_flag = apsr_terminal_factor_200
+				}
+			}
+			custom_tooltip = apsr.800.setup_terminal.info_2_4
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_terminal_set_off
+					}
+					has_global_flag = apsr_terminal_factor_300
+				}
+			}
+			custom_tooltip = apsr.800.setup_terminal.info_2_5
+		}
+		if = {
+			limit = {
+				NOR = {
+					has_global_flag = apsr_terminal_set_off
+					
+					has_global_flag = apsr_terminal_set_ai_off
+					
+				}
+			}
+			custom_tooltip = apsr.800.setup_terminal.info_3_1
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_terminal_set_off
+					}
+					has_global_flag = apsr_terminal_set_ai_off
+				}
+			}
+			custom_tooltip = apsr.800.setup_terminal.info_3_2
+		}
+		custom_tooltip = apsr.997.start.info_3
+		if = {
+			limit = {
+				NOT = {
+					has_global_flag = apsr_sao_set_off
+				}
+			}
+			custom_tooltip = apsr.800.setup_sao.info_1_1
+		}
+		if = {
+			limit = {
+				has_global_flag = apsr_sao_set_off
+			}
+			custom_tooltip = apsr.800.setup_sao.info_1_2
+		}
+		if = {
+			limit = {
+				NOR = {
+					has_global_flag = apsr_sao_set_off
+					
+					has_global_flag = apsr_sao_replay_set_off
+					
+				}
+			}
+			custom_tooltip = apsr.800.setup_sao.info_2_1
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_sao_set_off
+					}
+					has_global_flag = apsr_sao_replay_set_off
+				}
+			}
+			custom_tooltip = apsr.800.setup_sao.info_2_2
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_sao_set_off
+					}
+					has_global_flag = apsr_sao_factor_less
+				}
+			}
+			custom_tooltip = apsr.800.setup_sao.info_3_1
+		}
+		if = {
+			limit = {
+				NOR = {
+					has_global_flag = apsr_sao_set_off
+					
+					OR = {
+							has_global_flag = apsr_sao_factor_less
+							has_global_flag = apsr_sao_factor_more
+						}
+				}
+			}
+			custom_tooltip = apsr.800.setup_sao.info_3_2
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = {
+						has_global_flag = apsr_sao_set_off
+					}
+					has_global_flag = apsr_sao_factor_more
+				}
+			}
+			custom_tooltip = apsr.800.setup_sao.info_3_3
+		}
+		trigger = {
+			has_global_flag = apsr_setup_finished
+		}
+		hidden_effect = {
+			country_event = { id = apsr.6 days = 6 }
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_capitals
+				}
+				every_country = {
+					country_event = { id = apsr.992 }
+				}
+			}
+			# для apsr_generation_0 ничего не происходит
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_1
+				}
+				country_event = { id = apsr.901 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_2
+				}
+				country_event = { id = apsr.902 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_3
+				}
+				country_event = { id = apsr.903 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_4
+				}
+				country_event = { id = apsr.904 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_5
+				}
+				country_event = { id = apsr.905 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_6
+				}
+				country_event = { id = apsr.906 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_7
+				}
+				country_event = { id = apsr.907 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_8
+				}
+				country_event = { id = apsr.908 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_9
+				}
+				country_event = { id = apsr.909 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_10
+				}
+				country_event = { id = apsr.910 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_11
+				}
+				country_event = { id = apsr.911 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_12
+				}
+				country_event = { id = apsr.912 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_13
+				}
+				country_event = { id = apsr.913 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_14
+				}
+				country_event = { id = apsr.914 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_15
+				}
+				country_event = { id = apsr.915 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_16
+				}
+				country_event = { id = apsr.916 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_17
+				}
+				country_event = { id = apsr.917 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_18
+				}
+				country_event = { id = apsr.918 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_19
+				}
+				country_event = { id = apsr.919 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_20
+				}
+				country_event = { id = apsr.920 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_21
+				}
+				country_event = { id = apsr.921 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_22
+				}
+				country_event = { id = apsr.922 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_23
+				}
+				country_event = { id = apsr.923 days = 5 }
+			}
+			if = {
+				limit = {
+					has_global_flag = apsr_generation_24
+				}
+				country_event = { id = apsr.924 days = 5 }
+			}
+		}
+	}
+
+# настройка генерации - не готово
+	option = {
+		name = apsr.997.setup_generation
+		custom_tooltip = apsr.997.setup_generation.tooltip
+		trigger = {
+			NOT = {
+				has_global_flag = apsr_setup_finished
+			}
+		}
+		hidden_effect = {
+			country_event = { id = apsr.986 }
+		}
+	}
+
+# настройка генерации - готово
+	option = {
+		name = apsr.997.setup_generation_ready
+		custom_tooltip = apsr.997.setup_generation_ready.tooltip
+		trigger = {
+			has_global_flag = apsr_setup_finished
+		}
+		hidden_effect = {
+			country_event = { id = apsr.986 }
+			remove_global_flag = apsr_setup_finished
+			remove_global_flag = apsr_generation_capitals
+			remove_global_flag = apsr_generation_0
+			remove_global_flag = apsr_generation_1
+			remove_global_flag = apsr_generation_2
+			remove_global_flag = apsr_generation_3
+			remove_global_flag = apsr_generation_4
+			remove_global_flag = apsr_generation_5
+			remove_global_flag = apsr_generation_6
+			remove_global_flag = apsr_generation_7
+			remove_global_flag = apsr_generation_8
+			remove_global_flag = apsr_generation_9
+			remove_global_flag = apsr_generation_10
+			remove_global_flag = apsr_generation_11
+			remove_global_flag = apsr_generation_12
+			remove_global_flag = apsr_generation_13
+			remove_global_flag = apsr_generation_14
+			remove_global_flag = apsr_generation_15
+			remove_global_flag = apsr_generation_16
+			remove_global_flag = apsr_generation_17
+			remove_global_flag = apsr_generation_18
+			remove_global_flag = apsr_generation_19
+			remove_global_flag = apsr_generation_20
+			remove_global_flag = apsr_generation_21
+			remove_global_flag = apsr_generation_22
+			remove_global_flag = apsr_generation_23
+			remove_global_flag = apsr_generation_24
+		}
+	}
+
+# Дополнительные настройки (терминал, МЕ и т.д.)
+	option = {
+		name = apsr.997.setup_addons
+		custom_tooltip = apsr.997.setup_addons.tooltip
+		hidden_effect = {
+			country_event = { id = apsr.800 }
+		}
+	}
+
+# faq
+	option = {
+		name = apsr.997.faq
+		custom_tooltip = apsr.997.faq.tooltip
+		hidden_effect = {
+			country_event = { id = apsr.987 }
+		}
+	}
+	
+#close button	
+#	option = {
+#		name = apsr.997.close
+#		custom_tooltip = apsr.997.close.tooltip
+#		hidden_effect = {
+#			set_global_flag = apsr_setup_finished
+#		}
+#	}
+}

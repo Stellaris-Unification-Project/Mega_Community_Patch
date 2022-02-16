@@ -1,0 +1,6 @@
+﻿l_english:
+ extensive_moon_system_moon: "Part of an Extensive Moon System"
+ extensive_moon_system_moon_desc: "This moon is significantly larger than most of the hundreds of other small moons and moonlets orbiting the same gas giant. $extensive_moon_system_station_effects$ If habitable, colonists can further exploit local resources."
+ extensive_moon_system_station_effects: "Mining stations have superior yield due to the nearby, readily-accessible mineral wealth."
+ mod_planet_buildings_energy_upkeep_mult: "Building £energy£ $energy$ Upkeep"
+ mod_planet_districts_energy_upkeep_mult: "District £energy£ $energy$ Upkeep"

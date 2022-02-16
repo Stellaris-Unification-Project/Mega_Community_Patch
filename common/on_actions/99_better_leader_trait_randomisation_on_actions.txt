@@ -1,0 +1,83 @@
+# fired when a new leader is generated for an empire, to be available for recruitment
+# this = country
+# from = leader
+on_leader_spawned = {
+	events = {
+		better_leader_trait_randomization.50
+	}
+}
+
+# fired when the ruler is ousted and goes back to their pre-ruler class
+# from = leader, previous ruler with their new class
+# this = country
+on_ruler_back_to_pre_ruler_class = {
+	events = {
+		better_leader_trait_randomization.51
+	}
+}
+
+# fired when a Special Project to apply a species modification template has completed
+# Note that this will trigger once for each combination of planet & original species
+# this = country
+# from = species (post-modification)
+on_modification_complete = {
+	events = {
+		better_leader_trait_randomization.60
+	}
+}
+
+# fired when my custom code changes a leader's species.  You might attach an event
+# here to handle custom traits in another mod that should be added or removed (or
+# converted) based on information about the leader (possibly taking in to account
+# things like their current owner).
+# this = leader, post-modification
+# from = species, pre-modification (if known)
+on_leader_species_changed = {
+	events = {
+		better_leader_trait_randomization.70
+	}
+}
+
+# fired when my custom code changes a leader's owner
+# this = leader (post-owner change)
+on_leader_owner_changed = {
+	events = {
+		better_leader_trait_randomization.70
+	}
+}
+
+# fired when a ship has surveyed a planet.
+# this = ship (science vessel)
+# from = planet
+on_survey = {
+	events = {
+		better_leader_trait_randomization.20
+	}
+}
+
+# fired when ship is done surveying the last unsurveyed planet in a system
+# this = ship (science vessel)
+# from = system
+on_system_survey_ship = {
+	events = {
+		better_leader_trait_randomization.20
+	}
+}
+
+# fired when a stage of an archeaology site is completed
+# this = fleet (science vessel)
+# from = archaeological site
+on_arch_stage_finished = {
+	events = {
+		better_leader_trait_randomization.21
+	}
+}
+
+# fired when the final stage of an archeaology site is completed
+# this = fleet (science vessel)
+# from = archaeological site
+on_arch_site_finished = {
+	events = {
+		better_leader_trait_randomization.21
+	}
+}

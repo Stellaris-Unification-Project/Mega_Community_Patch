@@ -1,0 +1,227 @@
+namespace = leader_species_traits
+
+# flag mod as active
+event = {
+	id = leader_species_traits.13
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_global_flag = leader_species_traits_installed }
+	}
+	immediate = {
+		set_global_flag = leader_species_traits_installed
+	}
+}
+
+# new leaders get every applicable species-specific leader trait
+# note that the code for brainslugs and latent psionics are a 20% chance each and not guaranteed, as in the default game
+country_event = {
+	id = leader_species_traits.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		FROM = {
+			leader_event = {
+				id = leader_species_traits.5
+			}
+		}
+	}
+}
+
+# modifying a species applies all applicable traits and removes those no longer applicable
+country_event = {
+	id = leader_species_traits.2
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		every_owned_leader = {
+			limit = { species = { is_exact_same_species = FROM } }
+			leader_event = {
+				id = leader_species_traits.5
+			}
+		}
+
+		every_pool_leader = {
+			limit = { species = { is_exact_same_species = FROM } }
+			leader_event = {
+				id = leader_species_traits.5
+			}
+		}
+	}
+}
+
+# demoted rulers should always keep their brainslug/psionic traits if their species has the right trait
+country_event = {
+	id = leader_species_traits.3
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		FROM = {
+			add_static_applicable_leader_species_traits = yes
+			if = {
+				limit = { has_ruler_trait = leader_trait_ruler_brainslug }
+				add_leader_trait_brainslug = yes
+			}
+			if = {
+				limit = { has_ruler_trait = leader_trait_ruler_psionic }
+				add_leader_trait_latent_psionic = yes
+			}
+			if = {
+				limit = { has_ruler_trait = leader_trait_ruler_chosen }
+				add_leader_trait_chosen = yes
+			}
+			remove_all_inapplicable_leader_species_traits = yes
+		}
+	}
+}
+
+# follows the random event for a new random admiral (leader.1); triggered by on_fleet_destroyed_perp
+# should be harmless if executed against another admiral - assuming they had species-appropriate traits in the first place, no changes will be made
+country_event = {
+	id = leader_species_traits.4
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_active_event = { leader.1 }
+		exists = last_created_leader
+		last_created_leader = { leader_class = admiral }
+		is_same_empire = last_created_leader.owner
+	}
+	immediate = {
+		last_created_leader = {
+			leader_event = {
+				id = leader_species_traits.5
+			}
+		}
+	}
+}
+
+# manually triggered above - unified approach to adjusting species-based traits for leaders
+# also triggered by custom on_action on_leader_species_changed
+leader_event = {
+	id = leader_species_traits.5
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		add_all_applicable_leader_species_traits = yes
+		remove_all_inapplicable_leader_species_traits = yes
+	}
+}
+
+# mean time-to-happen
+country_event = {
+	id = leader_species_traits.7
+	title = leader_species_traits.7.title
+	desc = leader_species_traits.7.desc
+	picture = GFX_evt_hive_mind
+	show_sound = event_alien_nature
+
+	trigger = {
+		any_owned_leader = {
+			species = { has_trait = trait_brainslug }
+			NOR = {
+				has_trait = leader_trait_admiral_brainslug
+				has_trait = leader_trait_general_brainslug
+				has_trait = leader_trait_governor_brainslug
+				has_trait = leader_trait_scientist_brainslug
+				has_trait = leader_trait_ruler_brainslug
+			}
+			OR = {
+				NOT = { exists = pop_faction }
+				pop_faction = {
+					NOR = {
+						is_pop_faction_type = isolationist
+						is_pop_faction_type = supremacist
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	immediate = {
+		random_owned_leader = {
+			limit = {
+				species = { has_trait = trait_brainslug }
+				NOR = {
+					has_trait = leader_trait_admiral_brainslug
+					has_trait = leader_trait_general_brainslug
+					has_trait = leader_trait_governor_brainslug
+					has_trait = leader_trait_scientist_brainslug
+					has_trait = leader_trait_ruler_brainslug
+				}
+				OR = {
+					NOT = { exists = pop_faction }
+					pop_faction = {
+						NOR = {
+							is_pop_faction_type = isolationist
+							is_pop_faction_type = supremacist
+						}
+					}
+				}
+			}
+			save_event_target_as = brainslugged_leader
+		}
+	}
+
+	option = {
+		name = leader_species_traits.7.a
+		event_target:brainslugged_leader = {
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_ruler_trait = leader_trait_ruler_brainslug } }
+					add_ruler_trait = leader_trait_ruler_brainslug
+				}
+			}
+			switch = {
+				trigger = leader_class
+				admiral = { add_trait = leader_trait_admiral_brainslug }
+				general = { add_trait = leader_trait_general_brainslug }
+				governor = { add_trait = leader_trait_governor_brainslug }
+				scientist = { add_trait = leader_trait_scientist_brainslug }
+				ruler = { add_trait = leader_trait_ruler_brainslug }
+			}
+		}
+	}
+}
+
+# triggered by on_single_player_save_game_load
+event = {
+	id = leader_species_traits.6
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_global_flag = leader_species_traits_installed }
+	}
+	immediate = {
+		every_country = {
+			country_event = {
+				id = leader_species_traits.8
+			}
+		}
+	}
+}
+
+# adjust all owned/pool leaders
+# triggered by on_game_start_country and leader_species_traits.6
+country_event = {
+	id = leader_species_traits.8
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_owned_leader = {
+			leader_event = {
+				id = leader_species_traits.5
+			}
+		}
+
+		every_pool_leader = {
+			leader_event = {
+				id = leader_species_traits.5
+			}
+		}
+	}
+}

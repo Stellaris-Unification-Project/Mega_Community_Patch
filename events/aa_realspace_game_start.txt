@@ -1,0 +1,21 @@
+namespace = realspace
+
+#Start Menu
+event = {
+	id = realspace.204
+	title = OK
+	desc = OK
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		every_playable_country = {
+			limit = {
+				is_ai = no
+				has_country_flag = giga_host
+			}
+			country_event = { id = realspace.206 }
+		}
+	}
+}

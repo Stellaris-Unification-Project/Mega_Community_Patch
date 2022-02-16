@@ -1,0 +1,258 @@
+# Ecumenpolis Commercial
+col_ecu_trade = {
+	icon = GFX_colony_type_ecu_trade
+	potential = {
+		OR = {
+			uses_district_set = city_world
+			uses_district_set = pdecocity
+			uses_district_set = pdcorpoarc
+		}
+		exists = owner
+		owner = {
+			is_gestalt = no
+			is_fallen_empire = no
+		}
+		is_special_colony_type = no
+	}
+	planet_modifier = {
+		planet_building_commercial_zone_build_speed_mult = 0.25
+		planet_building_commercial_megaplex_build_speed_mult = 0.25
+		planet_building_galactic_stock_exchange_build_speed_mult = 0.25
+		planet_district_arcology_commercial_build_speed_mult = 0.25
+		trade_value_mult = 0.2
+	}
+	triggered_planet_modifier = {
+		potential = { solar_system = { has_trade_route = yes } }
+		modifier = {
+			trade_value_add = 4
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			solar_system = {
+				exists = starbase
+				starbase = {
+					count_starbase_modules = {
+						count = 1
+						type = trading_hub
+					}
+				}
+			}
+		}
+		modifier = {
+			trade_value_add = 1
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			solar_system = {
+				exists = starbase
+				starbase = {
+					count_starbase_modules = {
+						count = 2
+						type = trading_hub
+					}
+				}
+			}
+		}
+		modifier = {
+			trade_value_add = 2
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			solar_system = {
+				exists = starbase
+				starbase = {
+					count_starbase_modules = {
+						count = 3
+						type = trading_hub
+					}
+				}
+			}
+		}
+		modifier = {
+			trade_value_add = 3
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			solar_system = {
+				exists = starbase
+				starbase = {
+					count_starbase_modules = {
+						count = 4
+						type = trading_hub
+					}
+				}
+			}
+		}
+		modifier = {
+			trade_value_add = 4
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			solar_system = {
+				exists = starbase
+				starbase = {
+					count_starbase_modules = {
+						count = 5
+						type = trading_hub
+					}
+				}
+			}
+		}
+		modifier = {
+			trade_value_add = 5
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			solar_system = {
+				exists = starbase
+				starbase = {
+					count_starbase_modules = {
+						count >= 6
+						type = trading_hub
+					}
+				}
+			}
+		}
+		modifier = {
+			trade_value_add = 6
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			solar_system = {
+				exists = starbase
+				starbase = { has_starbase_building = offworld_trading_company }
+			}
+		}
+		modifier = {
+			trade_value_add = 4
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			solar_system = {
+				exists = starbase
+				starbase = { has_starbase_building = trader_proxy_office }
+			}
+		}
+		modifier = {
+			trade_value_add = 4
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			solar_system = {
+				exists = starbase
+				starbase = { has_starbase_building = transit_hub }
+			}
+		}
+		modifier = {
+			trade_value_add = 2
+		}
+	}
+	weight_modifier = {
+		base = 10
+		modifier = { 
+			add = 5
+			has_designation = col_ecu_trade
+		}
+		modifier = {
+			add = 3
+			num_districts = {
+				type = district_arcology_commercial
+				value >= 2
+			}
+		}
+		modifier = {
+			add = 5
+			num_districts = {
+				type = district_arcology_commercial
+				value >= 4
+			}
+		}
+		modifier = {
+			add = 2
+			num_buildings = {
+				type = building_commercial_zone
+				value > 2
+			}
+		}
+		modifier = {
+			add = 4
+			num_buildings = {
+				type = building_commercial_zone
+				value > 4
+			}
+		}
+		modifier = {
+			add = 2
+			num_buildings = {
+				type = building_commercial_megaplex
+				value > 1
+			}
+		}
+		modifier = {
+			add = 4
+			num_buildings = {
+				type = building_commercial_megaplex
+				value > 2
+			}
+		}
+		modifier = {
+			add = 2
+			exists = owner
+			owner = {
+				OR = {
+					has_valid_civic = civic_merchant_guilds
+					has_valid_civic = civic_corporate_dominion
+					is_megacorp = yes
+				}
+			}
+		}
+		modifier = {
+			add = 4
+			has_building = building_galactic_stock_exchange
+		}
+		modifier = {
+			add = 4
+			has_building = building_nuumismatic_shrine
+		}
+		modifier = {
+			add = 4
+			has_global_flag = planetary_modifier_enhancements_installed
+			has_modifier = pm_planetary_mechanocalibrator
+		}
+		modifier = {
+			factor = 0
+			num_buildings = {
+				type = building_commercial_zone
+				value = 0
+			}
+			num_buildings = {
+				type = building_commercial_megaplex
+				value = 0
+			}
+			num_buildings = {
+				type = building_galactic_stock_exchange
+				value = 0
+			}
+			OR = {
+				owner = { NOT = { has_country_flag = nuumismatic_shrine } }
+				num_buildings = {
+					type = building_nuumismatic_shrine
+					value = 0
+				}
+			}
+			num_districts = {
+				type = district_arcology_commercial
+				value = 0
+			}
+		}
+	}
+}

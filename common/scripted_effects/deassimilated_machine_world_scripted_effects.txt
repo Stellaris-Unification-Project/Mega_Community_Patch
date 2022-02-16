@@ -1,0 +1,63 @@
+# THIS = planet
+clear_deassimilated_machine_world_modifiers = {
+	if = {
+		limit = { has_modifier = deassimilated_machine_world_cooperative }
+		remove_modifier = deassimilated_machine_world_cooperative
+	}
+	if = {
+		limit = { has_modifier = deassimilated_machine_world_neutral }
+		remove_modifier = deassimilated_machine_world_neutral
+	}
+	if = {
+		limit = { has_modifier = deassimilated_machine_world_hostile }
+		remove_modifier = deassimilated_machine_world_hostile
+	}
+}
+
+# THIS = planet
+add_deassimilated_machine_world_modifier = {
+	if = {
+		limit = {
+			owner = {
+				OR = {
+					NOT = { has_country_flag = deassimilated_machine_world_offered_policy_change }
+					AND = {
+						has_policy_flag = robots_allowed
+						has_policy_flag = ai_servitude
+					}
+				}
+			}
+		}
+		add_modifier = {
+			modifier = deassimilated_machine_world_neutral
+			clear_on_owner_change = yes
+		}
+	}
+	else_if = {
+		limit = {
+			owner = {
+				has_policy_flag = robots_allowed
+				has_policy_flag = ai_full_rights
+			}
+		}
+		add_modifier = {
+			modifier = deassimilated_machine_world_cooperative
+			clear_on_owner_change = yes
+		}
+	}
+	else = {
+		add_modifier = {
+			modifier = deassimilated_machine_world_hostile
+			clear_on_owner_change = yes
+		}
+	}
+}
+
+# THIS = country
+reassign_deassimilated_machine_world_modifiers_country = {
+	every_owned_planet = {
+		limit = { is_planet_class = pc_machine }
+		clear_deassimilated_machine_world_modifiers = yes
+		add_deassimilated_machine_world_modifier = yes
+	}
+}

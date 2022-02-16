@@ -1,0 +1,171 @@
+namespace = distar
+namespace = utopia
+
+# majority commented out because overrides were unnecessary - the new events clean up any weirdness
+
+# override default erudite on_modification_complete event
+country_event = {
+	id = utopia.2508
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = { }
+}
+
+# # override the default erudite on_leader_spawned event
+# country_event = {
+# 	id = utopia.2509
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = { }
+# }
+
+# # override the default on_leader_spawned cyborg event
+# country_event = {
+# 	id = utopia.2510
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = { }
+# }
+
+# # override the default on_ruler_back_to_pre_ruler_class cyborg event
+# country_event = {
+# 	id = utopia.2511
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = { }
+# }
+
+# # override the default on_leader_spawned synthetic event
+# country_event = {
+# 	id = utopia.2560
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = { }
+# }
+
+# # override the default on_ruler_back_to_pre_ruler_class synthetic event
+# country_event = {
+# 	id = utopia.2561
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = { }
+# }
+
+# # override the default on_leader_spawned latent psionic event
+# country_event = {
+# 	id = utopia.2601
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = { }
+# }
+
+# # override the default on_leader_spawned psionic event
+# country_event = {
+# 	id = utopia.2651
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = { }
+# }
+
+# # override the default on_ruler_back_to_pre_ruler_class psionic event
+# country_event = {
+# 	id = utopia.2653
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = { }
+# }
+
+# # override the default on_leader_spawned brainslug event
+# country_event = {
+# 	id = distar.173
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = { }
+# }
+
+# override the default brainslug event for leader pool (triggered explicitly a couple spots in the Distant Stars events file)
+country_event = {
+	id = distar.174
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		every_pool_leader = {
+			random_list = {
+				80 = { }
+				20 = { add_leader_trait_brainslug = yes }
+			}
+		}
+	}
+}
+
+# override the default latent psychic event - allow any leader with a species that has latent psionics, not just the main species
+country_event = {
+	id = utopia.2605
+	title = utopia.2605.title
+	desc = utopia.2605.desc
+	picture = GFX_evt_psionics
+	show_sound = event_psionic
+
+	trigger = {
+		any_owned_leader = {
+			species = { has_trait = trait_latent_psionic }
+			NOR = {
+				has_trait = leader_trait_admiral_psionic
+				has_trait = leader_trait_general_psionic
+				has_trait = leader_trait_governor_psionic
+				has_trait = leader_trait_scientist_psionic
+				has_trait = leader_trait_ruler_psionic
+				has_trait = leader_trait_admiral_chosen
+				has_trait = leader_trait_general_chosen
+				has_trait = leader_trait_governor_chosen
+				has_trait = leader_trait_scientist_chosen
+				has_trait = leader_trait_ruler_chosen
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	immediate = {
+		random_owned_leader = {
+			limit = {
+				species = { has_trait = trait_latent_psionic }
+				NOR = {
+					has_trait = leader_trait_admiral_psionic
+					has_trait = leader_trait_general_psionic
+					has_trait = leader_trait_governor_psionic
+					has_trait = leader_trait_scientist_psionic
+					has_trait = leader_trait_ruler_psionic
+					has_trait = leader_trait_admiral_chosen
+					has_trait = leader_trait_general_chosen
+					has_trait = leader_trait_governor_chosen
+					has_trait = leader_trait_scientist_chosen
+					has_trait = leader_trait_ruler_chosen
+				}
+			}
+			save_event_target_as = psionic_leader
+		}
+	}
+
+	option = {
+		name = utopia.2605.a
+		event_target:psionic_leader = {
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_ruler_trait = leader_trait_ruler_psionic } }
+					add_ruler_trait = leader_trait_ruler_psionic
+				}
+			}
+			switch = {
+				trigger = leader_class
+				admiral = { add_trait = leader_trait_admiral_psionic }
+				general = { add_trait = leader_trait_general_psionic }
+				governor = { add_trait = leader_trait_governor_psionic }
+				scientist = { add_trait = leader_trait_scientist_psionic }
+				ruler = { add_trait = leader_trait_ruler_psionic }
+			}
+		}
+	}
+}

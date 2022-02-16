@@ -1,0 +1,6 @@
+﻿l_english:
+ district_rw_commercial_desc: "Civilian industry and infrastructure populate this Ring World segment dedicated to commerce.\n\nAttracts more £job_merchant£ §Y$job_merchant_plural$§! when the ring segment is designated as a §Y$col_ring_trade$§!."
+ district_hab_commercial_desc: "A sprawling habitat trading district where merchants and clerks conduct business.\n\nAttracts more £job_merchant£ §Y$job_merchant_plural$§! when the habitat is designated as a §Y$col_habitat_trade$§!."
+ district_srw_commercial_desc: "A district of offices and factories where goods are manufactured and sold.\n\nAttracts more £job_merchant£ §Y$job_merchant_plural$§! when the ring segment is designated as a §Y$col_srw_trade$§!."
+ tr_prosperity_interstellar_franchising_desc: "§Y$district_city_plural$§! provide §Y1§! additional £job_clerk£ §Y$job_clerk$ Job§!.\n$pc_habitat$ §Y$district_hab_commercial_plural$§!, $pc_ringworld_habitable$ §Y$district_rw_commercial_plural$§! and $pc_city$ §Y$district_arcology_housing_plural$§! also produce additional £job_clerk£ §Y$job_clerk$ Jobs§!."
+ col_ring_mix_desc: "An immense ringworld, its massive area spread between all matters of production"

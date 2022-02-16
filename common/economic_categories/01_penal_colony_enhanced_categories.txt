@@ -1,0 +1,3 @@
+pop_category_inmates = {
+	parent = planet_pops
+}

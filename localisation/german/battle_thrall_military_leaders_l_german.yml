@@ -1,0 +1,9 @@
+﻿l_german:
+ necrophage_only_allows_necrophage_leaders: "$TRIGGER_FAIL$Nur nekrophage Bewohner können §YAnführer§!."
+ nerve_stapled_cannot_lead: "$TRIGGER_FAIL$Diese Spezies verfügt nicht über ausreichend geistige Kapazitäten anzuführen."
+ military_service_full_servitor_tooltip: "Die Spezies kann §H$GENERALS$§! und §H$ADMIRALS$§! hervorbringen."
+ military_service_full_servitor_tooltip_delayed: "§LAlthough allowing Organic Advisors in military roles presents massive risks to our dear $pop_cat_bio_trophy_plural$, their effectiveness at chaos and violence cannot be denied.§!"
+ military_service_full_default_tooltip: "Die Spezies kann §H$ARMIES$§!, §H$GENERALS$§! und §H$ADMIRALS$§! hervorbringen."
+ military_service_full_default_tooltip_delayed: "§LSie gehören zweifelsohne zu den kompetentesten Elementen in unseren Streitkräften.§!"
+ # missing base-game localisation
+ effect_random_owned_pop_species: "$effect_random_owned_species$"

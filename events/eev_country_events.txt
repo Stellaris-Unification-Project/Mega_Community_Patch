@@ -1,0 +1,1263 @@
+namespace = popup
+
+# Illegal Aliens
+# country_event = {
+# 	id = popup.1
+# 	title = "popup.1.name"
+# 	desc = "popup.1.desc.d"
+# 	picture = GFX_evt_smugglers_in_bar
+# 	show_sound = event_mystic_reveal
+
+# 	mean_time_to_happen = { years = 30 }
+
+# 	trigger = {
+# 		is_ai = no
+# 		is_gestalt = no
+# 		NOT = { has_country_flag = had_alien }
+# 		has_country_flag = has_encountered_other_empire
+# 	}
+
+# 	immediate = { 
+# 		set_country_flag = had_alien 
+# 	}
+	
+
+# 	option = {
+# 		name = popup.1.a	
+# 		add_monthly_resource_mult = {
+# 			resource = influence
+# 			value = @tier2influencereward
+# 			min = @tier2influencemin
+# 			max = @tier2influencemax
+# 		}	
+# 	}
+
+# 	option = {
+# 		name = popup.1.b
+# 		add_monthly_resource_mult = {
+# 			resource = influence
+# 			value = @tier2influencereward
+# 			min = @tier2influencemin
+# 			max = @tier2influencemax
+# 		}
+# 		create_species = {
+# 			name = "Alien Trespasser"
+# 			class = random_non_machine
+# 			portrait = random
+# 			traits = random
+# 		}
+		
+# 		random_owned_planet = {
+# 			create_pop = {
+# 				species = last_created_species
+# 			}
+# 		}
+# 	}
+	
+# 	option = {
+# 		name = popup.1.c
+# 		add_monthly_resource_mult = {
+# 			resource = influence
+# 			value = @tier2influencereward
+# 			min = @tier2influencemin
+# 			max = @tier2influencemax
+# 		}
+# 		create_species = {
+# 			name = "Alien Trespasser"
+# 			class = random_non_machine
+# 			portrait = random
+# 			traits = random
+# 		}
+	
+# 		random_owned_planet = {
+# 			create_pop = {
+# 				species = last_created_species
+# 			}	
+# 		}
+# 	}
+# }
+
+# Terrorist Attack
+country_event = {
+	id = popup.2
+	title = "popup.2.name"
+	desc = "popup.2.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 3500 }
+	
+	trigger = {
+		NOT = { has_country_flag = had_terror }
+	}
+
+	immediate =	{ 
+		set_country_flag = had_terror
+		random_owned_pop = {
+			kill_pop = yes
+		}
+	}
+
+	option = {
+		name = popup.2.a
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier1influencereward
+			min = @tier1influencemin
+			max = @tier1influencemax
+		}
+	}
+}
+
+# Assassinated
+country_event = {
+	id = popup.3
+	title = "popup.3.name"
+	desc = "popup.3.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 20000 }
+	
+	trigger = {
+		NOR = { 
+			has_country_flag = had_assassinated 
+			has_ethic = ethic_gestalt_consciousness
+		}
+		ruler = {
+			is_event_leader = no
+		}
+	}
+	
+
+	immediate = {
+		set_country_flag = had_assassinated
+		kill_leader = { type = ruler show_notification = yes }
+	}
+
+	option = {
+		name = popup.3.default
+		trigger = { 
+			is_authoritarian = no
+		}
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier1influencereward
+			min = @tier1influencemin
+			max = @tier1influencemax
+		}
+	}
+	
+	option = {
+		name = popup.3.militarist
+		trigger = {
+			is_militarist = yes
+		}
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier1influencereward
+			min = @tier1influencemin
+			max = @tier1influencemax
+		}
+	}
+	
+	option = {
+		name = popup.3.peace
+		trigger = { 
+			OR = {
+				is_pacifist = yes
+				is_materialist = yes
+				is_spiritualist = yes
+			}
+		}
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier1influencereward
+			min = @tier1influencemin
+			max = @tier1influencemax
+		}
+	}
+	
+	option = {
+		name = popup.3.phobe
+		trigger = {
+			is_xenophobe = yes
+		}
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier1influencereward
+			min = @tier1influencemin
+			max = @tier1influencemax
+		}
+	}
+	
+	option = {
+		name = popup.3.authoritarian
+		trigger = {
+			is_authoritarian = yes
+		}
+		add_resource = {
+			influence = -50
+		}
+	}
+}
+
+# Whistleblower
+country_event = {
+	id = popup.4
+	title = "popup.4.name"
+	desc = "popup.4.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 3000 }
+	
+	trigger = {
+		NOT = { has_country_flag = had_whistle }
+	}
+
+	immediate = { set_country_flag = had_whistle }
+
+	option = {
+		name = popup.4.a
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier1influencereward
+			min = @tier1influencemin
+			max = @tier1influencemax
+		}
+	}
+	
+	option = {
+		name = popup.4.b
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier1influencereward
+			min = @tier1influencemin
+			max = @tier1influencemax
+		}
+	}
+}
+
+# Celebrity
+country_event = {
+	id = popup.5
+	title = "popup.5.name"
+	desc = "popup.5.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 1500 }
+	
+	trigger = {
+		NOT = { has_country_flag = had_celebrity }
+	}
+
+	immediate = { set_country_flag = had_celebrity }
+
+	option = {
+		name = popup.5.a
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier1influencereward
+			min = @tier1influencemin
+			max = @tier1influencemax
+		}
+	}
+	
+	option = {
+		name = popup.5.b
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier1influencereward
+			min = @tier1influencemin
+			max = @tier1influencemax
+		}
+	}
+}
+
+# Disease
+country_event = {
+	id = popup.6
+	title = "popup.6.name"
+	desc = "popup.6.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 3250 }
+	
+	trigger = {
+		NOT = { 
+			has_country_flag = had_disease
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_disease
+	}
+
+	option = {
+		name = popup.6.a
+		add_resource = {
+			physics_research = -75
+			engineering_research = -75
+			society_research = -75
+		}
+	}
+	
+	option = {
+		name = popup.6.b
+		add_resource = {
+			physics_research = -75
+			engineering_research = -75
+			society_research = -75
+		}
+	}
+	
+	option = {
+		name = popup.6.c
+		trigger = {
+			is_xenophobe = yes
+		}
+		add_resource = {
+			physics_research = -75
+			engineering_research = -75
+			society_research = -75
+		}
+	}
+}
+
+# Nomads
+country_event = {
+	id = popup.7
+	title = "popup.7.name"
+	desc = "popup.7.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 3500 }
+	
+	trigger = {
+		is_ai = no
+		is_gestalt = no
+		NOT = { 
+			has_country_flag = had_nomadpop
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_nomadpop
+	}
+
+	option = {
+		name = popup.7.a
+		add_resource = {
+			society_research = 50
+			influence = 50
+		}
+		create_species = {
+			name = "The Fist"
+			class = random
+			portrait = random
+			traits = random
+		}
+		random_owned_planet = {
+			create_pop = {
+				species = last_created_species
+			}	
+		}
+	}
+	
+	option = {
+		name = popup.7.b
+		add_resource = {
+			society_research = 50
+			influence = 50
+		}
+	}
+	
+	option = {
+		name = popup.7.c
+		trigger = {
+			is_xenophobe = yes
+		}
+		add_resource = {
+			society_research = 50
+			influence = 75
+		}
+	}
+	#option = {
+		#name = popup.7.d
+		#trigger = { has_ethic = ethic_militarist }
+		#add_society_research = 50
+		#add_influence = 75
+	#}
+	option = {
+		name = popup.7.e
+		trigger = {
+			is_authoritarian = yes
+		}
+		add_resource = {
+			society_research = 50
+			influence = 75
+		}
+		create_species = {
+			name = "The Fist"
+			class = random
+			portrait = random
+			traits = random
+		}
+		random_owned_planet = {
+			create_pop = {
+				species = last_created_species
+			}	
+		}
+	}
+}
+
+# Rich Man
+country_event = {
+	id = popup.9
+	title = "popup.9.name"
+	desc = "popup.9.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 10000 }
+	
+	trigger = {
+		NOT = { 
+			has_country_flag = had_rich
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_rich
+	}
+
+	option = {
+		name = anomaly.4131.b
+		add_resource = {
+			influence = 100
+		}
+	}
+	
+	option = {
+		name = popup.9.b
+		add_resource = {
+			energy = 500
+			influence = -100
+		}
+	}
+}
+
+# Sick Pop
+country_event = {
+	id = popup.10
+	title = "popup.10.name"
+	desc = "popup.10.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 10000 }
+	
+	trigger = {
+		is_gestalt = no
+		eev_is_heavy_metal = no
+		NOT = { 
+			has_country_flag = had_sick
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_sick
+	}
+
+	option = {
+		name = popup.10.a
+		add_resource = {
+			energy = -300
+			influence = 50
+		}
+	}
+	
+	option = {
+		name = popup.10.b
+		add_resource = {
+			influence = -100
+		}
+		
+		random_owned_pop = {
+			kill_pop = yes
+		}
+	}
+}
+
+# Quality Crops
+country_event = {
+	id = popup.11
+	title = "popup.11.name"
+	desc = "popup.11.desc"
+	picture = GFX_evt_animal_wildlife
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 2500 }
+	
+	trigger = {
+		eev_is_heavy_metal = no
+		NOT = { 
+			has_country_flag = had_crops
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_crops
+	}
+
+	option = {
+		name = MARVELOUS
+		add_resource = {
+			influence = 100
+		}
+	}
+	
+	option = {
+		name = popup.11.b
+		add_resource = {
+			energy = 300
+		}
+		
+	}
+}
+
+# Large Fish
+country_event = {
+	id = popup.12
+	title = "popup.12.name"
+	desc = "popup.12.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 4010 }
+	
+	trigger = {
+		eev_is_heavy_metal = no
+		NOT = { 
+			has_country_flag = had_fish
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_fish
+	}
+
+	option = {
+		name = GOOD
+		add_resource = {
+			influence = 100
+		}
+	}
+	
+	option = {
+		name = popup.12.b
+		add_resource = {
+			energy = 350
+		}
+		
+	}
+}
+
+# Many Minerals
+country_event = {
+	id = popup.13
+	title = "popup.13.name"
+	desc = "popup.13.desc"
+	picture = GFX_evt_mining_operations
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 5000 }
+	
+	trigger = {
+		NOT = { 
+			has_country_flag = had_manyminerals
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_manyminerals
+	}
+
+	option = {
+		name = popup.13.a
+		add_resource = {
+			minerals = 100
+		}
+	}
+	
+	option = {
+		name = popup.13.b
+		add_resource = {
+			energy = 325
+		}
+		
+	}
+}
+
+# Extra Profit
+country_event = {
+	id = popup.14
+	title = "popup.14.name"
+	desc = "popup.14.desc"
+	picture = GFX_evt_metropolis
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 4500 }
+	
+	trigger = {
+		NOT = { 
+			has_country_flag = had_extraprofit
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_extraprofit
+	}
+
+	option = {
+		name = popup.14.a
+		add_resource = {
+			energy = 2500
+		}
+	}
+}
+
+# I Am Known
+country_event = {
+	id = popup.15
+	title = "popup.15.name"
+	desc = "popup.15.desc"
+	picture = GFX_evt_throne_room
+	show_sound = event_default
+
+	mean_time_to_happen = { years = 10 }
+	
+	trigger = {
+		NOT = { 
+			has_country_flag = had_iamknown
+		}
+		resource_stockpile_compare = {
+			resource = influence
+			value > 995
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_iamknown
+	}
+
+	option = {
+		name = popup.15.a
+		add_resource = {
+			unity = 3500
+		}
+	}
+}
+
+# Pet
+country_event = {
+	id = popup.16
+	title = "popup.16.name"
+	desc = "popup.16.desc"
+	picture = GFX_evt_throne_room
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 7506 }
+	
+	trigger = {
+		is_gestalt = no
+		eev_is_heavy_metal = no
+		NOT = {
+			has_country_flag = had_pet
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_pet
+	}
+
+	option = {
+		name = popup.16.a
+		add_resource = {
+			influence = 100
+		}
+	}
+	
+	option = {
+		name = popup.16.b
+		add_resource = {
+			influence = 100
+		}
+	}
+	
+	option = {
+		name = popup.16.c
+		add_resource = {
+			influence = 100
+		}
+	}
+	
+	option = {
+		name = popup.16.d
+		add_resource = {
+			influence = 100
+		}
+	}
+	
+	option = {
+		name = popup.16.e
+		add_resource = {
+			influence = 100
+		}
+	}
+	
+	option = {
+		name = popup.16.f
+		add_resource = {
+			influence = -100
+		}
+	}
+}
+
+# Traders Aid
+country_event = {
+	id = popup.17
+	title = "popup.17.name"
+	desc = "popup.17.desc"
+	picture = GFX_evt_unknown_ships
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 10000 }
+	
+	trigger = {
+		NOT = { 
+			has_country_flag = had_tradersaid
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_tradersaid
+	}
+
+	option = {
+		name = popup.17.a
+		add_resource = {
+			influence = 100
+			energy = -100
+		}
+	}
+	
+	option = {
+		name = popup.17.b
+		add_resource = {
+			influence = -100
+		}
+	}
+}
+
+# Scientists Aid
+country_event = {
+	id = popup.18
+	title = "popup.18.name"
+	desc = "popup.18.desc"
+	picture = GFX_evt_physics_research
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 10000 }
+	
+	trigger = {
+		NOT = { 
+			has_country_flag = had_scienceaid
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_scienceaid
+	}
+
+	option = {
+		name = popup.18.a
+		add_resource = {
+			influence = 100
+			energy = -100
+		}
+	}
+	
+	option = {
+		name = popup.18.b
+		add_resource = {
+			influence = -100
+		}
+	}
+}
+
+# Underwater 2
+country_event = {
+	id = popup.8
+	title = "popup.8.name"
+	desc = "popup.8.desc"
+	picture = GFX_evt_unspeakable_horror
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 7500 }
+	
+	trigger = {
+		NOT = { 
+			has_country_flag = had_underwater
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_underwater
+	}
+
+	option = {
+		name = popup.8.a
+		add_resource = {
+			society_research = 50
+			influence = 25
+		}
+	}
+	
+	option = {
+		name = popup.8.b
+		add_resource = {
+			society_research = 50
+			influence = 25
+		}
+	}
+}
+
+# Donate
+country_event = {
+	id = popup.19
+	title = "popup.19.name"
+	desc = "popup.19.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 1 }
+	
+	trigger = {
+		NOT = { 
+			has_country_flag = had_donate
+		}
+		resource_stockpile_compare = {
+			resource = energy
+			value > 9999
+		}
+	}
+
+	immediate = { 
+		set_country_flag = had_donate
+	}
+
+	option = {
+		name = popup.19.a
+		add_resource = {
+			energy = -2500
+			influence = 150
+		}
+	}
+	
+	option = {
+		name = popup.19.b
+		add_resource = {
+			energy = -2500
+			influence = 150
+		}
+	}
+
+	option = {
+		name = popup.19.c
+		set_country_flag = had_cancer
+		add_resource = {
+			energy = -2500
+			influence = 50
+		}
+	}
+	
+	option = {
+		name = popup.19.d
+	}
+}
+
+# Donate / Cancer
+country_event = {
+	id = popup.20
+	title = "popup.20.name"
+	desc = "popup.20.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_default
+
+	mean_time_to_happen = { months = 15 }
+	
+	trigger = {
+		NOT = { 
+			has_country_flag = had_donate2
+		}
+		has_country_flag = had_cancer
+	}
+
+	immediate = { 
+		set_country_flag = had_donate2
+	}
+
+	option = {
+		name = popup.20.a
+		add_resource = {
+			influence = 150
+		}
+	}
+}
+
+# Infected Aliens (HIDDEN)
+planet_event = {
+	id = popup.21
+	hide_window = yes
+
+	pre_triggers = {
+		has_owner = yes
+	}
+
+	trigger = {
+		NOT = { 
+			has_global_flag = had_prim
+			is_artificial = yes
+			is_artificial = yes
+		}
+		has_observation_outpost = yes
+		observation_outpost = { has_mission = passive_observation }
+		observation_outpost_owner = { is_ai = no }
+	}
+
+	mean_time_to_happen = {
+		months = 60
+	}
+
+	immediate = {
+		set_global_flag = had_prim
+		observation_outpost_owner = {
+			country_event = { id = popup.22 }
+		}
+	}
+}
+
+# Infected Aliens
+country_event = {
+	id = popup.22
+	title = "popup.22.name"
+	desc = "popup.22.desc"
+	picture = GFX_evt_asteroid_approaching_planet
+	show_sound = event_default
+	location = fromfrom
+
+	is_triggered_only = yes
+
+	option = {
+		name = "popup.22.a"
+	}
+	
+	option = {
+		name = "popup.22.b"
+		fromfrom = {
+		    destroy_colony = yes
+			change_pc = pc_barren
+			observation_outpost = {
+				dismantle = yes
+			}
+		}
+	}
+}
+
+# Contacted (HIDDEN)
+planet_event = {
+	id = popup.23
+	hide_window = yes
+
+	pre_triggers = {
+		has_owner = yes
+	}
+
+	trigger = {
+		NOT = { 
+			has_global_flag = had_contacted
+		}
+		has_observation_outpost = yes
+		observation_outpost = { has_mission = passive_observation }
+		observation_outpost_owner = { is_ai = no }
+		
+
+	}
+	
+	mean_time_to_happen = {
+		months = 750
+	}
+	
+	immediate = {
+		set_global_flag = had_contacted
+		observation_outpost_owner = {
+			country_event = { id = popup.24 }
+		}
+	}
+}
+
+# Contacted
+country_event = {
+	id = popup.24
+	title = "popup.24.name"
+	desc = "popup.24.desc"
+	picture = GFX_evt_asteroid_approaching_planet
+	show_sound = event_default
+	location = fromfrom
+
+	is_triggered_only = yes
+	
+	immediate = {
+		set_global_flag = had_contactednext
+	}
+	
+	option = {
+		name = UNFORTUNATE
+	}
+}
+
+# Contacted 2 (HIDDEN)
+planet_event = {
+	id = popup.25
+	hide_window = yes
+
+	pre_triggers = {
+		has_owner = yes
+	}
+
+	trigger = {
+		NOT = { 
+			has_global_flag = had_contacted2
+		}
+		has_global_flag = had_contactednext
+		has_observation_outpost = yes
+		observation_outpost = { has_mission = passive_observation }
+		observation_outpost_owner = { is_ai = no }
+		
+
+	}
+	
+	mean_time_to_happen = {
+		months = 5
+	}
+	
+	immediate = {
+		set_global_flag = had_contacted2
+		observation_outpost_owner = {
+			country_event = { id = popup.26 }
+		}
+	}
+}
+
+# Contacted 2
+country_event = {
+	id = popup.26
+	title = "popup.26.name"
+	desc = "popup.26.desc"
+	picture = GFX_evt_asteroid_approaching_planet
+	show_sound = event_default
+	location = fromfrom
+
+	is_triggered_only = yes
+	
+	immediate = {
+		set_global_flag = had_contactednext2
+	}
+	
+	option = {
+		name = INTERESTING
+	}
+}
+
+# Contacted 3 (HIDDEN)
+planet_event = {
+	id = popup.27
+	hide_window = yes
+
+	pre_triggers = {
+		has_owner = yes
+	}
+
+	trigger = {
+		NOT = { 
+			has_global_flag = had_contacted3
+		}
+		has_global_flag = had_contactednext2
+		has_observation_outpost = yes
+		observation_outpost = { has_mission = passive_observation }
+		observation_outpost_owner = { is_ai = no }
+		
+
+	}
+	
+	mean_time_to_happen = {
+		months = 5
+	}
+	
+	immediate = {
+		set_global_flag = had_contacted3
+		observation_outpost_owner = {
+			country_event = { id = popup.28 }
+		}
+	}
+}
+
+# Contacted 3
+country_event = {
+	id = popup.28
+	title = "popup.28.name"
+	desc = "popup.28.desc"
+	picture = GFX_evt_asteroid_approaching_planet
+	show_sound = event_default
+	location = fromfrom
+
+	is_triggered_only = yes
+	
+	immediate = {
+		set_global_flag = had_contactednext3
+	}
+	
+	option = {
+		name = "popup.28.a"
+	}
+	
+	option = {
+		name = "popup.28.b"
+		fromfrom = {
+			random_owned_pop = {
+				kill_pop = yes
+			}
+		}
+	}
+	
+	option = {
+		name = "popup.28.c"
+		fromfrom = {
+		    destroy_colony = yes
+			change_pc = pc_barren
+			observation_outpost = {
+				dismantle = yes
+			}
+		}
+	}
+}
+
+# New Primitives (HIDDEN)
+planet_event = {
+	id = popup.29
+	hide_window = yes
+	
+	pre_triggers = {
+		has_owner = yes
+	}
+
+	trigger = {
+		NOT = { 
+			has_global_flag = had_newprimitives
+		}
+		has_observation_outpost = yes
+		observation_outpost = { has_mission = passive_observation }
+		observation_outpost_owner = { is_ai = no }
+		
+
+	}
+	
+	mean_time_to_happen = {
+		months = 1000
+	}
+	
+	immediate = {
+		set_global_flag = had_newprimitives
+		observation_outpost_owner = {
+			country_event = { id = popup.30 }
+		}
+	}
+}
+
+# New Primitives
+country_event = {
+	id = popup.30
+	title = "popup.30.name"
+	desc = "popup.30.desc"
+	picture = GFX_evt_animal_wildlife
+	show_sound = event_default
+	location = from
+
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = INTERESTING
+		from = {
+			create_species = {
+				name = "Xiblibi"
+				class = random
+				portrait = random
+				traits = random
+			}
+			create_pop = {
+				species = last_created_species
+			}
+		}
+	}
+	
+	option = {
+		name = "popup.30.b"
+	}
+}
+
+# New Sentience
+country_event = {
+	id = popup.31
+	title = "popup.31.name"
+	desc = "popup.31.desc"
+	picture = GFX_evt_smugglers_in_bar
+	show_sound = event_mystic_reveal
+
+	mean_time_to_happen = { months = 3000 }
+
+	trigger = {
+		is_ai = no
+		NOT = { has_country_flag = had_newsent }
+	}
+
+	immediate = { 
+		set_country_flag = had_newsent 
+	}
+	
+
+	option = {
+		name = popup.31.a		
+	}
+
+	option = {
+		name = popup.31.b
+		create_species = {
+			name = "Xebo"
+			class = random
+			portrait = random
+			traits = random
+		}
+		
+		random_owned_planet = {
+			create_pop = {
+				species = last_created_species
+			}	
+		}
+	}
+}

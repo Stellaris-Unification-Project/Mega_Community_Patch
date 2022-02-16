@@ -1,0 +1,669 @@
+namespace = action
+namespace = necroids
+namespace = observation
+namespace = primitive
+
+# triggered by on_planet_attackers_win
+# root = country, leader attacker
+# from = country, planet owner
+# fromfrom = planet
+country_event = {
+	id = action.14
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		from = { is_country_type = primitive }
+		is_country_type = default
+	}
+	immediate = {
+		log = "primitive conquest: [FromFrom.GetName] ([From.GetName]) conquered by the [Root.GetName]"
+		save_event_target_as = conquering_country
+		from = {
+			save_event_target_as = actually_conquered_primitive_country
+			owner_species = {
+				save_event_target_as = conquered_primitive_species
+				set_timed_species_flag = {
+					flag = primitive_species
+					years = 10
+				}
+			}
+		}
+		fromfrom = {
+			save_event_target_as = conquered_primitive_country
+			fire_on_action = {
+				on_action = on_primitive_planet_transferring
+				scopes = {
+					from = event_target:conquering_country
+				}
+			}
+			if = {
+				limit = { event_target:conquering_country = { is_regular_empire = yes } }
+				add_modifier = {
+					modifier = planet_culture_shock
+					years = 10
+				}
+			}
+			set_owner = event_target:conquering_country
+			fire_on_action = {
+				on_action = on_primitive_planet_transferred
+				scopes = {
+					from = event_target:actually_conquered_primitive_country
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				has_communications = event_target:conquering_country
+				is_country_type = default
+				NOT = { is_country = event_target:conquering_country }
+			}
+			add_opinion_modifier = {
+				who = event_target:conquering_country
+				modifier = opinion_primitive_violation
+			}
+		}
+		country_event = { id = action.140 }
+		reset_years_of_peace = yes
+	}
+}
+
+# chained from action.14, which is triggered for primitive planets by on_planet_attackers_win
+# root = country that just conquered the planet
+# event_target:conquered_primitive_country = the planet that was conquered (the default files use this name, including localisation - don't change it)
+# event_target:conquered_primitive_species = the species that was conquered (the default files use this name, including localisation - don't change it)
+country_event = {
+	id = action.140
+	title = action.14.name
+	desc = { #Non-Purge Policy Regular Empires
+		text = action.14.desc
+		trigger = {
+			NOR = {
+				has_ethic = ethic_gestalt_consciousness
+				event_target:conquered_primitive_species = {
+					has_citizenship_type = { country = root type = citizenship_purge }
+				}
+			}
+		}
+	}
+	desc = { #Purge Policy Regular Empires
+		text = action.14.desc.purge
+		trigger = {
+			NOT = { has_ethic = ethic_gestalt_consciousness }
+			event_target:conquered_primitive_species = {
+				has_citizenship_type = { country = root type = citizenship_purge }
+			}
+		}
+	}
+	desc = { #Servitors
+		text = action.14.desc.serv
+		trigger = {
+			has_civic = civic_machine_servitor
+		}
+	}
+	desc = { #Assimilators
+		text = action.14.desc.assim
+		trigger = {
+			has_civic = civic_machine_assimilator
+		}
+	}
+	desc = { #Exterminators
+		text = action.14.desc.term
+		trigger = {
+			has_civic = civic_machine_terminator
+		}
+	}
+	desc = { #Purge Policy MIs
+		text = action.14.desc.mach.purge
+		trigger = {
+			has_authority = auth_machine_intelligence
+			event_target:conquered_primitive_species = {
+				has_citizenship_type = { country = root type = citizenship_purge }
+			}
+			NOR = {
+				has_civic = civic_machine_servitor
+				has_civic = civic_machine_assimilator
+				has_civic = civic_machine_terminator
+			}
+		}
+	}
+	desc = { #Enslave Policy MIs
+		text = action.14.desc.mach.slave
+		trigger = {
+			has_authority = auth_machine_intelligence
+			event_target:conquered_primitive_species = {
+				has_citizenship_type = { country = root type = citizenship_slavery }
+			}
+			NOR = {
+				has_civic = civic_machine_servitor
+				has_civic = civic_machine_assimilator
+				has_civic = civic_machine_terminator
+			}
+		}
+	}
+	desc = { #Purge Policy Hiveminds
+		text = action.14.desc.hive.purge
+		trigger = {
+			has_authority = auth_hive_mind
+			event_target:conquered_primitive_species = {
+				has_citizenship_type = { country = root type = citizenship_purge }
+			}
+		}
+	}
+	desc = { #Enslave Policy Hiveminds
+		text = action.14.desc.hive.slave
+		trigger = {
+			has_authority = auth_hive_mind
+			event_target:conquered_primitive_species = {
+				has_citizenship_type = { country = root type = citizenship_slavery }
+			}
+		}
+	}
+	picture = GFX_evt_ground_combat
+	show_sound = event_alien_signal
+	location = event_target:conquered_primitive_country
+	is_triggered_only = yes
+	option = {
+		name = action.14.a.phobe
+		custom_tooltip = action.14.a.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_fanatic_xenophobe
+				has_ethic = ethic_xenophobe
+			}
+		}
+	}
+	option = {
+		name = action.14.a.military
+		custom_tooltip = action.14.a.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_fanatic_militarist
+				has_ethic = ethic_militarist
+			}
+			is_xenophobe = no
+		}
+	}
+	option = {
+		name = action.14.a.spirit
+		custom_tooltip = action.14.a.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_fanatic_spiritualist
+				has_ethic = ethic_spiritualist
+			}
+			NOR = {
+				has_ethic = ethic_fanatic_xenophobe
+				has_ethic = ethic_xenophobe
+				has_ethic = ethic_fanatic_militarist
+				has_ethic = ethic_militarist
+			}
+		}
+	}
+	option = {
+		name = action.14.a.material
+		custom_tooltip = action.14.a.tooltip
+		trigger = {
+			OR = {
+				has_ethic = ethic_fanatic_materialist
+				has_ethic = ethic_materialist
+			}
+			NOR = {
+				has_ethic = ethic_fanatic_xenophobe
+				has_ethic = ethic_xenophobe
+				has_ethic = ethic_fanatic_militarist
+				has_ethic = ethic_militarist
+			}
+		}
+	}
+	option = {
+		name = action.14.a
+		custom_tooltip = action.14.a.tooltip
+		trigger = {
+			NOR = {
+				has_ethic = ethic_fanatic_xenophobe
+				has_ethic = ethic_xenophobe
+				has_ethic = ethic_fanatic_militarist
+				has_ethic = ethic_militarist
+				has_ethic = ethic_fanatic_spiritualist
+				has_ethic = ethic_spiritualist
+				has_ethic = ethic_fanatic_materialist
+				has_ethic = ethic_materialist
+				has_authority = auth_machine_intelligence
+				has_authority = auth_hive_mind
+			}
+		}
+	}
+	option = {
+		name = action.14.a
+		trigger = {
+			has_authority = auth_hive_mind
+		}
+	}
+	option = {
+		name = action.14.a.serv
+		trigger = {
+			has_civic = civic_machine_servitor
+		}
+	}
+	option = {
+		name = action.14.a.assim
+		trigger = {
+			has_civic = civic_machine_assimilator
+		}
+	}
+	option = {
+		name = action.14.a.term
+		trigger = {
+			has_civic = civic_machine_terminator
+		}
+	}
+	option = {
+		name = action.14.a.mach
+		trigger = {
+			has_authority = auth_machine_intelligence
+			NOR = {
+				has_civic = civic_machine_servitor
+				has_civic = civic_machine_assimilator
+				has_civic = civic_machine_terminator
+			}
+		}
+	}
+}
+
+# scheduled to fire 4 times, 5 years apart by game_start.33, which itself is triggered by on_game_start_country
+# root = a country with necrophage origin
+country_event = {
+	id = necroids.6
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_ai = yes
+	}
+	immediate = {
+		log = "necroids primitive 'conquest': helping the [Root.GetName] 'conquer' all primitives within its borders"
+		save_event_target_as = necrophage_country
+		# try to have 3 necrophage pops on every planet with planet_culture_shock
+		every_owned_planet = {
+			limit = {
+				has_modifier = planet_culture_shock
+				count_owned_pop = {
+					count < 3
+					limit = { is_same_species = event_target:necrophage_country }
+				}
+			}
+			while = {
+				count = 3
+				limit = {
+					count_owned_pop = {
+						count < 3
+						limit = { is_same_species = event_target:necrophage_country }
+					}
+				}
+				if = {
+					limit = {
+						event_target:necrophage_country.capital_scope = {
+							count_owned_pop = {
+								count > 3
+								limit = { is_same_species = event_target:necrophage_country }
+							}
+						}
+					}
+					event_target:necrophage_country.capital_scope = {
+						random_owned_pop = {
+							limit = {
+								is_same_species = event_target:necrophage_country
+								can_live_on_planet = prevprev
+							}
+							resettle_pop = {
+								pop = this
+								planet = prevprev
+							}
+							clear_pop_category = yes # in case a specialist/ruler was moved
+						}
+					}
+				}
+			}
+			check_planet_employment = yes
+		}
+		# automatically take control of any primitives within borders
+		every_planet_within_border = {
+			limit = {
+				is_colony = yes
+				owner = { is_country_type = primitive }
+			}
+			owner = { save_event_target_as = conquered_primitive_country }
+			owner_species = {
+				set_timed_species_flag = {
+					flag = primitive_species
+					years = 10
+				}
+				save_event_target_as = conquered_primitive_species
+			}
+			if = {
+				limit = { has_observation_outpost = yes }
+				observation_outpost = { dismantle = yes }
+			}
+			prev = { set_country_flag = keeping_leaders_infiltration@prev.owner }
+			fire_on_action = {
+				on_action = on_primitive_planet_transferring
+				scopes = {
+					from = event_target:necrophage_country
+				}
+			}
+			set_owner = event_target:necrophage_country
+			add_modifier = {
+				modifier = planet_culture_shock
+				years = 10
+			}
+			# move 3 necrophage pops to the newly "conquered" planet
+			if = {
+				limit = {
+					event_target:necrophage_country.capital_scope = {
+						count_owned_pop = {
+							count > 3
+							limit = { is_same_species = event_target:necrophage_country }
+						}
+					}
+				}
+				while = {
+					count = 3
+					event_target:necrophage_country.capital_scope = {
+						random_owned_pop = {
+							limit = {
+								is_same_species = event_target:necrophage_country
+								can_live_on_planet = prevprev
+							}
+							resettle_pop = {
+								pop = this
+								planet = prevprev
+							}
+							clear_pop_category = yes # in case a specialist/ruler was moved
+						}
+					}
+				}
+			}
+			# replicate some planetary conquest events
+			fire_on_action = { # Add conquest districts
+				on_action = on_primitive_planet_transferred
+				scopes = {
+					from = event_target:conquered_primitive_country
+				}
+			}
+			check_planet_employment = yes
+			planet_event = { # Crisis Menace Objective: Conquer a Colony
+				id = crisis.5010
+				scopes = {
+					from = event_target:necrophage_country
+				}
+			}
+			planet_event = { id = action.84 } # Imperialists are pleased
+		}
+	}
+}
+
+# Phase IV - Mission Complete
+country_event = {
+	id = observation.3009
+	title = "observation.3009.name"
+	desc = "observation.3009.desc"
+	picture = GFX_evt_metropolis
+	show_sound = event_cityscape ### Celebration sound?
+	location = from
+	is_triggered_only = yes
+	immediate = {
+		root = { save_event_target_as = infiltrator_civ }
+		from = {
+			owner = {
+				save_event_target_as = primitive_civ
+				if = {
+					limit = {
+						is_species_class = REP
+						event_target:infiltrator_civ = { is_species_class = HUM }
+					}
+					event_target:infiltrator_civ = { set_country_flag = reverse_v }
+				}
+			}
+			add_modifier = { modifier = infiltration_happiness days = 7300 }
+			random_owned_pop = { save_event_target_as = prim_species } # used by the localisation, don't change
+			# using from = root ends up passing the planet,
+			# so the event_target is necessary
+			fire_on_action = {
+				on_action = on_primitive_planet_transferring
+				scopes = {
+					from = event_target:infiltrator_civ
+				}
+			}
+			observation_outpost = { dismantle = yes }
+			set_owner = event_target:infiltrator_civ
+			remove_all_armies = yes
+			fire_on_action = {
+				on_action = on_primitive_planet_transferred
+				scopes = {
+					from = event_target:primitive_civ
+				}
+			}
+			event_target:primitive_civ = { destroy_country = yes }
+		}
+	}
+	option = {
+		name = "observation.3009.a"
+	}
+}
+
+# Entering Space Age (HIDDEN)
+country_event = {
+	id = primitive.16
+	hide_window = yes
+	trigger = {
+		is_country_type = primitive
+		has_country_flag = early_space_age
+		OR = {
+			AND = {
+				exists = from
+				from = {
+					is_country_type_with_subjects = yes
+				}
+			}
+			AND = {
+				NOT = { has_country_flag = recently_advanced }
+				years_passed > 25
+				exists = home_planet
+				home_planet = {
+					OR = {
+						has_observation_outpost = no
+						observation_outpost = {
+							NOR = {
+								has_mission = covert_infiltration
+								has_mission = technological_enlightenment_1
+								has_mission = technological_enlightenment_2
+								has_mission = technological_enlightenment_3
+								has_mission = technological_enlightenment_4
+								has_mission = technological_enlightenment_5
+								has_mission = technological_enlightenment_6
+								has_mission = technological_enlightenment_7
+								has_mission = technological_enlightenment_8
+								has_mission = technological_enlightenment_9
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		years = 100
+		modifier = {
+			factor = 0.6
+			has_country_flag = acquired_tech
+		}
+	}
+
+	immediate = {
+		capital_scope = {
+			fire_on_action = {
+				on_action = on_primitive_planet_transferring
+				scopes = {
+					from = prev
+				}
+			}
+		}
+		remove_country_flag = early_space_age
+		set_country_flag = primitives_can_into_space
+		set_country_type = default
+		change_country_flag = random
+		switch = {
+			trigger = is_species_class
+			MAM = {
+				set_graphical_culture = mammalian_01
+				set_city_graphical_culture = mammalian_01
+			}
+			REP = {
+				set_graphical_culture = reptilian_01
+				set_city_graphical_culture = reptilian_01
+			}
+			AVI = {
+				set_graphical_culture = avian_01
+				set_city_graphical_culture = avian_01
+			}
+			ART = {
+				set_graphical_culture = arthropoid_01
+				set_city_graphical_culture = arthropoid_01
+			}
+			MOL = {
+				set_graphical_culture = molluscoid_01
+				set_city_graphical_culture = molluscoid_01
+			}
+			FUN = {
+				set_graphical_culture = fungoid_01
+				set_city_graphical_culture = fungoid_01
+			}
+			PLANT = {
+				set_graphical_culture = plantoid_01
+				set_city_graphical_culture = plantoid_01
+			}
+			HUM = {
+				set_graphical_culture = humanoid_01
+				set_city_graphical_culture = humanoid_01
+			}
+			LITHOID = {
+				set_graphical_culture = lithoid_01
+				set_city_graphical_culture = lithoid_01
+			}
+			NECROID = {
+				set_graphical_culture = necroid_01
+				set_city_graphical_culture = necroid_01
+			}
+			AQUATIC = {
+				set_graphical_culture = aquatic_01
+				set_city_graphical_culture = aquatic_01
+			}
+			default = {
+				set_graphical_culture = mammalian_01
+				set_city_graphical_culture = mammalian_01
+			}
+		}
+		change_government = {
+			authority = random
+			civics = random
+		}
+		set_name = random
+
+		add_resource = {
+			energy = 500
+			minerals = 1000
+			influence = 300
+		}
+
+		if = {
+			limit = { capital_scope = { is_planet_class = pc_ringworld_habitable } }
+			# Hope you find some mineral deposits out in the void. Here's an extra subsidy to tide you over until the resource shortages cripple you.
+			add_resource = {
+				energy = 1000
+				food = 1000
+				minerals = 1000
+				alloys = 1000
+				volatile_motes = 500
+				exotic_gases = 500
+				rare_crystals = 500
+			}
+		}
+
+		capital_scope = {
+			clear_blockers = yes
+			create_primitive_blockers = yes
+			while = {
+				limit = { num_pops < 8 }
+				create_pop = {
+					species = owner
+				}
+			}
+			remove_all_primitive_buildings = yes
+			remove_all_armies = yes
+			add_building = building_capital
+			fire_on_action = {
+				on_action = on_primitive_planet_transferred
+				scopes = {
+					from = prev
+				}
+			}
+			if = {
+				limit = { exists = observation_outpost_owner }
+				observation_outpost_owner = {
+					country_event = {
+						id = primitive.17
+					}
+				}
+			}
+			solar_system = {
+				if = {
+					limit = { NOT = { exists = starbase } }
+					create_starbase = {
+						size = starbase_outpost
+						owner = root
+					}
+				}
+				else_if = {
+					limit = { starbase = { NOT = { is_owned_by = root } } }
+					starbase = {
+						owner = {
+							country_event = {
+								id = primitive.180
+							}
+						}
+					}
+				}
+			}
+		}
+		random_owned_ship = {
+			limit = { is_ship_size = primitive_space_station }
+			fleet = { destroy_fleet = this }
+		}
+	}
+}
+
+# Entering Space Age
+country_event = {
+	id = primitive.17
+	title = "primitive.17.name"
+	desc = "primitive.17.desc"
+	picture = GFX_evt_satellite_in_orbit
+	location = from.capital_scope
+	is_triggered_only = yes
+	immediate = {
+		from = {
+			capital_scope = {
+				observation_outpost = {
+					dismantle = yes
+				}
+			}
+		}
+		add_intel = {
+			who = from
+			amount = 100
+		}
+	}
+	option = {
+		name = "primitive.17.a" # base game had the wrong localisation key primitive.15.a
+	}
+}

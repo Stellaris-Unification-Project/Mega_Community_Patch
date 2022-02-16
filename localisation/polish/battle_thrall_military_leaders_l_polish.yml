@@ -1,0 +1,9 @@
+﻿l_polish:
+ necrophage_only_allows_necrophage_leaders: "$TRIGGER_FAIL$Tylko populacje nekrofagów mogą być §Yprzywódcami§!."
+ nerve_stapled_cannot_lead: "$TRIGGER_FAIL$Ten gatunek ma zbyt ograniczone parametry umysłowe, by dowodzić."
+ military_service_full_servitor_tooltip: "Gatunek może wystawiać §Hgenerałów§! i §Hadmirałów§!."
+ military_service_full_servitor_tooltip_delayed: "§LAlthough allowing Organic Advisors in military roles presents massive risks to our dear $pop_cat_bio_trophy_plural$, their effectiveness at chaos and violence cannot be denied.§!"
+ military_service_full_default_tooltip: "Gatunek może wystawiać §Harmie§!, §Hgenerałów§! i §Hadmirałów§!."
+ military_service_full_default_tooltip_delayed: "§LNiewątpliwie należą do najbardziej kompetentnych w naszych siłach zbrojnych.§!"
+ # missing base-game localisation
+ effect_random_owned_pop_species: "$effect_random_owned_species$"

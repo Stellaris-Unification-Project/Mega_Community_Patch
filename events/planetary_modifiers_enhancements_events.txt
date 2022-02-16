@@ -1,0 +1,44 @@
+namespace = planetary_modifier_enhancements
+
+# flag mod as active
+event = {
+	id = planetary_modifier_enhancements.13
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_global_flag = planetary_modifier_enhancements_installed }
+	}
+	immediate = {
+		set_global_flag = planetary_modifier_enhancements_installed
+	}
+}
+
+# triggered by on_game_start
+event = {
+	id = planetary_modifier_enhancements.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		find_and_apply_extensive_moon_system_child_modifier = yes
+		find_and_add_minerals_to_mineral_plentiful_unhabitable_planets = yes
+	}
+}
+
+# triggered by on_game_start
+planet_event = {
+	id = planetary_modifier_enhancements.2
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		has_moon = yes
+		OR = {
+			has_planet_modifier = pm_extensive_moon_system
+			has_modifier = extensive_moon_system
+			has_planet_modifier = pm_extensive_moon_system_moon
+			has_modifier = extensive_moon_system_moon
+		}
+	}
+	immediate = {
+		apply_extensive_moon_system_child_modifier_planet = yes
+	}
+}

@@ -1,0 +1,36 @@
+# this = planet
+has_upgraded_penal_capital = {
+	custom_tooltip = {
+		fail_text = "requires_building_prison_capital"
+		OR = {
+			has_building = building_penal_colony_administration
+			has_building = building_penal_colony_complex
+			has_building = building_penal_colony_enclave
+		}
+	}
+}
+
+# this = planet
+has_major_upgraded_penal_capital = {
+	custom_tooltip = {
+		fail_text = "requires_building_major_prison_capital"
+		OR = {
+			has_building = building_penal_colony_complex
+			has_building = building_penal_colony_enclave
+		}
+	}
+}
+
+# this = planet
+has_fully_upgraded_penal_capital = {
+	custom_tooltip = {
+		fail_text = "requires_building_system_prison_capital"
+		has_building = building_penal_colony_enclave
+	}
+}
+
+# this = country
+pce_is_necrophage_empire = {
+	has_origin = origin_necrophage
+	has_trait = trait_necrophage
+}

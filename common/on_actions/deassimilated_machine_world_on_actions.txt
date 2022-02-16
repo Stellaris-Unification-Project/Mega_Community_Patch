@@ -1,0 +1,57 @@
+# fired when the game starts
+on_game_start = {
+	events = {
+		deassimilated_machine_world.13 # flag mod as installed
+	}
+}
+
+# fired when loading a single-player game
+on_single_player_save_game_load = {
+	events = {
+		deassimilated_machine_world.13 # flag mod as installed
+	}
+}
+
+# fired whenever a new owner is set for a planet, be it after a war or through a trade
+# THIS = planet
+# FROM = country (new owner)
+on_planet_transfer = {
+	events = {
+		deassimilated_machine_world.20
+	}
+}
+
+# fired after a policy has been changed
+# use last_changed_policy to identify which policy it was
+# THIS = country
+on_policy_changed = {
+	events = {
+		deassimilated_machine_world.30
+		deassimilated_machine_world.32
+	}
+}
+
+# fired when a country has increased the level of a tech, use last_increased_tech trigger to check tech and level
+# THIS = country
+on_tech_increased = {
+	events = {
+		deassimilated_machine_world.40
+	}
+}
+
+# fired right after country has established communications with another country
+# THIS = country which established communications
+# FROM = country with which communications were established
+on_post_communications_established = {
+	events = {
+		deassimilated_machine_world.50
+	}
+}
+
+# fired when a planet has been colonized
+# THIS = planet
+on_colonized = {
+	events = {
+		deassimilated_machine_world.60
+	}
+}

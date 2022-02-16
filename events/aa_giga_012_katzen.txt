@@ -1,0 +1,34 @@
+namespace = giga_katzen
+
+event = { #unbork flusion
+	id = giga_katzen.0934
+	is_triggered_only = yes
+	hide_window = yes
+
+	trigger = {
+		AND = {
+			exists = event_target:gigaflusion
+			event_target:gigaflusion = {
+				exists = controller
+				OR = {
+					is_occupied_flag = yes
+					controller = {
+						NOT = { is_country_type = katzenartig_imperium }
+					}
+				}
+			}
+		}
+		has_global_flag = katzenartig_imperium_happened
+		NOT = { has_global_flag = katzenartig_imperium_defeated }
+	}
+
+	immediate = {
+		event_target:gigaflusion = {
+			every_owned_army = { remove_army = yes }
+			set_controller = event_target:katzenartig_imperium
+			set_owner = event_target:katzenartig_imperium
+			while = { count = 6		create_army = { name = "Katzenarmee Task Force"	owner = event_target:flusion_primitives_country species = event_target:flusion_katzens type = "flusion_army" } }
+			while = { count = 1		create_army = { name = "Riesigerkatzenpanzers"	owner = event_target:flusion_primitives_country species = event_target:flusion_katzens type = "riesigerkatzenpanzer_defence" leader = event_target:katzen_general } }
+		}
+	}
+}

@@ -1,0 +1,2 @@
+# multiplied by the number of leaders that are executed/eaten/terminated/assimilated
+@keep_leaders_civic_reward_base = 50

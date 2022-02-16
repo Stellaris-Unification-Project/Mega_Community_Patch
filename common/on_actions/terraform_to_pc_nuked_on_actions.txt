@@ -1,0 +1,48 @@
+# fired when the game starts
+on_game_start = {
+	events = {
+		terraform_to_pc_nuked.13 # flag mod as installed
+		terraform_to_pc_nuked.4
+	}
+}
+
+# fired yearly
+on_yearly_pulse = {
+	events = {
+		terraform_to_pc_nuked.4
+	}
+}
+
+# fired when loading a single-player game
+on_single_player_save_game_load = {
+	events = {
+		terraform_to_pc_nuked.13 # flag mod as installed
+		terraform_to_pc_nuked.4
+	}
+}
+
+# fired when a planet starts being terraformed
+# this = planet
+# from = country, terraformer
+on_terraforming_begun = {
+	events = {
+		terraform_to_pc_nuked.1
+	}
+}
+
+# fired when a planet has been terraformed
+# this = planet
+# from = country, terraformer
+on_terraforming_complete = {
+	events = {
+		terraform_to_pc_nuked.2
+	}
+}
+
+# fired just as country is changing its government, after the new one is applied
+# this = country
+on_post_government_changed = {
+	events = {
+		terraform_to_pc_nuked.5
+	}
+}

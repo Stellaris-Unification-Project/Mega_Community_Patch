@@ -1,0 +1,174 @@
+ap_esap_gov_3 = {	
+	on_enabled = {
+		custom_tooltip = ap_esap_gov_3_tooltip
+		hidden_effect = {
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 0 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_3_1" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 1 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_3_1" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 2 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_3_2" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 3 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_3_3" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 4 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_3_4" days = -1 }
+			}
+			country_event = {
+				id = esap_gov.1
+			}
+		}
+		run_ai_strategic_data = yes		
+	}
+
+	modifier = {
+		country_admin_cap_mult = 0.25
+	}
+
+	potential = {
+		NOT = {
+			has_ethic = ethic_gestalt_consciousness
+			has_ascension_perk = ap_imperial_prerogative
+			has_ascension_perk = ap_esap_gov_3
+		}
+		is_megacorp = no
+	}
+	
+	ai_weight = {
+		factor = 0
+	}
+}
+
+ap_esap_gov_1 = {	
+	on_enabled = {
+		custom_tooltip = ap_esap_gov_1_tooltip
+		hidden_effect = {
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 0 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_1_1" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 1 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_1_1" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 2 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_1_2" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 3 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_1_3" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 4 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_1_4" days = -1 }
+			}
+			country_event = {
+				id = esap_gov.1
+			}
+		}	
+	}
+
+	modifier = {
+		country_edict_cap_add = 2
+		edicts_cost_mult = -0.25
+	}
+
+	potential = {
+		NOT = {
+			has_ethic = ethic_gestalt_consciousness
+			has_ascension_perk = ap_executive_vigor
+			has_ascension_perk = ap_esap_gov_1
+		}
+	}
+	
+	ai_weight = {
+		factor = 0
+	}
+}
+
+ap_esap_gov_2 = {	
+	on_enabled = {
+		custom_tooltip = ap_esap_gov_2_tooltip
+		hidden_effect = {
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 0 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_2_1" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 1 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_2_1" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 2 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_2_2" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 3 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_2_3" days = -1 }
+			}
+			if = {
+				limit = {
+					check_variable = { which = var_esap_goverment_perk_count value = 4 }
+				}
+				add_modifier = {modifier = "mod_esap_gov_2_4" days = -1 }
+			}
+			country_event = {
+				id = esap_gov.1
+			}
+		}	
+	}
+
+	modifier = {
+		leader_skill_levels = 2
+		species_leader_exp_gain = 0.50
+	}
+
+	potential = {
+		NOT = {
+			has_ethic = ethic_gestalt_consciousness
+			has_ascension_perk = ap_transcendent_learning
+			has_ascension_perk = ap_esap_gov_2
+		}
+	}
+	
+	ai_weight = {
+		factor = 0
+	}
+}

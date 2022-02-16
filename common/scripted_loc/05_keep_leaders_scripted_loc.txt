@@ -1,0 +1,54 @@
+# works for species that are hive/machine/not either
+defined_text = { # scope with species
+	name = GetSpeciesUnitDrone
+	text = {
+		trigger = { is_hive_species = yes }
+		localization_key = getunitdrone_unit
+	}
+	text = {
+		trigger = { is_machine_species = yes }
+		localization_key = getunitdrone_drone
+	}
+	# fallback if not hive/machine
+	default = getunitdrone_leader
+}
+
+# assumes that anything organic used to be hive, anything robotic used to be a machine, and a fallback for things that were neither organic not robotic
+defined_text = { # scope with species
+	name = GetSpeciesPreviouslyUnitDrone
+	text = {
+		trigger = { is_organic_species = yes }
+		localization_key = getunitdrone_unit
+	}
+	text = {
+		trigger = { is_robotic_species = yes }
+		localization_key = getunitdrone_drone
+	}
+	# fallback if not hive/machine
+	default = getunitdrone_leader
+}
+
+# this = country
+# from = country
+defined_text = { # country
+	name = GetKeepLeadersEventTitle
+	text = {
+		trigger = {
+			has_country_flag = colossus_transfer@capital_scope
+			has_country_flag = orbitally_drenched@capital_scope
+		}
+		localization_key = keep_leaders.1.title.planet_killer_deluge
+	}
+	text = {
+		trigger = {
+			has_country_flag = colossus_transfer@capital_scope
+			NOR = {
+				has_country_flag = orbitally_drenched@capital_scope
+				has_country_flag = nanobot_assimilated@capital_scope
+				has_country_flag = orbitally_necrophaged@capital_scope
+			}
+		}
+		localization_key = keep_leaders.1.title.planet_killer_generic
+	}
+	default = keep_leaders.1.title
+}

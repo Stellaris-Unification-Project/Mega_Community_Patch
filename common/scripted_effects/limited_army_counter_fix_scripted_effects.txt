@@ -1,0 +1,158 @@
+# THIS = country
+increment_titanic_life_soldier_count = {
+	change_variable = {
+		which = titanic_life_soldier_count
+		value = 1
+	}
+}
+
+# THIS = country
+increment_titanic_azizian_soldier_count = {
+	change_variable = {
+		which = titanic_azizian_soldier_count
+		value = 1
+	}
+}
+
+# THIS = country
+increment_imperial_legion_soldier_count = {
+	change_variable = {
+		which = imperial_legion_soldier_count
+		value = 1
+	}
+}
+
+# THIS = country
+increment_titanic_life_soldier_queued_count = {
+	change_variable = {
+		which = titanic_life_soldier_queued_count
+		value = 1
+	}
+}
+
+# THIS = country
+increment_titanic_azizian_soldier_queued_count = {
+	change_variable = {
+		which = titanic_azizian_soldier_queued_count
+		value = 1
+	}
+}
+
+# THIS = country
+increment_imperial_legion_soldier_queued_count = {
+	change_variable = {
+		which = imperial_legion_soldier_queued_count
+		value = 1
+	}
+}
+
+# THIS = country
+# event_target:removed_army = army
+decrement_titanic_life_soldier_count = {
+	if = {
+		limit = {
+			check_variable = {
+				which = titanic_life_soldier_count
+				value > 0
+			}
+		}
+		set_timed_country_flag = {
+			flag = army_counter_decremented@event_target:removed_army
+			days = 7
+		}
+		subtract_variable = {
+			which = titanic_life_soldier_count
+			value = 1
+		}
+	}
+}
+
+# THIS = country
+# event_target:removed_army = army
+decrement_titanic_azizian_soldier_count = {
+	if = {
+		limit = {
+			check_variable = {
+				which = titanic_azizian_soldier_count
+				value > 0
+			}
+		}
+		set_timed_country_flag = {
+			flag = army_counter_decremented@event_target:removed_army
+			days = 7
+		}
+		subtract_variable = {
+			which = titanic_azizian_soldier_count
+			value = 1
+		}
+	}
+}
+
+# THIS = country
+# event_target:removed_army = army
+decrement_imperial_legion_soldier_count = {
+	if = {
+		limit = {
+			check_variable = {
+				which = imperial_legion_soldier_count
+				value > 0
+			}
+		}
+		set_timed_country_flag = {
+			flag = army_counter_decremented@event_target:removed_army
+			days = 7
+		}
+		subtract_variable = {
+			which = imperial_legion_soldier_count
+			value = 1
+		}
+	}
+}
+
+# THIS = country
+decrement_titanic_life_soldier_queued_count = {
+	if = {
+		limit = {
+			check_variable = {
+				which = titanic_life_soldier_queued_count
+				value > 0
+			}
+		}
+		subtract_variable = {
+			which = titanic_life_soldier_queued_count
+			value = 1
+		}
+	}
+}
+
+# THIS = country
+decrement_titanic_azizian_soldier_queued_count = {
+	if = {
+		limit = {
+			check_variable = {
+				which = titanic_azizian_soldier_queued_count
+				value > 0
+			}
+		}
+		subtract_variable = {
+			which = titanic_azizian_soldier_queued_count
+			value = 1
+		}
+	}
+}
+
+# THIS = country
+decrement_imperial_legion_soldier_queued_count = {
+	if = {
+		limit = {
+			check_variable = {
+				which = imperial_legion_soldier_queued_count
+				value > 0
+			}
+		}
+		subtract_variable = {
+			which = imperial_legion_soldier_queued_count
+			value = 1
+		}
+	}
+}

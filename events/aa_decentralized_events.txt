@@ -1,0 +1,132 @@
+namespace = decentralized
+
+# event_target:decentralizer is variable
+
+#####################################
+# Established Events
+#####################################
+# Opportunity to change vassals into Member States.
+country_event = {
+	id = decentralized.7
+	title = "decentralized.7.name"
+	desc = "decentralized.7.desc"
+	picture = GFX_evt_throne_room
+	is_triggered_only = yes
+	trigger = {
+		is_scope_valid = yes
+		has_country_flag = decentralizer
+		has_ascension_perk = ap_decentralization
+		any_subject = {
+			# OR = {
+			# 	is_country_type = default
+			# 	is_subject_type = vassal
+			# 	is_subject_type = subsidiary
+			# }
+			NOT = { has_country_flag = day_0 }
+		}
+	}
+	immediate = {
+		if = {
+			limit = {
+				# NOT = { has_country_flag = de_election_won }
+				has_modifier = electoral
+			}
+			remove_modifier = electoral
+		}
+	}
+	after = {
+		hidden_effect = {
+			add_resource = { influence = -10 }
+			clear_global_event_target = decentralizer
+		}
+	}
+	option = {
+		name = decentralized.7.a
+		trigger = {
+			exists = from
+			from = {
+				is_scope_type = country
+				is_subject = yes
+				NOR = {
+					is_subject_type = member_state
+					has_country_flag = day_0
+				}
+				OR = {
+					is_country_type = default
+					is_subject_type = vassal
+					is_subject_type = subsidiary
+				}
+			}
+			is_overlord_to = from
+		}
+		hidden_effect = {
+			from = {
+				set_subject_of = {
+					who = root
+					subject_type = member_state
+				}
+				# add_resource = { influence = 40 }
+			}
+			add_resource = { influence = -10 }
+			save_event_target_as = decentralizer
+			country_event = { id = decentralized.209 }
+		}
+	}
+
+	option = {
+		name = decentralized.7.b
+		exclusive_trigger = {
+			exists = event_target:decentralizer
+			is_same_empire = event_target:decentralizer
+			count_subject = {
+				count > 1
+				limit = {
+					NOT = { is_subject_type = member_state }
+					OR = {
+						is_country_type = default
+						is_subject_type = vassal
+						is_subject_type = subsidiary
+					}
+				}
+			}
+		}
+		every_subject = {
+			limit = {
+				NOT = { is_subject_type = member_state }
+				OR = {
+					is_country_type = default
+					is_subject_type = vassal
+					is_subject_type = subsidiary
+				}
+			}
+			set_subject_of = {
+				who = root
+				subject_type = member_state
+			}
+			add_resource = { influence = 100 }
+			set_timed_country_flag = { flag = day_0 days = 10 }
+		}
+		hidden_effect = {
+			add_resource = { influence = -20 }
+		}
+	}
+	option = {
+		name = decentralized.7.c
+		allow = {
+			hidden_trigger = { has_resource = { type = influence amount > 19 } }
+		}
+		hidden_effect = {
+			random_subject = {
+				limit = {
+					NOT = { is_subject_type = member_state }
+					OR = {
+						is_country_type = default
+						is_subject_type = vassal
+						is_subject_type = subsidiary
+					}
+				}
+				set_timed_country_flag = { flag = day_0 days = 10 }
+			}
+		}
+	}
+}

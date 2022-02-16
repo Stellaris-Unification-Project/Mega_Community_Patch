@@ -5,7 +5,7 @@
 manifesti = {
 	election_header = "GFX_faction_header_yellow"
 	guiding_ethic = ethic_egalitarian
-	use_guiding_ethic_as_pop_filter = no #this means that the faction will let pops that aren't egalitarian in too
+	use_guiding_ethic_as_pop_filter = no # this means that the faction will let pops that aren't egalitarian in too
 
 	unique = yes
 	support_multiplier = 1
@@ -141,6 +141,10 @@ manifesti = {
 						has_technology = tech_noxious_swamp
 						any_owned_planet = { has_deposit = d_noxious_swamp }
 					}
+					AND = {
+						has_technology = tech_toxic_kelp
+						any_owned_planet = { has_deposit = d_toxic_kelp }
+					}
 					any_owned_planet = {
 						has_planet_flag = planet_earth
 						NOT = { has_deposit = d_great_pacific_garbage_patch }
@@ -160,11 +164,13 @@ manifesti = {
 		potential = {
 			exists = owner
 			owner = {
-				has_technology = tech_combat_computers_2 #Prerequisite for Autonomous
+				has_technology = tech_combat_computers_2 # Prerequisite for Autonomous
 				NOT = { has_policy_flag = robots_outlawed }
 			}
 		}
 
+		# Changed to refer to Sapient Combat Computers versus the original file which referred to Autonomous
+		# Combat Computers.  ACC are only available to countries with the ethic ethic_gestalt_consciousness.
 		trigger = {
 			owner = {
 				has_technology = tech_combat_computers_3

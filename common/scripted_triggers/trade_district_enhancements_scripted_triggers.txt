@@ -1,0 +1,18 @@
+# this = planet
+tde_uses_planetary_diversity_special_district_set = {
+	OR = {
+		uses_district_set = pdarchive
+		uses_district_set = pdpalacearc
+		uses_district_set = pdmilarc
+		uses_district_set = pdcorpoarc
+		uses_district_set = pdplanethab
+		uses_district_set = pdbiocapital
+		uses_district_set = pdbioforge
+		uses_district_set = pdbiofort
+		uses_district_set = pdmachinecapital
+		uses_district_set = pdmachinefactory
+		uses_district_set = pdmachinefort
+		uses_district_set = pdecocity
+		uses_district_set = pdfloraforge
+	}
+}

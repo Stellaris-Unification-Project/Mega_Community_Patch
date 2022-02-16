@@ -1,0 +1,181 @@
+namespace = terraform_stations_aesthetic
+
+# flag mod as active
+# triggered by on_game_start and on_single_player_save_game_load
+event = {
+	id = terraform_stations_aesthetic.13
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_global_flag = terraform_stations_aesthetic_installed }
+	}
+	immediate = {
+		set_global_flag = terraform_stations_aesthetic_installed
+	}
+}
+
+# set up terraform station and graphics
+# triggered by on_terraforming_begun
+# THIS = planet
+# FROM = country, terraformer
+planet_event = {
+	id = terraform_stations_aesthetic.1
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		solar_system = {
+			NOR = {
+				any_orbital_station = { has_fleet_flag = terraform_station@PREVPREV }
+				# any_system_megastructure = { has_megastructure_flag = terraform_station@PREVPREV }
+			}
+		}
+		NAND = {
+			has_global_flag = terraform_to_pc_nuked_installed
+			uninhabitable_regular_planet = no
+			space_owner.owner_main_species = {
+				OR = {
+					has_trait = trait_pc_nuked_preference
+					has_trait = trait_survivor
+					has_trait = trait_plantoid_radiotrophic
+					has_trait = trait_harvested_radiotrophic
+					has_trait = trait_presapient_irradiated
+				}
+			}
+		}
+	}
+	immediate = {
+		save_event_target_as = terraform_planet
+		# solar_system = {
+		# 	spawn_megastructure = {
+		# 		planet = PREV
+		# 		coords_from = PREV
+		# 		type = terraform_station
+		# 		owner = PREV.FROM
+		# 		graphical_culture = PREV.FROM
+		# 		orbit_distance = 18
+		# 		init_effect = {
+		# 			set_name = NAME_terraform_station
+		# 			set_megastructure_flag = terraform_station@PREVPREV
+		# 		}
+		# 	}
+		# }
+		create_fleet = {
+			set_take_point = no
+			settings = {
+				can_change_composition = no
+				uses_naval_capacity = no
+				ai_ignore_strength = yes
+				can_change_leader = no
+				garrison = yes
+				spawn_debris = no
+			}
+			effect = {
+				save_event_target_as = terraform_station
+				set_name = NAME_terraform_station
+				set_owner = FROM
+				set_fleet_flag = terraform_station@event_target:terraform_planet
+				set_location = {
+					target = event_target:terraform_planet
+					distance = 0
+					angle = random
+				}
+				create_ship = {
+					graphical_culture = FROM
+					prefix = no
+					random_existing_design = terraform_station
+					effect = {
+						set_name = NAME_terraform_station
+					}
+				}
+			}
+		}
+		create_ambient_object = {
+			type = terraform_planet_effect_object
+			use_3d_location = yes
+			base_angle_towards = event_target:terraform_planet
+			entity_face_object = event_target:terraform_station
+			scale = 2.25
+			entity_scale_to_size = yes
+			effect = {
+				set_ambient_object_flag = terraform_station@PREV
+			}
+		}
+		planet_event = {
+			id = terraform_stations_aesthetic.3
+			days = 30
+		}
+	}
+}
+
+# clean up terraform station and graphics
+# triggered by on_terraforming_complete and terraform_stations_aesthetic.3
+# THIS = planet
+# FROM = country, terraformer
+planet_event = {
+	id = terraform_stations_aesthetic.2
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		solar_system = {
+			OR = {
+				any_orbital_station = { has_fleet_flag = terraform_station@PREVPREV }
+				any_system_ambient_object = { has_ambient_object_flag = terraform_station@PREVPREV }
+				# any_system_megastructure = { has_megastructure_flag = terraform_station@PREVPREV }
+			}
+		}
+	}
+	immediate = {
+		solar_system = {
+			every_orbital_station = {
+				limit = { has_fleet_flag = terraform_station@PREVPREV }
+				delete_fleet = THIS
+			}
+			every_system_ambient_object = {
+				limit = { has_ambient_object_flag = terraform_station@PREVPREV }
+				destroy_ambient_object = THIS
+			}
+			# every_system_megastructure = {
+			# 	limit = { has_megastructure_flag = terraform_station@PREVPREV }
+			# 	delete_megastructure = THIS
+			# }
+		}
+	}
+}
+
+# check to see if terraforming has stopped - if so, fire the cleanup event, otherwise check again in a month
+# triggered by terraform_stations_aesthetic.1 and terraform_stations_aesthetic.3
+# THIS = planet
+# FROM = country, terraformer
+planet_event = {
+	id = terraform_stations_aesthetic.3
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		solar_system = {
+			# OR = {
+				any_orbital_station = { has_fleet_flag = terraform_station@PREVPREV }
+			#	any_system_megastructure = { has_megastructure_flag = terraform_station@PREVPREV }
+			# }
+		}
+	}
+	immediate = {
+		if = {
+			limit = { is_terraforming = yes }
+			planet_event = {
+				id = terraform_stations_aesthetic.3
+				days = 30
+				scopes = {
+					from = FROM
+				}
+			}
+		}
+		else = {
+			planet_event = {
+				id = terraform_stations_aesthetic.2
+				scopes = {
+					from = FROM
+				}
+			}
+		}
+	}
+}

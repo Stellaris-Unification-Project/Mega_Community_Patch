@@ -1,0 +1,1195 @@
+################
+# Refugees #
+################
+
+empire_name_parts_list = {
+	key = "vengeful_refugees_1_1"
+	parts = {
+		"Resurgency" = 2
+	}
+}
+
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 200
+			is_country_type = default
+			has_origin = origin_mzilli_exiles
+			has_civic = civic_vengeful_refugees
+			NOT = { any_owned_planet = { is_planet = home_planet } }
+		}
+	}
+	format = "format.refugees.1"
+	noun = "[This.GetSpeciesAdj]"
+	prefix_format = "[This.GetSpeciesAdj] <vengeful_refugees_1_1>"
+	# Human Resurgency
+}
+
+empire_name_parts_list = {
+	key = "vengeful_refugees_1_2"
+	parts = {
+		"Liberation" = 2
+		"Emancipation" = 2
+	}
+}
+
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 200
+			is_country_type = default
+			has_origin = origin_mzilli_exiles
+			has_civic = civic_vengeful_refugees
+			NOT = { any_owned_planet = { is_planet = home_planet } }
+		}
+	}
+	format = "format.refugees.2"
+	noun = "[This.GetSpeciesAdj]"
+	prefix_format = "[This.GetSpeciesAdj] <vengeful_refugees_1_2>"
+	# Human Liberation Front
+}
+
+empire_name_parts_list = {
+	key = "vengeful_refugees_2"
+	parts = {
+		"Liberation" = 2
+		"Emancipation" = 2
+	}
+}
+
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 200
+			is_country_type = default
+			has_origin = origin_mzilli_exiles
+			has_civic = civic_vengeful_refugees
+			has_global_flag = game_started
+			NOT = { any_owned_planet = { is_planet = home_planet } }
+		}
+	}
+	format = "format.refugees.3"
+	noun = "[This.GetSpeciesAdj]"
+	prefix_format = "[This.home_planet.GetName] <vengeful_refugees_2>"
+	# Earth Liberation Front
+}
+
+empire_name_parts_list = {
+	key = "general_refugees_1_1"
+	parts = {
+		"Allied" = 2
+		"United" = 2
+	}
+}
+
+empire_name_parts_list = {
+	key = "general_refugees_1_2"
+	parts = {
+		"Colonies" = 2
+		"Refugees" = 2
+	}
+}
+
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 200
+			is_country_type = default
+			has_origin = origin_mzilli_exiles
+			NOT = { any_owned_planet = { is_planet = home_planet } }
+		}
+	}
+	format = "format.refugees.4"
+	noun = "[This.GetSpeciesAdj]"
+	prefix_format = "<general_refugees_1_1> [This.GetSpeciesAdj]"
+	# United Human Colonies
+}
+
+empire_name_parts_list = {
+	key = "general_refugees_2_2"
+	parts = {
+		"Colonies" = 2
+		"Refugees" = 2
+	}
+}
+
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			is_country_type = default
+			has_origin = origin_mzilli_exiles
+			has_global_flag = game_started
+			NOT = { any_owned_planet = { is_planet = home_planet } }
+		}
+	}
+	format = "format.refugees.5"
+	noun = "[This.home_planet.GetName]"
+	prefix_format = "[This.home_planet.GetName] <general_refugees_2_2>"
+	# United Colonies of Earth
+}
+
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			is_country_type = default
+			has_origin = origin_mzilli_exiles
+			has_global_flag = game_started
+			NOT = { any_owned_planet = { is_planet = home_planet } }
+		}
+	}
+	format = "format.refugees.6"
+	noun = "[This.home_planet.System.GetName]"
+	prefix_format = "[This.home_planet.System.GetName] <general_refugees_2_2>"
+	# United Colonies of Sol
+}
+
+empire_name_parts_list = {
+	key = "general_refugees_3"
+	parts = {
+		"Confederate" = 2
+	}
+}
+
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 25
+			is_country_type = default
+			has_origin = origin_mzilli_exiles
+			NOR = {
+				any_owned_planet = { is_planet = home_planet }
+				has_authority = auth_imperial
+				has_authority = auth_dictatorial
+			}
+		}
+	}
+	format = "format.refugees.7"
+	noun = "[This.Capital.System.GetName]"
+	prefix_format = "<general_refugees_3> [This.Capital.System.GetName]"
+	# Confederate Republics of Antares (a little Stellaris Invicta easter egg!)
+}
+
+################
+# Lost Colonies #
+################
+
+# Imperial Militarist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_star_empire"
+				has_government = "gov_martial_empire"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.imp_mil.2"
+	prefix_format = "[This.Capital.GetName] <imperial_mil>"
+	noun = "[This.Capital.GetName]"
+	# Empire of Earth
+}
+
+# Imperial Spiritualist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_theocratic_monarchy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.imp_spi.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_spi>"
+	# Empire of Earth
+}
+
+# Imperial Imperial Cult
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_divine_empire"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.imp_cult.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_imperial_cult>"
+	# Empire of Earth
+}
+
+# Imperial Materialist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_despotic_hegemony"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.imp_mat.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_mat>"
+	# Empire of Earth
+}
+
+# Imperial Technocracy
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_illuminated_autocracy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.imp_tech.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_tech>"
+	# Empire of Earth
+}
+
+# Imperial Pacifist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_irenic_monarchy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.imp_pac.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_pac>"
+	# Empire of Earth
+}
+
+# Imperial Celestial
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_celestial_empire"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.imp_cel.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_celestial>"
+	# Empire of Earth
+}
+
+# Imperial Enlightened
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_enlightened_monarchy"
+				has_government = "gov_elective_monarchy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.imp_enl.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_enlightened>"
+	# Empire of Earth
+}
+
+# Imperial Generic
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_despotic_empire"
+				has_government = "gov_feudal_empire"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.imp_gen.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_gen>"
+	# Empire of Earth
+}
+
+# Dictatorial Militarist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_military_dictatorship"
+				has_government = "gov_martial_dictatorship"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dict_mil.2"
+	prefix_format = "[This.Capital.GetName] <dictatorial_mil>"
+	noun = "[This.Capital.GetName]"
+	# Empire of Earth
+}
+
+# Dictatorial Spiritualist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_theocratic_dictatorship"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dict_spi.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <dictatorial_spi>"
+	# Empire of Earth
+}
+
+# Dictatorial Materialist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_totalitarian_regime"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dict_mat.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <dictatorial_mat>"
+	# Empire of Earth
+}
+
+# Dictatorial Technocracy
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_technocratic_dictatorship"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dict_tech.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <dictatorial_tech>"
+	# Empire of Earth
+}
+
+# Dictatorial Pacifist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_irenic_dictatorship"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dict_pac.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <dictatorial_pac>"
+	# Empire of Earth
+}
+
+# Dictatorial Generic
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_constitutional_dictatorship"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dict_gen.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <dictatorial_gen>"
+	# Empire of Earth
+}
+
+# Oligarchic Militarist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_military_junta"
+				has_government = "gov_war_council"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.olig_mil.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <oligarchic_mil>"
+	# Empire of Earth
+}
+
+# Oligarchic Citizen Service
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_citizen_stratocracy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.olig_serv.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <oligarchic_service>"
+	# Empire of Earth
+}
+
+# Oligarchic Spiritualist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_theocratic_oligarchy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.olig_spi.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <oligarchic_spi>"
+	# Empire of Earth
+}
+
+# Oligarchic Tribunal
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_holy_tribunal"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.olig_trib.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <oligarchic_holy_tribunal>"
+	# Empire of Earth
+}
+
+# Oligarchic Materialist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_executive_committee"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.olig_mat.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <oligarchic_mat>"
+	# Empire of Earth
+}
+
+# Oligarchic Technocracy
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_science_directorate"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.olig_tech.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <oligarchic_tech>"
+	# Empire of Earth
+}
+
+# Oligarchic Pacifist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_irenic_bureaucracy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.olig_pac.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <oligarchic_pac>"
+	# Empire of Sol
+}
+
+# Oligarchic Generic
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_plutocratic_oligarchy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.olig_gen.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <oligarchic_gen>"
+	# Empire of Earth
+}
+
+# Democratic Militarist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_military_commissariat"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dem_mil.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <democratic_mil>"
+	# Empire of Earth
+}
+
+# Democratic Militarist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_assembly_of_clans"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dem_war_cul.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <democratic_war_cul>"
+	# Empire of Earth
+}
+
+# Democratic Citizen Service
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_citizen_republic"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dem_serv.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <democratic_service>"
+	# Empire of Earth
+}
+
+# Democratic Spiritualist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_theocratic_republic"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dem_spi.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <democratic_spi>"
+	# Empire of Sol
+}
+
+# Democratic Materialist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_direct_democracy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dem_mat.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <democratic_mat>"
+	# Empire of Sol
+}
+
+# Democratic Technocracy
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_rational_consensus"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dem_tech.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <democratic_tech>"
+	# Empire of Sol
+}
+
+# Democratic Pacifist
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_moral_democracy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dem_pac.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <democratic_pac>"
+	# Empire of Earth
+}
+
+# Democratic Generic
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_representative_democracy"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.dem_gen.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <democratic_gen>"
+	# Empire of Earth
+}
+
+# Hive Mind
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_hive_mind"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.hive_mind.distant_origin.1"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <hive_mind>"
+	# Human Empire
+}
+
+# Devouring Swarm
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_devouring_swarm"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.devouring_swarm.distant_origin.1"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <devouring_swarm>"
+	# Human Empire
+}
+
+
+# Megacorporation
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_megacorporation"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.olig_corp.distant_origin.1"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <oligarchic_corp>"
+	# Human Empire
+}
+
+# Megachurch
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_megachurch"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.olig_megachurch.distant_origin.1"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <oligarchic_megachurch>"
+	# Human Empire
+}
+
+# Trade League
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_trade_league"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.trade_league.distant_origin.1"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <trade_league>"
+	# Human Empire
+}
+
+# Criminal Syndicate
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_criminal_syndicate"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.monopolistic_syndicate.distant_origin.1"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <monopolistic_syndicate>"
+	# Human Empire
+}
+
+# Subversive Cult 1
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_subversive_cult"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.subversive_cult.distant_origin.1"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <subversive_cult_1>"
+	# Human Cult
+}
+
+# Subversive Cult 2
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_subversive_cult"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.subversive_cult.distant_origin.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <subversive_cult_2>"
+	# Prophets of Earth
+}
+
+# Communal Parity 1
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_communal_parity"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.communal_parity.distant_origin.1"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_celestial>"
+	# People's Republic of Earth
+}
+
+# Communal Parity 2
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 100
+			OR = {
+				has_government = "gov_communal_parity"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.communal_parity.distant_origin.2"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_celestial>"
+	# People's Republic of Sol
+}
+
+# Communal Parity 3
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_communal_parity"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.communal_parity.distant_origin.3"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <imperial_celestial>"
+	# Human People's Republic
+}
+
+# Bandit Kingdom
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_bandit_kingdom"
+				has_government = "gov_bandit_commune"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.bandit_kingdom.distant_origin.1"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <bandit_kingdom>"
+	# Human Empire
+}
+
+# Fanatical Purifiers
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 500
+			OR = {
+				has_government = "gov_blood_court"
+				has_government = "gov_purity_order"
+				has_government = "gov_purification_committee"
+				has_government = "gov_purity_assembly"
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+			}
+			is_pirate = no
+			is_primitive = no
+			NOT = { is_country_type = fallen_empire }
+			NOT = { is_country_type = awakened_fallen_empire }
+		}
+	}
+	format = "format.purifier.distant_origin.1"
+	noun = "[This.Capital.GetName]"
+	prefix_format = "[This.Capital.GetName] <purifiers>"
+	# Human Empire
+}
+
+# Servitor
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 10000
+			OR = {
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+				has_government = "gov_machine_servitor"
+			}
+		}
+	}
+	format = "format.machine.distant_origin.3"
+	noun = "[This.GetSpeciesName]"
+	# Mechanoid Network
+}
+
+# Assimilator
+empire_name_format = {
+	random_weight = {
+		factor = 0
+		modifier = {
+			add = 10000
+			OR = {
+				capital_scope = { has_planet_flag = vestigial_colony_of_@prev }
+				has_government = "gov_machine_assimilator"
+			}
+		}
+	}
+	format = "format.machine.distant_origin.4"
+	noun = "[This.GetSpeciesName]"
+	# Mechanoid Network
+}

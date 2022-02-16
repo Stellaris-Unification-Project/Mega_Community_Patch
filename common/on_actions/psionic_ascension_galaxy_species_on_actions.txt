@@ -1,0 +1,10 @@
+# fired when my custom code changes a leader's species.  You might attach an event
+# here to handle custom traits in another mod that should be added or removed (or
+# converted) based on information about the leader (possibly taking in to account
+# things like their owner).
+# this = leader, post-modification
+# from = species, pre-modification (if known)
+on_leader_species_changed = {
+	events = {
+	}
+}

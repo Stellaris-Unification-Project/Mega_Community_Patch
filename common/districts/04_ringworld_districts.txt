@@ -1,3 +1,10 @@
+@rw_cost = 1000
+@rw_cost_sr = 50
+@rw_maintenance = 5
+@rw_maintenance_sr = 2
+@rw_district_buildtime = 360
+
+# this district is altered by Trade District Enhancements (remove clerks from tr_prosperity_interstellar_franchising)
 district_rw_city = {
 	base_buildtime = 600
 	is_capped_by_modifier = no
@@ -71,9 +78,7 @@ district_rw_city = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				has_active_tradition = tr_prosperity_public_works
-			}
+			owner = { has_active_tradition = tr_prosperity_public_works }
 		}
 		modifier = {
 			planet_housing_add = 10
@@ -95,9 +100,7 @@ district_rw_city = {
 			exists = owner
 			owner = {
 				has_technology = tech_housing_2
-				NOT = {
-					has_valid_civic = civic_agrarian_idyll
-				}
+				NOT = { has_valid_civic = civic_agrarian_idyll }
 			}
 		}
 		modifier = {
@@ -107,19 +110,29 @@ district_rw_city = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				has_active_tradition = tr_prosperity_interstellar_franchising
-			}
+			owner = { has_active_tradition = tr_prosperity_interstellar_franchising }
 		}
 		modifier = {
 			job_clerk_add = 10
 		}
 	}
+
+	triggered_desc = {
+		trigger = {
+			planet = {
+				has_deposit = d_arcane_generator
+				NOT = { has_district = district_rw_city }
+			}
+		}
+		text = arcane_generator_upkeep_desc
+	}
+
 	triggered_desc = {
 		trigger = {
 			exists = owner
 			owner = {
 				is_regular_empire = yes
+				is_fallen_empire = no
 			}
 		}
 		text = job_clerk_effect_desc
@@ -170,13 +183,13 @@ district_rw_hive = {
 	}
 	planet_modifier = {
 		planet_housing_add = 60
+		job_maintenance_drone_add = 15
+		job_synapse_drone_add = 2
 	}
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				has_technology = tech_housing_1
-			}
+			owner = { has_technology = tech_housing_1 }
 		}
 		modifier = {
 			planet_housing_add = 10
@@ -185,24 +198,32 @@ district_rw_hive = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				has_technology = tech_housing_2
-			}
+			owner = { has_technology = tech_housing_2 }
 		}
 		modifier = {
 			planet_housing_add = 10
+			job_maintenance_drone_add = 5
 		}
 	}
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				has_active_tradition = tr_prosperity_extended_hives
-			}
+			owner = { has_active_tradition = tr_prosperity_extended_hives }
 		}
 		modifier = {
-			planet_housing_add = 10
+			planet_housing_add = 5
 		}
+	}
+
+	triggered_desc = {
+		trigger = {
+			planet = {
+				has_deposit = d_arcane_generator
+				NOT = { has_district = district_rw_hive }
+			}
+		}
+		modifier = { planet_housing_add = 10 }
+		text = arcane_generator_upkeep_desc
 	}
 }
 district_rw_nexus = {
@@ -210,9 +231,7 @@ district_rw_nexus = {
 	is_capped_by_modifier = no
 	show_on_uncolonized = {
 		exists = from
-		from = {
-			is_machine_empire = yes
-		}
+		from = { is_machine_empire = yes }
 		is_planet_class = pc_ringworld_habitable
 		NOT = {
 			is_planet_class = pc_dyson_swarm
@@ -223,9 +242,7 @@ district_rw_nexus = {
 	}
 	potential = {
 		exists = owner
-		owner = {
-			is_machine_empire = yes
-		}
+		owner = { is_machine_empire = yes }
 		is_planet_class = pc_ringworld_habitable
 		NOT = {
 			is_planet_class = pc_dyson_swarm
@@ -256,9 +273,7 @@ district_rw_nexus = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				has_technology = tech_housing_1
-			}
+			owner = { has_technology = tech_housing_1 }
 		}
 		modifier = {
 			planet_housing_add = 10
@@ -267,24 +282,31 @@ district_rw_nexus = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				has_technology = tech_housing_2
-			}
+			owner = { has_technology = tech_housing_2 }
 		}
 		modifier = {
 			planet_housing_add = 10
+			job_maintenance_drone_add = 5
 		}
 	}
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				has_active_tradition = tr_prosperity_optimized_nexus
-			}
+			owner = { has_active_tradition = tr_prosperity_optimized_nexus }
 		}
 		modifier = {
 			planet_housing_add = 10
 		}
+	}
+
+	triggered_desc = {
+		trigger = {
+			planet = {
+				has_deposit = d_arcane_generator
+				NOT = { has_district = district_rw_nexus }
+			}
+		}
+		text = arcane_generator_upkeep_desc
 	}
 }
 district_rw_generator = {
@@ -309,15 +331,14 @@ district_rw_generator = {
 	potential = {
 		is_planet_class = pc_ringworld_habitable
 		exists = owner
-		owner = {
-			is_gestalt = yes
-		}
+		owner = { is_gestalt = yes }
 		NOT = {
 			is_planet_class = pc_dyson_swarm
 		}
 		NOT = {
 			has_planet_flag = xvcv_machinedlcmod_planet
 		}
+		uses_district_set = ring_world
 	}
 	convert_to = {
 		district_rw_commercial
@@ -339,19 +360,16 @@ district_rw_generator = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_machine_empire = yes
-			}
+			owner = { is_machine_empire = yes }
 		}
 		job_technician_drone_add = 20
 	}
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_hive_empire = yes
-			}
+			owner = { is_hive_empire = yes }
 		}
+		planet_housing_add = 5
 		job_technician_drone_add = 30
 	}
 	triggered_planet_modifier = {
@@ -369,20 +387,27 @@ district_rw_generator = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_fallen_empire_spiritualist = yes
-			}
+			owner = { is_fallen_empire_spiritualist = yes }
 		}
 		modifier = {
 			job_fe_acolyte_generator_add = 20
 		}
 	}
+
+	triggered_desc = {
+		trigger = {
+			planet = {
+				has_deposit = d_arcane_generator
+				NOT = { has_district = district_rw_generator }
+			}
+		}
+		text = arcane_generator_upkeep_desc
+	}
+
 	triggered_desc = {
 		trigger = {
 			exists = owner
-			owner = {
-				is_gestalt = yes
-			}
+			owner = { is_gestalt = yes }
 		}
 		text = job_technician_drone_effect_desc
 	}
@@ -399,9 +424,7 @@ district_rw_generator = {
 	triggered_desc = {
 		trigger = {
 			exists = owner
-			owner = {
-				is_fallen_empire_spiritualist = yes
-			}
+			owner = { is_fallen_empire_spiritualist = yes }
 		}
 		text = job_fe_acolyte_generator_effect_desc
 	}
@@ -438,6 +461,8 @@ district_rw_generator = {
 		}
 	}
 }
+
+# this district is altered by Trade District Enhancements
 district_rw_commercial = {
 	base_buildtime = 600
 	is_capped_by_modifier = no
@@ -468,7 +493,9 @@ district_rw_commercial = {
 		NOT = {
 			has_planet_flag = xvcv_machinedlcmod_planet
 		}
+		uses_district_set = ring_world
 	}
+	conversion_ratio = 1
 	convert_to = {
 		district_rw_generator
 	}
@@ -483,6 +510,118 @@ district_rw_commercial = {
 			rare_crystals = 2
 		}
 	}
+	planet_modifier = {
+		planet_housing_add = 10
+		job_merchant_add = 2
+		job_clerk_add = 6
+	}
+	triggered_planet_modifier = {
+		potential = { colony_type = col_ring_trade }
+		modifier = {
+			job_clerk_add = -1
+			job_merchant_add = 1
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_merchant_guilds }
+		}
+		modifier = {
+			job_clerk_add = -1
+			job_merchant_add = 1
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_valid_civic = civic_corporate_dominion }
+		}
+		modifier = {
+			job_clerk_add = -1
+			job_merchant_add = 1
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_megacorp = yes }
+		}
+		modifier = {
+			job_clerk_add = -2
+			job_executive_add = 1
+			job_manager_add = 1
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_active_tradition = tr_prosperity_interstellar_franchising }
+		}
+		modifier = {
+			job_clerk_add = 3
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_active_tradition = tr_mercantile_commercial_enterprise }
+		}
+		modifier = {
+			job_merchant_add = 2
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			colony_type = col_ring_trade
+			owner = { has_active_tradition = tr_mercantile_commercial_enterprise }
+		}
+		modifier = {
+			job_clerk_add = -1
+			job_merchant_add = 1
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_valid_civic = civic_merchant_guilds
+				has_active_tradition = tr_mercantile_commercial_enterprise
+			}
+		}
+		modifier = {
+			job_clerk_add = -1
+			job_merchant_add = 1
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				has_valid_civic = civic_corporate_dominion
+				has_active_tradition = tr_mercantile_commercial_enterprise
+			}
+		}
+		modifier = {
+			job_clerk_add = -1
+			job_merchant_add = 1
+		}
+	}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_megacorp = yes
+				has_active_tradition = tr_mercantile_commercial_enterprise
+			}
+		}
+		modifier = {
+			job_clerk_add = -2
+			job_executive_add = 1
+			job_manager_add = 1
+		}
+	}
 	triggered_planet_modifier = {
 		planet_housing_add = 20
 		job_merchant_add = 5
@@ -490,7 +629,27 @@ district_rw_commercial = {
 		job_clerk_add = 10
 	}
 	triggered_desc = {
+		trigger = {
+			planet = {
+				has_deposit = d_arcane_generator
+				NOT = { has_district = district_rw_commercial }
+			}
+		}
+		text = arcane_generator_upkeep_desc
+	}
+	triggered_desc = {
+		text = job_clerk_effect_desc
+	}
+	triggered_desc = {
 		text = job_merchant_effect_desc
+	}
+	triggered_desc = {
+		trigger = { owner = { is_megacorp = yes } }
+		text = job_manager_effect_desc
+	}
+	triggered_desc = {
+		trigger = { owner = { is_megacorp = yes } }
+		text = job_executive_effect_desc
 	}
 	triggered_desc = {
 		text = job_artisan_effect_desc
@@ -577,9 +736,7 @@ district_rw_science = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_regular_empire = yes
-			}
+			owner = { is_regular_empire = yes }
 		}
 		modifier = {
 			job_researcher_add = 20
@@ -588,9 +745,7 @@ district_rw_science = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_hive_empire = yes
-			}
+			owner = { is_hive_empire = yes }
 		}
 		modifier = {
 			job_brain_drone_add = 20
@@ -599,38 +754,40 @@ district_rw_science = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_machine_empire = yes
-			}
+			owner = { is_machine_empire = yes }
 		}
 		modifier = {
 			job_calculator_add = 20
 		}
 	}
+
+	triggered_desc = {
+		trigger = {
+			planet = {
+				has_deposit = d_arcane_generator
+				NOT = { has_district = district_rw_science }
+			}
+		}
+		text = arcane_generator_upkeep_desc
+	}
 	triggered_desc = {
 		trigger = {
 			exists = owner
-			owner = {
-				is_regular_empire = yes
-			}
+			owner = { is_regular_empire = yes }
 		}
 		text = job_researcher_effect_desc
 	}
 	triggered_desc = {
 		trigger = {
 			exists = owner
-			owner = {
-				is_hive_empire = yes
-			}
+			owner = { is_hive_empire = yes }
 		}
 		text = job_brain_drone_effect_desc
 	}
 	triggered_desc = {
 		trigger = {
 			exists = owner
-			owner = {
-				is_machine_empire = yes
-			}
+			owner = { is_machine_empire = yes }
 		}
 		text = job_calculator_effect_desc
 	}
@@ -661,6 +818,8 @@ district_rw_science = {
 		}
 	}
 }
+
+# Modified: Extra housing is only available to agrarian idyll (non-lithoid)
 district_rw_farming = {
 	base_buildtime = 600
 	is_capped_by_modifier = no
@@ -701,6 +860,8 @@ district_rw_farming = {
 			volatile_motes = 2
 		}
 	}
+
+	# triggered for tooltip formatting purposes
 	triggered_planet_modifier = {
 		modifier = {
 			planet_housing_add = 20
@@ -709,20 +870,17 @@ district_rw_farming = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_hive_empire = yes
-			}
+			owner = { is_hive_empire = yes }
 		}
 		modifier = {
+			planet_housing_add = 5
 			job_agri_drone_add = 30
 		}
 	}
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_machine_empire = yes
-			}
+			owner = { is_machine_empire = yes }
 		}
 		modifier = {
 			job_agri_drone_add = 20
@@ -743,9 +901,7 @@ district_rw_farming = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_fallen_empire_spiritualist = yes
-			}
+			owner = { is_fallen_empire_spiritualist = yes }
 		}
 		modifier = {
 			job_fe_acolyte_farm_add = 20
@@ -756,6 +912,7 @@ district_rw_farming = {
 			exists = owner
 			owner = {
 				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = no
 			}
 		}
 		modifier = {
@@ -768,6 +925,7 @@ district_rw_farming = {
 			owner = {
 				has_technology = tech_housing_agrarian_idyll
 				has_valid_civic = civic_agrarian_idyll
+				is_lithoid_empire = no
 			}
 		}
 		modifier = {
@@ -777,9 +935,7 @@ district_rw_farming = {
 	triggered_desc = {
 		trigger = {
 			exists = owner
-			owner = {
-				is_gestalt = yes
-			}
+			owner = { is_gestalt = yes }
 		}
 		text = job_agri_drone_effect_desc
 	}
@@ -796,9 +952,7 @@ district_rw_farming = {
 	triggered_desc = {
 		trigger = {
 			exists = owner
-			owner = {
-				is_fallen_empire_spiritualist = yes
-			}
+			owner = { is_fallen_empire_spiritualist = yes }
 		}
 		text = job_fe_acolyte_farm_effect_desc
 	}
@@ -833,5 +987,271 @@ district_rw_farming = {
 		trigger = {
 			always = yes
 		}
+	}
+}
+
+district_rw_industrial = {
+	base_buildtime = @rw_district_buildtime
+	is_capped_by_modifier = no
+
+	show_on_uncolonized = { uses_district_set = ring_world }
+
+	potential = {
+		uses_district_set = ring_world
+	}
+
+	resources = {
+		category = planet_districts
+		cost = {
+			minerals = @rw_cost
+			volatile_motes = @rw_cost_sr
+		}
+		upkeep = {
+			energy = @rw_maintenance
+			volatile_motes = @rw_maintenance_sr
+		}
+		upkeep = {
+			trigger = {
+				exists = owner
+				owner = {
+					has_edict = industrial_maintenance
+				}
+			}
+			energy = 4
+		}
+	}
+
+	triggered_planet_modifier = {
+		planet_housing_add = 10
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				is_crafter_empire = no
+			}
+		}
+		modifier = {
+			job_artisan_add = 5
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				is_crafter_empire = yes
+			}
+		}
+		modifier = {
+			job_artificer_add = 5
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				is_catalytic_empire = no
+			}
+		}
+		modifier = {
+			job_foundry_add = 5
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				is_catalytic_empire = yes
+			}
+		}
+		modifier = {
+			job_catalytic_technician_add = 5
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_hive_empire = yes
+				is_catalytic_empire = no
+			}
+		}
+		modifier = {
+			job_alloy_drone_add = 10
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_machine_empire = yes
+				is_catalytic_empire = no
+			}
+		}
+		modifier = {
+			job_fabricator_add = 10
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_gestalt = yes
+				is_catalytic_empire = yes
+			}
+		}
+		modifier = {
+			job_catalytic_drone_add = 10
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_machine_empire = yes
+				has_valid_civic = civic_machine_servitor
+				is_catalytic_empire = no
+			}
+		}
+		modifier = {
+			job_artisan_drone_add = 1
+			job_fabricator_add = -1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_machine_empire = yes
+				is_catalytic_empire = yes
+			}
+		}
+		modifier = {
+			job_artisan_drone_add = 1
+			job_catalytic_drone_add = -1
+		}
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				is_crafter_empire = no
+			}
+		}
+		text = job_artisan_effect_desc
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				has_civic = civic_crafters
+			}
+		}
+		text = job_artificer_effect_desc
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = {
+				is_machine_empire = yes
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+		text = job_artisan_drone_effect_desc
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				is_catalytic_empire = no
+			}
+		}
+		text = job_foundry_effect_desc
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = {
+				is_regular_empire = yes
+				is_catalytic_empire = yes
+			}
+		}
+		text = job_catalytic_technician_effect_desc
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = {
+				is_machine_empire = yes
+				is_catalytic_empire = no
+			}
+		}
+		text = job_fabricator_effect_desc
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = {
+				is_hive_empire = yes
+				is_catalytic_empire = no
+			}
+		}
+		text = job_alloy_drone_effect_desc
+	}
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = {
+				is_gestalt = yes
+				is_catalytic_empire = yes
+			}
+		}
+		text = job_catalytic_drone_effect_desc
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_machine_empire = yes
+				has_edict = industrial_maintenance
+			}
+		}
+		modifier = {
+			job_maintenance_drone_add = 2
+		}
+	}
+
+	triggered_desc = {
+		trigger = {
+			exists = owner
+			owner = {
+				is_machine_empire = yes
+				has_edict = industrial_maintenance
+			}
+		}
+		text = job_maintenance_drone_effect_desc
 	}
 }

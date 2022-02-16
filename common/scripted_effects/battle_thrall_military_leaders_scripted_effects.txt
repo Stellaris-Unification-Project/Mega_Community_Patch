@@ -1,0 +1,110 @@
+# changes a gender's leader to match the norms for their species (possibly cloning and replacing them)
+# this = leader, with new species
+# from = species, previous
+btml_leader_spawned_match_gender_to_species = {
+	if = {
+		limit = { btml_leader_species_gender_change_requires_clone = no }
+		species = {
+			switch = {
+				trigger = species_gender
+				# if indeterminable, then nothing should change
+				female = {
+					prev = {
+						if = {
+							limit = { NOT = { gender = female } }
+							set_is_female = yes
+						}
+					}
+				}
+				male = {
+					prev = {
+						if = {
+							limit = { NOT = { gender = male } }
+							set_is_female = no
+						}
+					}
+				}
+				not_set = {
+					prev = {
+						if = {
+							limit = {
+								btml_species_class_uses_gender = yes
+								NOR = {
+									gender = female
+									gender = male
+								}
+							}
+							random_list = {
+								50 = { set_is_female = yes }
+								50 = { set_is_female = no }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	else = {
+		save_event_target_as = leader_to_clone
+		owner = { save_event_target_as = leader_owner } # must stay an event_target - the game dislikes prev.owner in the switch statement
+		species = {
+			switch = {
+				trigger = species_gender
+				indeterminable = { prev = { btml_clone_leader_with_gender = { GENDER = indeterminable } } }
+				female = { prev = { btml_clone_leader_with_gender = { GENDER = female } } }
+				male = { prev = { btml_clone_leader_with_gender = { GENDER = male } } }
+				not_set = {
+					if = {
+						limit = { btml_species_class_uses_gender = yes }
+						prev = {
+							random_list = {
+								50 = { btml_clone_leader_with_gender = { GENDER = female } }
+								50 = { btml_clone_leader_with_gender = { GENDER = male } }
+							}
+						}
+					}
+					else = {
+						prev = { btml_clone_leader_with_gender = { GENDER = indeterminable } }
+					}
+				}
+			}
+		}
+	}
+}
+
+# creates an exact copy of the current leader, except that the gender of the clone is set to GENDER
+# this = leader, to be cloned
+# GENDER = gender for the clone (indeterminable/female/male)
+btml_clone_leader_with_gender = {
+	if = {
+		limit = { NOT = { gender = $GENDER$ } } # last minute sanity check to make sure we're only replacing leaders who are changing gender
+		save_event_target_as = leader_to_clone
+		owner = {
+			set_country_flag = disable_gender_clones_on_leader_spawned
+			clone_leader = {
+				target = event_target:leader_to_clone
+				gender = $GENDER$
+				effect = {
+					change_leader_portrait = event_target:leader_to_clone
+					set_name = event_target:leader_to_clone
+					add_experience = event_target:leader_to_clone.trigger:has_experience # doesn't get copied implicitly when cloned
+					if = {
+						limit = { event_target:leader_to_clone = { has_leader_flag = clone_should_be_recruitable } }
+						recruitable = no
+						recruitable = yes
+					}
+					# leave the original cleanup inside the effect block or portraits won't get copied
+					event_target:leader_to_clone = {
+						set_leader_flag = leader_replaced_by_clone # other events will fire before the leader is removed - this is to prevent duplicate cloning
+						set_leader_flag = leader_replaced_by_clone@prev
+						kill_leader = {
+							show_notification = no
+							fire = yes
+						}
+					}
+					owner = { remove_country_flag = disable_gender_clones_on_leader_spawned }
+				}
+			}
+		}
+	}
+}

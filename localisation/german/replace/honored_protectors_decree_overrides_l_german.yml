@@ -1,0 +1,4 @@
+﻿l_german:
+ any_galaxy_species_trigger: "Beliebiges Spezies in der Galaxie"
+ military_service_full_tooltip: "[From.GetMilitaryServiceFullTooltip]"
+ military_service_full_tooltip_delayed: "[From.GetMilitaryServiceFullTooltipDelayed]"

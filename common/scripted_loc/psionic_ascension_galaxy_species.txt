@@ -1,0 +1,13 @@
+defined_text = { # any scope
+	name = GetLatentPsionicTraitName
+	text = {
+		localization_key = trait_latent_psionic
+	}
+}
+
+defined_text = { # any scope
+	name = GetPsionicTraitName
+	text = {
+		localization_key = trait_psionic
+	}
+}

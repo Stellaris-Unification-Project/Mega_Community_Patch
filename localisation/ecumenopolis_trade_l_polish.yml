@@ -1,0 +1,11 @@
+﻿l_polish:
+ col_ecu_trade: "Handlowe Ekumenopolis"
+ col_ecu_trade_desc: "Ogromne miasto-planeta, które specjalizuje się w nieustannej wymianie towarów, dóbr i instrumentach finansowych.\n\nUmożliwia budowę §Y$district_arcology_commercial_plural$§!"
+ mod_planet_built_speed_mult_suffix: "Prędkość budowy"
+ mod_planet_district_arcology_commercial_build_speed_mult: "$district_arcology_commercial$ $mod_planet_built_speed_mult_suffix$"
+ mod_planet_building_commercial_zone_build_speed_mult: "$building_commercial_zone$ $mod_planet_built_speed_mult_suffix$"
+ mod_planet_building_commercial_megaplex_build_speed_mult: "$building_commercial_megaplex$ $mod_planet_built_speed_mult_suffix$"
+ mod_planet_building_galactic_stock_exchange_build_speed_mult: "$building_galactic_stock_exchange$ $mod_planet_built_speed_mult_suffix$"
+ district_arcology_commercial: "Handlowa Arkologia"
+ district_arcology_commercial_plural: "Handlowe Arkologie"
+ district_arcology_commercial_desc: "Niekończące się poziomy biur obsługujących przepływ dóbr i towarów, zarządzanie instrumentami finansowymi i inne skomplikowane zadania, które napędzają galaktyczną gospodarkę.\n\nPrzyciąga więcej £job_merchant£ §Y$job_merchant_plural$§! gdy planeta jest oznaczona jako §Y$col_ecu_trade$§!."

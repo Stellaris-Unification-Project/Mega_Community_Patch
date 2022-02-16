@@ -1,0 +1,9 @@
+namespace = emperor
+
+# blank out this event - all handled in limited_army_counter_fix.1 now
+country_event = {
+	id = emperor.450
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { always = no }
+}

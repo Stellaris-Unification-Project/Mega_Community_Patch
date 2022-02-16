@@ -1,0 +1,6 @@
+spriteTypes = {
+	spriteType = {
+		name = "GFX_icon_tech_sapient_ai_alternate"
+		texturefile = "gfx/interface/icons/technologies/tech_sapient_ai.dds"
+	}
+}
