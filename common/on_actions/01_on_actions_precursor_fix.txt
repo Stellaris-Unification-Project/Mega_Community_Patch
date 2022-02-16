@@ -1,0 +1,12 @@
+on_planet_surveyed = {
+	events = {
+	#	precursor.2301	# obsolete, kept here for compatibility
+		precursor.2311
+	}
+}
+
+on_entering_system_fleet = {
+	events = {
+		precursor.2312
+	}
+}

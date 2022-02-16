@@ -1,6 +1,11 @@
-version="3.2.2.1.00"
+name="!! Mega Community Patch"
 tags={
+	"Balance"
+	"Buildings"
 	"Fixes"
+	"Gameplay"
+	"Modifiers"
+	"Overhaul"
 }
-name="!!Mega_Community_Patch"
+version="3.2.2"
 supported_version="3.2.2"
