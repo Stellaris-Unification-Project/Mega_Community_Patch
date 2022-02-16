@@ -1,7 +1,7 @@
 
 
 # ####################
-#  Critter Weapons - Space Cloud
+# Critter Weapons - Space Cloud
 # ####################
 
 @critter_cost_value = 35
@@ -20,8 +20,24 @@ weapon_component_template = {
 	projectile_gfx = "arc_emitter"
 	tags = { weapon_type_energy }
 	ai_tags = { weapon_role_anti_hull }
-	
+
 	component_set = "SPACE_CLOUD_WEAPON_1"
 	prerequisites = { "tech_space_cloud_weapon_1" }
-	cost = @critter_cost_value
+	resources = {
+		category = ship_components
+		cost = {
+			alloys = @s_t3_cost
+		}
+		upkeep = {
+			energy = @s_t3_upkeep_energy
+			alloys = @s_t3_upkeep_alloys
+		}
+	}
+	ai_weight = {
+		weight = 1
+		modifier = {
+			factor = 20
+			has_global_flag = ai_invasion_happened
+		}
+	}
 }

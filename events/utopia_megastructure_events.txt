@@ -29,38 +29,40 @@ id = utopia.1
 
 	trigger = {
 		is_country_type = default
-		any_neighbor_country = {
-			any_owned_megastructure = {
-				OR = { 
-					is_megastructure_type = ring_world_1
-					is_megastructure_type = ring_world_2
+		AND = {
+			any_neighbor_country = {
+				any_owned_megastructure = {
+					OR = { 
+						is_megastructure_type = ring_world_1
+						is_megastructure_type = ring_world_2
+					}
+					is_upgrading = yes
 				}
-				is_upgrading = yes
+				is_country_type = default
+				has_communications = root
+				NOR = {
+					has_country_flag = ringworld_diplomatic_event
+					is_at_war_with = ROOT
+					is_subject_type = vassal
+					is_same_value = root
+				}	
 			}
-			is_country_type = default
-			has_communications = root
-			NOR = {
-				has_country_flag = ringworld_diplomatic_event
-				is_at_war_with = ROOT
-				is_subject_type = vassal
-				is_same_value = root
-			}	
-		}
-		OR = {
-			has_ethic = ethic_fanatic_xenophobe
-			has_ethic = ethic_fanatic_xenophile
-			has_ethic = ethic_fanatic_materialist
-			has_ethic = ethic_fanatic_spiritualist
-			has_ethic = ethic_fanatic_authoritarian
-			has_ethic = ethic_fanatic_egalitarian
-			has_ethic = ethic_fanatic_militarist
-			has_ethic = ethic_fanatic_pacifist
-		}
+			OR = {
+				has_ethic = ethic_fanatic_xenophobe
+				has_ethic = ethic_fanatic_xenophile
+				has_ethic = ethic_fanatic_materialist
+				has_ethic = ethic_fanatic_spiritualist
+				has_ethic = ethic_fanatic_authoritarian
+				has_ethic = ethic_fanatic_egalitarian
+				has_ethic = ethic_fanatic_militarist
+				has_ethic = ethic_fanatic_pacifist
+			}
 
-		NOR = { 
-			has_country_flag = ringworld_diplomatic_event 
-			has_valid_civic = civic_fanatic_purifiers
-		}		
+			NOR = { 
+				has_country_flag = ringworld_diplomatic_event 
+				has_valid_civic = civic_fanatic_purifiers
+			}		
+		}
 	}
 	mean_time_to_happen = { days = 3600 }
 
@@ -122,98 +124,116 @@ id = utopia.1
 
 	option = {
 		name = utopia.1.b
-		custom_tooltip = utopia.1.b.tooltip
+		custom_tooltip = ariphaos_patch_utopia.1.b.tooltip
 		ai_chance = {
 			factor = 10
 		}
 		
+		# Trying to display hundreds to thousands of pops at once crashes the game, so we need to hide it.
 		switch = {
 			trigger = has_country_flag 
 			ethic_xenophobe = { 
-				every_owned_pop = {
-				limit = {
-					has_ethic = ethic_xenophobe
-					NOT = {
+				hidden_effect = {
+					every_owned_pop = {
+						limit = {
+							has_ethic = ethic_xenophobe
+							NOT = {
+								has_modifier = megastructure_demands_rejected 
+							}
+						}		
+					add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
 					}
-				}		
-				add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
 				}	
 			}
 			ethic_xenophile = { 
-				every_owned_pop = {
-					limit = {
-						has_ethic = ethic_xenophile
-						NOT = {
-							has_modifier = megastructure_demands_rejected 
-						}
-					}		
-				add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+				hidden_effect = {
+					every_owned_pop = {
+						limit = {
+							has_ethic = ethic_xenophile
+							NOT = {
+								has_modifier = megastructure_demands_rejected 
+							}
+						}		
+					add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+					}
 				}
 			}
 			ethic_materialist = { 
-				every_owned_pop = {
-					limit = {
-						has_ethic = ethic_materialist
-						NOT = {
-							has_modifier = megastructure_demands_rejected 
-						}
-					}		
-				add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+				hidden_effect = {
+					every_owned_pop = {
+						limit = {
+							has_ethic = ethic_materialist
+							NOT = {
+								has_modifier = megastructure_demands_rejected 
+							}
+						}		
+					add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+					}
 				}
 			}
 			ethic_spiritualist = { 
-				every_owned_pop = {
-					limit = {
-						has_ethic = ethic_spiritualist
-						NOT = {
-							has_modifier = megastructure_demands_rejected 
-						}
-					}		
-				add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+				hidden_effect = {
+					every_owned_pop = {
+						limit = {
+							has_ethic = ethic_spiritualist
+							NOT = {
+								has_modifier = megastructure_demands_rejected 
+							}
+						}		
+					add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+					}
 				}
 			}
 			ethic_authoritarian = { 
-				every_owned_pop = {
-					limit = {
-						has_ethic = ethic_authoritarian
-						NOT = {
-							has_modifier = megastructure_demands_rejected 
-						}
-					}		
-				add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+				hidden_effect = {
+					every_owned_pop = {
+						limit = {
+							has_ethic = ethic_authoritarian
+							NOT = {
+								has_modifier = megastructure_demands_rejected 
+							}
+						}		
+					add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+					}
 				}
 			}
 			ethic_egalitarian = { 
-				every_owned_pop = {
-					limit = {
-						has_ethic = ethic_egalitarian
-						NOT = {
-							has_modifier = megastructure_demands_rejected 
-						}
-					}		
-				add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+				hidden_effect = {
+					every_owned_pop = {
+						limit = {
+							has_ethic = ethic_egalitarian
+							NOT = {
+								has_modifier = megastructure_demands_rejected 
+							}
+						}		
+					add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+					}
 				}
 			}
 			ethic_militarist = { 
-				every_owned_pop = {
-					limit = {
-						has_ethic = ethic_militarist
-						NOT = {
-							has_modifier = megastructure_demands_rejected 
-						}
-					}		
-				add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+				hidden_effect = {
+					every_owned_pop = {
+						limit = {
+							has_ethic = ethic_militarist
+							NOT = {
+								has_modifier = megastructure_demands_rejected 
+							}
+						}		
+					add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+					}
 				}
 			}
 			ethic_pacifist = { 
-				every_owned_pop = {
-					limit = {
-						has_ethic = ethic_pacifist
-						NOT = {
-							has_modifier = megastructure_demands_rejected 
-						}
-					}		
-				add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+				hidden_effect = {
+					every_owned_pop = {
+						limit = {
+							has_ethic = ethic_pacifist
+							NOT = {
+								has_modifier = megastructure_demands_rejected 
+							}
+						}		
+					add_modifier = { modifier = megastructure_demands_rejected days = 7200 }
+					}
 				}
 			}	
 		}
@@ -761,6 +781,14 @@ country_event = {
 		any_neighbor_country = {
 			is_country_type = default
 			has_communications = root
+			opinion = {
+				who = ROOT
+				value > -100
+			}
+			their_opinion = {
+				who = ROOT
+				value > -100
+			}
 			NOR = {
 				has_country_flag = dysonsphere_diplomatic_event
 				is_at_war_with = root
@@ -782,6 +810,14 @@ country_event = {
 			limit = {
 				is_country_type = default
 				has_communications = root
+				opinion = {
+					who = ROOT
+					value > -100
+				}
+				their_opinion = {
+					who = ROOT
+					value > -100
+				}
 				NOR = {
 					has_country_flag = dysonsphere_diplomatic_event
 					is_at_war_with = root
@@ -928,7 +964,7 @@ country_event = {
 		name = utopia.31.b
 
 		trigger = {
-			energy > 1000
+			resource_stockpile_compare = { resource = energy value >= 1000 }
 		}
 
 		ai_chance = {
@@ -938,7 +974,7 @@ country_event = {
 			from = { country_event = { id = utopia.35 days = 7 } }
 		}
 
-		add_energy = -1000
+		add_resource = { energy = -1000 }
 	}
 # Don't Apologize
 	option = {
@@ -999,7 +1035,7 @@ country_event = {
 		name = utopia.32.a
 
 		trigger = {
-			energy > 1000
+			resource_stockpile_compare = { resource = energy value >= 1000 }
 		}
 
 		ai_chance = {
@@ -1008,7 +1044,7 @@ country_event = {
 		hidden_effect = {
 			from = { country_event = { id = utopia.35 days = 5 } } 
 		}
-		add_energy = -1000
+		add_resource = { energy = -1000 }
 	}
 
 # Apologize but don't give credits
@@ -1554,12 +1590,10 @@ country_event = {
 		name = utopia.51.a
 
 		trigger = {
-			OR = {
-			energy > 999
-			}
+			resource_stockpile_compare = { resource = energy value >= 1000 }
 		}
 
-		add_energy = -1000
+		add_resource = { energy = -1000 }
 		hidden_effect = {
 			set_global_flag = utopia_51
 		}
@@ -1569,7 +1603,7 @@ country_event = {
 	option = {
 		name = utopia.51.b
 		trigger = {
-			energy > 999
+			resource_stockpile_compare = { resource = energy value >= 1000 }
 		}
 		hidden_effect = {
 			if = {
@@ -1594,7 +1628,7 @@ country_event = {
 	option = {
 		name = utopia.51.c
 		trigger = {
-			energy < 1000
+			resource_stockpile_compare = { resource = energy value < 1000 }
 		}
 		hidden_effect = {
 			if = {
@@ -1636,16 +1670,16 @@ country_event = {
 	option = {
 		name = utopia.54.b
 		trigger = {
-			energy > 499
+			resource_stockpile_compare = { resource = energy value >= 500 }
 		}
-		add_energy = -500
+		add_resource = { energy = -500 }
 		hidden_effect = { country_event = { id = utopia.55 days = 60 random = 20 } }	
 	}
 
 	option = {
 		name = utopia.54.c
 		trigger = {
-			energy < 500
+			resource_stockpile_compare = { resource = energy value < 500 }
 		}
 	}
 }
@@ -2140,14 +2174,14 @@ country_event = {
 	option = {
 		name = utopia.60.a
 		trigger = {
-			energy < 1000
+			resource_stockpile_compare = { resource = energy value < 1000 }
 		}
 	}
 
 	option = {
 		name = utopia.60.b
 		trigger = {
-			energy > 999
+			resource_stockpile_compare = { resource = energy value >= 1000 }
 		}
 		add_modifier = {
 			modifier = research_utopia_60
@@ -2159,7 +2193,7 @@ country_event = {
 	option = {
 		name = utopia.60.c
 		trigger = {
-			energy > 999
+			resource_stockpile_compare = { resource = energy value >= 1000 }
 		}
 	}
 }
@@ -2581,6 +2615,7 @@ country_event = {
 	
 	option = {
 		name = utopia.4100.a
+		custom_tooltip = utopia.4100.a.tooltip
 	}
 }
 
@@ -2652,6 +2687,7 @@ country_event = {
 	
 	option = {
 		name = OK
+		custom_tooltip = utopia.4103.a.tooltip
 	}
 }
 
@@ -2906,6 +2942,96 @@ country_event = {
 
 	option = {
 		name = OK
+	}
+}
+
+# Alert Messages for intermediate steps
+country_event = {
+	id = utopia.4006
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		from = {
+			OR = {
+				is_megastructure_type = ring_world_1
+				is_megastructure_type = ring_world_3_intermediate
+				is_megastructure_type = dyson_sphere_0
+				is_megastructure_type = dyson_sphere_3
+				is_megastructure_type = dyson_sphere_4
+				is_megastructure_type = spy_orb_0
+				is_megastructure_type = spy_orb_2
+				is_megastructure_type = spy_orb_3
+				is_megastructure_type = think_tank_0
+				is_megastructure_type = matter_decompressor_0
+				is_megastructure_type = strategic_coordination_center_0
+				is_megastructure_type = mega_art_installation_0
+				is_megastructure_type = interstellar_assembly_0
+			}
+		}
+	}
+
+	immediate = {
+		create_message = {
+			type = MEGASTRUCTURE_UPGRADED
+			localization = MESSAGE_MEGASTRUCTURE_UPGRADED
+			days = 30
+			target = from # the Go To
+			variable = {
+				type = name
+				localization = MEGASTRUCTURE
+				scope = from
+			}
+			variable = {
+				type = name
+				localization = SYSTEM
+				scope = fromfrom
+			}
+		}
+	}
+}
+
+# Alert Messages for initial step
+country_event = {
+	id = utopia.4007
+	hide_window = yes
+	is_triggered_only = yes
+
+	#title = utopia.4010.name
+	#desc = utopia.4010.desc
+	#picture = GFX_evt_dyson_sphere
+	#show_sound = event_mega_structure_other_empire_build_complete
+	#location = FROMFROM
+
+	trigger = {
+		from = {
+			OR = {
+				#is_megastructure_type = gateway_0
+				is_megastructure_type = matter_decompressor_0
+				is_megastructure_type = strategic_coordination_center_0
+				is_megastructure_type = mega_art_installation_0
+				is_megastructure_type = interstellar_assembly_0
+			}
+		}
+	}
+
+	immediate = {
+		create_message = {
+			type = MEGASTRUCTURE_BUILT
+			localization = MESSAGE_MEGASTRUCTURE_BUILT
+			days = 30
+			target = from # the Go To
+			variable = {
+				type = name
+				localization = MEGASTRUCTURE
+				scope = from
+			}
+			variable = {
+				type = name
+				localization = SYSTEM
+				scope = fromfrom
+			}
+		}
 	}
 }
 
@@ -3187,9 +3313,6 @@ ship_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		owner = {
-			NOT = { has_country_flag = encountered_ruined_dyson }
-		}
 		FROM = {
 			has_star_flag = ruined_dyson_system
 			any_system_megastructure = { is_megastructure_type = dyson_sphere_ruined }
@@ -3198,7 +3321,6 @@ ship_event = {
 	
 	immediate = {
 		FROM = { save_event_target_as = dyson_system }
-		owner = { set_country_flag = encountered_ruined_dyson }
 	}		
 	
 	option = {
@@ -3339,9 +3461,6 @@ ship_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		owner = {
-			NOT = { has_country_flag = encountered_ruined_nexus }
-		}
 		FROM = {
 			has_star_flag = ruined_nexus_system
 			any_system_megastructure = { is_megastructure_type = think_tank_ruined }
@@ -3350,7 +3469,6 @@ ship_event = {
 	
 	immediate = {
 		FROM = { save_event_target_as = nexus_system }
-		owner = { set_country_flag = encountered_ruined_nexus }
 	}		
 	
 	option = {
@@ -3468,9 +3586,6 @@ ship_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		owner = {
-			NOT = { has_country_flag = encountered_ruined_sentry }
-		}
 		FROM = {
 			has_star_flag = ruined_sentry_system
 			any_system_megastructure = { is_megastructure_type = spy_orb_ruined }
@@ -3479,7 +3594,6 @@ ship_event = {
 	
 	immediate = {
 		FROM = { save_event_target_as = sentry_system }
-		owner = { set_country_flag = encountered_ruined_sentry }
 	}		
 	
 	option = {
@@ -3605,9 +3719,6 @@ ship_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		owner = {
-			NOT = { has_country_flag = encountered_ruined_ring }
-		}
 		FROM = {
 			has_star_flag = ruined_ring_system
 			any_system_megastructure = { is_megastructure_type = ring_world_ruined }
@@ -3616,7 +3727,6 @@ ship_event = {
 	
 	immediate = {
 		FROM = { save_event_target_as = ring_system }
-		owner = { set_country_flag = encountered_ruined_ring }
 	}		
 	
 	option = {

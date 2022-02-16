@@ -1,0 +1,24 @@
+
+
+v1
+
+Initial Release
+
+v2
+
+General
+- Research Federations now grant +20% Diplomatic Weight from Technology per Member (excluding themselves), mimicking the effect of manual Research Agreements
+- Fleet Contribution: Now grants +20/40/60% Diplomatic weight from Fleet Power for the Federation President
+
+UI
+- Added Tooltips to the Modifiers added by this mod, explaining where they come from and how they scale.
+
+Note: Unlike Research Agreements from Research Federations, the game already counts Free Migration Federation Law as proper Migration Treaties that do apply Diplomatic Weight.
+
+v3
+
+General
+- Rebuilt and updated to make use of the new variable features that were introduced in 3.1. This should make the code a lot more efficient, and opens room for future additions. A small negative side effect of the new implementation is that Modifier Names cannot contain the number of Pacts that a player has.
+
+Bugfixes:
+- Diplomatic Weight from Fleet Contribution is now properly applied to the Leaders of all federations, not just the Default Type.

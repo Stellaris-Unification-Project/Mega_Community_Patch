@@ -1,0 +1,8 @@
+
+
+# this = country
+on_monthly_pulse_country = {
+	events = {
+		ryika_abdw_diplomacy_effects.1 # Reapply Modifiers from Agreements
+    }
+}

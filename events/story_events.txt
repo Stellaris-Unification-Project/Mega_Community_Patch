@@ -23,8 +23,8 @@ country_event = {
 					if = {
 						limit = { has_civic = civic_machine_terminator }
 						text = story.1.desc.term
-						else = { text = story.1.desc.gesta }
 					}
+					else = { text = story.1.desc.gesta }
 				}
 				default = { text = story.1.desc }
 			}
@@ -66,18 +66,36 @@ country_event = {
 		trigger = { OR = { has_ethic = ethic_fanatic_xenophobe has_ethic = ethic_xenophobe } }
 		name = DISCONCERTING
 	}
+
+	after = {
+		hidden_effect = {
+			country_event = { id = first_contact.1060 days = 10 random = 10 }
+		}
+	}
 }
 
 ### 2 - Spacers
 country_event = {
 	id = story.2
 	title = story.2.name
-	# First
+	# First / Fallback
 	desc = {
 		trigger = {
-			NOR = {
-				has_country_flag = StoryFirst
-				has_ethic = ethic_gestalt_consciousness
+			OR = {
+				#fallback
+				AND = {
+					has_country_flag = StoryFirst
+					NOR = {
+						has_ethic = ethic_fanatic_xenophile
+						has_ethic = ethic_xenophile
+						has_ethic = ethic_gestalt_consciousness
+					}
+				}
+				#first
+				NOR = {
+					has_country_flag = StoryFirst
+					has_ethic = ethic_gestalt_consciousness
+				}
 			}
 		}
 		text = story.2.desc
@@ -86,7 +104,7 @@ country_event = {
 	desc = {
 		trigger = { has_ethic = ethic_gestalt_consciousness }
 		text = story.2.desc.gesta
-	}	
+	}
 	# Xenophile regardless of status
 	desc = {
 		trigger = {
@@ -150,6 +168,12 @@ country_event = {
 	option = {
 		name = FASCINATING
 	}
+
+	after = {
+		hidden_effect = {
+			country_event = { id = first_contact.1060 days = 10 random = 10 }
+		}
+	}
 }
 
 ### 3 - Animalia
@@ -169,7 +193,7 @@ country_event = {
 	desc = {
 		text = story.3.desc.gesta
 		trigger = { has_ethic = ethic_gestalt_consciousness }
-	}	
+	}
 	# Spiritualist regardless of status
 	desc = {
 		text = story.3.desc.spiri
@@ -209,11 +233,18 @@ country_event = {
 			limit = { NOT = { has_country_flag = first_alien_life } }
 			set_country_flag = first_alien_life
 		}
-		set_country_flag = Story3
+		#set_country_flag = Story3
+		set_country_flag = root
 	}
 
 	option = {
 		name = INTERESTING
+	}
+
+	after = {
+		hidden_effect = {
+			country_event = { id = first_contact.1060 days = 10 random = 10 }
+		}
 	}
 }
 
@@ -230,7 +261,7 @@ country_event = {
 	desc = {
 		trigger = { has_ethic = ethic_gestalt_consciousness }
 		text = story.4.desc.gesta
-	}	
+	}
 	# Fanatic Spiritualist regardless of status
 	desc = {
 		trigger = { OR = { has_ethic = ethic_fanatic_spiritualist has_ethic = ethic_spiritualist } }
@@ -305,6 +336,11 @@ country_event = {
 		name = DISCONCERTING
 	}
 
+	after = {
+		hidden_effect = {
+			country_event = { id = first_contact.1060 days = 10 random = 10 }
+		}
+	}
 }
 
 ### 5 - Remnants
@@ -320,7 +356,7 @@ country_event = {
 	desc = {
 		trigger = { has_ethic = ethic_gestalt_consciousness }
 		text = story.5.desc.gesta
-	}	
+	}
 	# Xenophobe
 	desc = {
 		trigger = { OR = { has_ethic = ethic_fanatic_xenophobe has_ethic = ethic_xenophobe } }
@@ -371,6 +407,12 @@ country_event = {
 	option = {
 		name = REMARKABLE
 	}
+
+	after = {
+		hidden_effect = {
+			country_event = { id = first_contact.1060 days = 10 random = 10 }
+		}
+	}
 }
 
 ### 6 - Primitives
@@ -386,7 +428,7 @@ country_event = {
 	desc = {
 		trigger = { has_ethic = ethic_gestalt_consciousness }
 		text = story.6.desc.gesta
-	}	
+	}
 	# Xenophobe
 	desc = {
 		trigger = { OR = { has_ethic = ethic_fanatic_xenophobe has_ethic = ethic_xenophobe } }
@@ -451,6 +493,12 @@ country_event = {
 		trigger = { OR = { has_ethic = ethic_fanatic_xenophobe has_ethic = ethic_xenophobe } }
 		name = DISCONCERTING
 	}
+
+	after = {
+		hidden_effect = {
+			country_event = { id = first_contact.1060 days = 10 random = 10 }
+		}
+	}
 }
 
 ### 7 - Unknown Empire
@@ -466,7 +514,7 @@ country_event = {
 	desc = {
 		trigger = { has_ethic = ethic_gestalt_consciousness }
 		text = story.7.desc.gesta
-	}	
+	}
 	# Xenophobe
 	desc = {
 		trigger = { OR = { has_ethic = ethic_fanatic_xenophobe has_ethic = ethic_xenophobe } }
@@ -559,24 +607,37 @@ country_event = {
 		trigger = { OR = { has_ethic = ethic_fanatic_xenophobe has_ethic = ethic_xenophobe } }
 		name = WORRYING
 	}
+
+	after = {
+		hidden_effect = {
+			country_event = { id = first_contact.1060 days = 10 random = 10 }
+		}
+	}
 }
 
 ### 8 - Leviathan
 country_event = {
 	id = story.8
 	title = story.8.name
+	desc = {
+		exclusive_trigger = {
+			OR = {
+				has_country_flag = encountered_dreadnought
+				has_country_flag = encountered_scavenger_bot
+				has_country_flag = guardian_scavenger_bot
+				has_country_flag = guardians_technosphere_encountered
+			}
+			NOT = { has_authority = auth_machine_intelligence }
+		}
+		text = story.8.desc.mechanical
+	}
 	# First
 	desc = {
 		trigger = { NOT = { has_country_flag = StoryFirst } }
 		text = story.8.desc
 	}
-	# Hive Minds
 	desc = {
-		trigger = { has_authority = auth_hive_mind }
-		text = story.8.desc.followup7
-	}
-	desc = {
-		trigger = { has_authority = auth_machine_intelligence }
+		exclusive_trigger = { has_authority = auth_machine_intelligence }
 		text = story.8.desc.mach
 	}
 	# Spiritualist
@@ -589,9 +650,14 @@ country_event = {
 		trigger = { OR = { has_ethic = ethic_fanatic_xenophile has_ethic = ethic_xenophile } }
 		text = story.8.desc.phile
 	}
-	# Followup 6
+	# Hive Minds and Followup 7
 	desc = {
-		trigger = { has_country_flag = Story7 }
+		trigger = {
+			OR = {
+				has_authority = auth_hive_mind
+				has_country_flag = Story7
+			}
+		}
 		text = story.8.desc.followup7
 	}
 	# Followup 1-2-3-4-5-6
@@ -665,6 +731,17 @@ country_event = {
 		trigger = {
 			has_country_flag = StoryFirst
 			has_authority = auth_machine_intelligence
+		}
+	}
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = encountered_dreadnought
+				}
+				remove_country_flag = encountered_dreadnought
+			}
+			country_event = { id = first_contact.1060 days = 10 random = 10 }
 		}
 	}
 }
@@ -796,7 +873,7 @@ country_event = {
 			}
 		}
 	}
-	picture = GFX_evt_fleet_evil
+	picture = GFX_evt_friendly_amoeba
 	show_sound = event_space_amoeba
 	location = from
 
@@ -836,7 +913,9 @@ country_event = {
 
 	immediate = {
 		every_country = {
-			limit = { is_country_type = amoeba }
+			limit = {
+				is_amoeba_country_type = yes
+			}
 			set_faction_hostility = {
 				set_hostile = no
 				set_neutral = yes
@@ -877,7 +956,9 @@ country_event = {
 	trigger = {
 		#is_ai = no
 		exists = from
-		from = { is_country_type = amoeba }
+		from = {
+			is_amoeba_country_type = yes
+		}
 		has_modifier = amoeba_hunting_buff
 	}
 	hide_window = yes
@@ -1066,6 +1147,14 @@ country_event = {
 	}
 
 	option = {
+		trigger = {
+			owner = {
+				NOR = {
+					has_technology = tech_crystal_armor_1
+					has_technology = tech_crystal_armor_2
+				}
+			}
+		}
 		name = story.205.aa
 		add_research_option = tech_crystal_armor_1
 		add_tech_progress = {
@@ -1089,7 +1178,9 @@ country_event = {
 	immediate = {
 		set_country_flag = crystal_nonhostile_approach
 		every_country = {
-			limit = { is_country_type = crystal }
+			limit = {
+				is_crystal_country_type = yes
+			}
 			set_faction_hostility = {
 				set_hostile = no
 				set_neutral = yes
@@ -1118,7 +1209,9 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = from
-		from = { is_country_type = crystal }
+		from = {
+			is_crystal_country_type = yes
+		}
 		has_modifier = crystal_hunting_buff
 		is_ai = no
 	}
@@ -1154,7 +1247,7 @@ fleet_event = {
 		trigger = {
 			owner = {
 				NOR = {
-					has_country_flag = crystal_hunting_buff
+					has_modifier = crystal_hunting_buff
 					has_ethic = ethic_gestalt_consciousness
 				}
 			}
@@ -1169,7 +1262,7 @@ fleet_event = {
 	trigger = {
 		from = {
 			has_star_flag = crystal_home_system
-			any_ship_in_system = {
+			any_fleet_in_system = {
 				is_ship_size = crystal_station_large
 			}
 		}
@@ -1408,7 +1501,292 @@ country_event = {
 
 	option = {
 		name = story.332.a
-		add_resource = { minerals = 12000 }
+		trigger = { has_ancrel = no }
+		add_resource = { minerals = 4000 alloys = 500 }
+	}
+
+	option = {
+		name = story.332.b
+		trigger = { has_ancrel = yes }
+		add_resource = { minerals = 4000 alloys = 500 }
+		add_relic = r_surveyor
+	}
+}
+
+# Surveyor Activated
+country_event = {
+	id = story.335
+	title = story.335.name
+	desc = story.335.desc
+	picture = GFX_evt_mining_operations
+	location = event_target:chosen_planet
+
+	is_triggered_only = yes
+
+	immediate = {
+		random_planet_within_border = {
+			limit = {
+				habitable_planet = no
+				is_artificial = no
+				has_strategic_resource = no
+				NOR = {
+					is_planet_class = pc_ringworld_habitable_damaged
+					is_planet_class = pc_ringworld_tech_damaged
+					is_planet_class = pc_ringworld_tech
+					is_planet_class = pc_ringworld_seam
+					is_planet_class = pc_ringworld_seam_damaged
+				}
+				# check that the random list won't come up empty
+				OR = {
+					energy_candidate = yes
+					mineral_candidate = yes
+					research_candidate = yes
+					alloy_candidate = yes
+					exotic_gas_candidate = yes
+					rare_crystal_candidate = yes
+					volatile_motes_candidate = yes
+					ROOT = { is_gestalt = no }
+				}
+			}
+			save_event_target_as = chosen_planet
+		}
+	}
+
+	option = {
+		name = EXCELLENT
+
+		locked_random_list = {
+
+			# Energy
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { energy_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_energy_5 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { energy_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_energy_7 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { energy_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_energy_9 }
+			}
+
+			# Minerals
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { mineral_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_minerals_5 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { mineral_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_minerals_7 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { mineral_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_minerals_9 }
+			}
+
+			# Physics
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { research_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_physics_5 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { research_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_physics_7 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { research_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_physics_9 }
+			}
+
+			# Society
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { research_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_society_5 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { research_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_society_7 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { research_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_society_9 }
+			}
+
+			# Engineering
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { research_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_engineering_5 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { research_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_engineering_7 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { research_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_engineering_9 }
+			}
+
+			# Trade
+			10 = {
+				modifier = {
+					factor = 0
+					is_gestalt = yes
+				}
+				event_target:chosen_planet = { add_deposit = d_trade_value_5 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					is_gestalt = yes
+				}
+				event_target:chosen_planet = { add_deposit = d_trade_value_7 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					is_gestalt = yes
+				}
+				event_target:chosen_planet = { add_deposit = d_trade_value_9 }
+			}
+
+			# Alloys
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { alloy_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_alloys_3 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { alloy_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_alloys_4 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { alloy_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_alloys_5 }
+			}
+
+			# Exotic Gas
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { exotic_gas_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_exotic_gases_3 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { exotic_gas_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_exotic_gases_4 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { exotic_gas_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_exotic_gases_5 }
+			}
+
+			# Rare Crystals
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { rare_crystal_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_rare_crystals_3 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { rare_crystal_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_rare_crystals_4 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { rare_crystal_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_rare_crystals_5 }
+			}
+
+			# Volatile Motes
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { volatile_motes_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_volatile_motes_3 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { volatile_motes_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_volatile_motes_4 }
+			}
+			10 = {
+				modifier = {
+					factor = 0
+					event_target:chosen_planet = { volatile_motes_candidate = no }
+				}
+				event_target:chosen_planet = { add_deposit = d_volatile_motes_5 }
+			}
+		}
 	}
 }
 

@@ -2,7 +2,7 @@
 #
 # Pop Events
 #
-# Written by Henrik Eklund
+# Written by Henrik Thyrwall
 #
 ############################
 
@@ -14,13 +14,22 @@ pop_event = {
 	title = "pop.1.name"
 	desc = "pop.1.desc"
 	picture = GFX_evt_cybernetics
-	
+
 	trigger = {
+		exists = owner
+		is_exact_same_species = owner
 		is_enslaved = no
 		is_being_purged = no
+		is_robot_pop = no
+		happiness < 0.5
+		NOR = {
+			has_trait = trait_necrophage
+			has_trait = trait_clone_soldier_infertile
+			has_trait = trait_clone_soldier_infertile_full_potential
+		}
 		planet = {
 			NOT = { is_planet_class = pc_habitat }
-			habitability = { 
+			habitability = {
 				who = root
 				value < 0.4
 			}
@@ -29,38 +38,30 @@ pop_event = {
 			owner = {
 				is_country_type = default
 				has_technology = "tech_gene_tailoring"
-				is_same_species = ROOT
-				NOR = {
-					has_country_flag = pop_modification
-					has_ethic = ethic_gestalt_consciousness
-				}
-				ROOT = {
-					planet = {
-						is_ideal_planet_class = {
-							who = PREVPREV
-							status = no
-						}
-						controller = { is_same_value = PREVPREVPREV }
+				NOT = { has_country_flag = pop_modification }
+				prev = {
+					is_ideal_planet_class = {
+						who = prev
+						status = no
 					}
+					controller = { is_same_value = prevprev }
 				}
 			}
 			count_owned_pop = {
-				limit = { 
-					is_same_species = ROOT 
+				limit = {
+					is_exact_same_species = ROOT
 					is_enslaved = no
 					is_being_purged = no
-					is_robot_pop = no
-					happiness < 0.5
 				}
 				count > 3
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 200
 	}
-	
+
 	immediate = {
 
 		create_species = {
@@ -76,11 +77,40 @@ pop_event = {
 			homeworld = planet
 		}
 		
-		planet = { 
-			owner = { set_country_flag = pop_modification } 
+		planet = {
+			owner = { set_country_flag = pop_modification }
 			set_planet_flag = pop_modification
+			create_species = {
+				is_mod = yes
+				name = this
+				plural = this
+				class = this
+				portrait = this
+				traits = {
+					trait = trait_self_modified
+					trait = random_traits
+				}
+				homeworld = this
+			}
 			if = {
 				limit = {
+					owner = {
+						has_trait = trait_necrophage
+					}
+				}
+				last_created_species = {
+					modify_species = {
+						species = this
+						add_trait = trait_necrophage
+						change_scoped_species = no
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				planet = {
 					count_owned_pop = {
 						limit = {
 							is_same_species = ROOT
@@ -88,6 +118,8 @@ pop_event = {
 						count < 6
 					}
 				}
+			}
+			planet = {
 				random_owned_pop = {
 					limit = {
 						NOT = { is_pop = ROOT }
@@ -142,7 +174,19 @@ pop_event = {
 					set_pop_flag = modified_pop_1
 				}
 			}
-			else = {
+		}
+		if = {
+			limit = {
+				planet = {
+					count_owned_pop = {
+						limit = {
+							is_same_species = ROOT
+						}
+						count >= 6
+					}
+				}
+			}
+			planet = {
 				random_owned_pop = {
 					limit = {
 						NOT = { is_pop = ROOT }
@@ -189,7 +233,10 @@ pop_event = {
 				}
 				random_owned_pop = {
 					limit = {
-						NOT = { is_pop = ROOT }
+						NOR = {
+							is_pop = ROOT
+							has_pop_flag = modified_pop_1
+						}
 						is_same_species = ROOT
 						is_enslaved = no
 						is_being_purged = no
@@ -221,7 +268,7 @@ pop_event = {
 			}
 		}
 	}
-	
+
 	option = {
 		name = "OK"
 	}
@@ -231,9 +278,9 @@ pop_event = {
 pop_event = {
 	id = pop.2
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	trigger = {
 		planet = {
 			has_planet_flag = pop_modification
@@ -250,7 +297,10 @@ pop_event = {
 		}
 		planet = {
 			any_owned_pop = {
-				NOT = { is_pop = ROOT }
+				NOR = {
+					is_pop = ROOT
+					has_trait = trait_self_modified
+				}
 				is_same_species = owner
 				is_enslaved = no
 				is_being_purged = no
@@ -258,11 +308,11 @@ pop_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 220
 	}
-	
+
 	immediate = {
 		save_event_target_as = modified_pop_1
 		planet = {
@@ -270,7 +320,7 @@ pop_event = {
 			random_owned_pop = {
 				limit = {
 					NOT = { is_pop = ROOT }
-					is_same_species = owner
+					is_exact_same_species = owner
 					is_enslaved = no
 					is_being_purged = no
 				}
@@ -291,7 +341,7 @@ planet_event = {
 	picture = GFX_evt_nuclear_explosion
 
 	is_triggered_only = yes
-	
+
 	option = {
 		name = WORRYING
 		custom_tooltip = pop.3.a.tooltip
@@ -318,9 +368,9 @@ planet_event = {
 pop_event = {
 	id = pop.5
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	trigger = {
 		planet = {
 			has_planet_flag = pop_modification
@@ -341,11 +391,11 @@ pop_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 220
 	}
-	
+
 	immediate = {
 		save_event_target_as = modified_pop_1
 		planet = {
@@ -375,13 +425,14 @@ planet_event = {
 	picture = GFX_evt_cybernetics
 
 	is_triggered_only = yes
-	
+
 	option = {
 		name = WORRYING
 		custom_tooltip = pop.6.tooltip
 		hidden_effect = {
 			modify_species = {
 				species = FROM
+				remove_trait = trait_slow_breeders
 				add_trait = trait_rapid_breeders
 			}
 		}
@@ -392,9 +443,9 @@ planet_event = {
 pop_event = {
 	id = pop.7
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	trigger = {
 		planet = {
 			has_planet_flag = pop_modification
@@ -414,11 +465,11 @@ pop_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 220
 	}
-	
+
 	immediate = {
 		save_event_target_as = modified_pop_1
 		planet = {
@@ -448,7 +499,7 @@ planet_event = {
 
 	is_triggered_only = yes
 	fire_only_once = yes
-	
+
 	option = {
 		name = WORRYING
 		FROM = { kill_pop = yes }
@@ -459,9 +510,9 @@ planet_event = {
 pop_event = {
 	id = pop.9
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	trigger = {
 		planet = {
 			has_planet_flag = pop_modification
@@ -480,11 +531,11 @@ pop_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 220
 	}
-	
+
 	immediate = {
 		save_event_target_as = non_modified_pop_1
 		planet = {
@@ -514,7 +565,7 @@ planet_event = {
 
 	is_triggered_only = yes
 	fire_only_once = yes
-	
+
 	option = {
 		name = WORRYING
 		FROM = { kill_pop = yes }
@@ -525,9 +576,9 @@ planet_event = {
 pop_event = {
 	id = pop.11
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	trigger = {
 		planet = {
 			has_planet_flag = pop_modification
@@ -547,11 +598,11 @@ pop_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 220
 	}
-	
+
 	immediate = {
 		save_event_target_as = modified_pop_1
 		planet = {
@@ -581,7 +632,7 @@ planet_event = {
 
 	is_triggered_only = yes
 	fire_only_once = yes
-	
+
 	option = {
 		name = WORRYING
 	}
@@ -591,9 +642,9 @@ planet_event = {
 pop_event = {
 	id = pop.13
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	trigger = {
 		planet = {
 			has_planet_flag = pop_modification
@@ -617,11 +668,11 @@ pop_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 220
 	}
-	
+
 	immediate = {
 		save_event_target_as = modified_pop_1
 		planet = {
@@ -654,7 +705,7 @@ planet_event = {
 	picture = GFX_evt_cybernetics
 
 	is_triggered_only = yes
-	
+
 	option = {
 		name = WORRYING
 		custom_tooltip = pop.14.tooltip
@@ -662,6 +713,7 @@ planet_event = {
 			modify_species = {
 				species = FROM
 				add_trait = trait_strong
+				remove_trait = trait_weak
 			}
 		}
 	}

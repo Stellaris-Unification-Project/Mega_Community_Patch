@@ -2,7 +2,7 @@
 #
 # Crisis Events
 #
-# Written by Henrik Eklund
+# Written by Henrik Thyrwall
 #
 ############################
 
@@ -48,12 +48,13 @@ country_event = {
 	hide_window = yes
 	fire_only_once = yes
 	is_triggered_only = yes
-	
+
 	immediate = {
 		endgame_telemetry = prethoryn
 		set_global_flag = prethoryn_subspace_echoes
 		set_global_flag = prethoryn_invasion_happened
 		set_global_flag = galactic_crisis_happened
+		observer_event = { id = observer.27 }
 		every_playable_country = {
 			limit = { is_country_type = default }
 			country_event = { id = crisis.11 }
@@ -68,9 +69,9 @@ country_event = {
 	desc = "crisis.11.desc"
 	picture = GFX_evt_physics_research
 	show_sound = event_alien_nature
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = crisis.11.a
 		begin_event_chain = {
@@ -85,16 +86,16 @@ country_event = {
 	id = crisis.12
 	hide_window = yes
 	fire_only_once = yes
-	
+
 	mean_time_to_happen = {
 		months = 600
 	}
-	
+
 	trigger = {
 		is_country_type = default
 		has_global_flag = prethoryn_subspace_echoes
 	}
-	
+
 	immediate = {
 		remove_global_flag = prethoryn_subspace_echoes
 		set_global_flag = prethoryn_approaching_rim
@@ -120,7 +121,7 @@ country_event = {
 				NOT = {
 					any_neighbor_system = {
 						exists = space_owner
-						space_owner = {	
+						space_owner = {
 							
 								is_fallen_empire = yes
 						}
@@ -128,11 +129,12 @@ country_event = {
 				}
 			}
 			set_star_flag = swarm_invasion_target_1
+			# Risa fix: Accurately tell countries where the swarm is about to strike.
 			save_event_target_as = prethoryn_invasion_system
 			closest_system = {
 				limit = {
-					NOR = { 
-						has_star_flag = swarm_invasion_warning 
+					NOR = {
+						has_star_flag = swarm_invasion_warning
 						has_star_flag = swarm_invasion_target_1
 					}
 				}
@@ -141,8 +143,8 @@ country_event = {
 			}
 			closest_system = {
 				limit = {
-					NOR = { 
-						has_star_flag = swarm_invasion_warning 
+					NOR = {
+						has_star_flag = swarm_invasion_warning
 						has_star_flag = swarm_invasion_target_1
 					}
 				}
@@ -151,8 +153,8 @@ country_event = {
 			}
 			closest_system = {
 				limit = {
-					NOR = { 
-						has_star_flag = swarm_invasion_warning 
+					NOR = {
+						has_star_flag = swarm_invasion_warning
 						has_star_flag = swarm_invasion_target_1
 					}
 				}
@@ -161,8 +163,8 @@ country_event = {
 			}
 			closest_system = {
 				limit = {
-					NOR = { 
-						has_star_flag = swarm_invasion_warning 
+					NOR = {
+						has_star_flag = swarm_invasion_warning
 						has_star_flag = swarm_invasion_target_1
 					}
 				}
@@ -171,8 +173,8 @@ country_event = {
 			}
 			closest_system = {
 				limit = {
-					NOR = { 
-						has_star_flag = swarm_invasion_warning 
+					NOR = {
+						has_star_flag = swarm_invasion_warning
 						has_star_flag = swarm_invasion_target_1
 					}
 				}
@@ -180,6 +182,7 @@ country_event = {
 				save_event_target_as = swarm_invasion_warning_5
 			}
 		}
+		observer_event = { id = observer.28 }
 		every_playable_country = {
 			limit = {
 				is_country_type = default
@@ -249,15 +252,15 @@ country_event = {
 	id = crisis.14
 	hide_window = yes
 	fire_only_once = yes
-	
+
 	mean_time_to_happen = {
 		months = 120
 	}
-	
+
 	trigger = {
 		has_global_flag = prethoryn_approaching_rim
 	}
-	
+
 	immediate = {
 		remove_global_flag = prethoryn_approaching_rim
 		set_global_flag = prethoryn_transmission
@@ -275,9 +278,9 @@ country_event = {
 	desc = "crisis.15.desc"
 	picture = GFX_evt_physics_research
 	show_sound = event_alien_nature
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = crisis.15.a
 		hidden_effect = {
@@ -310,28 +313,28 @@ country_event = {
 			owner_species = { has_trait = trait_hive_mind }
 		}
 	}
-	
+
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = swarm1
 		room = "swarm_room"
 	}
-	
+
 	is_triggered_only = yes
 
 	option = {
 		name = crisis.16.a
 		trigger = {
 			owner_species = { NOT = { has_trait = trait_hive_mind } }
-		}		
-	}	
+		}
+	}
 
 	option = {
 		name = crisis.16.b
 		trigger = {
 			owner_species = { has_trait = trait_hive_mind }
-		}		
+		}
 	}
 }
 
@@ -340,22 +343,23 @@ country_event = {
 	id = crisis.17
 	hide_window = yes
 	fire_only_once = yes
-	
+
 	mean_time_to_happen = {
 		months = 30
 	}
-	
+
 	trigger = {
 		has_global_flag = prethoryn_transmission
 	}
-	
+
 	immediate = {
 		set_crisis_sound = swarm_crisis_ambient_stage_1
 		set_crisis_stage_1 = yes
-		awaken_guardians_of_the_galaxy = yes		
-	
+		awaken_guardians_of_the_galaxy = yes
+
 		remove_global_flag = prethoryn_approaching_rim
 		set_global_flag = prethoryn_arrival
+		observer_event = { id = observer.29 }
 		every_playable_country = {
 			limit = { is_country_type = default }
 			country_event = { id = crisis.18 }
@@ -366,14 +370,17 @@ country_event = {
 				create_species = {
 					name = "NAME_Prethoryn"
 					class = SWARM
+					namelist = Prethoryn
 					portrait = random
 					traits = random
 					immortal = yes
+
+					effect = { save_event_target_as = prethoryn_species }
 				}
 				create_country = {
 					name = "NAME_Prethoryn_Scourge"
 					type = "swarm"
-					species = last_created_species
+					species = event_target:prethoryn_species
 					name_list = "Prethoryn"
 					flag = {
 						icon= {
@@ -392,9 +399,8 @@ country_event = {
 						}
 					}
 					effect = {
-						save_event_target_as = prethoryn_vgrd
 						save_event_target_as = prethoryn
-						owner_species = { save_event_target_as = prethoryn_species }
+						save_event_target_as = prethoryn_vgrd
 						create_ship_design = { design = "NAME_Swarm_Transport" }
 						add_ship_design = last_created_design
 						create_ship_design = { design = "NAME_Swarm_Colonizer" }
@@ -408,7 +414,7 @@ country_event = {
 				solar_system = {
 					if = {
 						limit = {
-							any_ship_in_system = {
+							any_fleet_in_system = {
 								is_ship_class = shipclass_starbase
 							}
 						}
@@ -425,10 +431,24 @@ country_event = {
 						size = starbase_swarm
 						owner = event_target:prethoryn_vgrd
 					}
+					star = {
+						create_ambient_object = {
+							type = "swarm_1"
+							location = this
+						}
+						last_created_ambient_object = {
+							set_ambient_object_flag = swarm_system_effect
+							set_location = {
+								target = prev
+								distance = 0
+								angle = random
+							}
+						}
+					}
 				}
 				every_country = {
-					limit = { 
-						OR = { 
+					limit = {
+						OR = {
 							is_country_type = default
 							is_fallen_empire = yes
 						}
@@ -446,7 +466,7 @@ country_event = {
 					}
 				}
 				event_target:prethoryn = {
-					
+
 					### FIRST SYSTEM
 
 					swarm_vanguard = yes
@@ -468,11 +488,12 @@ country_event = {
 								distance = 10
 								angle = random
 							}
+							set_fleet_stance = evasive
 						}
 					}
 				}
 			}
-			
+
 			### SECOND SYSTEM
 			random_system = {
 				limit = {
@@ -484,7 +505,7 @@ country_event = {
 				}
 				set_star_flag = swarm_invasion_target_2
 				random_system_planet = {
-					last_created_country = {
+					event_target:prethoryn = {
 
 						swarm_vanguard = yes
 						swarm_vanguard = yes
@@ -505,12 +526,13 @@ country_event = {
 									distance = 10
 									angle = random
 								}
+								set_fleet_stance = evasive
 							}
 						}
 					}
 				}
 			}
-			
+
 			### THIRD SYSTEM
 			random_system = {
 				limit = {
@@ -519,14 +541,14 @@ country_event = {
 						max_distance <= 60
 						min_distance >= 5
 					}
-					NOR = { 
+					NOR = {
 						has_star_flag = swarm_invasion_target_1
 						has_star_flag = swarm_invasion_target_2
 					}
 				}
 				set_star_flag = swarm_invasion_target_3
 				random_system_planet = {
-					last_created_country = {
+					event_target:prethoryn = {
 
 						swarm_vanguard = yes
 						swarm_vanguard = yes
@@ -547,12 +569,13 @@ country_event = {
 									distance = 10
 									angle = random
 								}
+								set_fleet_stance = evasive
 							}
 						}
 					}
 				}
 			}
-			
+
 			### FOURTH SYSTEM
 			random_system = {
 				limit = {
@@ -561,7 +584,7 @@ country_event = {
 						max_distance <= 60
 						min_distance >= 5
 					}
-					NOR = { 
+					NOR = {
 						has_star_flag = swarm_invasion_target_1
 						has_star_flag = swarm_invasion_target_2
 						has_star_flag = swarm_invasion_target_3
@@ -569,12 +592,12 @@ country_event = {
 				}
 				set_star_flag = swarm_invasion_target_4
 				random_system_planet = {
-					last_created_country = {
+					event_target:prethoryn = {
 
 						swarm_vanguard = yes
 						swarm_vanguard = yes
 						swarm_vanguard = yes
-						
+
 						# Constructor
 						create_fleet = {
 							name = "NAME_Prethoryn_Constructor"
@@ -590,6 +613,7 @@ country_event = {
 									distance = 10
 									angle = random
 								}
+								set_fleet_stance = evasive
 							}
 						}
 					}
@@ -598,7 +622,7 @@ country_event = {
 		}
 		random_country = {
 			limit = { is_country_type = global_event }	# global event country is always around
-			country_event = { id = crisis.19 days = 60 random = 20 }
+			country_event = { id = crisis.19 days = 400 random = 200 }
 		}
 	}
 }
@@ -611,16 +635,16 @@ country_event = {
 	picture = GFX_evt_physics_research
 	show_sound = event_alien_nature
 	location = event_target:prethoryn_invasion_system
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		random_rim_system = {
 			limit = { has_star_flag = swarm_invasion_target_1 }
 			save_event_target_as = prethoryn_invasion_system
 		}
 	}
-	
+
 	option = {
 		name = crisis.18.a
 		trigger = {
@@ -632,6 +656,7 @@ country_event = {
 				has_ethic = "ethic_fanatic_xenophobe"
 			}
 		}
+		# Risa fix: support alternate government types.
 	}
 	option = {
 		name = crisis.18.b
@@ -672,7 +697,11 @@ country_event = {
 	option = {
 		name = crisis.18.e
 		trigger = {
-			has_government = gov_megacorporation
+			OR = {
+				has_government = gov_megacorporation
+				has_government = gov_trade_league
+				has_authority = auth_corporate
+			}
 			NOR = {
 				has_ethic = "ethic_fanatic_egalitarian"
 				has_ethic = "ethic_fanatic_authoritarian"
@@ -692,6 +721,13 @@ country_event = {
 				has_ethic = ethic_gestalt_consciousness
 			}
 			NOR = {
+				has_spiritualist_government = yes
+				has_militarist_government = yes
+				has_materialist_government = yes
+				has_pacifist_government = yes
+				has_government = gov_megacorporation
+				has_government = gov_trade_league
+				has_authority = auth_corporate
 				has_ethic = "ethic_fanatic_egalitarian"
 				has_ethic = "ethic_fanatic_authoritarian"
 				has_ethic = "ethic_fanatic_xenophile"
@@ -723,6 +759,7 @@ country_event = {
 			has_ethic = "ethic_fanatic_egalitarian"
 		}
 	}
+	# Risa fix: support alternate government types.
 	after = {
 		end_event_chain = "coming_storm_chain"
 		begin_event_chain = {
@@ -737,20 +774,130 @@ country_event = {
 	id = crisis.19
 	hide_window = yes
 	fire_only_once = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		set_crisis_sound = swarm_crisis_ambient_stage_2
 		set_crisis_stage_2 = yes
 		set_global_flag = prethoryn_main_invasion
 		set_global_flag = ongoing_prethoryn_invasion
+		observer_event = { id = observer.30 }
 		every_playable_country = {
 			limit = { is_country_type = default }
 			country_event = { id = crisis.20 }
 		}
+
+		# Custodian/Emperor Announcements
+		event_target:prethoryn = { save_event_target_as = crisis_country }
+		if = {
+			limit = { has_galactic_custodian = yes }
+			random_playable_country = {
+				limit = { is_galactic_custodian = yes }
+				country_event = { id = custodian.50 days = 30 }
+			}
+		}
+		if = {
+			limit = { has_galactic_emperor = yes }
+			random_playable_country = {
+				limit = { is_galactic_emperor = yes }
+				country_event = { id = emperor.90 days = 30 }
+			}
+		}
+
+		# Recreate Prethoryn if Vanguard was destroyed
+		if = {
+			limit = {
+				NOT = { exists = event_target:prethoryn }
+			}
+			create_species = {
+				name = "NAME_Prethoryn"
+				class = SWARM
+				namelist = Prethoryn
+				portrait = random
+				traits = random
+				immortal = yes
+				effect = { save_event_target_as = prethoryn_species }
+			}
+			create_country = {
+				name = "NAME_Prethoryn_Scourge"
+				type = "swarm"
+				species = event_target:prethoryn_species
+				name_list = "Prethoryn"
+				flag = {
+					icon= {
+						category = "special"
+						file = "the_swarm.dds"
+					}
+					background= {
+						category = "backgrounds"
+						file = "new_dawn.dds"
+					}
+					colors={
+						"orange"
+						"grey"
+						"null"
+						"null"
+					}
+				}
+				effect = {
+					save_event_target_as = prethoryn
+					save_event_target_as = prethoryn_vgrd
+					create_ship_design = { design = "NAME_Swarm_Transport" }
+					add_ship_design = last_created_design
+					create_ship_design = { design = "NAME_Swarm_Colonizer" }
+					add_ship_design = last_created_design
+					create_ship_design = { design = "NAME_Swarm_Constructor" }
+					add_ship_design = last_created_design
+					create_ship_design = { design = "NAME_Swarm_Starbase" }
+					add_ship_design = last_created_design
+				}
+			}
+			every_country = {
+				limit = {
+					OR = {
+						is_country_type = default
+						is_fallen_empire = yes
+					}
+				}
+				establish_communications_no_message = event_target:prethoryn
+				add_opinion_modifier = {
+					who = event_target:prethoryn
+					modifier = opinion_swarm
+				}
+				event_target:prethoryn = {
+					add_opinion_modifier = {
+						who = PREV
+						modifier = opinion_prey
+					}
+				}
+			}
+		}
+
 		random_rim_system = {
 			limit = { has_star_flag = swarm_invasion_target_1 }
+
+			if = {
+				limit = {
+					event_target:prethoryn = {
+						NOT = {
+							any_owned_ship = { is_ship_class = shipclass_starbase }
+						}
+					}
+					any_fleet_in_system = { is_ship_class = shipclass_starbase }
+				}
+				random_fleet_in_system = {
+					limit = {
+						is_ship_class = shipclass_starbase
+					}
+					destroy_fleet = this
+				}
+			}
+			create_starbase = {
+				size = starbase_swarm
+				owner = event_target:prethoryn
+			}
+
 			random_system_planet = {
 				save_event_target_as = spawn_location
 				if = {
@@ -838,12 +985,12 @@ country_event = {
 					}
 				}
 				event_target:prethoryn = {
-					
+
 					### FIRST SYSTEM
 					swarm_brood = yes
 					swarm_brood = yes
 					swarm_brood = yes
-					
+
 					# Infestors
 					while = {
 						count = 3
@@ -864,7 +1011,7 @@ country_event = {
 							}
 						}
 					}
-					
+
 					# Constructor
 					create_fleet = {
 						name = "NAME_Prethoryn_Constructor"
@@ -880,107 +1027,29 @@ country_event = {
 								distance = 10
 								angle = random
 							}
+							set_fleet_stance = evasive
 						}
 					}
-					
+
 					# Army Transports
 					swarm_armies = yes
 					swarm_armies = yes
 					swarm_armies = yes
 				}
 			}
-			
+
 			### SECOND SYSTEM
 			random_system = {
 				limit = { has_star_flag = swarm_invasion_target_2 }
 				if = {
 					limit = {
-						any_ship_in_system = {
+						any_fleet_in_system = {
 							is_ship_class = shipclass_starbase
 						}
 					}
 					random_fleet_in_system = {
 						limit = {
-							any_owned_ship = {
-								is_ship_class = shipclass_starbase
-							}
-						}
-						destroy_fleet = this
-					}
-				}
-				create_starbase = {
-					size = starbase_swarm
-					owner = event_target:prethoryn
-				}
-				random_system_planet = {
-					save_event_target_as = spawn_location
-					event_target:prethoryn = {
-						
-						swarm_brood = yes
-						swarm_brood = yes
-						swarm_brood = yes
-					
-						# Infestors
-						while = {
-							count = 3
-							create_fleet = {
-								name = "NAME_Prethoryn_Infestor"
-								effect = {
-									set_owner = event_target:prethoryn
-									create_ship = {
-										name = random
-										design = "NAME_Swarm_Colonizer"
-										graphical_culture = "swarm_01"
-									}
-									set_location = {
-										target = PREVPREV
-										distance = 10
-										angle = random
-									}
-								}
-							}
-						}
-						
-						# Constructor
-						create_fleet = {
-							name = "NAME_Prethoryn_Constructor"
-							effect = {
-								set_owner = event_target:prethoryn
-								create_ship = {
-									name = random
-									design = "NAME_Swarm_Constructor"
-									graphical_culture = "swarm_01"
-								}
-								set_location = {
-									target = PREVPREV
-									distance = 10
-									angle = random
-								}
-							}
-						}
-						
-						# Army Transports
-						swarm_armies = yes
-						swarm_armies = yes
-						swarm_armies = yes
-					}
-				}
-			}
-			
-			### THIRD SYSTEM
-			random_system = {
-				limit = { has_star_flag = swarm_invasion_target_3 }
-				if = {
-					limit = {
-						any_ship_in_system = {
 							is_ship_class = shipclass_starbase
-						}
-					}
-					random_fleet_in_system = {
-						limit = {
-							any_owned_ship = {
-								is_ship_class = shipclass_starbase
-							}
 						}
 						destroy_fleet = this
 					}
@@ -996,7 +1065,7 @@ country_event = {
 						swarm_brood = yes
 						swarm_brood = yes
 						swarm_brood = yes
-					
+
 						# Infestors
 						while = {
 							count = 3
@@ -1017,7 +1086,7 @@ country_event = {
 								}
 							}
 						}
-						
+
 						# Constructor
 						create_fleet = {
 							name = "NAME_Prethoryn_Constructor"
@@ -1033,9 +1102,86 @@ country_event = {
 									distance = 10
 									angle = random
 								}
+								set_fleet_stance = evasive
 							}
 						}
-						
+
+						# Army Transports
+						swarm_armies = yes
+						swarm_armies = yes
+						swarm_armies = yes
+					}
+				}
+			}
+
+			### THIRD SYSTEM
+			random_system = {
+				limit = { has_star_flag = swarm_invasion_target_3 }
+				if = {
+					limit = {
+						any_fleet_in_system = {
+							is_ship_class = shipclass_starbase
+						}
+					}
+					random_fleet_in_system = {
+						limit = {
+							is_ship_class = shipclass_starbase
+						}
+						destroy_fleet = this
+					}
+				}
+				create_starbase = {
+					size = starbase_swarm
+					owner = event_target:prethoryn
+				}
+				random_system_planet = {
+					save_event_target_as = spawn_location
+					event_target:prethoryn = {
+
+						swarm_brood = yes
+						swarm_brood = yes
+						swarm_brood = yes
+
+						# Infestors
+						while = {
+							count = 3
+							create_fleet = {
+								name = "NAME_Prethoryn_Infestor"
+								effect = {
+									set_owner = event_target:prethoryn
+									create_ship = {
+										name = random
+										design = "NAME_Swarm_Colonizer"
+										graphical_culture = "swarm_01"
+									}
+									set_location = {
+										target = PREVPREV
+										distance = 10
+										angle = random
+									}
+								}
+							}
+						}
+
+						# Constructor
+						create_fleet = {
+							name = "NAME_Prethoryn_Constructor"
+							effect = {
+								set_owner = event_target:prethoryn
+								create_ship = {
+									name = random
+									design = "NAME_Swarm_Constructor"
+									graphical_culture = "swarm_01"
+								}
+								set_location = {
+									target = PREVPREV
+									distance = 10
+									angle = random
+								}
+								set_fleet_stance = evasive
+							}
+						}
+
 						# Army Transports
 						create_fleet = {
 							name = "NAME_Prethoryn_Armies"
@@ -1064,21 +1210,19 @@ country_event = {
 					}
 				}
 			}
-			
+
 			### FOURTH SYSTEM
 			random_system = {
 				limit = { has_star_flag = swarm_invasion_target_4 }
 				if = {
 					limit = {
-						any_ship_in_system = {
+						any_fleet_in_system = {
 							is_ship_class = shipclass_starbase
 						}
 					}
 					random_fleet_in_system = {
 						limit = {
-							any_owned_ship = {
-								is_ship_class = shipclass_starbase
-							}
+							is_ship_class = shipclass_starbase
 						}
 						destroy_fleet = this
 					}
@@ -1093,7 +1237,7 @@ country_event = {
 						swarm_brood = yes
 						swarm_brood = yes
 						swarm_brood = yes
-						
+
 						# Infestors
 						while = {
 							count = 3
@@ -1114,7 +1258,7 @@ country_event = {
 								}
 							}
 						}
-						
+
 						# Constructor
 						create_fleet = {
 							name = "NAME_Prethoryn_Constructor"
@@ -1130,9 +1274,10 @@ country_event = {
 									distance = 10
 									angle = random
 								}
+								set_fleet_stance = evasive
 							}
 						}
-						
+
 						# Army Transports
 						swarm_armies = yes
 						swarm_armies = yes
@@ -1152,16 +1297,16 @@ country_event = {
 	picture = GFX_evt_physics_research
 	show_sound = event_alien_nature
 	location = event_target:prethoryn_invasion_system
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		random_rim_system = {
 			limit = { has_star_flag = swarm_invasion_target_1 }
 			save_event_target_as = prethoryn_invasion_system
 		}
 	}
-	
+
 	option = {
 		name = crisis.20.a
 	}
@@ -1171,7 +1316,7 @@ country_event = {
 country_event = {
 	id = crisis.30
 	title = "TRANSMISSION"
-	
+
 	desc = {
 		text = crisis.30.desc_01
 		trigger = {
@@ -1219,36 +1364,36 @@ country_event = {
 		trigger = {
 			owner_species = { has_trait = trait_hive_mind }
 		}
-	}	
+	}
 	desc = {
 		text = crisis.30.desc_09
 		trigger = {
 			owner_species = { has_trait = trait_hive_mind }
 		}
 	}
-	
+
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = swarm1
 		room = "swarm_room"
 	}
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		FROM = {
 			is_country_type = swarm
 		}
 	}
-	
+
 	option = {
 		name = crisis.30.a
 		trigger = {
 			NOT = { owner_species = { OR = { has_trait = trait_psionic has_trait = trait_hive_mind } } }
 		}
 		response_text = crisis.30.a.response
-	}	
+	}
 	option = {
 		name = crisis.30.b
 		trigger = {
@@ -1296,7 +1441,7 @@ country_event = {
 		}
 		response_text = crisis.30.g.response
 		is_dialog_only = yes
-	}	
+	}
 	option = {
 		name = crisis.30.h
 		trigger = {
@@ -1334,7 +1479,7 @@ country_event = {
 			owner_species = { has_trait = trait_hive_mind }
 		}
 		response_text = crisis.30.k.response
-	}	
+	}
 	option = {
 		name = crisis.30.g.2
 		trigger = {
@@ -1374,50 +1519,55 @@ country_event = {
 country_event = {
 	id = crisis.50
 	hide_window = yes
-	
+
 	trigger = {
 		has_global_flag = prethoryn_main_invasion
 		NOT = { has_global_flag = sentinels_founded }
 		is_country_type = swarm
 		galaxy_percentage > 0.20
 	}
-	
+
 	mean_time_to_happen = {
 		months = 12
 	}
-	
+
 	immediate = {
 		set_crisis_sound = swarm_crisis_ambient_stage_3
 		set_crisis_stage_3 = yes
 		set_global_flag = sentinels_founded
 		save_event_target_as = swarm
-	
+
 		random_system = {
 			limit = {
 				exists = space_owner
 				space_owner = {
 					NOT = { is_same_value = event_target:swarm }
 				}
-				NOT = { has_star_flag = sealed_system }
+				NOR = {
+					has_star_flag = sealed_system
+					has_star_flag = lcluster
+				}
 			}
 			spawn_system = {
-				min_distance >= 20
-				max_distance <= 50
+				min_distance >= 10
+				max_distance <= 20
 				initializer = "sentinel_system"
 			}
 		}
 		if = {
 			limit = {
 				any_country = {
-					
+					OR = {
 						is_fallen_empire = yes
+					}
 				}
 			}
 			set_global_flag = sentinel_fe_support
 			random_country = {
 				limit = {
-					
+					OR = {
 						is_fallen_empire = yes
+					}
 				}
 				save_global_event_target_as = sentinel_fallen_empire
 			}
@@ -1426,6 +1576,7 @@ country_event = {
 				establish_communications = event_target:sentinel_fallen_empire
 			}
 		}
+		observer_event = { id = observer.31 }
 		every_playable_country = {
 			limit = { is_country_type = default }
 			country_event = { id = crisis.51 days = 1 }
@@ -1445,9 +1596,9 @@ country_event = {
 	picture = GFX_evt_federation_fleet
 	show_sound = event_radio_chatter
 	location = event_target:sentinel_system
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = crisis.51.a
 		hidden_effect = {
@@ -1461,16 +1612,16 @@ country_event = {
 	id = crisis.52
 	title = "sentinel_title"
 	desc = "crisis.52.desc"
-	
+
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = event_target:sentinels
 		room = "ethic_spaceship_room"
 	}
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = crisis.52.a
 		trigger = {
@@ -1506,7 +1657,6 @@ country_event = {
 	option = {
 		name = crisis.52.c
 		response_text = crisis.52.c.response
-		default_hide_option = yes
 	}
 }
 
@@ -1514,7 +1664,7 @@ country_event = {
 country_event = {
 	id = crisis.55
 	title = "sentinel_title"
-	
+
 	desc = {
 		text = crisis.55.desc_01
 	}
@@ -1527,22 +1677,22 @@ country_event = {
 	desc = {
 		text = crisis.55.desc_04
 	}
-	
+
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = FROM
 		room = "ethic_spaceship_room"
 	}
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		FROM = {
 			is_country_type = sentinels
 		}
 	}
-	
+
 	option = {
 		name = crisis.55.a
 		response_text = crisis.55.a.response
@@ -1551,7 +1701,6 @@ country_event = {
 	option = {
 		name = crisis.55.d
 		response_text = crisis.55.d.response
-		default_hide_option = yes
 	}
 }
 
@@ -1559,19 +1708,22 @@ country_event = {
 fleet_event = {
 	id = crisis.60
 	hide_window = yes
-	
+
 	trigger = {
 		has_global_flag = ongoing_prethoryn_invasion
 		has_global_flag = sentinels_founded
 		owner = { is_country_type = sentinels }
 		owner = { num_ships < 200 }
 		is_same_value = event_target:sentinel_alpha
+		any_playable_country = {
+			is_country_type = default
+		}
 	}
 
 	mean_time_to_happen = {
 		months = 100
 	}
-	
+
 	immediate = {
 		random_playable_country = {
 			limit = { is_country_type = default }
@@ -1583,6 +1735,11 @@ fleet_event = {
 				species = event_target:random_species
 				name = random
 				skill = 3
+				# trait = random_trait does not function.
+				#traits = {
+				#	trait = leader_trait_sentinel
+				#	trait = random_trait
+				#}
 			}
 			last_created_leader = {
 				add_trait = leader_trait_sentinel
@@ -1663,19 +1820,19 @@ fleet_event = {
 country_event = {
 	id = crisis.70
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		exists = from
 		has_global_flag = sentinels_founded
 		is_country_type = default
 		FROM = { is_country_type = swarm }
 	}
-	
+
 	immediate = {
-		change_variable = { 
-			which = "swarm_fleet_kills" 
+		change_variable = {
+			which = "swarm_fleet_kills"
 			value = 1
 		}
 	}
@@ -1686,21 +1843,21 @@ country_event = {
 	id = crisis.71
 	title = "sentinel_title"
 	desc = "crisis.71.desc"
-	
+
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = event_target:sentinels
 		room = "ethic_spaceship_room"
 	}
-	
+
 	trigger = {
 		is_country_type = default
 		has_global_flag = sentinels_founded
 		NOT = { has_country_flag = sentinel_donation }
 		check_variable = {
-			which = "swarm_fleet_kills" 
-			value > 6 
+			which = "swarm_fleet_kills"
+			value > 6
 		}
 		any_country = {
 			is_country_type = sentinels
@@ -1712,15 +1869,15 @@ country_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 100
 	}
-	
+
 	immediate = {
 		set_country_flag = sentinel_donation
 	}
-	
+
 	option = {
 		name = crisis.71.a
 		response_text = crisis.71.a.response
@@ -1783,10 +1940,10 @@ country_event = {
 						set_location = {
 							target = PREV
 							distance = 45
-							angle = random 
+							angle = random
 						}
 					}
-					settings = { 
+					settings = {
 						can_upgrade = no
 						can_change_composition = no
 						uses_naval_capacity = no
@@ -1805,9 +1962,9 @@ country_event = {
 country_event = {
 	id = crisis.75
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		every_playable_country = {
 			limit = { is_ai = no }
@@ -1823,16 +1980,16 @@ country_event = {
 	id = crisis.76
 	title = "sentinel_title"
 	desc = "crisis.76.desc"
-	
+
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = event_target:sentinels
 		room = "ethic_spaceship_room"
 	}
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = crisis.76.c
 	}
@@ -1842,7 +1999,7 @@ country_event = {
 country_event = {
 	id = crisis.77
 	hide_window = yes
-	
+
 	trigger = {
 		has_global_flag = ongoing_prethoryn_invasion
 		is_country_type = sentinels
@@ -1857,7 +2014,7 @@ country_event = {
 	mean_time_to_happen = {
 		months = 12
 	}
-	
+
 	immediate = {
 		set_country_flag = sentinel_anatomy_files
 		every_country = {
@@ -1877,16 +2034,16 @@ country_event = {
 	id = crisis.78
 	title = "sentinel_title"
 	desc = "crisis.78.desc"
-	
+
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = event_target:sentinels
 		room = "ethic_spaceship_room"
 	}
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = crisis.78.c
 		add_modifier = {
@@ -1900,16 +2057,17 @@ country_event = {
 country_event = {
 	id = crisis.80
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		is_country_type = sentinels
 		from = { is_country_type = swarm }
 		fromfrom = { is_ship_size = sentinel_station }
 	}
-	
+
 	immediate = {
+		observer_event = { id = observer.32 }
 		every_playable_country = {
 			limit = { is_ai = no }
 			country_event = { id = crisis.81 }
@@ -1925,9 +2083,9 @@ country_event = {
 	picture = GFX_evt_federation_fleet
 	show_sound = event_radio_chatter
 	location = event_target:sentinel_system
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = ONSCREEN
 		hidden_effect = {
@@ -1941,15 +2099,15 @@ country_event = {
 	id = crisis.82
 	title = "sentinel_title"
 	desc = "crisis.82.desc"
-	
+
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		room = no_video_feed_room
 	}
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = crisis.76.c
 	}
@@ -1960,7 +2118,7 @@ country_event = {
 	id = crisis.100
 	hide_window = yes
 	fire_only_once = yes
-	
+
 	trigger = {
 		has_global_flag = prethoryn_main_invasion
 		is_country_type = swarm
@@ -1970,11 +2128,11 @@ country_event = {
 			owner = { is_country_type = swarm }
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 820
 	}
-	
+
 	immediate = {
 		set_country_flag = injured_swarm_queen
 		random_system = {
@@ -1993,18 +2151,18 @@ country_event = {
 			create_ambient_object = {
 				type = "large_debris_object"
 			}
-			last_created_ambient_object = { 
+			last_created_ambient_object = {
 				set_location = {
 					target = event_target:injured_queen
 					distance = 5
 					angle = random
 				}
-				set_ambient_object_flag = dead_prethoryn 
+				set_ambient_object_flag = dead_prethoryn
 			}
 			create_ambient_object = {
 				type = "dead_swarm_small_object"
 			}
-			last_created_ambient_object = { 
+			last_created_ambient_object = {
 				set_location = {
 					target = event_target:injured_queen
 					distance = 15
@@ -2015,7 +2173,7 @@ country_event = {
 			create_ambient_object = {
 				type = "dead_swarm_small_object"
 			}
-			last_created_ambient_object = { 
+			last_created_ambient_object = {
 				set_location = {
 					target = event_target:injured_queen
 					distance = 20
@@ -2026,7 +2184,7 @@ country_event = {
 			create_ambient_object = {
 				type = "dead_swarm_small_object"
 			}
-			last_created_ambient_object = { 
+			last_created_ambient_object = {
 				set_location = {
 					target = event_target:injured_queen
 					distance = 25
@@ -2037,7 +2195,7 @@ country_event = {
 			create_ambient_object = {
 				type = "dead_swarm_large_object"
 			}
-			last_created_ambient_object = { 
+			last_created_ambient_object = {
 				set_location = {
 					target = event_target:injured_queen
 					distance = 10
@@ -2048,7 +2206,7 @@ country_event = {
 			create_ambient_object = {
 				type = "dead_swarm_large_object"
 			}
-			last_created_ambient_object = { 
+			last_created_ambient_object = {
 				set_location = {
 					target = event_target:injured_queen
 					distance = 15
@@ -2059,7 +2217,7 @@ country_event = {
 			create_ambient_object = {
 				type = "dead_swarm_large_object"
 			}
-			last_created_ambient_object = { 
+			last_created_ambient_object = {
 				set_location = {
 					target = event_target:injured_queen
 					distance = 20
@@ -2083,9 +2241,9 @@ country_event = {
 	picture = GFX_evt_small_space_battle
 	show_sound = event_radio_chatter
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = crisis.101.a
 		event_target:injured_queen = {
@@ -2105,9 +2263,9 @@ ship_event = {
 	desc = "crisis.105.desc"
 	picture = GFX_evt_society_research
 	show_sound = event_alien_nature
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		owner = {
 			save_event_target_as = ship_owner
@@ -2132,7 +2290,7 @@ ship_event = {
 		}
 		destroy_ambient_object = fromfrom
 	}
-	
+
 	option = {
 		name = crisis.105.a
 		hidden_effect = {
@@ -2167,11 +2325,11 @@ ship_event = {
 						angle = random
 					}
 				}
-				settings = { 
-					can_upgrade = no 
+				settings = {
+					can_upgrade = no
 					can_disband = no
-					can_change_composition = no 
-					can_change_leader = no 
+					can_change_composition = no
+					can_change_leader = no
 					uses_naval_capacity = no
 				}
 			}
@@ -2189,17 +2347,17 @@ ship_event = {
 fleet_event = {
 	id = crisis.106
 	hide_window = yes
-	
+
 	trigger = {
 		has_fleet_flag = pet_queen
 		num_ships < 30
-		any_fleet_in_system = { is_ship_size = queen_swarm }
+		is_ship_size = queen_swarm
 	}
-	
+
 	mean_time_to_happen = {
 		months = 2
 	}
-		
+
 	immediate = {
 		random_list = {
 			33 = {
@@ -2229,13 +2387,13 @@ country_event = {
 	desc = "crisis.107.desc"
 	picture = GFX_evt_society_research
 	show_sound = event_radio_chatter
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		set_country_flag = queen_snatched
 	}
-	
+
 	option = {
 		name = crisis.107.a
 	}
@@ -2245,13 +2403,13 @@ country_event = {
 country_event = {
 	id = crisis.108
 	hide_window = yes
-	
+
 	trigger = {
 		fromfrom = { has_fleet_flag = pet_queen }
 	}
-	
+
 	is_triggered_only = yes
-		
+
 	immediate = {
 		random_owned_leader = {
 			limit = { has_leader_flag = captured_queen }
@@ -2264,9 +2422,9 @@ country_event = {
 country_event = {
 	id = crisis.119
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-		
+
 	immediate = {
 		set_variable = {
 			which = "feral_prethoryn_spawned"
@@ -2286,27 +2444,31 @@ event = {
 	trigger = {
 		has_global_flag = feral_prethoryn_can_spawn
 		any_country = {
-			is_country_type = global_event
-			check_variable = {
-				which = "feral_prethoryn_spawned"
-				value < 10
+			AND = {
+				is_country_type = global_event
+				check_variable = {
+					which = "feral_prethoryn_spawned"
+					value < 10
+				}
 			}
 		}
 		any_system = {
-			has_owner = no
-			any_system_planet = { has_planet_flag = previously_infested }
-			NOT = { has_star_flag = feral_prethoryn_system }
+			AND = {
+				has_owner = no
+				any_system_planet = { has_planet_flag = previously_infested }
+				NOT = { has_star_flag = feral_prethoryn_system }
+			}
 		}
 	}
-	
+
 	immediate = {
 		random_list = {
 			10 = {
 				random_country = {
 					limit = { is_country_type = global_event }
-					change_variable = { 
-						which = "feral_prethoryn_spawned" 
-						value = 1 
+					change_variable = {
+						which = "feral_prethoryn_spawned"
+						value = 1
 					}
 				}
 				if = {
@@ -2326,14 +2488,17 @@ event = {
 						create_species = {
 							name = "NAME_Prethoryn"
 							class = SWARM
+							namelist = Prethoryn
 							portrait = random
 							traits = random
 							immortal = yes
+
+							effect = { save_event_target_as = feral_prethoryn_species }
 						}
 						create_country = {
-							name = "NAME_Feral_Prethoryn" 
+							name = "NAME_Feral_Prethoryn"
 							type = "feral_prethoryn"
-							species = last_created_species
+							species = event_target:feral_prethoryn_species
 							name_list = "Prethoryn"
 							flag = {
 								icon= {
@@ -2424,9 +2589,9 @@ country_event = {
 	picture = GFX_evt_society_research
 	show_sound = event_radio_chatter
 	location = event_target:feral_prethoryn_system
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = crisis.121.a
 	}
@@ -2436,7 +2601,7 @@ country_event = {
 event = {
 	id = crisis.122
 	hide_window = yes
-	
+
 	is_triggered_only = yes
 
 	trigger = {
@@ -2447,7 +2612,7 @@ event = {
 			}
 		}
 	}
-	
+
 	immediate = {
 		random_list = {
 			50 = {
@@ -2472,8 +2637,8 @@ event = {
 	is_triggered_only = yes
 
 	trigger = {
-		any_country = { 
-			is_country_type = feral_prethoryn 
+		any_country = {
+			is_country_type = feral_prethoryn
 			NOT = { has_global_flag = feral_prethoryn_infighting_ongoing }
 		}
 	}
@@ -2520,14 +2685,14 @@ country_event = {
 					}
 				}
 			}
-			last_created_fleet = { 
+			last_created_fleet = {
 				set_fleet_flag = infighting_prethoryn
-				save_event_target_as = infighting_target_1 
+				save_event_target_as = infighting_target_1
 			}
 			create_country = {
-				name = "NAME_Feral_Prethoryn" 
+				name = "NAME_Feral_Prethoryn"
 				type = "feral_prethoryn_infighting"
-				species = last_created_species
+				species = event_target:feral_prethoryn_species
 				name_list = "Prethoryn"
 				flag = {
 					icon= {
@@ -2571,15 +2736,15 @@ country_event = {
 			last_created_fleet = {
 				save_event_target_as = infighting_target_2
 				set_fleet_flag = infighting_prethoryn
-				auto_follow_fleet = { 
+				auto_follow_fleet = {
 					target = event_target:infighting_target_1
-					attack_fleet = yes 
+					attack_fleet = yes
 				}
 			}
 			event_target:infighting_target_1 = {
-				auto_follow_fleet = { 
-					target = event_target:infighting_target_2 
-					attack_fleet = yes 
+				auto_follow_fleet = {
+					target = event_target:infighting_target_2
+					attack_fleet = yes
 				}
 			}
 		}
@@ -2641,13 +2806,17 @@ country_event = {
 planet_event = {
 	id = crisis.200
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
+		OR = {
+			planet_devastation >= 100
+			NOT = { exists = owner }
+		}
 		is_planet_class = pc_infested
 	}
-	
+
 	immediate = {
 		set_planet_flag = previously_infested
 		destroy_colony = yes
@@ -2665,18 +2834,18 @@ planet_event = {
 country_event = {
 	id = crisis.201
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		is_country_type = "swarm"
 	}
-	
+
 	immediate = {
 		FROMFROM = {
 			add_threat = { who = root amount = 2 }
 			set_controller = root
-			purge = yes	
+			# ^ maxes out purge job weight
 		}
 	}
 }
@@ -2685,35 +2854,79 @@ country_event = {
 planet_event = {
 	id = crisis.202
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		num_pops = 1 # Last Pop is still alive when this event is fired
+		exists = controller
 		controller = { is_country_type = "swarm" }
 	}
-	
+
 	immediate = {
+		controller = { save_event_target_as = swarm }
 		if = {
 			limit = {
-				NOR = {
-					is_artificial = yes # habitats are currently uninfestable
-				}
+				is_artificial = no
 			}
 			change_pc = pc_infested
-			set_owner = controller
+			set_owner = event_target:swarm
 			planet_event = { id = crisis.215 }
 		}
-		else_if = { # Habitable Ring Worlds can't be infested... they are destroyed instead
-			limit = { is_planet_class = pc_ringworld_habitable }
+		else_if = {
+			# Habitable Ring Worlds can't be infested...
+			# they are destroyed instead
+			limit = { 
+				is_ringworld = yes
+			}
 			destroy_colony = yes
 			change_pc = pc_ringworld_habitable_damaged
 			reset_planet = yes
 		}
-		else_if = {	# since habitats are currently uninfestable, they have to be destroyed
+		else_if = {
 			limit = { is_planet_class = pc_habitat }
-			destroy_colony = yes
-			remove_planet = yes
+			ariphaos_patch_remove_habitat = yes
+		}
+
+		solar_system = {
+			if = { # Build starbase if no other colonies are left
+				limit = {
+					NOT = {
+						exists = starbase
+						any_system_planet = {
+							has_owner = yes
+							owner =  { 
+								NOT = { is_same_value = event_target:swarm }
+							}
+						}
+					}
+				}
+				create_starbase = {
+					size = starbase_swarm
+					owner = event_target:swarm
+				}
+				if = {
+					limit = {
+						NOT = {
+							any_system_ambient_object = { has_ambient_object_flag = swarm_system_effect }
+						}
+					}
+					star = {
+						create_ambient_object = {
+							type = "swarm_1"
+							location = this
+						}
+						last_created_ambient_object = {
+							set_ambient_object_flag = swarm_system_effect
+							set_location = {
+								target = prev
+								distance = 0
+								angle = random
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -2722,33 +2935,35 @@ planet_event = {
 planet_event = {
 	id = crisis.203
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		owner = { is_country_type = "swarm" }
 	}
-	
+
 	immediate = {
 		every_owned_pop = { kill_pop = yes }
 		if = {
 			limit = {
-				NOR = {
-					is_artificial = yes # habitats are currently uninfestable
-				}
+				is_artificial = no
 			}
 			change_pc = pc_infested
 			reset_planet = yes
 			planet_event = { id = crisis.215 }
 		}
-		else_if = { # Habitable Ring Worlds can't be infested... they are destroyed instead
-			limit = { is_planet_class = pc_ringworld_habitable }
+		else_if = {
+			# Habitable Ring Worlds can't be infested...
+			# they are destroyed instead
+			limit = { 
+				is_ringworld = yes
+			}
 			change_pc = pc_ringworld_habitable_damaged
 			reset_planet = yes
 		}
 		else_if = {
 			limit = { is_planet_class = pc_habitat }
-			remove_planet = yes
+			ariphaos_patch_remove_habitat = yes
 		}
 	}
 }
@@ -2763,7 +2978,6 @@ event = {
 	trigger = {
 		any_country = {
 			is_country_type = "swarm"
-			num_ships > 5
 			count_owned_ship = {
 				limit = { is_ship_size = colony_ship_swarm }
 				count < 4
@@ -2783,6 +2997,7 @@ event = {
 				save_event_target_as = prethoryn
 			}
 			random_owned_ship = {
+				limit = { exists = solar_system }
 				save_event_target_as = infestor_respawn_system
 			}
 			while = {
@@ -2808,12 +3023,12 @@ event = {
 	}
 }
 
-# Spawn Constructors if less than 4 are available, on_yearly_pulse
+# Spawn Constructors if less than 6 are available, on_yearly_pulse
 event = {
 	id = crisis.205
 	hide_window = yes
 
-	is_triggered_only = yes 
+	is_triggered_only = yes
 
 	trigger = {
 		any_country = {
@@ -2821,7 +3036,7 @@ event = {
 			num_ships > 10
 			count_owned_ship = {
 				limit = { is_ship_size = construction_ship_swarm }
-				count < 4
+				count < 6
 			}
 		}
 	}
@@ -2856,6 +3071,7 @@ event = {
 							distance = 5
 							angle = random
 						}
+						set_fleet_stance = evasive
 					}
 				}
 			}
@@ -2900,8 +3116,8 @@ country_event = {
 	immediate = {
 		save_event_target_as = prethoryn
 		owner_species = { save_event_target_as = prethoryn_species }
-		
-		
+
+
 		random_system_within_border = {
 			limit = { exists = starbase }
 			starbase = { save_event_target_as = spawn_location }
@@ -2913,7 +3129,7 @@ country_event = {
 			starbase = { save_event_target_as = spawn_location }
 		}
 		swarm_brood = yes
-	
+
 		if = {
 			limit = {
 				galaxy_percentage > 0.20
@@ -2923,8 +3139,8 @@ country_event = {
 				starbase = { save_event_target_as = spawn_location }
 			}
 			swarm_brood = yes
-		}				
-		
+		}
+
 		if = {
 			limit = {
 				galaxy_percentage > 0.40
@@ -2934,20 +3150,20 @@ country_event = {
 				starbase = { save_event_target_as = spawn_location }
 			}
 			swarm_brood = yes
-		}				
-				
+		}
+
 		if = {
 			limit = {
 				count_owned_ship = {
 					limit = { is_ship_size = colony_ship_swarm }
 					count < 3
-				}					
+				}
 			}
-			
+
 			random_owned_planet = {
-				limit = { 
+				limit = {
 					has_orbital_bombardment = no
-				}			
+				}
 				# Infestor
 				create_fleet = {
 					name = "NAME_Prethoryn_Infestor"
@@ -2961,25 +3177,25 @@ country_event = {
 						set_location = {
 							target = prev
 							distance = 35
-							angle = random 
+							angle = random
 						}
 					}
-				}					
+				}
 			}
 		}
-		
+
 		if = {
 			limit = {
 				count_owned_ship = {
 					limit = { is_ship_size = construction_ship_swarm }
-					count < 5
-				}					
+					count < 6
+				}
 			}
 
 			random_owned_planet = {
-				limit = { 
+				limit = {
 					has_orbital_bombardment = no
-				}				
+				}
 				# Constructor
 				create_fleet = {
 					name = "NAME_Prethoryn_Constructor"
@@ -2993,10 +3209,11 @@ country_event = {
 						set_location = {
 							target = prev
 							distance = 35
-							angle = random 
+							angle = random
 						}
+						set_fleet_stance = evasive
 					}
-				}	
+				}
 			}
 		}
 	}
@@ -3021,7 +3238,7 @@ event = {
 			limit = {
 				any_country = {
 					is_country_type = swarm
-					num_ships < 5
+					num_ships < 2
 					NOT = {
 						any_system = {
 							any_system_planet = {
@@ -3054,26 +3271,33 @@ event = {
 country_event = {
 	id = crisis.210
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		is_country_type = swarm
-		has_global_flag = ongoing_prethoryn_invasion
+		has_global_flag = prethoryn_main_invasion
 	}
-	
+
 	immediate = {
 		stop_crisis_sound = yes
 		end_crisis = yes
 		remove_global_flag = ongoing_prethoryn_invasion
-		every_country = {
-			limit = {
-				OR = {
-					is_country_type = default
-					is_fallen_empire = yes
+		set_global_flag = prethoryn_invasion_defeated
+		observer_event = { id = observer.33 }
+
+		# Crisis reward is handled through Galactic Focus if the community exists
+		if = {
+			limit = { NOT = { has_global_flag = galactic_community_formed } }
+			every_country = {
+				limit = {
+					OR = {
+						is_country_type = default
+						is_fallen_empire = yes
+					}
 				}
+				country_event = { id = crisis.211 }
 			}
-			country_event = { id = crisis.211 }
 		}
 		random_country = {
 			limit = { is_country_type = global_event }
@@ -3093,11 +3317,11 @@ country_event = {
 	id = crisis.211
 	title = "crisis.211.name"
 	desc = "crisis.211.desc"
-	picture = GFX_evt_metropolis
+	picture = GFX_evt_crisis_defeated
 	show_sound = event_celebration
-	
+
 	is_triggered_only = yes
-	
+
 	option = { # Spiritualist Response
 		name = crisis.211.a
 		trigger = {
@@ -3141,7 +3365,11 @@ country_event = {
 	option = { # Corporate Response
 		name = crisis.211.e
 		trigger = {
-			has_government = gov_megacorporation
+			OR = {
+				has_government = gov_megacorporation
+				has_government = gov_trade_league
+				has_authority = auth_corporate
+			}
 			NOR = {
 				has_ethic = "ethic_fanatic_xenophile"
 				has_ethic = "ethic_fanatic_xenophobe"
@@ -3159,6 +3387,13 @@ country_event = {
 				has_ethic = ethic_gestalt_consciousness
 			}
 			NOR = {
+				has_spiritualist_government = yes
+				has_militarist_government = yes
+				has_materialist_government = yes
+				has_pacifist_government = yes
+				has_government = gov_megacorporation
+				has_government = gov_trade_league
+				has_authority = auth_corporate
 				has_ethic = "ethic_fanatic_xenophile"
 				has_ethic = "ethic_fanatic_xenophobe"
 			}
@@ -3176,6 +3411,7 @@ country_event = {
 			has_ethic = "ethic_fanatic_xenophile"
 		}
 	}
+	# Risa fix: Support other government types.
 	after = {
 		add_modifier = {
 			modifier = "prethoryn_defeated"
@@ -3193,16 +3429,16 @@ country_event = {
 planet_event = {
 	id = crisis.215
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		every_playable_country = {
 			limit = { has_event_chain = "prethoryn_scourge_chain" }
 			add_event_chain_counter = {
 				event_chain = "prethoryn_scourge_chain"
 				counter = "infested_worlds"
-				amount = 1 
+				amount = 1
 			}
 		}
 	}
@@ -3212,21 +3448,21 @@ planet_event = {
 planet_event = {
 	id = crisis.216
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		every_playable_country = {
 			limit = { has_event_chain = "prethoryn_scourge_chain" }
 			add_event_chain_counter = {
 				event_chain = "prethoryn_scourge_chain"
 				counter = "infested_worlds"
-				amount = -1 
+				amount = -1
 			}
 			add_event_chain_counter = {
 				event_chain = "prethoryn_scourge_chain"
 				counter = "infested_worlds_cleansed"
-				amount = 1 
+				amount = 1
 			}
 		}
 	}
@@ -3236,36 +3472,36 @@ planet_event = {
 country_event = {
 	id = crisis.217
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		is_country_type = swarm
 		exists = from
 	}
-	
+
 	immediate = {
 		if = {
 			limit = {
 				FROM = { has_event_chain = "prethoryn_scourge_chain" }
 			}
 			FROM = {
-				add_event_chain_counter = { 
-					event_chain = "prethoryn_scourge_chain" 
-					counter = "prethoryn_kills_us" 
-					amount = 1 
+				add_event_chain_counter = {
+					event_chain = "prethoryn_scourge_chain"
+					counter = "prethoryn_kills_us"
+					amount = 1
 				}
 			}
 		}
 		every_playable_country = {
-			limit = { 
-				has_event_chain = "prethoryn_scourge_chain" 
+			limit = {
+				has_event_chain = "prethoryn_scourge_chain"
 				NOT = { is_same_value = FROM }
 			}
-			add_event_chain_counter = { 
-				event_chain = "prethoryn_scourge_chain" 
-				counter = "prethoryn_kills_others" 
-				amount = 1 
+			add_event_chain_counter = {
+				event_chain = "prethoryn_scourge_chain"
+				counter = "prethoryn_kills_others"
+				amount = 1
 			}
 		}
 	}
@@ -3275,20 +3511,20 @@ country_event = {
 country_event = {
 	id = crisis.218
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		is_country_type = swarm
 	}
-	
+
 	immediate = {
 		every_playable_country = {
 			limit = { has_event_chain = "prethoryn_scourge_chain" }
-			add_event_chain_counter = { 
-				event_chain = "prethoryn_scourge_chain" 
-				counter = "prethoryn_victims" 
-				amount = 1 
+			add_event_chain_counter = {
+				event_chain = "prethoryn_scourge_chain"
+				counter = "prethoryn_victims"
+				amount = 1
 			}
 		}
 	}
@@ -3298,21 +3534,54 @@ country_event = {
 country_event = {
 	id = crisis.219
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
-		NOT = { is_country_type = "swarm" }	
+		NOT = { is_country_type = "swarm" }
 		fromfrom = {
 			controller = {
 				is_country_type = "swarm"
-			}					
+			}
 		}
 	}
-	
+
 	immediate = {
 		FROMFROM = {
-			purge = no
+			set_controller = root
+			# should revert purge weights
+		}
+	}
+}
+
+#Star Eater destroying Infested world
+system_event = {
+	id = crisis.220
+	hide_window = yes
+
+	is_triggered_only = yes
+	trigger = {
+		any_system_planet = {
+			is_planet_class = pc_infested
+		}
+	}
+
+	immediate = {
+		every_system_planet = {
+		limit = { is_planet_class = pc_infested }
+			every_playable_country = {
+				limit = { has_event_chain = "prethoryn_scourge_chain" }
+				add_event_chain_counter = {
+					event_chain = "prethoryn_scourge_chain"
+					counter = "infested_worlds"
+					amount = -1
+				}
+				add_event_chain_counter = {
+					event_chain = "prethoryn_scourge_chain"
+					counter = "infested_worlds_cleansed"
+					amount = 1
+				}
+			}
 		}
 	}
 }
@@ -3321,77 +3590,77 @@ country_event = {
 country_event = {
 	id = crisis.230
 	hide_window = yes
-	
+
 	trigger = {
 		has_crisis_stage_3 = yes
-		is_country_type = swarm	
+		is_country_type = swarm
 		galaxy_percentage < 0.15
 	}
-	
+
 	mean_time_to_happen = {
 		months = 1
 	}
-	
+
 	immediate = {
 		set_crisis_sound = swarm_crisis_ambient_stage_2
-		set_crisis_stage_2 = yes	
+		set_crisis_stage_2 = yes
 	}
 }
 
 country_event = {
 	id = crisis.231
 	hide_window = yes
-	
+
 	trigger = {
 		has_crisis_stage_2 = yes
 		is_country_type = swarm
 		galaxy_percentage > 0.20
 	}
-	
+
 	mean_time_to_happen = {
 		months = 1
-	}	
-	
+	}
+
 	immediate = {
 		set_crisis_sound = swarm_crisis_ambient_stage_3
-		set_crisis_stage_3 = yes	
+		set_crisis_stage_3 = yes
 	}
 }
 
 country_event = {
 	id = crisis.232
 	hide_window = yes
-	
+
 	trigger = {
 		has_crisis_stage_4 = yes
 		is_country_type = swarm
 		galaxy_percentage < 0.30
 	}
-	
+
 	mean_time_to_happen = {
 		months = 1
-	}	
-	
+	}
+
 	immediate = {
 		set_crisis_sound = swarm_crisis_ambient_stage_3
-		set_crisis_stage_3 = yes	
+		set_crisis_stage_3 = yes
 	}
 }
 
 country_event = {
 	id = crisis.233
 	hide_window = yes
-	
+
 	trigger = {
 		has_crisis_stage_3 = yes
 		is_country_type = swarm
 		galaxy_percentage > 0.40
 	}
-	
+
 	mean_time_to_happen = {
 		months = 1
-	}	
-	
+	}
+
 	immediate = {
 		set_crisis_sound = swarm_crisis_ambient_stage_final
 		set_crisis_stage_4 = yes
@@ -3403,22 +3672,22 @@ country_event = {
 	title = "crisis.234.name"
 	desc = "crisis.234.desc"
 	picture = GFX_evt_physics_research
-	show_sound = event_alien_nature	
-	
+	show_sound = event_alien_nature
+
 	trigger = {
 		is_country_type = default
 		has_crisis = no
 		owner_species = { has_trait = trait_psionic }
 		any_owned_leader = {
 			has_leader_flag = captured_queen
-		}		
+		}
 		NOT = { has_country_flag = crisis.234 }
 	}
-	
+
 	mean_time_to_happen = {
 		years = 100
-	}	
-	
+	}
+
 	option = {
 		name = crisis.234.a
 		set_country_flag = crisis.234
@@ -3432,14 +3701,14 @@ country_event = {
 }
 
 # Prethoryn Army Reinforcements
-event = { 
+event = {
 	id = crisis.240
 	hide_window = yes
 
 	is_triggered_only = yes
 
 	trigger = {
-		any_country = { 
+		any_country = {
 			has_global_flag = ongoing_prethoryn_invasion
 			is_country_type = swarm
 			num_armies < 140
@@ -3470,9 +3739,223 @@ event = {
 						set_location = {
 							target = PREV
 							distance = 10
-							angle = random 
+							angle = random
 						}
 					}
+				}
+			}
+		}
+	}
+}
+
+# Brood-Queen Relic Activation
+country_event = {
+	id = crisis.250
+	title = "crisis.250.name"
+	desc = "crisis.250.desc"
+	picture = GFX_evt_unidentified_monster
+	show_sound = event_mystic_reveal
+
+	is_triggered_only = yes
+
+	option = {
+		name = GOOD
+		hidden_effect = {
+			capital_scope = {
+				create_fleet = {
+					name = "NAME_Loyal_Brood"
+					effect = {
+						set_owner = root
+						while = {
+							count = 6
+							create_ship = {
+								name = random
+								prefix = no
+								design = "NAME_Swarm_Large"
+								graphical_culture = "swarm_01"
+							}
+						}
+						while = {
+							count = 16
+							create_ship = {
+								name = random
+								prefix = no
+								design = "NAME_Swarm_Small"
+								graphical_culture = "swarm_01"
+							}
+						}
+						set_location = {
+							target = prev
+							distance = 45
+							angle = random
+						}
+					}
+					settings = {
+						can_change_composition = yes
+						uses_naval_capacity = no
+						can_disband = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+# Brood-Queen Captured (HIDDEN)
+country_event = {
+	id = crisis.251
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_global_flag = brood_queen_captured }
+		is_country_type = swarm
+		exists = from
+		fromfrom = { is_ship_size = queen_swarm }
+		from = { is_ai = no }
+	}
+
+	immediate = {
+		random_list = {
+			100 = {}
+			5 = {
+				set_global_flag = brood_queen_captured
+				fromfromfrom = {
+					solar_system = { save_event_target_as = battle_system }
+				}
+				from = { country_event = { id = crisis.252 } }
+			}
+		}
+	}
+}
+
+# Brood-Queen Captured
+country_event = {
+	id = crisis.252
+	title = "crisis.252.name"
+	desc = "crisis.252.desc"
+	picture = GFX_evt_unidentified_monster
+	show_sound = event_mystic_reveal
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = queen_captured
+	}
+
+	option = {
+		name = EXCELLENT
+		add_relic = "r_prethoryn_queen"
+	}
+}
+
+# Spawn System Effect
+ship_event = {
+	id = crisis.260
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		solar_system = {
+			star = {
+				create_ambient_object = {
+					type = "swarm_1"
+					location = this
+				}
+				last_created_ambient_object = {
+					set_ambient_object_flag = swarm_system_effect
+					set_location = {
+						target = prev
+						distance = 0
+						angle = random
+					}
+				}
+			}
+		}
+	}
+}
+
+# Remove System Effect
+country_event = {
+	id = crisis.261
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	trigger = {
+		is_country_type = swarm
+		fromfrom = { is_ship_size = starbase_swarm }
+	}
+
+	immediate = {
+		fromfrom = {
+			solar_system = {
+				random_system_ambient_object = {
+					limit = { has_ambient_object_flag = swarm_system_effect }
+					destroy_ambient_object = this
+				}
+			}
+		}
+	}
+}
+
+# Swarm Destroyed Starbase
+starbase_event = {
+	id = crisis.265
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	trigger = {
+		from.owner = { is_country_type = swarm }
+		NOT = {
+			solar_system = {
+				any_system_planet = { is_colony = yes } # For populated systems, they need to invade first
+			}
+		}
+	}
+
+	immediate = {
+		solar_system = { save_event_target_as = starbase_system }
+		from.owner = {
+			country_event = { id = crisis.266 days = 5 } # Delay so that destroyed starbase is properly cleared out
+		}
+	}
+}
+
+# Swarm Builds New Starbase
+country_event = {
+	id = crisis.266
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		event_target:starbase_system = {
+			solar_system = {
+				create_starbase = {
+					size = starbase_swarm
+					owner = root
+				}
+				star = {
+					create_ambient_object = {
+						type = "swarm_1"
+						location = this
+					}
+					last_created_ambient_object = {
+						set_ambient_object_flag = swarm_system_effect
+						set_location = {
+							target = prev
+							distance = 0
+							angle = random
+						}
+					}
+				}
+				every_system_planet = {
+					limit = { has_orbital_station = yes }
+					orbital_station = { dismantle = yes }
 				}
 			}
 		}

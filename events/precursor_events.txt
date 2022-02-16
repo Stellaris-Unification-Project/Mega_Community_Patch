@@ -2,7 +2,7 @@
 #
 # Precursor Events
 #
-# Written by Henrik Eklund
+# Written by Henrik Thyrwall
 #
 ########################
 
@@ -77,31 +77,34 @@ ship_event = {
 	title = "precursor.1.name"
 	desc = "precursor.1.desc"
 	picture = GFX_evt_archaeological_dig
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
+		owner = { is_ai = no }
 		solar_system = { has_star_flag = precursor_1 }
 		solar_system = { NOT = { is_same_empire = root.owner.capital_scope.solar_system } }
-		FROM = { 
-			has_anomaly = no 
+		FROM = {
+			has_anomaly = no
 			is_star = no
 		}
 		owner = {
-			NOR = { 
+			NOR = {
 				has_country_flag = vultaum_intro
 				has_country_flag = yuht_intro
 				has_country_flag = first_league_intro
 				has_country_flag = irassian_intro
 				has_country_flag = cybrex_intro
+				has_country_flag = zroni_intro
+				has_country_flag = baol_intro
 			}
 		}
 	}
-	
+
 	immediate = {
 		owner = { set_country_flag = vultaum_intro }
 	}
-	
+
 	option = {
 		name = INTERESTING
 		hidden_effect = { owner = { country_event = { id = story.5 days = 30 } } }
@@ -109,6 +112,10 @@ ship_event = {
 			begin_event_chain = {
 				event_chain = "vultaum_chain"
 				target = THIS
+			}
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
 			}
 		}
 	}
@@ -122,15 +129,15 @@ ship_event = {
 	picture = GFX_evt_outpost
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = vultaum_1 }
 		}
 	}
-	
+
 	option = {
 		name = FASCINATING
 		from = {
@@ -150,16 +157,20 @@ ship_event = {
 	desc = "precursor.6.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -180,15 +191,15 @@ ship_event = {
 	picture = GFX_evt_outpost
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = vultaum_2 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -208,16 +219,20 @@ ship_event = {
 	desc = "precursor.11.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -238,15 +253,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = vultaum_3 }
 		}
 	}
-	
+
 	option = {
 		name = INTRIGUING
 		from = {
@@ -255,7 +270,7 @@ ship_event = {
 				location = this
 				owner = root.owner
 			}
-		}	
+		}
 	}
 }
 
@@ -266,16 +281,20 @@ ship_event = {
 	desc = "precursor.16.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -296,15 +315,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = vultaum_4 }
 		}
 	}
-	
+
 	option = {
 		name = ASTOUNDING
 		from = {
@@ -324,16 +343,20 @@ ship_event = {
 	desc = "precursor.21.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -354,15 +377,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = vultaum_5 }
 		}
 	}
-	
+
 	option = {
 		name = REMARKABLE
 		from = {
@@ -382,16 +405,20 @@ ship_event = {
 	desc = "precursor.26.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -412,15 +439,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = vultaum_6 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -440,16 +467,20 @@ ship_event = {
 	desc = "precursor.31.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -470,15 +501,15 @@ ship_event = {
 	picture = GFX_evt_outpost
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = vultaum_7 }
 		}
 	}
-	
+
 	option = {
 		name = FASCINATING
 		from = {
@@ -498,16 +529,20 @@ ship_event = {
 	desc = "precursor.36.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -528,15 +563,15 @@ ship_event = {
 	picture = GFX_evt_satellite_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = vultaum_8 }
 		}
 	}
-	
+
 	option = {
 		name = CURIOUS
 		from = {
@@ -556,16 +591,20 @@ ship_event = {
 	desc = "precursor.41.desc"
 	picture = GFX_evt_satellite_in_orbit
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -586,15 +625,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = vultaum_9 }
 		}
 	}
-	
+
 	option = {
 		name = INTRIGUING
 		from = {
@@ -603,7 +642,7 @@ ship_event = {
 				location = this
 				owner = root.owner
 			}
-		}	
+		}
 	}
 }
 
@@ -614,16 +653,20 @@ ship_event = {
 	desc = "precursor.46.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -644,15 +687,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = vultaum_10 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -672,16 +715,20 @@ ship_event = {
 	desc = "precursor.51.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -702,9 +749,9 @@ ship_event = {
 	picture = GFX_evt_mining_station
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -713,7 +760,7 @@ ship_event = {
 				location = this
 				owner = root.owner
 			}
-		}	
+		}
 	}
 }
 
@@ -724,16 +771,20 @@ ship_event = {
 	desc = "precursor.56.desc"
 	picture = GFX_evt_mining_station
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -756,12 +807,12 @@ country_event = {
 		if = {
 			limit = {
 				NOR = {
-					has_global_flag = vultaum_system_discovered 
+					has_global_flag = vultaum_system_discovered
 					has_country_flag = vultaum_system
 				}
 				has_completed_event_chain_counter = {
-					event_chain = "vultaum_chain" 
-					counter = "vultaum_artifacts" 
+					event_chain = "vultaum_chain"
+					counter = "vultaum_artifacts"
 				}
 			}
 			country_event = { id = precursor.98 }
@@ -771,8 +822,8 @@ country_event = {
 				has_global_flag = vultaum_system_discovered
 				NOT = { has_country_flag = vultaum_system }
 				has_completed_event_chain_counter = {
-					event_chain = "vultaum_chain" 
-					counter = "vultaum_artifacts" 
+					event_chain = "vultaum_chain"
+					counter = "vultaum_artifacts"
 				}
 			}
 			country_event = { id = precursor.99 }
@@ -784,11 +835,11 @@ country_event = {
 country_event = {
 	id = precursor.98
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		set_global_flag = vultaum_system_discovered
 		set_country_flag = vultaum_system
@@ -797,35 +848,34 @@ country_event = {
 				any_system_within_border = { has_star_flag = precursor_1 }
 			}
 			random_system_within_border = {
-				limit = {
-					has_star_flag = precursor_1
-					NOT = { has_star_flag = sealed_system }
-				}
-				spawn_system = {
-					min_distance = 20
-					max_distance = 50
-					initializer = "vultaumar_system"
-				}
+				limit = { has_star_flag = precursor_1 }
+				save_event_target_as = precursor_spawn_system
 			}
 		}
 		else = {
-			random_system = {
-				limit = {
-					has_star_flag = precursor_1
-					NOT = { has_star_flag = sealed_system }
+			random_system_within_border = {
+				save_event_target_as = precursor_spawn_system
+			}
+		}
+		event_target:precursor_spawn_system = {
+			spawn_system = {
+				min_distance = 10
+				max_distance = 20
+				max_jumps = 0
+				initializer = "vultaumar_system"
+			}
+			if = {
+				limit = { last_created_system = { NOT = { has_hyperlane_to = prev } } }
+				add_hyperlane = {
+					from = this
+					to = last_created_system
 				}
-				spawn_system = {
-					min_distance = 20
-					max_distance = 50
-					initializer = "vultaumar_system"
-				}
+			}
+			else = {
+				add_extra_hyperlane_to_spawned_system_effect = yes
 			}
 		}
 		country_event = { id = precursor.100 days = 2 }
-		every_playable_country = {	# hint to other countries
-			limit = { has_event_chain = vultaum_chain }
-			country_event = { id = precursor.96 days = 30 }
-		}
 	}
 }
 
@@ -833,9 +883,9 @@ country_event = {
 country_event = {
 	id = precursor.99
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		set_country_flag = vultaum_system
 		country_event = { id = precursor.100 days = 2 }
@@ -846,38 +896,36 @@ country_event = {
 country_event = {
 	id = precursor.100
 	title = "precursor.100.name"
-	desc = {
-		text = "precursor.100.desc"
-		trigger = {
-			NOT = { has_point_of_interest = { poi = vultaum.0 } }
-		}
-	}
-	desc = {
-		text = "precursor.100.alt.desc"
-		trigger = {
-			has_point_of_interest = { poi = vultaum.0 }
-		}
-	}
+	desc = "precursor.100.desc"
 	picture = GFX_evt_federation_fleet
 	location = event_target:vultaumar
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		random_system = {
 			limit = { has_star_flag = vultaumar }
 			save_event_target_as = vultaumar
+			random_system_planet = {
+				limit = { has_planet_flag = vultaum_homeworld }
+				save_event_target_as = vultaum_homeworld
+			}
 		}
+		observer_event = { id = observer.56 }
 	}
-	
+
 	option = {
 		name = "precursor.100.a"
 		end_event_chain = "vultaum_chain"
-		if = {
-			limit = { NOT = { has_event_chain = "vultaum_homeworld_chain" } }
-			begin_event_chain = {
-				event_chain = "vultaum_homeworld_chain"
-				target = ROOT
+		begin_event_chain = {
+			event_chain = "vultaum_homeworld_chain"
+			target = ROOT
+		}
+		event_target:vultaum_homeworld = {
+			enable_special_project = {
+				name = "VULTAUM_HOMEWORLD_PROJECT"
+				location = event_target:vultaum_homeworld
+				owner = ROOT
 			}
 		}
 		create_point_of_interest = {
@@ -931,21 +979,20 @@ ship_event = {
 	desc = "precursor.101.desc"
 	picture = GFX_evt_archaeological_dig
 	location = from
-	
+
 	is_triggered_only = yes
 	trigger = {
-		always = no
-		from = { has_planet_flag = vultaum_homeworld }
-		owner = { 
-			is_ai = no 
+		fromfrom = { has_planet_flag = vultaum_homeworld }
+		owner = {
+			is_ai = no
 			has_country_flag = vultaum_system
 		}
 	}
 
 	immediate = {
-		set_global_flag = vultaum_homeworld_found
 		owner = {
 			set_country_flag = vultaum_world_found
+			set_global_flag = vultaum_homeworld_found
 			if = {
 				limit = { has_event_chain = vultaum_chain }
 				end_event_chain = "vultaum_chain"
@@ -966,10 +1013,15 @@ ship_event = {
 			country_event = { id = precursor.104 days = 2 }
 		}
 	}
-	
+
 	option = {
 		name = "FASCINATING"
 		owner = {
+			if = {
+				limit = { has_ancrel = yes }
+				add_relic = r_reality_perforator
+				large_artifact_reward = yes
+			}
 			add_monthly_resource_mult = {
 				resource = unity
 				value = 120
@@ -994,6 +1046,10 @@ ship_event = {
 				min = @tier3researchmin
 				max = @tier3researchmax
 			}
+			if = {
+				limit = { has_ancrel = yes }
+				custom_tooltip = vultaum_artifact_research_unlocked
+			}
 		}
 	}
 }
@@ -1002,12 +1058,12 @@ ship_event = {
 ship_event = {
 	id = precursor.102
 	title = "precursor.102.name"
-	
+
 	desc = {
 		text = precursor.102.desc.a
 		trigger = {
 			owner = {
-				OR = { 
+				OR = {
 					has_event_chain = vultaum_chain
 					has_event_chain = vultaum_homeworld_chain
 				}
@@ -1025,19 +1081,21 @@ ship_event = {
 			}
 		}
 	}
-	
+
 	location = from
 	picture = GFX_evt_archaeological_dig
-	
+
 	is_triggered_only = yes
-	
-	trigger = {
-		always = no
-		from = { has_planet_flag = vultaum_homeworld }
-		owner = { NOT = { has_country_flag = vultaum_system } }
-		has_global_flag = vultaum_homeworld_found
-	}
-	
+
+	#trigger = {
+	#	fromfrom = { has_planet_flag = vultaum_homeworld }
+	#	owner = {
+	#		is_ai = no
+	#		NOT = { has_country_flag = vultaum_system }
+	#	}
+	#	has_global_flag = vultaum_homeworld_found
+	#}
+
 	immediate = {
 		owner = {
 			set_country_flag = vultaum_world_found
@@ -1050,23 +1108,27 @@ ship_event = {
 				end_event_chain = "vultaum_homeworld_chain"
 			}
 		}
-	}		
-	
+	}
+
 	option = {
 		name = "UNFORTUNATE"
+
+		if = {
+			limit = { has_ancrel = yes }
+			custom_tooltip = vultaum_artifact_research_unlocked
+		}
 	}
 }
-# We failed to recognize the discovery
+
+# Vultaum Reality Perforator Activated
 country_event = {
-	id = precursor.104
-	title = "precursor.104.name"
-	desc = "precursor.104.desc"
-	location = event_target:vultaum_home_planet
-	
-	picture = GFX_evt_archaeological_dig
-	
+	id = precursor.105
+	title = "precursor.105.name"
+	desc = "precursor.105.desc"
+	picture = GFX_evt_surreal_visions
+
 	is_triggered_only = yes
-	trigger = {
+
 		always = no
 	}
 	
@@ -1083,29 +1145,31 @@ country_event = {
 	}		
 	
 	option = {
-		name = "UNFORTUNATE"
-	}
-}
-# Received star chart of vultaum homeworld
-country_event = {
-	id = precursor.107
-	title = "precursor.102.name"
-	
-	desc = {
-		text = precursor.102.desc.a
-		trigger = {
-			OR = { 
-				has_event_chain = vultaum_chain
-				has_event_chain = vultaum_homeworld_chain
+		name = "precursor.105.a"
+		locked_random_list = {
+			10 = {
+				add_modifier = {
+					modifier = "reality_perforator_1"
+					days = 360
+				}
 			}
-		}
-	}
-	desc = {
-		text = precursor.102.desc.b
-		trigger = {
-			NOT = {
-				has_event_chain = vultaum_chain
-				has_event_chain = vultaum_homeworld_chain
+			10 = {
+				add_modifier = {
+					modifier = "reality_perforator_2"
+					days = 360
+				}
+			}
+			10 = {
+				add_modifier = {
+					modifier = "reality_perforator_3"
+					days = 360
+				}
+			}
+			10 = {
+				add_modifier = {
+					modifier = "reality_perforator_4"
+					days = 360
+				}
 			}
 		}
 	}
@@ -1144,31 +1208,35 @@ ship_event = {
 	title = "precursor.500.name"
 	desc = "precursor.500.desc"
 	picture = GFX_evt_archaeological_dig
-	
-	is_triggered_only = yes 
-	
+	location = from
+
+	is_triggered_only = yes
+
 	trigger = {
 		solar_system = { has_star_flag = precursor_2 }
 		solar_system = { NOT = { is_same_empire = root.owner.capital_scope.solar_system } }
-		FROM = { 
-			has_anomaly = no 
+		owner = { is_ai = no }
+		FROM = {
+			has_anomaly = no
 			is_star = no
 		}
-		owner = { 
-			NOR = { 
+		owner = {
+			NOR = {
 				has_country_flag = vultaum_intro
 				has_country_flag = yuht_intro
 				has_country_flag = first_league_intro
 				has_country_flag = irassian_intro
 				has_country_flag = cybrex_intro
+				has_country_flag = zroni_intro
+				has_country_flag = baol_intro
 			}
 		}
 	}
-	
+
 	immediate = {
 		owner = { set_country_flag = yuht_intro }
 	}
-	
+
 	option = {
 		name = INTERESTING
 		hidden_effect = { owner = { country_event = { id = story.5 days = 30 } } }
@@ -1176,6 +1244,10 @@ ship_event = {
 			begin_event_chain = {
 				event_chain = "yuht_chain"
 				target = THIS
+			}
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
 			}
 		}
 	}
@@ -1189,15 +1261,15 @@ ship_event = {
 	picture = GFX_evt_alien_nature
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = yuht_1 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -1217,16 +1289,20 @@ ship_event = {
 	desc = "precursor.506.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "yuht_chain" 
-				counter = "yuht_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "yuht_chain"
+				counter = "yuht_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -1247,15 +1323,15 @@ ship_event = {
 	picture = GFX_evt_outpost
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = yuht_2 }
 		}
 	}
-	
+
 	option = {
 		name = INTRIGUING
 		from = {
@@ -1275,16 +1351,20 @@ ship_event = {
 	desc = "precursor.511.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "yuht_chain" 
-				counter = "yuht_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "yuht_chain"
+				counter = "yuht_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -1305,15 +1385,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = yuht_3 }
 		}
 	}
-	
+
 	option = {
 		name = CURIOUS
 		from = {
@@ -1333,16 +1413,20 @@ ship_event = {
 	desc = "precursor.516.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "yuht_chain" 
-				counter = "yuht_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "yuht_chain"
+				counter = "yuht_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -1363,15 +1447,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = yuht_4 }
 		}
 	}
-	
+
 	option = {
 		name = PECULIAR
 		from = {
@@ -1391,16 +1475,20 @@ ship_event = {
 	desc = "precursor.521.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "yuht_chain" 
-				counter = "yuht_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "yuht_chain"
+				counter = "yuht_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -1421,15 +1509,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = yuht_5 }
 		}
 	}
-	
+
 	option = {
 		name = FASCINATING
 		from = {
@@ -1449,16 +1537,20 @@ ship_event = {
 	desc = "precursor.526.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "yuht_chain" 
-				counter = "yuht_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "yuht_chain"
+				counter = "yuht_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -1479,15 +1571,15 @@ ship_event = {
 	picture = GFX_evt_satellite_in_orbit
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = yuht_6 }
 		}
 	}
-	
+
 	option = {
 		name = REMARKABLE
 		from = {
@@ -1507,16 +1599,20 @@ ship_event = {
 	desc = "precursor.531.desc"
 	picture = GFX_evt_satellite_in_orbit
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "yuht_chain" 
-				counter = "yuht_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "yuht_chain"
+				counter = "yuht_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -1537,15 +1633,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = yuht_7 }
 		}
 	}
-	
+
 	option = {
 		name = INTRIGUING
 		from = {
@@ -1565,16 +1661,20 @@ ship_event = {
 	desc = "precursor.536.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "yuht_chain" 
-				counter = "yuht_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "yuht_chain"
+				counter = "yuht_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -1595,15 +1695,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = yuht_8 }
 		}
 	}
-	
+
 	option = {
 		name = CURIOUS
 		from = {
@@ -1623,16 +1723,20 @@ ship_event = {
 	desc = "precursor.541.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "yuht_chain" 
-				counter = "yuht_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "yuht_chain"
+				counter = "yuht_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -1653,15 +1757,15 @@ ship_event = {
 	picture = GFX_evt_mining_station
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = yuht_9 }
 		}
 	}
-	
+
 	option = {
 		name = CURIOUS
 		from = {
@@ -1681,16 +1785,20 @@ ship_event = {
 	desc = "precursor.546.desc"
 	picture = GFX_evt_mining_station
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "yuht_chain" 
-				counter = "yuht_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "yuht_chain"
+				counter = "yuht_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -1712,13 +1820,10 @@ country_event = {
 	immediate = {
 		if = {
 			limit = {
-				NOR = {
-					has_global_flag = yuht_system_discovered
-					has_country_flag = yuht_system
-				}
+				NOT = { has_global_flag = yuht_system_discovered }
 				has_completed_event_chain_counter = {
-					event_chain = "yuht_chain" 
-					counter = "yuht_artifacts" 
+					event_chain = "yuht_chain"
+					counter = "yuht_artifacts"
 				}
 			}
 			country_event = { id = precursor.598 }
@@ -1726,10 +1831,9 @@ country_event = {
 		else_if = {
 			limit = {
 				has_global_flag = yuht_system_discovered
-				NOT = { has_country_flag = yuht_system }
 				has_completed_event_chain_counter = {
-					event_chain = "yuht_chain" 
-					counter = "yuht_artifacts" 
+					event_chain = "yuht_chain"
+					counter = "yuht_artifacts"
 				}
 			}
 			country_event = { id = precursor.599 }
@@ -1741,11 +1845,11 @@ country_event = {
 country_event = {
 	id = precursor.598
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		set_global_flag = yuht_system_discovered
 		set_country_flag = yuht_system
@@ -1754,28 +1858,31 @@ country_event = {
 				any_system_within_border = { has_star_flag = precursor_2 }
 			}
 			random_system_within_border = {
-				limit = {
-					has_star_flag = precursor_2
-					NOT = { has_star_flag = sealed_system }
-				}
-				spawn_system = {
-					min_distance = 20
-					max_distance = 50
-					initializer = "yuhtaan_system"
-				}
+				limit = { has_star_flag = precursor_2 }
+				save_event_target_as = precursor_spawn_system
 			}
 		}
 		else = {
-			random_system = {
-				limit = {
-					has_star_flag = precursor_2
-					NOT = { has_star_flag = sealed_system }
+			random_system_within_border = {
+				save_event_target_as = precursor_spawn_system
+			}
+		}
+		event_target:precursor_spawn_system = {
+			spawn_system = {
+				min_distance = 10
+				max_distance = 20
+				max_jumps = 0
+				initializer = "yuhtaan_system"
+			}
+			if = {
+				limit = { last_created_system = { NOT = { has_hyperlane_to = prev } } }
+				add_hyperlane = {
+					from = this
+					to = last_created_system
 				}
-				spawn_system = {
-					min_distance = 20
-					max_distance = 50
-					initializer = "yuhtaan_system"
-				}
+			}
+			else = {
+				add_extra_hyperlane_to_spawned_system_effect = yes
 			}
 		}
 		country_event = { id = precursor.600 days = 2 }
@@ -1790,11 +1897,11 @@ country_event = {
 country_event = {
 	id = precursor.599
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		set_country_flag = yuht_system
 		country_event = { id = precursor.600 days = 2 }
@@ -1805,38 +1912,37 @@ country_event = {
 country_event = {
 	id = precursor.600
 	title = "precursor.600.name"
-	desc = {
-		text = "precursor.600.desc"
-		trigger = {
-			NOT = { has_point_of_interest = { poi = yuht.0 } }
-		}
-	}
-	desc = {
-		text = "precursor.600.alt.desc"
-		trigger = {
-			has_point_of_interest = { poi = yuht.0 }
-		}
-	}
+	desc = "precursor.600.desc"
+	desc = "precursor.600.alt.desc"
 	picture = GFX_evt_federation_fleet
 	location = event_target:yuhtaan
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		random_system = {
 			limit = { has_star_flag = yuhtaan }
 			save_event_target_as = yuhtaan
+			random_system_planet = {
+				limit = { has_planet_flag = yuht_homeworld }
+				save_event_target_as = yuht_homeworld
+			}
 		}
+		observer_event = { id = observer.57 }
 	}
-	
+
 	option = {
 		name = "precursor.100.a"
 		end_event_chain = "yuht_chain"
-		if = {
-			limit = { NOT = { has_event_chain = "yuht_homeworld_chain" } }
-			begin_event_chain = {
-				event_chain = "yuht_homeworld_chain"
-				target = ROOT
+		begin_event_chain = {
+			event_chain = "yuht_homeworld_chain"
+			target = ROOT
+		}
+		event_target:yuht_homeworld = {
+			enable_special_project = {
+				name = "YUHT_HOMEWORLD_PROJECT"
+				location = event_target:yuht_homeworld
+				owner = ROOT
 			}
 		}
 		create_point_of_interest = {
@@ -1890,45 +1996,32 @@ ship_event = {
 	desc = "precursor.601.desc"
 	picture = GFX_evt_archaeological_dig
 	location = from
-	
+
 	is_triggered_only = yes
 	trigger = {
-		always = no
-		from = { has_planet_flag = yuht_homeworld }
-		owner = { 
-			is_ai = no 
+		fromfrom = { has_planet_flag = yuht_homeworld }
+		owner = {
+			is_ai = no
 			has_country_flag = yuht_system
 		}
 	}
-	
+
 	immediate = {
 		set_global_flag = yuht_homeworld_found
 		owner = {
 			set_country_flag = yuht_world_found
-			if = {
-				limit = { has_event_chain = yuht_chain }
-				end_event_chain = "yuht_chain"
-			}
-			if = {
-				limit = { has_event_chain = "yuht_homeworld_chain" }
-				end_event_chain = "yuht_homeworld_chain"
-			}
-		}
-		from = { save_event_target_as = yuht_home_planet }
-		every_country = {
-			limit = {
-				NOT = { is_same_empire = root.owner }
-				event_target:yuht_home_planet = {
-					is_surveyed = { who = PREV status = yes }
-				}
-			}
-			country_event = { id = precursor.604 days = 2 }
+			end_event_chain = "yuht_homeworld_chain"
 		}
 	}
-	
+
 	option = {
 		name = "FASCINATING"
 		owner = {
+			if = {
+				limit = { has_ancrel = yes }
+				add_relic = r_cryo_core
+				large_artifact_reward = yes
+			}
 			add_monthly_resource_mult = {
 				resource = unity
 				value = 120
@@ -1947,6 +2040,11 @@ ship_event = {
 				min = @tier4materialmin
 				max = @tier4materialmax
 			}
+
+			if = {
+				limit = { has_ancrel = yes }
+				custom_tooltip = yuht_artifact_research_unlocked
+			}
 		}
 	}
 }
@@ -1955,12 +2053,12 @@ ship_event = {
 ship_event = {
 	id = precursor.602
 	title = "precursor.602.name"
-	
+
 	desc = {
 		text = precursor.602.desc.a
 		trigger = {
 			owner = {
-				OR = { 
+				OR = {
 					has_event_chain = yuht_chain
 					has_event_chain = yuht_homeworld_chain
 				}
@@ -1978,19 +2076,21 @@ ship_event = {
 			}
 		}
 	}
-	
+
 	location = from
 	picture = GFX_evt_archaeological_dig
-	
+
 	is_triggered_only = yes
-	
-	trigger = {
-		always = no
-		from = { has_planet_flag = yuht_homeworld }
-		owner = { NOT = { has_country_flag = yuht_system } }
-		has_global_flag = yuht_homeworld_found
-	}
-	
+
+	#trigger = {
+	#	fromfrom = { has_planet_flag = yuht_homeworld }
+	#	owner = {
+	#		is_ai = no
+	#		NOT = { has_country_flag = yuht_system }
+	#	}
+	#	has_global_flag = yuht_homeworld_found
+	#}
+
 	immediate = {
 		owner = {
 			set_country_flag = yuht_world_found
@@ -2037,6 +2137,13 @@ country_event = {
 	
 	option = {
 		name = "UNFORTUNATE"
+
+		owner = {
+			if = {
+				limit = { has_ancrel = yes }
+				custom_tooltip = yuht_artifact_research_unlocked
+			}
+		}
 	}
 }
 # Received star chart of yuht homeworld
@@ -2095,31 +2202,32 @@ ship_event = {
 	title = "precursor.1000.name"
 	desc = "precursor.1000.desc"
 	picture = GFX_evt_archaeological_dig
-	
-	is_triggered_only = yes 
-	
+	is_triggered_only = yes
 	trigger = {
 		solar_system = { has_star_flag = precursor_3 }
 		solar_system = { NOT = { is_same_empire = root.owner.capital_scope.solar_system } }
-		FROM = { 
-			has_anomaly = no 
+		owner = { is_ai = no }
+		FROM = {
+			has_anomaly = no
 			is_star = no
 		}
-		owner = { 
-			NOR = { 
+		owner = {
+			NOR = {
 				has_country_flag = vultaum_intro
 				has_country_flag = yuht_intro
 				has_country_flag = first_league_intro
 				has_country_flag = irassian_intro
 				has_country_flag = cybrex_intro
+				has_country_flag = zroni_intro
+				has_country_flag = baol_intro
 			}
 		}
 	}
-	
+
 	immediate = {
 		owner = { set_country_flag = first_league_intro }
 	}
-	
+
 	option = {
 		name = INTERESTING
 		hidden_effect = { owner = { country_event = { id = story.5 days = 30 } } }
@@ -2127,6 +2235,10 @@ ship_event = {
 			begin_event_chain = {
 				event_chain = "first_league_chain"
 				target = THIS
+			}
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
 			}
 		}
 	}
@@ -2140,15 +2252,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_1 }
 		}
 	}
-	
+
 	option = {
 		name = REMARKABLE
 		from = {
@@ -2168,16 +2280,20 @@ ship_event = {
 	desc = "precursor.1006.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -2198,15 +2314,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_2 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -2226,16 +2342,20 @@ ship_event = {
 	desc = "precursor.1011.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -2256,15 +2376,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_3 }
 		}
 	}
-	
+
 	option = {
 		name = INTRIGUING
 		from = {
@@ -2284,16 +2404,20 @@ ship_event = {
 	desc = "precursor.1016.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -2314,15 +2438,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_4 }
 		}
 	}
-	
+
 	option = {
 		name = CURIOUS
 		from = {
@@ -2342,16 +2466,20 @@ ship_event = {
 	desc = "precursor.1021.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -2373,14 +2501,14 @@ ship_event = {
 	location = FROM
 	trackable = yes
 
-	is_triggered_only = yes 
-	
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_5 }
 		}
 	}
-	
+
 	option = {
 		name = FASCINATING
 		from = {
@@ -2400,16 +2528,20 @@ ship_event = {
 	desc = "precursor.1026.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -2431,14 +2563,14 @@ ship_event = {
 	location = FROM
 	trackable = yes
 
-	is_triggered_only = yes 
-	
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_6 }
 		}
 	}
-	
+
 	option = {
 		name = PECULIAR
 		from = {
@@ -2458,16 +2590,20 @@ ship_event = {
 	desc = "precursor.1031.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -2488,15 +2624,15 @@ ship_event = {
 	picture = GFX_evt_outpost
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_7 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -2516,16 +2652,20 @@ ship_event = {
 	desc = "precursor.1036.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -2546,15 +2686,15 @@ ship_event = {
 	picture = GFX_evt_alien_nature
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_8 }
 		}
 	}
-	
+
 	option = {
 		name = FASCINATING
 		from = {
@@ -2574,16 +2714,20 @@ ship_event = {
 	desc = "precursor.1041.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -2604,15 +2748,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_9 }
 		}
 	}
-	
+
 	option = {
 		name = AMAZING
 		from = {
@@ -2632,16 +2776,20 @@ ship_event = {
 	desc = "precursor.1046.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -2662,15 +2810,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_10 }
 		}
 	}
-	
+
 	option = {
 		name = INTRIGUING
 		from = {
@@ -2690,16 +2838,20 @@ ship_event = {
 	desc = "precursor.1051.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -2720,15 +2872,15 @@ ship_event = {
 	picture = GFX_evt_outpost
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_11 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -2748,16 +2900,20 @@ ship_event = {
 	desc = "precursor.1056.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -2778,15 +2934,15 @@ ship_event = {
 	picture = GFX_evt_alien_nature
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_12 }
 		}
 	}
-	
+
 	option = {
 		name = REMARKABLE
 		from = {
@@ -2806,16 +2962,20 @@ ship_event = {
 	desc = "precursor.1061.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -2836,15 +2996,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_13 }
 		}
 	}
-	
+
 	option = {
 		name = CURIOUS
 		from = {
@@ -2864,16 +3024,20 @@ ship_event = {
 	desc = "precursor.1066.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -2894,15 +3058,15 @@ ship_event = {
 	picture = GFX_evt_mining_station
 	location = FROM
 	trackable = yes
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = first_league_14 }
 		}
 	}
-	
+
 	option = {
 		name = CURIOUS
 		from = {
@@ -2922,16 +3086,20 @@ ship_event = {
 	desc = "precursor.1071.desc"
 	picture = GFX_evt_mining_station
 	location = FROMFROM
-	
-	is_triggered_only = yes 
-	
+
+	is_triggered_only = yes
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -2953,13 +3121,13 @@ country_event = {
 	immediate = {
 		if = {
 			limit = {
-				NOR = { 
-					has_global_flag = first_league_system_discovered 
+				NOR = {
+					has_global_flag = first_league_system_discovered
 					has_country_flag = first_league_system
 				}
 				has_completed_event_chain_counter = {
-					event_chain = "first_league_chain" 
-					counter = "first_league_artifacts" 
+					event_chain = "first_league_chain"
+					counter = "first_league_artifacts"
 				}
 			}
 			country_event = { id = precursor.1098 }
@@ -2969,8 +3137,8 @@ country_event = {
 				has_global_flag = first_league_system_discovered
 				NOT = { has_country_flag = first_league_system }
 				has_completed_event_chain_counter = {
-					event_chain = "first_league_chain" 
-					counter = "first_league_artifacts" 
+					event_chain = "first_league_chain"
+					counter = "first_league_artifacts"
 				}
 			}
 			country_event = { id = precursor.1099 }
@@ -2982,48 +3150,47 @@ country_event = {
 country_event = {
 	id = precursor.1098
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
-		set_global_flag = first_league_system_discovered
+		set_global_flag = first_league_discovered
 		set_country_flag = first_league_system
 		if = {
 			limit = {
 				any_system_within_border = { has_star_flag = precursor_3 }
 			}
 			random_system_within_border = {
-				limit = {
-					has_star_flag = precursor_3
-					NOT = { has_star_flag = sealed_system }
-				}
-				spawn_system = {
-					min_distance = 20
-					max_distance = 50
-					initializer = "fen_habbanis_system"
-				}
+				limit = { has_star_flag = precursor_3 }
+				save_event_target_as = precursor_spawn_system
 			}
 		}
 		else = {
-			random_system = {
-				limit = {
-					has_star_flag = precursor_3
-					NOT = { has_star_flag = sealed_system }
+			random_system_within_border = {
+				save_event_target_as = precursor_spawn_system
+			}
+		}
+		event_target:precursor_spawn_system = {
+			spawn_system = {
+				min_distance = 10
+				max_distance = 20
+				max_jumps = 0
+				initializer = "fen_habbanis_system"
+			}
+			if = {
+				limit = { last_created_system = { NOT = { has_hyperlane_to = prev } } }
+				add_hyperlane = {
+					from = this
+					to = last_created_system
 				}
-				spawn_system = {
-					min_distance = 20
-					max_distance = 50
-					initializer = "fen_habbanis_system"
-				}
+			}
+			else = {
+				add_extra_hyperlane_to_spawned_system_effect = yes
 			}
 		}
 		country_event = { id = precursor.1100 days = 2 }
-		every_playable_country = {	# hint to other countries
-			limit = { has_event_chain = first_league_chain }
-			country_event = { id = precursor.1096 days = 30 }
-		}
 	}
 }
 
@@ -3031,9 +3198,9 @@ country_event = {
 country_event = {
 	id = precursor.1099
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		set_country_flag = first_league_system
 		country_event = { id = precursor.1100 days = 2 }
@@ -3044,38 +3211,36 @@ country_event = {
 country_event = {
 	id = precursor.1100
 	title = "precursor.1100.name"
-	desc = {
-		text = "precursor.1100.desc"
-		trigger = {
-			NOT = { has_point_of_interest = { poi = first_league.0 } }
-		}
-	}
-	desc = {
-		text = "precursor.1100.alt.desc"
-		trigger = {
-			has_point_of_interest = { poi = first_league.0 }
-		}
-	}
+	desc = "precursor.1100.desc"
 	picture = GFX_evt_federation_fleet
 	location = event_target:fen_habbanis
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		random_system = {
 			limit = { has_star_flag = fen_habbanis }
 			save_event_target_as = fen_habbanis
+			random_system_planet = {
+				limit = { has_planet_flag = first_league_homeworld }
+				save_event_target_as = first_league_homeworld
+			}
 		}
+		observer_event = { id = observer.58 }
 	}
-	
+
 	option = {
 		name = "precursor.100.a"
 		end_event_chain = "first_league_chain"
-		if = {
-			limit = { NOT = { has_event_chain = "first_league_homeworld_chain" } }
-			begin_event_chain = {
-				event_chain = "first_league_homeworld_chain"
-				target = ROOT
+		begin_event_chain = {
+			event_chain = "first_league_homeworld_chain"
+			target = ROOT
+		}
+		event_target:first_league_homeworld = {
+			enable_special_project = {
+				name = "FIRST_LEAGUE_HOMEWORLD_PROJECT"
+				location = event_target:first_league_homeworld
+				owner = ROOT
 			}
 		}
 		create_point_of_interest = {
@@ -3129,44 +3294,24 @@ ship_event = {
 	desc = "precursor.1101.desc"
 	picture = GFX_evt_dead_city
 	location = from
-	
+
 	is_triggered_only = yes
 	trigger = {
-		always = no
-		from = { has_planet_flag = first_league_homeworld }
-		owner = { 
-			#is_ai = no 
+		fromfrom = { has_planet_flag = first_league_homeworld }
+		owner = {
+			is_ai = no
 			has_country_flag = first_league_system
 		}
 	}
 
 	immediate = {
-		set_global_flag = first_league_homeworld_found
 		owner = {
 			set_country_flag = league_world_found
-			if = {
-				limit = { has_event_chain = first_league_chain }
-				end_event_chain = "first_league_chain"
-			}
-			if = {
-				limit = { has_event_chain = "first_league_homeworld_chain" }
-				end_event_chain = "first_league_homeworld_chain"
-			}
-		}
-		from = { save_event_target_as = league_home_planet }
-		every_country = {
-			limit = {
-				NOT = { is_same_empire = root.owner }
-				event_target:league_home_planet = {
-					is_surveyed = { who = PREV status = yes }
-				}
-			}
-			country_event = { id = precursor.1104 days = 2 }
+			set_global_flag = first_league_homeworld_found
 		}
 	}
 
-	option = {
-		name = "FASCINATING"
+	after = {
 		owner = {
 			add_monthly_resource_mult = {
 				resource = unity
@@ -3186,21 +3331,48 @@ ship_event = {
 				min = @tier4influencemin
 				max = @tier4influencemax
 			}
+
+			if = {
+				limit = { has_ancrel = yes }
+				custom_tooltip = league_artifact_research_unlocked
+			}
 		}
 	}
 
+	option = {
+		name = "FASCINATING"
+		trigger = {
+			owner = {
+				has_event_chain = "first_league_homeworld_chain"
+			}
+		}
+		owner = {
+			end_event_chain = "first_league_homeworld_chain"
+		}
+	}
+
+	option = {
+		name = "FASCINATING"
+		trigger = {
+			owner = {
+				NOT = {
+					has_event_chain = "first_league_homeworld_chain"
+				}
+			}
+		}
+	}
 }
 
 # Someone else got there first
 ship_event = {
 	id = precursor.1102
 	title = "precursor.1102.name"
-	
+
 	desc = {
 		text = precursor.1102.desc.a
 		trigger = {
 			owner = {
-				OR = { 
+				OR = {
 					has_event_chain = first_league_chain
 					has_event_chain = first_league_homeworld_chain
 				}
@@ -3218,19 +3390,21 @@ ship_event = {
 			}
 		}
 	}
-	
+
 	location = from
 	picture = GFX_evt_archaeological_dig
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
-		always = no
-		from = { has_planet_flag = first_league_homeworld }
-		owner = { NOT = { has_country_flag = first_league_system } }
+		fromfrom = { has_planet_flag = first_league_homeworld }
+		owner = {
+			is_ai = no
+			NOT = { has_country_flag = first_league_system }
+		}
 		has_global_flag = first_league_homeworld_found
 	}
-	
+
 	immediate = {
 		owner = {
 			set_country_flag = league_world_found
@@ -3243,10 +3417,15 @@ ship_event = {
 				end_event_chain = "first_league_homeworld_chain"
 			}
 		}
-	}		
-	
+	}
+
 	option = {
 		name = "UNFORTUNATE"
+
+		if = {
+			limit = { has_ancrel = yes }
+			custom_tooltip = league_artifact_research_unlocked
+		}
 	}
 }
 # We failed to recognize the discovery
@@ -3335,31 +3514,34 @@ ship_event = {
 	title = "precursor.1500.name"
 	desc = "precursor.1500.desc"
 	picture = GFX_evt_archaeological_dig
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		solar_system = { has_star_flag = precursor_4 }
 		solar_system = { NOT = { is_same_empire = root.owner.capital_scope.solar_system } }
-		FROM = { 
-			has_anomaly = no 
+		owner = { is_ai = no }
+		FROM = {
+			has_anomaly = no
 			is_star = no
 		}
 		owner = {
-			NOR = { 
+			NOR = {
 				has_country_flag = vultaum_intro
 				has_country_flag = yuht_intro
 				has_country_flag = first_league_intro
 				has_country_flag = irassian_intro
 				has_country_flag = cybrex_intro
+				has_country_flag = zroni_intro
+				has_country_flag = baol_intro
 			}
 		}
 	}
-	
+
 	immediate = {
 		owner = { set_country_flag = irassian_intro }
 	}
-	
+
 	option = {
 		name = INTERESTING
 		hidden_effect = { owner = { country_event = { id = story.5 days = 30 } } }
@@ -3367,6 +3549,10 @@ ship_event = {
 			begin_event_chain = {
 				event_chain = "irassian_chain"
 				target = ROOT
+			}
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
 			}
 		}
 	}
@@ -3380,15 +3566,15 @@ ship_event = {
 	picture = GFX_evt_landing_ship
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_1 }
 		}
 	}
-	
+
 	option = {
 		name = FASCINATING
 		from = {
@@ -3408,16 +3594,20 @@ ship_event = {
 	desc = "precursor.1506.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -3438,15 +3628,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_2 }
 		}
 	}
-	
+
 	option = {
 		name = REMARKABLE
 		from = {
@@ -3466,16 +3656,20 @@ ship_event = {
 	desc = "precursor.1511.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -3496,15 +3690,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_3 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -3524,16 +3718,20 @@ ship_event = {
 	desc = "precursor.1516.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -3554,15 +3752,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_4 }
 		}
 	}
-	
+
 	option = {
 		name = INTRIGUING
 		from = {
@@ -3582,16 +3780,20 @@ ship_event = {
 	desc = "precursor.1521.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -3612,15 +3814,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_5 }
 		}
 	}
-	
+
 	option = {
 		name = CURIOUS
 		from = {
@@ -3640,16 +3842,20 @@ ship_event = {
 	desc = "precursor.1526.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -3670,15 +3876,15 @@ ship_event = {
 	picture = GFX_evt_outpost
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_6 }
 		}
 	}
-	
+
 	option = {
 		name = PECULIAR
 		from = {
@@ -3698,16 +3904,20 @@ ship_event = {
 	desc = "precursor.1531.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -3728,15 +3938,15 @@ ship_event = {
 	picture = GFX_evt_alien_nature
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_7 }
 		}
 	}
-	
+
 	option = {
 		name = FASCINATING
 		from = {
@@ -3756,16 +3966,20 @@ ship_event = {
 	desc = "precursor.1536.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -3786,15 +4000,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_8 }
 		}
 	}
-	
+
 	option = {
 		name = REMARKABLE
 		from = {
@@ -3814,16 +4028,20 @@ ship_event = {
 	desc = "precursor.1541.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -3844,15 +4062,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_9 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -3861,7 +4079,7 @@ ship_event = {
 				location = this
 				owner = root.owner
 			}
-		}	
+		}
 	}
 }
 
@@ -3872,16 +4090,20 @@ ship_event = {
 	desc = "precursor.1546.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -3902,15 +4124,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_10 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -3930,16 +4152,20 @@ ship_event = {
 	desc = "precursor.1551.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -3960,15 +4186,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = irassians_11 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -3988,16 +4214,20 @@ ship_event = {
 	desc = "precursor.1556.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -4019,13 +4249,13 @@ country_event = {
 	immediate = {
 		if = {
 			limit = {
-				NOR = { 
-					has_global_flag = irassian_system_discovered 
+				NOR = {
+					has_global_flag = irassian_system_discovered
 					has_country_flag = irassian_system
 				}
 				has_completed_event_chain_counter = {
-					event_chain = "irassian_chain" 
-					counter = "irassian_artifacts" 
+					event_chain = "irassian_chain"
+					counter = "irassian_artifacts"
 				}
 			}
 			country_event = { id = precursor.1598 }
@@ -4035,8 +4265,8 @@ country_event = {
 				has_global_flag = irassian_system_discovered
 				NOT = { has_country_flag = irassian_system }
 				has_completed_event_chain_counter = {
-					event_chain = "irassian_chain" 
-					counter = "irassian_artifacts" 
+					event_chain = "irassian_chain"
+					counter = "irassian_artifacts"
 				}
 			}
 			country_event = { id = precursor.1599 }
@@ -4048,48 +4278,47 @@ country_event = {
 country_event = {
 	id = precursor.1598
 	hide_window = yes
-	
+
 	fire_only_once = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
-		set_global_flag = irassian_system_discovered
+		set_global_flag = irassia_discovered
 		set_country_flag = irassian_system
 		if = {
 			limit = {
 				any_system_within_border = { has_star_flag = precursor_4 }
 			}
 			random_system_within_border = {
-				limit = {
-					has_star_flag = precursor_4
-					NOT = { has_star_flag = sealed_system }
-				}
-				spawn_system = {
-					min_distance = 20
-					max_distance = 50
-					initializer = "irass_system"
-				}
+				limit = { has_star_flag = precursor_4 }
+				save_event_target_as = precursor_spawn_system
 			}
 		}
 		else = {
-			random_system = {
-				limit = {
-					has_star_flag = precursor_4
-					NOT = { has_star_flag = sealed_system }
+			random_system_within_border = {
+				save_event_target_as = precursor_spawn_system
+			}
+		}
+		event_target:precursor_spawn_system = {
+			spawn_system = {
+				min_distance = 10
+				max_distance = 20
+				max_jumps = 0
+				initializer = "irass_system"
+			}
+			if = {
+				limit = { last_created_system = { NOT = { has_hyperlane_to = prev } } }
+				add_hyperlane = {
+					from = this
+					to = last_created_system
 				}
-				spawn_system = {
-					min_distance = 20
-					max_distance = 50
-					initializer = "irass_system"
-				}
+			}
+			else = {
+				add_extra_hyperlane_to_spawned_system_effect = yes
 			}
 		}
 		country_event = { id = precursor.1600 days = 2 }
-		every_playable_country = {	# hint to other countries
-			limit = { has_event_chain = irassian_chain }
-			country_event = { id = precursor.1596 days = 30 }
-		}
 	}
 }
 
@@ -4097,9 +4326,9 @@ country_event = {
 country_event = {
 	id = precursor.1599
 	hide_window = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		set_country_flag = irassian_system
 		country_event = { id = precursor.1600 days = 2 }
@@ -4110,38 +4339,36 @@ country_event = {
 country_event = {
 	id = precursor.1600
 	title = "precursor.1600.name"
-	desc = {
-		text = "precursor.1600.desc"
-		trigger = {
-			NOT = { has_point_of_interest = { poi = irassian.0 } }
-		}
-	}
-	desc = {
-		text = "precursor.1600.alt.desc"
-		trigger = {
-			has_point_of_interest = { poi = irassian.0 }
-		}
-	}
+	desc = "precursor.1600.desc"
 	picture = GFX_evt_federation_fleet
 	location = event_target:irass
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		random_system = {
 			limit = { has_star_flag = irass }
 			save_event_target_as = irass
+			random_system_planet = {
+				limit = { has_planet_flag = irassian_homeworld }
+				save_event_target_as = irassian_homeworld
+			}
 		}
+		observer_event = { id = observer.59 }
 	}
-	
+
 	option = {
 		name = "precursor.100.a"
 		end_event_chain = "irassian_chain"
-		if = {
-			limit = { NOT = { has_event_chain = "irassian_homeworld_chain" } }
-			begin_event_chain = {
-				event_chain = "irassian_homeworld_chain"
-				target = ROOT
+		begin_event_chain = {
+			event_chain = "irassian_homeworld_chain"
+			target = ROOT
+		}
+		event_target:irassian_homeworld = {
+			enable_special_project = {
+				name = "IRASSIAN_HOMEWORLD_PROJECT"
+				location = event_target:irassian_homeworld
+				owner = ROOT
 			}
 		}
 		hidden_effect = {
@@ -4197,21 +4424,20 @@ ship_event = {
 	desc = "precursor.1601.desc"
 	picture = GFX_evt_dead_city
 	location = from
-	
+
 	is_triggered_only = yes
 	trigger = {
-		always = no
-		from = { has_planet_flag = irassian_homeworld }
-		owner = { 
-			#is_ai = no 
+		fromfrom = { has_planet_flag = irassian_homeworld }
+		owner = {
+			is_ai = no
 			has_country_flag = irassian_system
 		}
 	}
 
 	immediate = {
-		set_global_flag = irassian_homeworld_found
 		owner = {
 			set_country_flag = irassian_world_found
+			set_global_flag = irassian_homeworld_found
 			if = {
 				limit = { has_event_chain = irassian_chain }
 				end_event_chain = "irassian_chain"
@@ -4232,10 +4458,15 @@ ship_event = {
 			country_event = { id = precursor.1604 days = 2 }
 		}
 	}
-	
+
 	option = {
 		name = "FASCINATING"
 		owner = {
+			if = {
+				limit = { has_ancrel = yes }
+				add_relic = r_pox_sample
+				large_artifact_reward = yes
+			}
 			add_monthly_resource_mult = {
 				resource = unity
 				value = 120
@@ -4254,6 +4485,11 @@ ship_event = {
 				min = @tier4materialmin
 				max = @tier4materialmax
 			}
+
+			if = {
+				limit = { has_ancrel = yes }
+				custom_tooltip = irassian_artifact_research_unlocked
+			}
 		}
 	}
 }
@@ -4262,12 +4498,12 @@ ship_event = {
 ship_event = {
 	id = precursor.1602
 	title = "precursor.1602.name"
-	
+
 	desc = {
 		text = precursor.1602.desc.a
 		trigger = {
 			owner = {
-				OR = { 
+				OR = {
 					has_event_chain = irassian_chain
 					has_event_chain = irassian_homeworld_chain
 				}
@@ -4285,19 +4521,21 @@ ship_event = {
 			}
 		}
 	}
-	
+
 	location = from
 	picture = GFX_evt_archaeological_dig
-	
+
 	is_triggered_only = yes
-	
-	trigger = {
-		always = no
-		from = { has_planet_flag = irassian_homeworld }
-		owner = { NOT = { has_country_flag = irassian_system } }
-		has_global_flag = irassian_homeworld_found
-	}
-	
+
+	#trigger = {
+	#	fromfrom = { has_planet_flag = irassian_homeworld }
+	#	owner = {
+	#		is_ai = no
+	#		NOT = { has_country_flag = irassian_system }
+	#	}
+	#	has_global_flag = irassian_homeworld_found
+	#}
+
 	immediate = {
 		owner = {
 			set_country_flag = irassian_world_found
@@ -4310,10 +4548,17 @@ ship_event = {
 				end_event_chain = "irassian_homeworld_chain"
 			}
 		}
-	}		
-	
+	}
+
 	option = {
 		name = "UNFORTUNATE"
+
+		owner = {
+			if = {
+				limit = { has_ancrel = yes }
+				custom_tooltip = irassian_artifact_research_unlocked
+			}
+		}
 	}
 }
 # We failed to recognize the discovery
@@ -4402,31 +4647,34 @@ ship_event = {
 	title = "precursor.2000.name"
 	desc = "precursor.2000.desc"
 	picture = GFX_evt_archaeological_dig
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		solar_system = { has_star_flag = precursor_5 }
 		solar_system = { NOT = { is_same_empire = root.owner.capital_scope.solar_system } }
-		FROM = { 
-			has_anomaly = no 
+		owner = { is_ai = no }
+		FROM = {
+			has_anomaly = no
 			is_star = no
 		}
 		owner = {
-			NOR = { 
+			NOR = {
 				has_country_flag = vultaum_intro
 				has_country_flag = yuht_intro
 				has_country_flag = first_league_intro
 				has_country_flag = irassian_intro
 				has_country_flag = cybrex_intro
+				has_country_flag = zroni_intro
+				has_country_flag = baol_intro
 			}
 		}
 	}
-	
+
 	immediate = {
 		owner = { set_country_flag = cybrex_intro }
 	}
-	
+
 	option = {
 		name = INTERESTING
 		hidden_effect = { owner = { country_event = { id = story.5 days = 30 } } }
@@ -4434,6 +4682,10 @@ ship_event = {
 			begin_event_chain = {
 				event_chain = "cybrex_chain"
 				target = ROOT
+			}
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
 			}
 		}
 	}
@@ -4447,15 +4699,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_1 }
 		}
 	}
-	
+
 	option = {
 		name = FASCINATING
 		from = {
@@ -4464,7 +4716,7 @@ ship_event = {
 				location = this
 				owner = root.owner
 			}
-		}	
+		}
 	}
 }
 
@@ -4475,16 +4727,20 @@ ship_event = {
 	desc = "precursor.2006.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -4505,15 +4761,15 @@ ship_event = {
 	picture = GFX_evt_dead_city
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_2 }
 		}
 	}
-	
+
 	option = {
 		name = REMARKABLE
 		from = {
@@ -4533,16 +4789,20 @@ ship_event = {
 	desc = "precursor.2011.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -4563,15 +4823,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_3 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -4591,16 +4851,20 @@ ship_event = {
 	desc = "precursor.2016.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -4621,15 +4885,15 @@ ship_event = {
 	picture = GFX_evt_city_ruins
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_4 }
 		}
 	}
-	
+
 	option = {
 		name = INTRIGUING
 		from = {
@@ -4638,7 +4902,7 @@ ship_event = {
 				location = this
 				owner = root.owner
 			}
-		}	
+		}
 	}
 }
 
@@ -4649,16 +4913,20 @@ ship_event = {
 	desc = "precursor.2021.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -4679,15 +4947,15 @@ ship_event = {
 	picture = GFX_evt_dead_city
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_5 }
 		}
 	}
-	
+
 	option = {
 		name = CURIOUS
 		from = {
@@ -4707,16 +4975,20 @@ ship_event = {
 	desc = "precursor.2026.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -4737,15 +5009,15 @@ ship_event = {
 	picture = GFX_evt_mining_station
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_6 }
 		}
 	}
-	
+
 	option = {
 		name = PECULIAR
 		from = {
@@ -4765,16 +5037,20 @@ ship_event = {
 	desc = "precursor.2031.desc"
 	picture = GFX_evt_mining_station
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -4795,15 +5071,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_7 }
 		}
 	}
-	
+
 	option = {
 		name = FASCINATING
 		from = {
@@ -4812,7 +5088,7 @@ ship_event = {
 				location = this
 				owner = root.owner
 			}
-		}	
+		}
 	}
 }
 
@@ -4823,16 +5099,20 @@ ship_event = {
 	desc = "precursor.2036.desc"
 	picture = GFX_evt_ship_in_orbit
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -4853,15 +5133,15 @@ ship_event = {
 	picture = GFX_evt_small_space_battle
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_8 }
 		}
 	}
-	
+
 	option = {
 		name = REMARKABLE
 		from = {
@@ -4870,7 +5150,7 @@ ship_event = {
 				location = this
 				owner = root.owner
 			}
-		}	
+		}
 	}
 }
 
@@ -4881,16 +5161,20 @@ ship_event = {
 	desc = "precursor.2041.desc"
 	picture = GFX_evt_small_space_battle
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -4911,15 +5195,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_9 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -4928,7 +5212,7 @@ ship_event = {
 				location = this
 				owner = root.owner
 			}
-		}	
+		}
 	}
 }
 
@@ -4939,16 +5223,20 @@ ship_event = {
 	desc = "precursor.2046.desc"
 	picture = GFX_evt_archaeological_dig
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -4969,15 +5257,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_10 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -4997,16 +5285,20 @@ ship_event = {
 	desc = "precursor.2051.desc"
 	picture = GFX_evt_society_research
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -5027,15 +5319,15 @@ ship_event = {
 	picture = GFX_evt_ship_in_orbit
 	location = FROM
 	trackable = yes
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		hidden_effect = {
 			owner = { set_country_flag = cybrex_11 }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		from = {
@@ -5055,16 +5347,20 @@ ship_event = {
 	desc = "precursor.2056.desc"
 	picture = GFX_evt_cybernetics
 	location = FROMFROM
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.completed.a"
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			if = {
+				limit = { has_ancrel = yes }
+				small_artifact_reward = yes
+			}
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -5087,11 +5383,11 @@ country_event = {
 		if = {
 			limit = {
 				has_completed_event_chain_counter = {
-					event_chain = "cybrex_chain" 
-					counter = "cybrex_artifacts" 
+					event_chain = "cybrex_chain"
+					counter = "cybrex_artifacts"
 				}
-				NOR = { 
-					has_global_flag = cybrex_system_discovered 
+				NOR = {
+					has_global_flag = cybrex_system_discovered
 					has_country_flag = cybrex_system
 				}
 			}
@@ -5100,8 +5396,8 @@ country_event = {
 		else_if = {
 			limit = {
 				has_completed_event_chain_counter = {
-					event_chain = "cybrex_chain" 
-					counter = "cybrex_artifacts" 
+					event_chain = "cybrex_chain"
+					counter = "cybrex_artifacts"
 				}
 				has_global_flag = cybrex_system_discovered
 				NOT = { has_country_flag = cybrex_system }
@@ -5115,11 +5411,11 @@ country_event = {
 country_event = {
 	id = precursor.2098
 	hide_window = yes
-	
+
 	fire_only_once = yes
 
 	is_triggered_only = yes
-	
+
 	immediate = {
 		set_global_flag = cybrex_system_discovered
 		set_country_flag = cybrex_system
@@ -5128,28 +5424,31 @@ country_event = {
 				any_system_within_border = { has_star_flag = precursor_5 }
 			}
 			random_system_within_border = {
-				limit = {
-					has_star_flag = precursor_5
-					NOT = { has_star_flag = sealed_system }
-				}
-				spawn_system = {
-					min_distance = 20
-					max_distance = 50
-					initializer = "cybrex_system"
-				}
+				limit = { has_star_flag = precursor_5 }
+				save_event_target_as = precursor_spawn_system
 			}
 		}
 		else = {
-			random_system = {
-				limit = {
-					has_star_flag = precursor_5
-					NOT = { has_star_flag = sealed_system }
+			random_system_within_border = {
+				save_event_target_as = precursor_spawn_system
+			}
+		}
+		event_target:precursor_spawn_system = {
+			spawn_system = {
+				min_distance = 10
+				max_distance = 20
+				max_jumps = 0
+				initializer = "cybrex_system"
+			}
+			if = {
+				limit = { last_created_system = { NOT = { has_hyperlane_to = prev } } }
+				add_hyperlane = {
+					from = this
+					to = last_created_system
 				}
-				spawn_system = {
-					min_distance = 20
-					max_distance = 50
-					initializer = "cybrex_system"
-				}
+			}
+			else = {
+				add_extra_hyperlane_to_spawned_system_effect = yes
 			}
 		}
 		country_event = { id = precursor.2100 days = 2 }
@@ -5166,7 +5465,7 @@ country_event = {
 	hide_window = yes
 
 	is_triggered_only = yes
-	
+
 	immediate = {
 		set_country_flag = cybrex_system
 		country_event = { id = precursor.2100 days = 2 }
@@ -5177,38 +5476,36 @@ country_event = {
 country_event = {
 	id = precursor.2100
 	title = "precursor.2100.name"
-	desc = {
-		text = "precursor.2100.desc"
-		trigger = {
-			NOT = { has_point_of_interest = { poi = cybrex.0 } }
-		}
-	}
-	desc = {
-		text = "precursor.2100.alt.desc"
-		trigger = {
-			has_point_of_interest = { poi = cybrex.0 }
-		}
-	}
+	desc = "precursor.2100.desc"
+	desc = "precursor.2100.alt.desc"
 	picture = GFX_evt_federation_fleet
 	location = event_target:cybrex
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		random_system = {
 			limit = { has_star_flag = cybrex }
 			save_event_target_as = cybrex
+			random_system_megastructure = {
+				save_event_target_as = cybrex_homeworld
+			}
 		}
+		observer_event = { id = observer.60 }
 	}
-	
+
 	option = {
 		name = "precursor.100.a"
 		end_event_chain = "cybrex_chain"
-		if = {
-			limit = { NOT = { has_event_chain = "cybrex_homeworld_chain" } }
-			begin_event_chain = {
-				event_chain = "cybrex_homeworld_chain"
-				target = ROOT
+		begin_event_chain = {
+			event_chain = "cybrex_homeworld_chain"
+			target = ROOT
+		}
+		event_target:cybrex_homeworld = {
+			enable_special_project = {
+				name = "CYBREX_HOMEWORLD_PROJECT"
+				location = event_target:cybrex_homeworld
+				owner = ROOT
 			}
 		}
 		create_point_of_interest = {
@@ -5262,45 +5559,57 @@ ship_event = {
 	desc = "precursor.2101.desc"
 	picture = GFX_evt_dead_city
 	location = from
-	
+
 	is_triggered_only = yes
 	trigger = {
-		always = no
 		owner = {
 			has_country_flag = cybrex_system
 			NOT = { has_country_flag = cybrex_world_found }
 		}
-		FROM = { has_star_flag = cybrex }
+		solar_system = { has_star_flag = cybrex }
 	}
 
 	immediate = {
-		set_global_flag = cybrex_homeworld_found
 		owner = {
 			set_country_flag = cybrex_world_found
 			if = {
 				limit = { has_event_chain = cybrex_chain }
-				end_event_chain = "cybrex_chain"
+				set_country_flag = cybrex_end1
 			}
 			if = {
 				limit = { has_event_chain = cybrex_homeworld_chain }
+				set_country_flag = cybrex_end2
+			}
+		}
+		set_global_flag = cybrex_homeworld_found
+	}
+
+	after = {
+		owner = {
+			if = {
+				limit = { has_event_chain = "cybrex_chain" }
+				end_event_chain = "cybrex_chain"
+			}
+			if = {
+				limit = { has_event_chain = "cybrex_homeworld_chain" }
 				end_event_chain = "cybrex_homeworld_chain"
 			}
 		}
-		from = { save_event_target_as = cybrex_home_section }
-		every_country = {
-			limit = {
-				NOT = { is_same_empire = root.owner }
-				event_target:cybrex_home_section = {
-					is_surveyed = { who = PREV status = yes }
-				}
-			}
-			country_event = { id = precursor.2104 days = 2 }
-		}
 	}
-	
+
 	option = {
 		name = "FASCINATING"
+		trigger = {
+			owner = {
+				has_country_flag = cybrex_end1
+			}
+		}
 		owner = {
+			if = {
+				limit = { has_ancrel = yes }
+				add_relic = r_war_forge
+				large_artifact_reward = yes
+			}
 			add_monthly_resource_mult = {
 				resource = unity
 				value = 120
@@ -5319,6 +5628,90 @@ ship_event = {
 				min = @tier4materialmin
 				max = @tier4materialmax
 			}
+			if = {
+				limit = { has_ancrel = yes }
+				custom_tooltip = cybrex_artifact_research_unlocked
+			}
+		}
+	}
+
+	option = {
+		name = "FASCINATING"
+		trigger = {
+			owner = {
+				has_country_flag = cybrex_end2
+			}
+		}
+		owner = {
+			if = {
+				limit = { has_ancrel = yes }
+				add_relic = r_war_forge
+				large_artifact_reward = yes
+			}
+			add_monthly_resource_mult = {
+				resource = unity
+				value = 120
+				min = 240
+				max = 9999
+			}
+			add_monthly_resource_mult = {
+				resource = engineering_research
+				value = @tier4researchreward
+				min = @tier4researchmin
+				max = @tier4researchmax
+			}
+			add_monthly_resource_mult = {
+				resource = energy
+				value = @tier4materialreward
+				min = @tier4materialmin
+				max = @tier4materialmax
+			}
+			if = {
+				limit = { has_ancrel = yes }
+				custom_tooltip = cybrex_artifact_research_unlocked
+			}
+		}
+	}
+
+	option = {
+		name = "FASCINATING"
+		trigger = {
+			owner = {
+				NOR = {
+					has_country_flag = cybrex_end1
+					has_country_flag = cybrex_end2
+				}
+			}
+		}
+		owner = {
+			if = {
+				limit = { has_ancrel = yes }
+				add_relic = r_war_forge
+				large_artifact_reward = yes
+			}
+			add_monthly_resource_mult = {
+				resource = unity
+				value = 120
+				min = 240
+				max = 9999
+			}
+			add_monthly_resource_mult = {
+				resource = engineering_research
+				value = @tier4researchreward
+				min = @tier4researchmin
+				max = @tier4researchmax
+			}
+			add_monthly_resource_mult = {
+				resource = energy
+				value = @tier4materialreward
+				min = @tier4materialmin
+				max = @tier4materialmax
+			}
+			if = {
+				limit = { has_ancrel = yes }
+				custom_tooltip = cybrex_artifact_research_unlocked
+			}
+
 		}
 	}
 }
@@ -5327,12 +5720,12 @@ ship_event = {
 ship_event = {
 	id = precursor.2102
 	title = "precursor.2102.name"
-	
+
 	desc = {
 		text = precursor.2102.desc.a
 		trigger = {
 			owner = {
-				OR = { 
+				OR = {
 					has_event_chain = cybrex_chain
 					has_event_chain = cybrex_homeworld_chain
 				}
@@ -5350,25 +5743,29 @@ ship_event = {
 			}
 		}
 	}
-	
+
+	location = from
 	picture = GFX_evt_archaeological_dig
-	
+
 	is_triggered_only = yes
-	
-	trigger = {
-		always = no
-		has_global_flag = cybrex_homeworld_found
-		from = { 
-			solar_system = { has_star_flag = cybrex } 
-			is_planet_class = pc_ringworld_habitable_damaged
-			NOT = { has_planet_flag = precursor_fix }
-		}
-	#	owner = { is_ai = no }
-	}
-	
+
+	#trigger = {
+	#	owner = {
+	#		is_ai = no
+	#		NOR = {
+	#			has_country_flag = cybrex_system
+	#			has_country_flag = cybrex_world_found
+	#		}
+	#	}
+	#	solar_system = { has_star_flag = cybrex }
+	#}
+
 	immediate = {
+		owner = { set_country_flag = cybrex_world_found }
+	}
+
+	after = {
 		owner = {
-			set_country_flag = cybrex_world_found
 			if = {
 				limit = { has_event_chain = cybrex_chain }
 				end_event_chain = "cybrex_chain"
@@ -5378,10 +5775,17 @@ ship_event = {
 				end_event_chain = "cybrex_homeworld_chain"
 			}
 		}
-	}		
-	
+	}
+
 	option = {
 		name = "UNFORTUNATE"
+
+		owner = {
+			if = {
+				limit = { has_ancrel = yes }
+				custom_tooltip = cybrex_artifact_research_unlocked
+			}
+		}
 	}
 }
 # We failed to recognize the discovery
@@ -8388,9 +8792,9 @@ country_event = {
 	}
 	picture = GFX_evt_archaeological_dig
 	location = event_target:precursor_planet
-	
+	trackable = yes
+
 	trigger = {
-		always = no
 		is_ai = no
 		years_passed > 50
 		NOR = {
@@ -8442,7 +8846,7 @@ country_event = {
 					}
 				}
 			}
-			AND = { 
+			AND = {
 				has_event_chain = "first_league_chain"
 				NOT = {
 					has_completed_event_chain_counter = {
@@ -8510,7 +8914,7 @@ country_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 240
 		modifier = {
@@ -8522,30 +8926,13 @@ country_event = {
 			years_passed > 100
 		}
 	}
-	
-	immediate = {
-		if = {
-			limit = { has_country_flag = retry_prec_anom_gen }
-			remove_country_flag = retry_prec_anom_gen
-		}
-		country_event = { id = precursor.302 }
-		if = {
-			limit = { exists = event_target:precursor_planet }
-			country_event = { id = precursor.303 }
-			else = { set_country_flag = retry_prec_anom_gen }
-		}
-	}
-}
 
-country_event = {
-	id = precursor.302
-	hide_window = yes
-	is_triggered_only = yes
 	immediate = {
+		set_timed_country_flag = { flag = new_precursor days = 1200 }
 		if = {
 			limit = {
 				has_event_chain = "vultaum_chain"
-				any_system_within_border = { 
+				any_system_within_border = {
 					has_star_flag = precursor_1
 				}
 			}
@@ -8555,7 +8942,7 @@ country_event = {
 		if = {
 			limit = {
 				has_event_chain = "yuht_chain"
-				any_system_within_border = { 
+				any_system_within_border = {
 					has_star_flag = precursor_2
 				}
 			}
@@ -8565,7 +8952,7 @@ country_event = {
 		if = {
 			limit = {
 				has_event_chain = "first_league_chain"
-				any_system_within_border = { 
+				any_system_within_border = {
 					has_star_flag = precursor_3
 				}
 			}
@@ -8575,7 +8962,7 @@ country_event = {
 		if = {
 			limit = {
 				has_event_chain = "irassian_chain"
-				any_system_within_border = { 
+				any_system_within_border = {
 					has_star_flag = precursor_4
 				}
 			}
@@ -8585,7 +8972,7 @@ country_event = {
 		if = {
 			limit = {
 				has_event_chain = "cybrex_chain"
-				any_system_within_border = { 
+				any_system_within_border = {
 					has_star_flag = precursor_5
 				}
 			}
@@ -8593,7 +8980,7 @@ country_event = {
 			break = yes
 		}
 	}
-	
+
 	option = {
 		name = precursor.301.a
 		custom_tooltip = new_precursor_project
@@ -8627,7 +9014,7 @@ ship_event = {
 	}
 	picture = GFX_evt_archaeological_dig
 	location = event_target:precursor_planet
-	
+
 	is_triggered_only = yes
 
 	immediate = {
@@ -8639,14 +9026,14 @@ ship_event = {
 			owner = { remove_country_flag = vultaum_artifact_recoverer }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "vultaum_chain" 
-				counter = "vultaum_artifacts" 
-				amount = 1 
+			add_event_chain_counter = {
+				event_chain = "vultaum_chain"
+				counter = "vultaum_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = physics_research
@@ -8654,8 +9041,8 @@ ship_event = {
 				min = @tier1researchmin
 				max = @tier1researchmax
 			}
-			hidden_effect = { 
-				country_event = { id = precursor.97 } 
+			hidden_effect = {
+				country_event = { id = precursor.97 }
 				remove_country_flag = ongoing_precursor_artifact
 			}
 		}
@@ -8689,7 +9076,7 @@ ship_event = {
 	}
 	picture = GFX_evt_archaeological_dig
 	location = event_target:precursor_planet
-	
+
 	is_triggered_only = yes
 
 	immediate = {
@@ -8701,14 +9088,14 @@ ship_event = {
 			owner = { remove_country_flag = yuht_artifact_recoverer }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "yuht_chain" 
-				counter = "yuht_artifacts" 
-				amount = 1 
+			add_event_chain_counter = {
+				event_chain = "yuht_chain"
+				counter = "yuht_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -8716,8 +9103,8 @@ ship_event = {
 				min = @tier1researchmin
 				max = @tier1researchmax
 			}
-			hidden_effect = { 
-				country_event = { id = precursor.597 } 
+			hidden_effect = {
+				country_event = { id = precursor.597 }
 				remove_country_flag = ongoing_precursor_artifact
 			}
 		}
@@ -8751,7 +9138,7 @@ ship_event = {
 	}
 	picture = GFX_evt_archaeological_dig
 	location = event_target:precursor_planet
-	
+
 	is_triggered_only = yes
 
 	immediate = {
@@ -8763,14 +9150,14 @@ ship_event = {
 			owner = { remove_country_flag = first_league_artifact_recoverer }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "first_league_chain" 
-				counter = "first_league_artifacts" 
-				amount = 1 
+			add_event_chain_counter = {
+				event_chain = "first_league_chain"
+				counter = "first_league_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = engineering_research
@@ -8778,8 +9165,8 @@ ship_event = {
 				min = @tier1researchmin
 				max = @tier1researchmax
 			}
-			hidden_effect = { 
-				country_event = { id = precursor.1097 } 
+			hidden_effect = {
+				country_event = { id = precursor.1097 }
 				remove_country_flag = ongoing_precursor_artifact
 			}
 		}
@@ -8813,7 +9200,7 @@ ship_event = {
 	}
 	picture = GFX_evt_archaeological_dig
 	location = event_target:precursor_planet
-	
+
 	is_triggered_only = yes
 
 	immediate = {
@@ -8825,14 +9212,14 @@ ship_event = {
 			owner = { remove_country_flag = irassian_artifact_recoverer }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "irassian_chain" 
-				counter = "irassian_artifacts" 
-				amount = 1 
+			add_event_chain_counter = {
+				event_chain = "irassian_chain"
+				counter = "irassian_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -8840,8 +9227,8 @@ ship_event = {
 				min = @tier1researchmin
 				max = @tier1researchmax
 			}
-			hidden_effect = { 
-				country_event = { id = precursor.1597 } 
+			hidden_effect = {
+				country_event = { id = precursor.1597 }
 				remove_country_flag = ongoing_precursor_artifact
 			}
 		}
@@ -8875,7 +9262,7 @@ ship_event = {
 	}
 	picture = GFX_evt_archaeological_dig
 	location = event_target:precursor_planet
-	
+
 	is_triggered_only = yes
 
 	immediate = {
@@ -8887,14 +9274,14 @@ ship_event = {
 			owner = { remove_country_flag = cybrex_artifact_recoverer }
 		}
 	}
-	
+
 	option = {
 		name = INTERESTING
 		owner = {
-			add_event_chain_counter = { 
-				event_chain = "cybrex_chain" 
-				counter = "cybrex_artifacts" 
-				amount = 1 
+			add_event_chain_counter = {
+				event_chain = "cybrex_chain"
+				counter = "cybrex_artifacts"
+				amount = 1
 			}
 			add_monthly_resource_mult = {
 				resource = society_research
@@ -8902,8 +9289,8 @@ ship_event = {
 				min = @tier1researchmin
 				max = @tier1researchmax
 			}
-			hidden_effect = { 
-				country_event = { id = precursor.2103 } 
+			hidden_effect = {
+				country_event = { id = precursor.2103 }
 				remove_country_flag = ongoing_precursor_artifact
 			}
 		}
@@ -8917,9 +9304,8 @@ country_event = {
 	desc = "precursor.310.desc"
 	picture = GFX_evt_archaeological_dig
 	location = event_target:collector_home
-	
+
 	trigger = {
-		always = no
 		is_ai = no
 		years_passed > 50
 		NOR = {
@@ -8947,7 +9333,7 @@ country_event = {
 					}
 				}
 			}
-			AND = { 
+			AND = {
 				has_event_chain = "first_league_chain"
 				NOT = {
 					has_completed_event_chain_counter = {
@@ -8976,15 +9362,15 @@ country_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 240
 		modifier = {
 			factor = 0.75
 			years_passed > 100
-		}		
+		}
 	}
-	
+
 	immediate = {
 		set_timed_country_flag = { flag = new_precursor days = 1200 }
 		set_country_flag = precursor_collector_fired
@@ -9025,19 +9411,19 @@ country_event = {
 			remove_country_flag = cybrex_artifact_recoverer
 		}
 	}
-	
+
 	option = {
 		name = precursor.310.a
-		allow = { energy > 499 }
+		allow = { resource_stockpile_compare = { resource = energy value >= 500 } }
 		custom_tooltip = buy_precursor_artifact
-		add_energy = -500
+		add_resource = { energy = -500 }
 		collector_surrenders_artifact = yes
 	}
 	option = {
 		name = precursor.310.b
-		allow = { influence > 99 }
+		allow = { resource_stockpile_compare = { resource = influence value >= 100 } }
 		custom_tooltip = seize_precursor_artifact
-		add_influence = -100
+		add_resource = { influence = -100 }
 		collector_surrenders_artifact = yes
 	}
 	option = {
@@ -9053,14 +9439,13 @@ country_event = {
 	desc = "precursor.311.desc"
 
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = event_target:artifact_seller
 		room = event_target:artifact_seller.ruler
 	}
 
 	trigger = {
-		always = no
 		is_ai = no
 		years_passed > 50
 		NOR = {
@@ -9068,9 +9453,12 @@ country_event = {
 			has_country_flag = ongoing_precursor_artifact
 			has_country_flag = precursor_seller_fired
 			has_ethic = ethic_gestalt_consciousness
-			has_relation_flag = {
-				who = event_target:artifact_seller
-				flag = precursor_artifact_deal
+			AND = {
+				exists = event_target:artifact_seller
+				has_relation_flag = {
+					who = event_target:artifact_seller
+					flag = precursor_artifact_deal
+				}
 			}
 		}
 		OR = {
@@ -9086,9 +9474,9 @@ country_event = {
 					has_communications = root
 					is_country_type = default
 					is_subject = no
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 						is_protective_to = root
 						is_friendly_to = root
@@ -9112,9 +9500,9 @@ country_event = {
 					has_communications = root
 					is_country_type = default
 					is_subject = no
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 						is_protective_to = root
 						is_friendly_to = root
@@ -9126,7 +9514,7 @@ country_event = {
 					any_system_within_border = { has_star_flag = precursor_2 }
 				}
 			}
-			AND = { 
+			AND = {
 				has_event_chain = "first_league_chain"
 				NOT = {
 					has_completed_event_chain_counter = {
@@ -9138,9 +9526,9 @@ country_event = {
 					has_communications = root
 					is_country_type = default
 					is_subject = no
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 						is_protective_to = root
 						is_friendly_to = root
@@ -9164,9 +9552,9 @@ country_event = {
 					has_communications = root
 					is_country_type = default
 					is_subject = no
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 						is_protective_to = root
 						is_friendly_to = root
@@ -9190,9 +9578,9 @@ country_event = {
 					has_communications = root
 					is_country_type = default
 					is_subject = no
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 						is_protective_to = root
 						is_friendly_to = root
@@ -9206,22 +9594,18 @@ country_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 240
 		modifier = {
 			factor = 0.75
 			years_passed > 100
-		}		
+		}
 	}
 
 	immediate = {
 		set_country_flag = precursor_seller_fired
 		set_timed_country_flag = { flag = new_precursor days = 1200 }
-		set_relation_flag = {
-			who = event_target:artifact_giver
-			flag = precursor_artifact_deal
-		}
 		if = {
 			limit = { has_event_chain = "vultaum_chain" }
 			set_country_flag = vultaum_artifact_recoverer
@@ -9230,9 +9614,9 @@ country_event = {
 					has_communications = root
 					is_country_type = default
 					is_subject = no
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 						is_protective_to = root
 						is_friendly_to = root
@@ -9255,9 +9639,9 @@ country_event = {
 					has_communications = root
 					is_country_type = default
 					is_subject = no
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 						is_protective_to = root
 						is_friendly_to = root
@@ -9280,9 +9664,9 @@ country_event = {
 					has_communications = root
 					is_country_type = default
 					is_subject = no
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 						is_protective_to = root
 						is_friendly_to = root
@@ -9305,9 +9689,9 @@ country_event = {
 					has_communications = root
 					is_country_type = default
 					is_subject = no
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 						is_protective_to = root
 						is_friendly_to = root
@@ -9330,9 +9714,9 @@ country_event = {
 					has_communications = root
 					is_country_type = default
 					is_subject = no
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 						is_protective_to = root
 						is_friendly_to = root
@@ -9347,6 +9731,10 @@ country_event = {
 			}
 			break = yes
 		}
+		set_relation_flag = {
+			who = event_target:artifact_seller
+			flag = precursor_artifact_deal
+		}
 	}
 
 	after = {
@@ -9358,13 +9746,13 @@ country_event = {
 			remove_country_flag = cybrex_artifact_recoverer
 		}
 	}
-	
+
 	option = {
 		name = "precursor.311.a"
 		response_text = precursor.311.a.reply
-		allow = { energy > 999 }
+		allow = { resource_stockpile_compare = { resource = energy value >= 1000 } }
 		custom_tooltip = purchase_artifact
-		add_energy = -1000
+		add_resource = { energy = -1000 }
 		hidden_effect = {
 			event_target:artifact_seller = { add_resource = { energy = 1000 } }
 		}
@@ -9373,10 +9761,10 @@ country_event = {
 	option = {
 		name = "precursor.311.b"
 		response_text = precursor.311.b.reply
-		allow = { energy > 499 }
+		allow = { resource_stockpile_compare = { resource = energy value >= 500 } }
 		trigger = { has_valid_civic = civic_corporate_dominion }
 		custom_tooltip = purchase_artifact
-		add_energy = -500
+		add_resource = { energy = -500 }
 		hidden_effect = {
 			event_target:artifact_seller = { add_resource = { energy = 500 } }
 		}
@@ -9445,18 +9833,18 @@ country_event = {
 	desc = "precursor.312.desc"
 
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = event_target:artifact_seller
 		room = event_target:artifact_seller
 	}
 
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.312.d"
 		event_target:artifact_seller = {
-			add_opinion_modifier = { 
+			add_opinion_modifier = {
 				who = root
 				modifier = opinion_threatened_artifact
 			}
@@ -9471,14 +9859,14 @@ country_event = {
 	desc = "precursor.313.desc"
 
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = event_target:artifact_seller
 		room = event_target:artifact_seller
 	}
 
 	is_triggered_only = yes
-	
+
 	option = {
 		name = "precursor.313.d"
 		collector_surrenders_artifact = yes
@@ -9492,14 +9880,13 @@ country_event = {
 	desc = "precursor.314.desc"
 
 	diplomatic = yes
-	
+
 	picture_event_data = {
 		portrait = event_target:artifact_giver
 		room = event_target:artifact_giver.ruler
 	}
 
 	trigger = {
-		always = no
 		is_ai = no
 		years_passed > 50
 		NOR = {
@@ -9507,9 +9894,12 @@ country_event = {
 			has_country_flag = ongoing_precursor_artifact
 			has_country_flag = precursor_giver_fired
 			has_ethic = ethic_gestalt_consciousness
-			has_relation_flag = {
-				who = event_target:artifact_giver
-				flag = precursor_artifact_deal
+			AND = {
+				exists = event_target:artifact_giver
+				has_relation_flag = {
+					who = event_target:artifact_giver
+					flag = precursor_artifact_deal
+				}
 			}
 		}
 		OR = {
@@ -9530,9 +9920,9 @@ country_event = {
 						is_friendly_to = root
 						is_loyal_to = root
 					}
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 					}
 					any_system_within_border = { has_star_flag = precursor_1 }
@@ -9555,15 +9945,15 @@ country_event = {
 						is_friendly_to = root
 						is_loyal_to = root
 					}
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 					}
 					any_system_within_border = { has_star_flag = precursor_2 }
 				}
 			}
-			AND = { 
+			AND = {
 				has_event_chain = "first_league_chain"
 				NOT = {
 					has_completed_event_chain_counter = {
@@ -9580,9 +9970,9 @@ country_event = {
 						is_friendly_to = root
 						is_loyal_to = root
 					}
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 					}
 					any_system_within_border = { has_star_flag = precursor_3 }
@@ -9605,9 +9995,9 @@ country_event = {
 						is_friendly_to = root
 						is_loyal_to = root
 					}
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 					}
 					any_system_within_border = { has_star_flag = precursor_4 }
@@ -9630,9 +10020,9 @@ country_event = {
 						is_friendly_to = root
 						is_loyal_to = root
 					}
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 					}
 					any_system_within_border = { has_star_flag = precursor_5 }
@@ -9640,22 +10030,18 @@ country_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 240
 		modifier = {
 			factor = 0.75
 			years_passed > 100
-		}		
+		}
 	}
 
 	immediate = {
 		set_country_flag = precursor_giver_fired
 		set_timed_country_flag = { flag = new_precursor days = 1200 }
-		set_relation_flag = {
-			who = event_target:artifact_giver
-			flag = precursor_artifact_deal
-		}
 		if = {
 			limit = { has_event_chain = "vultaum_chain" }
 			set_country_flag = vultaum_artifact_recoverer
@@ -9669,9 +10055,9 @@ country_event = {
 						is_friendly_to = root
 						is_loyal_to = root
 					}
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 					}
 					any_system_within_border = { has_star_flag = precursor_1 }
@@ -9693,9 +10079,9 @@ country_event = {
 						is_friendly_to = root
 						is_loyal_to = root
 					}
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 					}
 					any_system_within_border = { has_star_flag = precursor_2 }
@@ -9717,9 +10103,9 @@ country_event = {
 						is_friendly_to = root
 						is_loyal_to = root
 					}
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 					}
 					any_system_within_border = { has_star_flag = precursor_3 }
@@ -9741,9 +10127,9 @@ country_event = {
 						is_friendly_to = root
 						is_loyal_to = root
 					}
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 					}
 					any_system_within_border = { has_star_flag = precursor_4 }
@@ -9765,9 +10151,9 @@ country_event = {
 						is_friendly_to = root
 						is_loyal_to = root
 					}
-					NOR = { 
+					NOR = {
 						has_ethic = ethic_gestalt_consciousness
-						is_at_war_with = root 
+						is_at_war_with = root
 						is_same_value = root
 					}
 					any_system_within_border = { has_star_flag = precursor_5 }
@@ -9775,6 +10161,10 @@ country_event = {
 				save_event_target_as = artifact_giver
 			}
 			break = yes
+		}
+		set_relation_flag = {
+			who = event_target:artifact_giver
+			flag = precursor_artifact_deal
 		}
 	}
 
@@ -9787,7 +10177,7 @@ country_event = {
 			remove_country_flag = cybrex_artifact_recoverer
 		}
 	}
-	
+
 	option = {
 		name = "precursor.314.a"
 		collector_surrenders_artifact = yes
@@ -10993,6 +11383,77 @@ country_event = {
 	
 	option = {
 		name = precursor.301.a
+	}
+}
+
+# Precursor Anomaly Spawned via Minor Artifact Action
+country_event = {
+	id = precursor.320
+	title = "precursor.301.name"
+	desc = "precursor.320.desc"
+
+	picture = GFX_evt_archaeological_dig
+	location = event_target:precursor_planet
+	trackable = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_event_chain = "vultaum_chain"
+				any_system_within_border = {
+					has_star_flag = precursor_1
+				}
+			}
+			spawn_vultaum_anomaly = yes
+			break = yes
+		}
+		if = {
+			limit = {
+				has_event_chain = "yuht_chain"
+				any_system_within_border = {
+					has_star_flag = precursor_2
+				}
+			}
+			spawn_yuht_anomaly = yes
+			break = yes
+		}
+		if = {
+			limit = {
+				has_event_chain = "first_league_chain"
+				any_system_within_border = {
+					has_star_flag = precursor_3
+				}
+			}
+			spawn_league_anomaly = yes
+			break = yes
+		}
+		if = {
+			limit = {
+				has_event_chain = "irassian_chain"
+				any_system_within_border = {
+					has_star_flag = precursor_4
+				}
+			}
+			spawn_irassian_anomaly = yes
+			break = yes
+		}
+		if = {
+			limit = {
+				has_event_chain = "cybrex_chain"
+				any_system_within_border = {
+					has_star_flag = precursor_5
+				}
+			}
+			spawn_cybrex_anomaly = yes
+			break = yes
+		}
+	}
+
+	option = {
+		name = precursor.301.a
+		custom_tooltip = new_precursor_project
 	}
 }
 

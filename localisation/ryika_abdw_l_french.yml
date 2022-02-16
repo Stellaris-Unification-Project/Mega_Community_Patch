@@ -1,0 +1,25 @@
+﻿
+ l_french:
+ 
+ #######################################################
+ ### STATIC MODIFIER                                 ###
+ #######################################################
+ 
+ ryika_abdw_fleet_contribution:0 "Fleet Contribution"
+ ryika_abdw_fleet_contribution_desc:0 "The §HFleet Contribution§! law grants the §HLeader§! of a Federation Diplomatic Weight from §HFleet Power§!.\n\nThis effect is scaled by the setting of the law:\nLow: §G20%§!\nMedium: §G40%§!\nHigh: §G60%§!"
+  
+ ryika_abdw_research_federation:0 "Research Cooperative"
+ ryika_abdw_research_federation_desc:0 "The §HResearch Cooperative§! Federation Type grants each §HMember§! of a Federation Diplomatic Weight from §HTechnology§!.\n\nThis effect is scaled by the number of §Hother Empires§! in the Federation, §G+20%§! per member, to a maximum of 10 members."
+ 
+ ryika_abdw_migration_pacts:0 "Migration Treaties"
+ ryika_abdw_migration_pacts_desc:0 "Each §HMigration Treaty§! grants §Hboth participants§! §G+20%§! Diplomatic Weight from §HPops§!, to a maximum of 10 Migration Treaties."
+  
+ ryika_abdw_research_agreements:0 "Research Agreements"
+ ryika_abdw_research_agreements_desc:0 "Each §HResearch Agreement§! grants §Hboth participants§! §G+20%§! Diplomatic Weight from §HTechnology§!, to a maximum of 10 Research Agreements."
+  
+ ryika_abdw_commercial_pacts:0 "Commercial Pacts"
+ ryika_abdw_commercial_pacts_desc:0 "Each §HCommercial Pact§! grants §Hboth participants§! §G+20%§! Diplomatic Weight from §HEconomy§!, to a maximum of 10 Commercial Pacts."
+  
+ ryika_abdw_defensive_pacts:0 "Defensive Pacts"
+ ryika_abdw_defensive_pacts_desc:0 "Each §HDefensive Pact§! grants §Hboth participants§! §G+20%§! Diplomatic Weight from §HFleet Power§!, to a maximum of 10 Defensive Pacts."
+ 

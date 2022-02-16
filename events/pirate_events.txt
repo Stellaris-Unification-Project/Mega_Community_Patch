@@ -1,10 +1,7 @@
-############################
-#
+###############################################
 # Pirate Events
-#
-# Written by Henrik Eklund
-#
-############################
+# Written by Henrik Thyrwall (& Gemma Thomson)
+###############################################
 
 namespace = pirate
 
@@ -23,10 +20,24 @@ country_event = {
 		}
 	}
 
-	desc = { # Militarist
+	desc = { # Militarist - using as default
 		text = pirate.1.desc_02
 		trigger = {
-			has_militarist_government = yes
+			NOR = {
+				has_spiritualist_government = yes
+				has_materialist_government = yes
+				has_pacifist_government = yes
+				has_government = gov_despotic_empire
+				has_government = gov_feudal_empire
+				has_government = gov_constitutional_dictatorship
+				has_government = gov_enlightened_monarchy
+				has_government = gov_elective_monarchy
+				has_government = gov_bandit_kingdom
+				has_government = gov_megacorporation
+				has_government = gov_plutocratic_oligarchy
+				has_government = gov_representative_democracy
+				has_government = gov_communal_parity
+			}
 		}
 	}
 
@@ -53,6 +64,7 @@ country_event = {
 				has_government = gov_constitutional_dictatorship
 				has_government = gov_enlightened_monarchy
 				has_government = gov_elective_monarchy
+				has_government = gov_bandit_kingdom
 			}
 		}
 	}
@@ -70,33 +82,30 @@ country_event = {
 	desc = { # Generic Democracy
 		text = pirate.1.desc_07
 		trigger = {
-			has_government = gov_representative_democracy
+			OR = {
+				has_government = gov_representative_democracy
+				has_government = gov_communal_parity
+			}
 		}
 	}
 
 	trigger = {
-		years_passed > 10
 		is_country_type = default
 		NOR = {
 			has_country_flag = birth_of_piracy
 			has_ethic = ethic_gestalt_consciousness
 		}
 		exists = capital_scope
-		any_controlled_planet = {
-			OR = {
-				has_mining_station = yes
-				has_research_station = yes
-			}
-			solar_system = {
-				NOT = { is_same_value = capital_scope.solar_system }
-			}
+		any_system_within_border = {
+			has_trade_route = yes
+			trade_intercepted_value > 0
 		}
 	}
 
 	is_triggered_only = yes
 
 	immediate = {
-		set_timed_country_flag = { flag = had_pirates_spawn days = 1800 }
+		set_timed_country_flag = { flag = pirates_spawned days = 3600 }
 		set_country_flag = birth_of_piracy
 		set_country_flag = pirate_encountered
 		capital_scope = {
@@ -105,173 +114,14 @@ country_event = {
 		}
 		save_event_target_as = pirate_target
 		owner_species = { save_event_target_as = owner_species }
-
-		capital_scope = {
-			closest_system = {
-				limit = {
-					NOR = {
-						has_star_flag = hostile_system
-						has_star_flag = enclave
-						has_star_flag = guardian
-						exists = space_owner
-						any_ship_in_system = {
-							is_ship_size = constructor
-							is_constructing = starbase
-						}
-					}
-				}
-				save_event_target_as = pirate_system
-				random_system_planet = {
-					limit = { is_star = no }
-					save_event_target_as = pirate_home
-					create_country = {
-						name = "NAME_Pirates"
-						type = pirate
-						species = event_target:owner_species
-						name_list = "PRT1"
-						flag = {
-							background = {
-								category = "backgrounds"
-								file = "00_solid.dds"
-							}
-							colors ={
-								"black"
-								"black"
-								"null"
-								"null"
-							}
-						}
-						effect = {
-							save_event_target_as = pirate_band
-						}
-					}
-					event_target:pirate_band = {
-						set_name = random
-						randomize_flag_symbol = "pirate"
-						root = {
-							set_country_flag = spawner_of@event_target:pirate_band
-							change_variable = {
-								which = "pirates_active"
-								value = 1
-							}
-						}
-						every_country = { establish_communications_no_message = prev }
-
-						create_fleet = {
-							name = "NAME_Pirate_Station"
-							effect = {
-								set_owner = PREV
-								create_ship = {
-									name = random
-									design = "NAME_Pirate_Nest"
-									graphical_culture = "pirate_01"
-								}
-								set_location = PREVPREV
-							}
-						}
-						create_leader = {
-							class = admiral
-							species = owner_main_species
-							name = random
-							skill = 1
-							#traits = {
-							#	trait = random_trait
-							#}
-						}
-						create_fleet = {
-							name = "NAME_Pirate_Fleet"
-							effect = {
-								set_owner = PREV
-								create_ship_design = {
-									design = "NAME_Reaver"
-								}
-								while = {
-									count = 4
-									create_ship = {
-										name = random
-										design = last_created_design
-										graphical_culture = "pirate_01"
-									}
-								}
-								assign_leader = last_created_leader
-								set_location = PREVPREV
-								set_fleet_stance = aggressive
-								set_aggro_range_measure_from = self
-								set_aggro_range = 150
-
-								queue_actions = {
-									repeat = {
-										find_closest_system = {
-											trigger = {
-												id = "pirate.1.trigger.1"
-												NOR = {
-													has_star_flag = hostile_system
-													is_same_value = event_target:capital_system
-												}
-												any_system_planet = {
-													OR = {
-														has_mining_station = yes
-														has_research_station = yes
-													}
-													exists = controller
-													controller = { is_same_value = event_target:pirate_target }
-												}
-												distance = {
-													source = PREV
-													max_distance <= 100
-													min_distance >= 20
-												}
-											}
-											found_system = {
-												move_to = THIS
-											}
-										}
-										find_closest_planet = {
-											trigger = {
-												id = "pirate.1.trigger.2"
-												OR = {
-													has_mining_station = yes
-													has_research_station = yes
-												}
-											}
-											found_planet = {
-												orbit_planet = THIS
-												wait = {
-													duration = 20
-												}
-											}
-										}
-										find_random_system = {
-											trigger = {
-												id = "pirate.1.trigger.3"
-												any_system_planet = {
-													is_planet = event_target:pirate_home
-												}
-											}
-											found_system = {
-												move_to = THIS
-											}
-										}
-										find_closest_planet = {
-											trigger = {
-												id = "pirate.1.trigger.4"
-												is_planet = event_target:pirate_home
-											}
-											found_planet = {
-												orbit_planet = THIS
-												wait = {
-													duration = 200
-													random = 150
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+		random_system_within_border = {
+			limit = {
+				has_trade_route = yes
+				trade_intercepted_value > 0
 			}
+			save_event_target_as = pirate_system
+			create_normal_pirate_country = yes
+			create_pirate_fleet = yes
 		}
 	}
 
@@ -284,7 +134,12 @@ country_event = {
 	option = {
 		name = pirate.2.b
 		trigger = {
-			has_militarist_government = yes
+			OR = {
+				has_militarist_government = yes
+				has_government = gov_bandit_commune
+				has_government = gov_successor_khanate
+				has_government = gov_diadochi
+			}
 		}
 	}
 	option = {
@@ -308,6 +163,8 @@ country_event = {
 				has_government = gov_constitutional_dictatorship
 				has_government = gov_enlightened_monarchy
 				has_government = gov_elective_monarchy
+				has_government = gov_bandit_kingdom
+				has_purifier_government = yes
 			}
 		}
 	}
@@ -317,72 +174,114 @@ country_event = {
 			OR = {
 				has_government = gov_megacorporation
 				has_government = gov_plutocratic_oligarchy
+				has_government = gov_trade_league
 			}
 		}
 	}
 	option = {
 		name = pirate.2.g
 		trigger = {
-			has_government = gov_representative_democracy
+			OR = {
+				has_government = gov_representative_democracy
+				has_government = gov_communal_parity
+			}
 		}
+	}
+	option = {
+		name = pirate.2.h
+		trigger = {
+			OR = {
+				has_government = gov_criminal_syndicate
+				has_government = gov_subversive_cult
+			}
+		}
+	}
+	option = {
+		name = pirate.2.i #none of the above
+		trigger = {
+			NOR = {
+				has_spiritualist_government = yes
+				has_militarist_government = yes
+				has_government = gov_bandit_commune
+				has_materialist_government = yes
+				has_pacifist_government = yes
+				has_government = gov_despotic_empire
+				has_government = gov_feudal_empire
+				has_government = gov_constitutional_dictatorship
+				has_government = gov_enlightened_monarchy
+				has_government = gov_elective_monarchy
+				has_government = gov_bandit_kingdom
+				has_purifier_government = yes
+				has_government = gov_megacorporation
+				has_government = gov_plutocratic_oligarchy
+				has_government = gov_trade_league
+				has_government = gov_representative_democracy
+				has_government = gov_communal_parity
+				has_government = gov_criminal_syndicate
+				has_government = gov_subversive_cult
+				has_government = gov_successor_khanate
+				has_government = gov_diadochi
+			}
+		}
+		log_error = "[Root.GetGovernmentName] is missing an option in pirate.1, using fallback option instead"
 	}
 }
 
-# New Ships (HIDDEN)
-country_event = {
-	id = pirate.2
-	hide_window = yes
-
-	trigger = {
-		is_country_type = pirate
-		OR = {
-			num_fleets < 2
-			num_ships < 3
-		}
-		any_owned_ship = {
-			is_ship_size = pirate_station
-		}
-		any_playable_country = {
-			is_country_type = default
-			has_country_flag = spawner_of@root
-			exists = capital_scope
-			any_controlled_planet = {
-				OR = {
-					has_mining_station = yes
-					has_research_station = yes
-				}
-				solar_system = {
-					NOT = { is_same_value = prev.prev.capital_scope.solar_system }
-				}
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		months = 100
-	}
-
-	immediate = {
-		random_playable_country = {
-			limit = {
-				is_country_type = default
-				has_country_flag = spawner_of@root
-			}
-			save_event_target_as = pirate_target
-			capital_scope = {
-				solar_system = { save_event_target_as = capital_system }
-			}
-		}
-		save_event_target_as = pirate_band
-		random_owned_ship = {
-			limit = { is_ship_size = pirate_station }
-			fleet = {
-				orbit = { save_event_target_as = pirate_home } # save actual planet as home
-			}
-		}
-		create_pirate_fleet = yes
-	}
-}
+## New Ships (HIDDEN)
+#country_event = {
+#	id = pirate.2
+#	hide_window = yes
+#
+#	trigger = {
+#		is_country_type = pirate
+#		OR = {
+#			num_fleets < 2
+#			num_ships < 3
+#		}
+#		any_owned_ship = {
+#			is_ship_size = pirate_station
+#		}
+#		any_country = {
+#			is_country_type = default
+#			has_country_flag = spawner_of@root
+#			exists = capital_scope
+#			any_controlled_planet = {
+#				OR = {
+#					has_mining_station = yes
+#					has_research_station = yes
+#				}
+#				solar_system = {
+#					NOT = { is_same_value = prev.prev.capital_scope.solar_system }
+#				}
+#			}
+#		}
+#	}
+#
+#	mean_time_to_happen = {
+#		months = 100
+#	}
+#
+#	immediate = {
+#		random_country = {
+#			limit = {
+#				is_country_type = default
+#				has_country_flag = spawner_of@root
+#			}
+#			save_event_target_as = pirate_target
+#			capital_scope = {
+#				solar_system = { save_event_target_as = capital_system }
+#			}
+#		}
+#		save_event_target_as = pirate_band
+#		random_owned_ship = {
+#			limit = { is_ship_size = pirate_station }
+#			fleet = {
+#				orbit = { save_event_target_as = pirate_home } # save actual planet as home
+#			}
+#		}
+#		create_pirate_fleet = yes
+#	}
+#}
 
 #Starting the pirate chain
 ship_event = {
@@ -391,6 +290,7 @@ ship_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		exists = owner
 		owner = { is_country_type = default }
 		from = {
 			solar_system = {
@@ -450,9 +350,13 @@ event = {
 	is_triggered_only = yes
 
 	immediate = {
-		every_country = {
+		every_playable_country = {
 			limit = {
 				NOT = { has_country_flag = birth_of_piracy }
+				any_system_within_border = {
+					has_trade_route = yes
+					trade_intercepted_value > 0
+				}
 			}
 			country_event = { id = pirate.5 }
 		}
@@ -465,42 +369,20 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		is_country_type = default
-		OR = {
-			has_country_flag = outer_system_mining_stations_constructed
-			any_owned_planet = {
-				is_homeworld = no
-			}
-		}
-	}
-
 	immediate = {
 		if = {
 			limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
-			random_list = {
-				30 = { country_event = { id = pirate.1 days = 50 random = 25 } }
-				30 = { country_event = { id = pirate.1 days = 150 random = 50 } }
-				40 = {  }
-			}
+			country_event = { id = pirate.1 days = 1 random = 30 }
 			break = yes
 		}
 		if = {
 			limit = { has_authority = auth_hive_mind }
-			random_list = {
-				30 = { country_event = { id = pirate.6 days = 50 random = 25 } }
-				30 = { country_event = { id = pirate.6 days = 150 random = 50 } }
-				40 = {  }
-			}
+			country_event = { id = pirate.6 days = 1 random = 30 }
 			break = yes
 		}
 		if = {
 			limit = { has_authority = auth_machine_intelligence }
-			random_list = {
-				30 = { country_event = { id = pirate.7 days = 50 random = 25 } }
-				30 = { country_event = { id = pirate.7 days = 150 random = 50 } }
-				40 = {  }
-			}
+			country_event = { id = pirate.7 days = 1 random = 30 }
 		}
 	}
 }
@@ -515,25 +397,19 @@ country_event = {
 	location = event_target:pirate_system
 
 	trigger = {
-		years_passed > 10
 		is_country_type = default
 		NOT = { has_country_flag = birth_of_piracy }
 		exists = capital_scope
-		any_controlled_planet = {
-			OR = {
-				has_mining_station = yes
-				has_research_station = yes
-			}
-			solar_system = {
-				NOT = { is_same_value = capital_scope.solar_system }
-			}
+		any_system_within_border = {
+			has_trade_route = yes
+			trade_intercepted_value > 0
 		}
 	}
 
 	is_triggered_only = yes
 
 	immediate = {
-		set_timed_country_flag = { flag = had_pirates_spawn days = 1800 }
+		set_timed_country_flag = { flag = pirates_spawned days = 3600 }
 		set_country_flag = birth_of_piracy
 		set_country_flag = pirate_encountered
 		capital_scope = {
@@ -543,173 +419,14 @@ country_event = {
 		save_event_target_as = pirate_target
 		owner_species = { save_event_target_as = owner_species }
 
-		capital_scope = {
-			closest_system = {
-				limit = {
-					NOR = {
-						has_star_flag = hostile_system
-						has_star_flag = guardian
-						has_star_flag = enclave
-						exists = space_owner
-						any_ship_in_system = {
-							is_ship_size = constructor
-							is_constructing = starbase
-						}
-					}
-				}
-				save_event_target_as = pirate_system
-				random_system_planet = {
-					limit = { is_star = no }
-					save_event_target_as = pirate_home
-					create_country = {
-						name = "NAME_Pirates"
-						type = pirate
-						species = event_target:owner_species
-						name_list = "PRT1"
-						flag = {
-							background = {
-								category = "backgrounds"
-								file = "00_solid.dds"
-							}
-							colors ={
-								"black"
-								"black"
-								"null"
-								"null"
-							}
-						}
-						effect = {
-							save_event_target_as = pirate_band
-							set_country_flag = drone_pirate
-						}
-					}
-					event_target:pirate_band = {
-						set_name = random
-						randomize_flag_symbol = "pirate"
-						root = {
-							set_country_flag = spawner_of@event_target:pirate_band
-							change_variable = {
-								which = "pirates_active"
-								value = 1
-							}
-						}
-						every_country = { establish_communications_no_message = prev }
-
-						create_fleet = {
-							name = "NAME_Pirate_Station"
-							effect = {
-								set_owner = PREV
-								create_ship = {
-									name = random
-									design = "NAME_Pirate_Nest"
-									graphical_culture = "pirate_01"
-								}
-								set_location = PREVPREV
-							}
-						}
-						create_leader = {
-							class = admiral
-							species = owner_main_species
-							name = random
-							skill = 1
-							traits = {
-								trait = random_trait
-							}
-						}
-						create_fleet = {
-							name = "NAME_Pirate_Fleet"
-							effect = {
-								set_owner = PREV
-								create_ship_design = {
-									design = "NAME_Reaver"
-								}
-								while = {
-									count = 4
-									create_ship = {
-										name = random
-										design = last_created_design
-										graphical_culture = "pirate_01"
-									}
-								}
-								assign_leader = last_created_leader
-								set_location = PREVPREV
-								set_fleet_stance = aggressive
-								set_aggro_range_measure_from = self
-								set_aggro_range = 150
-
-								queue_actions = {
-									repeat = {
-										find_closest_system = {
-											trigger = {
-												id = "pirate.6.trigger.1"
-												NOR = {
-													has_star_flag = hostile_system
-													is_same_value = event_target:capital_system
-												}
-												any_system_planet = {
-													OR = {
-														has_mining_station = yes
-														has_research_station = yes
-													}
-													exists = controller
-													controller = { is_same_value = event_target:pirate_target }
-												}
-												distance = {
-													source = PREV
-													max_distance <= 100
-													min_distance >= 20
-												}
-											}
-											found_system = {
-												move_to = THIS
-											}
-										}
-										find_closest_planet = {
-											trigger = {
-												id = "pirate.6.trigger.2"
-												OR = {
-													has_mining_station = yes
-													has_research_station = yes
-												}
-											}
-											found_planet = {
-												orbit_planet = THIS
-												wait = {
-													duration = 20
-												}
-											}
-										}
-										find_random_system = {
-											trigger = {
-												id = "pirate.6.trigger.3"
-												any_system_planet = {
-													is_planet = event_target:pirate_home
-												}
-											}
-											found_system = {
-												move_to = THIS
-											}
-										}
-										find_closest_planet = {
-											trigger = {
-												id = "pirate.6.trigger.4"
-												is_planet = event_target:pirate_home
-											}
-											found_planet = {
-												orbit_planet = THIS
-												wait = {
-													duration = 200
-													random = 150
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+		random_system_within_border = {
+			limit = {
+				has_trade_route = yes
+				trade_intercepted_value > 0
 			}
+			save_event_target_as = pirate_system
+			create_normal_pirate_country = yes
+			create_pirate_fleet = yes
 		}
 	}
 
@@ -728,25 +445,19 @@ country_event = {
 	location = event_target:pirate_system
 
 	trigger = {
-		years_passed > 10
 		is_country_type = default
 		NOT = { has_country_flag = birth_of_piracy }
 		exists = capital_scope
-		any_controlled_planet = {
-			OR = {
-				has_mining_station = yes
-				has_research_station = yes
-			}
-			solar_system = {
-				NOT = { is_same_value = capital_scope.solar_system }
-			}
+		any_system_within_border = {
+			has_trade_route = yes
+			trade_intercepted_value > 0
 		}
 	}
 
 	is_triggered_only = yes
 
 	immediate = {
-		set_timed_country_flag = { flag = had_pirates_spawn days = 1800 }
+		set_timed_country_flag = { flag = pirates_spawned days = 3600 }
 		set_country_flag = birth_of_piracy
 		set_country_flag = pirate_encountered
 		capital_scope = {
@@ -756,173 +467,14 @@ country_event = {
 		save_event_target_as = pirate_target
 		owner_species = { save_event_target_as = owner_species }
 
-		capital_scope = {
-			closest_system = {
-				limit = {
-					NOR = {
-						has_star_flag = hostile_system
-						has_star_flag = guardian
-						has_star_flag = enclave
-						exists = space_owner
-						any_ship_in_system = {
-							is_ship_size = constructor
-							is_constructing = starbase
-						}
-					}
-				}
-				save_event_target_as = pirate_system
-				random_system_planet = {
-					limit = { is_star = no }
-					save_event_target_as = pirate_home
-					create_country = {
-						name = "NAME_Pirates"
-						type = pirate
-						species = event_target:owner_species
-						name_list = "PRT1"
-						flag = {
-							background = {
-								category = "backgrounds"
-								file = "00_solid.dds"
-							}
-							colors ={
-								"black"
-								"black"
-								"null"
-								"null"
-							}
-						}
-						effect = {
-							save_event_target_as = pirate_band
-							set_country_flag = machine_pirate
-						}
-					}
-					event_target:pirate_band = {
-						set_name = random
-						randomize_flag_symbol = "pirate"
-						root = {
-							set_country_flag = spawner_of@event_target:pirate_band
-							change_variable = {
-								which = "pirates_active"
-								value = 1
-							}
-						}
-						every_country = { establish_communications_no_message = prev }
-
-						create_fleet = {
-							name = "NAME_Pirate_Station"
-							effect = {
-								set_owner = PREV
-								create_ship = {
-									name = random
-									design = "NAME_Pirate_Nest"
-									graphical_culture = "pirate_01"
-								}
-								set_location = PREVPREV
-							}
-						}
-						create_leader = {
-							class = admiral
-							species = owner_main_species
-							name = random
-							skill = 1
-							traits = {
-								trait = random_trait
-							}
-						}
-						create_fleet = {
-							name = "NAME_Pirate_Fleet"
-							effect = {
-								set_owner = PREV
-								create_ship_design = {
-									design = "NAME_Reaver"
-								}
-								while = {
-									count = 4
-									create_ship = {
-										name = random
-										design = last_created_design
-										graphical_culture = "pirate_01"
-									}
-								}
-								assign_leader = last_created_leader
-								set_location = PREVPREV
-								set_fleet_stance = aggressive
-								set_aggro_range_measure_from = self
-								set_aggro_range = 150
-
-								queue_actions = {
-									repeat = {
-										find_closest_system = {
-											trigger = {
-												id = "pirate.7.trigger.1"
-												NOR = {
-													has_star_flag = hostile_system
-													is_same_value = event_target:capital_system
-												}
-												any_system_planet = {
-													OR = {
-														has_mining_station = yes
-														has_research_station = yes
-													}
-													exists = controller
-													controller = { is_same_value = event_target:pirate_target }
-												}
-												distance = {
-													source = PREV
-													max_distance <= 100
-													min_distance >= 20
-												}
-											}
-											found_system = {
-												move_to = THIS
-											}
-										}
-										find_closest_planet = {
-											trigger = {
-												id = "pirate.7.trigger.2"
-												OR = {
-													has_mining_station = yes
-													has_research_station = yes
-												}
-											}
-											found_planet = {
-												orbit_planet = THIS
-												wait = {
-													duration = 20
-												}
-											}
-										}
-										find_random_system = {
-											trigger = {
-												id = "pirate.7.trigger.3"
-												any_system_planet = {
-													is_planet = event_target:pirate_home
-												}
-											}
-											found_system = {
-												move_to = THIS
-											}
-										}
-										find_closest_planet = {
-											trigger = {
-												id = "pirate.7.trigger.4"
-												is_planet = event_target:pirate_home
-											}
-											found_planet = {
-												orbit_planet = THIS
-												wait = {
-													duration = 200
-													random = 150
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+		random_system_within_border = {
+			limit = {
+				has_trade_route = yes
+				trade_intercepted_value > 0
 			}
+			save_event_target_as = pirate_system
+			create_normal_pirate_country = yes
+			create_pirate_fleet = yes
 		}
 	}
 
@@ -943,12 +495,11 @@ fleet_event = {
 	is_triggered_only = yes
 
 	trigger = {
+		exists = owner
 		from = {
 			has_star_flag = pirate_home_system
-			any_ship_in_system = {
-				fleet = {
-					has_fleet_flag = pirate_home_system_fleet
-				}
+			any_fleet_in_system = {
+				has_fleet_flag = pirate_home_system_fleet
 			}
 		}
 		NOT = {
@@ -991,74 +542,76 @@ fleet_event = {
 	}
 }
 
-## perp port
-#country_event = {
-#	id = pirate.13
-#	hide_window = yes
-#
-#	is_triggered_only = yes
-#
-#	trigger = {
-#		NOT = { has_global_flag = privateers_destroyed }
-#		from = {
-#			is_country_type = pirate
-#		}
-#		fromfrom.solar_system = {
-#			has_star_flag = pirate_home_system
-#			NOT = {
-#				any_ship_in_system = {
-#					fleet = {
-#						has_fleet_flag = pirate_home_system_fleet
-#					}
-#				}
-#			}
-#		}
-#	}
-#
-#	immediate = {
-#		if = {
-#			limit = {
-#				has_communications = from
-#			}
-#			country_event = { id = pirate.15 }
-#		}
-#	}
-#}
-#
-## destroyed pirate home system
-#country_event = {
-#	id = pirate.15
-#	title = pirate.15.name
-#	picture = GFX_evt_exploding_ship
-#	desc = pirate.15.desc
-#	show_sound = event_space_battle
-#
-#	is_triggered_only = yes
-#
-#	trigger = {
-#		NOT = { has_global_flag = privateers_destroyed }
-#		fromfrom = {
-#			solar_system = {
-#				has_star_flag = pirate_home_system
-#				NOT = {
-#					any_ship_in_system = {
-#						fleet = {
-#							has_fleet_flag = pirate_galleon
-#						}
-#					}
-#				}
-#			}
-#		}
-#	}
-#
-#	immediate = {
-#		set_global_flag = privateers_destroyed
-#	}
-#
-#	option = {
-#		name = OK
-#	}
-#}
+# perp port
+# on_fleet_destroyed_perp
+# This = owner of fleet 1 (combatant)
+# From = owner of fleet 2 (destroyed)
+# FromFrom = fleet 1
+# FromFromFrom = fleet 2
+country_event = {
+	id = pirate.13
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_global_flag = privateers_destroyed }
+		is_country_type = default
+		from = {
+			is_country_type = pirate
+			has_communications = root
+		}
+		fromfromfrom = {
+			has_fleet_flag = pirate_home_system_fleet
+		}
+		fromfrom.solar_system = {
+			has_star_flag = pirate_home_system
+			NOT = {
+				any_fleet_in_system = {
+					has_fleet_flag = pirate_home_system_fleet
+					NOT = { is_same_value = fromfromfrom }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		fromfrom = { save_event_target_as = killer_fleet }
+		country_event = { id = pirate.15 }
+	}
+}
+
+# destroyed pirate home system
+country_event = {
+	id = pirate.15
+	title = pirate.15.name
+	picture = GFX_evt_exploding_ship
+	desc = {
+		trigger = { NOT = { has_event_chain = "l_cluster_chain" } }
+		text = pirate.15.desc
+	}
+	desc = {
+		trigger = { has_event_chain = "l_cluster_chain" }
+		text = pirate.15.desc2
+	}
+	show_sound = event_space_battle
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_global_flag = privateers_destroyed
+	}
+
+	option = {
+		name = EXCELLENT
+		add_resource = {
+			minerals = 2500
+			energy = 1500
+			alloys = 750
+		}
+		generate_lcluster_clue = yes
+	}
+}
 
 # raid from home system
 fleet_event = {
@@ -1131,6 +684,7 @@ fleet_event = {
 }
 
 # Destroyed Pirate Station (HIDDEN)
+# on_fleet_destroyed_perp
 country_event = {
 	id = pirate.24
 	hide_window = yes
@@ -1144,7 +698,9 @@ country_event = {
 		}
 		fromfromfrom = {
 			is_ship_size = pirate_station
+			NOT = { has_fleet_flag = pirate_home_system_fleet }
 		}
+		is_country_type = default
 	}
 
 	immediate = {
@@ -1152,8 +708,8 @@ country_event = {
 		if = {
 			limit = { has_event_chain = "l_cluster_chain" }
 			random_list = {
-				80 = { country_event = { id = pirate.25 } }
-				20 = { country_event = { id = pirate.26 } }
+				85 = { country_event = { id = pirate.25 } }
+				15 = { country_event = { id = pirate.26 } }
 			}
 		}
 		else = {
@@ -1174,44 +730,210 @@ country_event = {
 
 	immediate = {
 		random_list = {
-			15 = { set_country_flag = big_loot }
-			35 = { set_country_flag = medium_loot }
-			50 = { set_country_flag = small_loot }
+			5 = {
+				set_country_flag = massive_loot
+				modifier = {
+					factor = 1.5
+					years_passed > 80
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 100
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 120
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 140
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 160
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 180
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 200
+				}
+			}
+			15 = {
+				set_country_flag = big_loot
+				modifier = {
+					factor = 1.2
+					years_passed > 80
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 100
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 120
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 140
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 160
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 180
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 200
+				}
+			}
+			35 = {
+				set_country_flag = medium_loot
+			}
+			50 = {
+				set_country_flag = small_loot
+				modifier = {
+					factor = 0.8
+					years_passed > 80
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 100
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 120
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 140
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 160
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 180
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 200
+				}
+			}
 		}
 	}
 
 	option = {
 		name = EXCELLENT
+		trigger = { has_country_flag = massive_loot }
+		if = {
+			limit = {
+				years_passed > 100
+			}
+			add_resource = {
+				minerals = 1200
+				energy = 600
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 600
+				energy = 300
+			}
+		}
+		hidden_effect = { remove_country_flag = massive_loot }
+	}
+	option = {
+		name = EXCELLENT
 		trigger = { has_country_flag = big_loot }
-		add_resource = { minerals = 300 }
-		add_resource = { energy = 150 }
+		if = {
+			limit = {
+				years_passed > 100
+			}
+			add_resource = {
+				minerals = 600
+				energy = 300
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 300
+				energy = 150
+			}
+		}
 		hidden_effect = { remove_country_flag = big_loot }
 	}
 	option = {
 		name = EXCELLENT
 		trigger = { has_country_flag = medium_loot }
-		add_resource = { minerals = 180 }
-		add_resource = { energy = 100 }
+		if = {
+			limit = {
+				years_passed > 100
+			}
+			add_resource = {
+				minerals = 360
+				energy = 200
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 180
+				energy = 100
+			}
+		}
 		hidden_effect = { remove_country_flag = medium_loot }
 	}
 	option = {
 		name = EXCELLENT
 		trigger = { has_country_flag = small_loot }
-		add_resource = { minerals = 80 }
-		add_resource = { energy = 50 }
+		if = {
+			limit = {
+				years_passed > 100
+			}
+			add_resource = {
+				minerals = 160
+				energy = 100
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 80
+				energy = 50
+			}
+		}
 		hidden_effect = { remove_country_flag = small_loot }
 	}
 	option = {
 		name = EXCELLENT
 		trigger = {
 			NOR = {
+				has_country_flag = massive_loot
 				has_country_flag = big_loot
 				has_country_flag = medium_loot
 				has_country_flag = small_loot
 			}
 		}
-		add_resource = { minerals = 200 }
-		add_resource = { energy = 200 }
+		if = {
+			limit = {
+				years_passed > 100
+			}
+			add_resource = {
+				minerals = 400
+				energy = 400
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 200
+				energy = 200
+			}
+		}
 	}
 }
 
@@ -1227,33 +949,186 @@ country_event = {
 
 	immediate = {
 		random_list = {
-			15 = { set_country_flag = big_loot }
-			35 = { set_country_flag = medium_loot }
-			50 = { set_country_flag = small_loot }
+			5 = {
+				set_country_flag = massive_loot
+				modifier = {
+					factor = 1.5
+					years_passed > 80
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 100
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 120
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 140
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 160
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 180
+				}
+				modifier = {
+					factor = 1.5
+					years_passed > 200
+				}
+			}
+			15 = {
+				set_country_flag = big_loot
+				modifier = {
+					factor = 1.2
+					years_passed > 80
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 100
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 120
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 140
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 160
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 180
+				}
+				modifier = {
+					factor = 1.2
+					years_passed > 200
+				}
+			}
+			35 = {
+				set_country_flag = medium_loot
+			}
+			50 = {
+				set_country_flag = small_loot
+				modifier = {
+					factor = 0.8
+					years_passed > 80
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 100
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 120
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 140
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 160
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 180
+				}
+				modifier = {
+					factor = 0.8
+					years_passed > 200
+				}
+			}
 		}
 	}
 
 	option = {
 		name = EXCELLENT
+		trigger = { has_country_flag = massive_loot }
+		if = {
+			limit = {
+				years_passed > 100
+			}
+			add_resource = {
+				minerals = 1200
+				energy = 600
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 600
+				energy = 300
+			}
+		}
+		generate_lcluster_clue = yes
+		hidden_effect = { remove_country_flag = massive_loot }
+	}
+	option = {
+		name = EXCELLENT
 		trigger = { has_country_flag = big_loot }
-		add_resource = { minerals = 300 }
-		add_resource = { energy = 150 }
+		if = {
+			limit = {
+				years_passed > 100
+			}
+			add_resource = {
+				minerals = 600
+				energy = 300
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 300
+				energy = 150
+			}
+		}
 		generate_lcluster_clue = yes
 		hidden_effect = { remove_country_flag = big_loot }
 	}
 	option = {
 		name = EXCELLENT
 		trigger = { has_country_flag = medium_loot }
-		add_resource = { minerals = 180 }
-		add_resource = { energy = 100 }
+		if = {
+			limit = {
+				years_passed > 100
+			}
+			add_resource = {
+				minerals = 360
+				energy = 200
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 180
+				energy = 100
+			}
+		}
 		generate_lcluster_clue = yes
 		hidden_effect = { remove_country_flag = medium_loot }
 	}
 	option = {
 		name = EXCELLENT
 		trigger = { has_country_flag = small_loot }
-		add_resource = { minerals = 80 }
-		add_resource = { energy = 50 }
+		if = {
+			limit = {
+				years_passed > 100
+			}
+			add_resource = {
+				minerals = 160
+				energy = 100
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 80
+				energy = 50
+			}
+		}
 		generate_lcluster_clue = yes
 		hidden_effect = { remove_country_flag = small_loot }
 	}
@@ -1261,36 +1136,50 @@ country_event = {
 		name = EXCELLENT
 		trigger = {
 			NOR = {
+				has_country_flag = massive_loot
 				has_country_flag = big_loot
 				has_country_flag = medium_loot
 				has_country_flag = small_loot
 			}
 		}
-		add_resource = { minerals = 200 }
-		add_resource = { energy = 200 }
+		if = {
+			limit = {
+				years_passed > 100
+			}
+			add_resource = {
+				minerals = 400
+				energy = 400
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 200
+				energy = 200
+			}
+		}
 		generate_lcluster_clue = yes
 	}
 }
 
-# pirate comms
-country_event = {
-	id = pirate.30
-	title = action.6.name
-	picture = GFX_evt_pirate_armada
-	desc = pirate.5.desc
-	show_sound = event_space_battle
+# Pirates Sighted On Action
+event = {
+	id = pirate.48
+	hide_window = yes
 
 	is_triggered_only = yes
 
 	immediate = {
-		every_country = {
-			limit = { is_country_type = pirate }
-			establish_communications_no_message = root
+		every_playable_country = {
+			limit = {
+				has_country_flag = birth_of_piracy
+				NOT = { has_country_flag = pirates_spawned }
+				any_system_within_border = {
+					has_trade_route = yes
+					trade_intercepted_value > 0
+				}
+			}
+			country_event = { id = pirate.49 }
 		}
-	}
-
-	option = {
-		name = pirate.5.a
 	}
 }
 
@@ -1348,171 +1237,55 @@ country_event = {
 	trigger = {
 		is_country_type = default
 		has_country_flag = birth_of_piracy
-		OR = {
-			has_isolated_system = yes
-			has_bordering_system = yes
-		}
-		NOT = {
-			check_variable = {
-				which = "pirates_active"
-				value > 4
-			}
+		NOT = { has_country_flag = pirates_spawned }
+		any_system_within_border = {
+			has_trade_route = yes
+			trade_intercepted_value >= 10
 		}
 	}
 
 	immediate = {
-		if = {
-			limit = { has_isolated_system = yes }
-			random_system_within_border = {
-				limit = {
-					any_neighbor_system = {
-						root = {
-							intel_level = {
-								level > none
-								system = prev
-							}
-						}
-						NOR = {
-							has_star_flag = pirates_spawned
-							has_star_flag = precursor_system
-							has_star_flag = enclave
-							any_ship_in_system = {
-								exists = owner
-								owner = { is_hostile = root }
-							}
-							any_ship_in_system = {
-								is_ship_size = constructor
-								is_constructing = starbase
-							}
-							any_ship_in_system = {
-								fleet = { fleet_power > 1000 }
-							}
-						}
-						NOT = { exists = space_owner }
-						NOT = {
-							any_neighbor_system = {
-								exists = space_owner
-								space_owner = { NOT = { is_same_value = root } }
-							}
-						}
-						NOT = {
-							any_neighbor_system = {
-								NOT = { exists = space_owner }
-							}
-						}
-					}
-				}
-				random_neighbor_system = {
+		random_list = {
+			200 = {}
+			10 = {
+				set_timed_country_flag = { flag = pirates_spawned days = 3600 }
+				random_system_within_border = {
 					limit = {
-						root = {
-							intel_level = {
-								level > none
-								system = prev
-							}
+						has_trade_route = yes
+						trade_intercepted_value >= 10
+					}
+					weights = {
+						base = 1
+						modifier = {
+							factor = 1600
+							trade_intercepted_percentage >= 80
 						}
-						NOR = {
-							has_star_flag = pirates_spawned
-							has_star_flag = precursor_system
-							has_star_flag = enclave
-							any_ship_in_system = {
-								exists = owner
-								owner = { is_hostile = root }
-							}
-							any_ship_in_system = {
-								is_ship_size = constructor
-								is_constructing = starbase
-							}
-							any_ship_in_system = {
-								fleet = { fleet_power > 1000 }
-							}
+						modifier = {
+							factor = 800
+							trade_intercepted_percentage >= 60
 						}
-						NOT = { exists = space_owner }
-						NOT = {
-							any_neighbor_system = {
-								exists = space_owner
-								space_owner = { NOT = { is_same_value = root } }
-							}
+						modifier = {
+							factor = 400
+							trade_intercepted_percentage >= 40
 						}
-						NOT = {
-							any_neighbor_system = {
-								NOT = { exists = space_owner }
-							}
+						modifier = {
+							factor = 100
+							trade_intercepted_percentage >= 20
 						}
 					}
-					set_timed_star_flag = { flag = pirates_spawned days = 1800 }
 					save_event_target_as = pirate_system
 				}
-			}
-			if = {
-				limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
-				country_event = { id = pirate.50 }
-			}
-			if = {
-				limit = { has_authority = auth_hive_mind }
-				country_event = { id = pirate.52 }
-			}
-			if = {
-				limit = { has_authority = auth_machine_intelligence }
-				country_event = { id = pirate.55 }
-			}
-		}
-		else = {
-			random_system_within_border = {
-				limit = {
-					any_neighbor_system = {
-						root = {
-							intel_level = {
-								level > none
-								system = prev
-							}
-						}
-						NOR = {
-							has_star_flag = pirates_spawned
-							has_star_flag = precursor_system
-							has_star_flag = enclave
-							any_ship_in_system = {
-								exists = owner
-								owner = { is_hostile = root }
-							}
-							any_ship_in_system = {
-								is_ship_size = constructor
-								is_constructing = starbase
-							}
-							any_ship_in_system = {
-								fleet = { fleet_power > 1000 }
-							}
-						}
-						NOT = { exists = space_owner }
-					}
+				if = {
+					limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+					country_event = { id = pirate.50 }
 				}
-				random_neighbor_system = {
-					limit = {
-						root = {
-							intel_level = {
-								level > none
-								system = prev
-							}
-						}
-						NOR = {
-							has_star_flag = pirates_spawned
-							has_star_flag = precursor_system
-							has_star_flag = enclave
-							any_ship_in_system = {
-								exists = owner
-								owner = { is_hostile = root }
-							}
-							any_ship_in_system = {
-								is_ship_size = constructor
-								is_constructing = starbase
-							}
-							any_ship_in_system = {
-								fleet = { fleet_power > 1000 }
-							}
-						}
-						NOT = { exists = space_owner }
-					}
-					set_timed_star_flag = { flag = pirates_spawned days = 1800 }
-					save_event_target_as = pirate_system
+				if = {
+					limit = { has_authority = auth_hive_mind }
+					country_event = { id = pirate.52 }
+				}
+				if = {
+					limit = { has_authority = auth_machine_intelligence }
+					country_event = { id = pirate.55 }
 				}
 			}
 			if = {
@@ -1535,7 +1308,7 @@ country_event = {
 country_event = {
 	id = pirate.50
 	title = "pirate.50.name"
-	picture = GFX_evt_pirate_armada
+	picture = GFX_evt_pirates_attacking_cargo
 	desc = pirate.50.a.desc
 	desc = pirate.50.b.desc
 	desc = pirate.50.c.desc
@@ -1551,7 +1324,6 @@ country_event = {
 		owner_species = { save_event_target_as = owner_species }
 		save_event_target_as = pirate_target
 		create_normal_pirate_country = yes
-		create_pirate_base_1 = yes
 		create_pirate_fleet = yes
 	}
 
@@ -1616,7 +1388,7 @@ country_event = {
 country_event = {
 	id = pirate.53
 	title = "pirate.53.name"
-	picture = GFX_evt_pirate_armada
+	picture = GFX_evt_pirates_attacking_cargo
 	desc = pirate.53.desc
 	show_sound = event_ship_bridge
 	location = event_target:pirate_system
@@ -1628,9 +1400,7 @@ country_event = {
 			solar_system = { save_event_target_as = capital_system }
 		}
 		owner_species = { save_event_target_as = owner_species }
-		save_event_target_as = pirate_target
 		create_drone_pirate_country = yes
-		create_pirate_base_1 = yes
 		create_pirate_fleet = yes
 	}
 
@@ -1643,7 +1413,7 @@ country_event = {
 country_event = {
 	id = pirate.54
 	title = "pirate.54.name"
-	picture = GFX_evt_pirate_armada
+	picture = GFX_evt_pirates_attacking_cargo
 	desc = pirate.54.desc
 	show_sound = event_ship_bridge
 	location = event_target:pirate_system
@@ -1663,9 +1433,7 @@ country_event = {
 			}
 			owner_species = { save_event_target_as = pirate_species }
 		}
-		save_event_target_as = pirate_target
 		create_drone_pirate_country_2 = yes
-		create_pirate_base_1 = yes
 		create_pirate_fleet = yes
 	}
 
@@ -1705,7 +1473,7 @@ country_event = {
 country_event = {
 	id = pirate.56
 	title = "pirate.56.name"
-	picture = GFX_evt_machine_space_battle
+	picture = GFX_evt_pirates_attacking_cargo
 	desc = pirate.56.desc
 	show_sound = event_ship_bridge
 	location = event_target:pirate_system
@@ -1717,9 +1485,7 @@ country_event = {
 			solar_system = { save_event_target_as = capital_system }
 		}
 		owner_species = { save_event_target_as = owner_species }
-		save_event_target_as = pirate_target
 		create_machine_pirate_country = yes
-		create_pirate_base_1 = yes
 		create_pirate_fleet = yes
 	}
 
@@ -1732,7 +1498,7 @@ country_event = {
 country_event = {
 	id = pirate.57
 	title = "pirate.57.name"
-	picture = GFX_evt_machine_space_battle
+	picture = GFX_evt_pirates_attacking_cargo
 	desc = pirate.57.desc
 	show_sound = event_ship_bridge
 	location = event_target:pirate_system
@@ -1752,9 +1518,7 @@ country_event = {
 			}
 			owner_species = { save_event_target_as = pirate_species }
 		}
-		save_event_target_as = pirate_target
 		create_machine_pirate_country_2 = yes
-		create_pirate_base_1 = yes
 		create_pirate_fleet = yes
 	}
 
@@ -1886,3 +1650,271 @@ country_event = {
 #		}
 #	}
 #}
+
+# Pirate station spawns on disabled starbase (HIDDEN)
+ship_event = {
+	id = pirate.70
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	trigger = {
+		is_ship_class = shipclass_starbase
+		exists = from
+		from = {
+			owner = { is_country_type = pirate }
+		}
+		solar_system = {
+			NOT = {
+				any_fleet_in_system = { is_ship_size = pirate_station }
+			}
+		}
+	}
+
+	immediate = {
+		solar_system = {
+			random_system_planet = { save_event_target_as = pirate_base_location }
+		}
+		create_fleet = {
+			name = "NAME_Pirate_Station"
+			effect = {
+				set_owner = from.owner
+				create_ship = {
+					name = random
+					design = "NAME_Pirate_Nest"
+					graphical_culture = "pirate_01"
+				}
+				set_location = event_target:pirate_base_location
+			}
+		}
+	}
+}
+
+############################
+# Late-game Pirates
+# Written by Gemma Thomson
+############################
+
+# Setup (triggered by on_late_game_pulse): Choose a pirate fleet to spawn
+event = {
+	id = pirate.100
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		end_game_years_passed >= 0
+		any_system = {
+			has_system_trade_value >= 180
+		}
+	}
+
+	immediate = {
+		random_list = {
+			1 = { #Bemat Thalassocracy
+				event_target:global_event_country = {
+					country_event = { id = pirate.150 days = 550 }
+				}
+			}
+			# More pirate encounters can be added here
+			6 = {}
+		}
+	}
+}
+
+### The Bemat Thalassocracy (by Gemma Thomson) ###
+
+# Setup (event_target:global_event_country scope; randomly triggered in pirate.100): Find a suitable spawn point
+country_event = {
+	id = pirate.150
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		NOR = {
+			exists = event_target:thalassocracy_country
+			any_country = { has_country_flag = met_thalassocracy }
+		}
+	}
+
+	immediate = {
+		create_thalassocracy_country = yes
+		if = { #Prioritise unoccupied systems
+			limit = {
+				any_system = {
+					num_planets_in_system > 1
+					NOR = {
+						exists = space_owner
+						has_star_flag = hostile_system
+						has_star_flag = guardian
+						has_star_flag = tiyanki_home_system
+						has_star_flag = amoeba_home_system
+						has_star_flag = lcluster
+						has_star_flag = sealed_system
+					}
+				}
+			}
+			random_system = {
+				limit = {
+					num_planets_in_system > 1
+					NOR = {
+						exists = space_owner
+						has_star_flag = hostile_system
+						has_star_flag = guardian
+						has_star_flag = tiyanki_home_system
+						has_star_flag = amoeba_home_system
+						has_star_flag = lcluster
+						has_star_flag = sealed_system
+					}
+				}
+				save_global_event_target_as = thalassocracy_target_system
+				random_system_planet = {
+					save_global_event_target_as = thalassocracy_spawn_planet
+					set_planet_flag = thalassocracy_visited
+				}
+				random_system_planet = {
+					limit = {
+						NOT = { has_planet_flag = thalassocracy_visited }
+					}
+					save_global_event_target_as = thalassocracy_target_planet
+				}
+				event_target:thalassocracy_country = {
+					set_country_flag = spawned_fleet
+				}
+				create_thalassocracy_fleet = yes
+			}
+		}
+		else_if = { #Pop up in a semi-convenient, empire-owned system, if possible
+			limit = { #Must be duplicated below, in the random_system effect
+				any_system = {
+					exists = space_owner
+					num_planets_in_system > 1
+					NOR = {
+						is_pirate_system = yes
+						has_star_flag = hostile_system
+						has_star_flag = guardian
+						has_star_flag = enclave
+						is_capital_system = yes
+					}
+					has_system_trade_value >= 80
+					distance = {
+						source = space_owner.capital_scope.solar_system
+						use_bypasses = no
+						min_jumps = 2
+						max_jumps = 5
+					}
+				}
+			}
+			random_system = {
+				limit = {
+					exists = space_owner
+					num_planets_in_system > 1
+					NOR = {
+						is_pirate_system = yes
+						has_star_flag = hostile_system
+						has_star_flag = guardian
+						has_star_flag = enclave
+						is_capital_system = yes
+					}
+					has_system_trade_value >= 80
+					distance = {
+						source = space_owner.capital_scope.solar_system
+						use_bypasses = no
+						min_jumps = 2
+						max_jumps = 5
+					}
+				}
+				save_global_event_target_as = thalassocracy_target_system
+				random_system_planet = {
+					save_global_event_target_as = thalassocracy_spawn_planet
+					set_planet_flag = thalassocracy_visited
+				}
+				random_galaxy_planet = {
+					limit = {
+						NOT = { has_planet_flag = thalassocracy_visited }
+					}
+					save_global_event_target_as = thalassocracy_target_planet
+				}
+				event_target:thalassocracy_country = { set_country_flag = spawned_fleet }
+				create_thalassocracy_fleet = yes
+				space_owner = {
+					country_event = { id = pirate.155 days = 0 scopes = { from = event_target:thalassocracy_country } } #Establish contact
+				}
+			}
+		}
+		# else = {
+		# 	#Nothing; await next pulse/valid country
+		# }
+	}
+}
+
+# The pirates encounter an empire (triggered by on_first_contact)
+# This = Initiating (e.g. player) empire
+# From = Pirate empire
+country_event = {
+	id = pirate.155
+	title = "pirate.155.name"
+	desc = {
+		text = "pirate.155.desc.regular"
+		trigger = { is_regular_empire = yes }
+	}
+	desc = {
+		text = "pirate.155.desc.machine"
+		trigger = { is_machine_empire = yes }
+	}
+	desc = {
+		text = "pirate.155.desc.hive"
+		trigger = { is_hive_empire = yes }
+	}
+	is_triggered_only = yes
+
+	diplomatic = yes
+	picture_event_data = {
+		portrait = event_target:thalassocracy_species
+		room = ethic_spaceship_room
+	}
+	show_sound = event_ship_bridge
+	location = event_target:thalassocracy_target_system
+
+	trigger = {
+		exists = event_target:thalassocracy_country
+		from = {
+			is_same_value = event_target:thalassocracy_country
+			has_country_flag = spawned_fleet
+		}
+		NOR = {
+			has_communications = from
+			has_country_flag = met_thalassocracy
+		}
+	}
+
+	immediate = {
+		establish_communications_no_message = event_target:thalassocracy_country
+		set_country_flag = met_thalassocracy
+	}
+
+	option = { #Disbelief
+		name = "pirate.155.a"
+	}
+	option = { #Scum!
+		name = "pirate.155.b"
+		trigger = {
+			NOR = {
+				is_pacifist = yes
+				is_machine_empire = yes
+				is_megacorp = yes
+			}
+		}
+	}
+	option = {
+		name = "pirate.155.pacifist"
+		trigger = { is_pacifist = yes }
+	}
+	option = {
+		name = "pirate.155.machine"
+		trigger = { is_machine_empire = yes }
+	}
+	option = {
+		name = "pirate.155.corp"
+		trigger = { is_megacorp = yes }
+	}
+}

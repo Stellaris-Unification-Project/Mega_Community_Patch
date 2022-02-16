@@ -10,9 +10,9 @@ namespace = planet_destruction
 #	}
 #}
 
-# Add static war exhaustion for these planet destruction events with: 
+# Add static war exhaustion for these planet destruction events with:
 # add_static_war_exhaustion = {
-#				attacker = <country>		 				# attacker in this battle
+#				attacker = <country>						# attacker in this battle
 #				location = <planet>							# location for battle
 #				value_for_planet_destruction = <0.0-1.0>	# scale amount of WE added to this battle
 #			}
@@ -37,10 +37,20 @@ planet_event = {
 			from.owner = { country_event = { id = planet_destruction.101 } }
 		}
 
+		#Dismantle observation post
+		if = {
+			limit = {
+				has_observation_outpost = yes
+			}
+			observation_outpost_owner = {
+				country_event = { id = planet_destruction.1000 days = 1 }
+			}
+		}
+
 		# Contingency Machine World
 		if = {
-			limit = { 
-				is_planet_class = pc_ai 
+			limit = {
+				is_planet_class = pc_ai
 				NOT = { has_planet_flag = machine_lair }
 			}
 			set_planet_flag = destroyed_by_colossus
@@ -50,19 +60,21 @@ planet_event = {
 
 		# Contingency Final Machine World
 		if = {
-			limit = { 
-				is_planet_class = pc_ai 
+			limit = {
+				is_planet_class = pc_ai
 				has_planet_flag = machine_lair
 			}
 			set_planet_flag = destroyed_by_colossus
 			set_planet_flag = planet_cracked
 			from.owner = { save_event_target_as = final_machine_world_destroyer }
+			stop_crisis_sound = yes
 			planet_event = { id = crisis.2046 }
 		}
 
 		# Swarm Situation Log counter
 		if = {
 			limit = {
+				exists = owner
 				owner = { is_country_type = swarm }
 			}
 			every_playable_country = {
@@ -70,16 +82,30 @@ planet_event = {
 				add_event_chain_counter = {
 					event_chain = "prethoryn_scourge_chain"
 					counter = "infested_worlds"
-					amount = -1 
+					amount = -1
 				}
 				add_event_chain_counter = {
 					event_chain = "prethoryn_scourge_chain"
 					counter = "infested_worlds_cleansed"
-					amount = 1 
+					amount = 1
 				}
 			}
 		}
-		
+
+		if = {
+			limit = {
+				OR = {
+					is_active_resolution = "resolution_rulesofwar_reverence_for_life"
+					is_active_resolution = "resolution_rulesofwar_independent_tribunals"
+					is_active_resolution = "resolution_rulesofwar_last_resort_doctrine"
+					is_active_resolution = "resolution_rulesofwar_demobilization_initiative"
+				}
+			}
+			from.owner = {
+				set_timed_country_flag = { flag = resolution_breached_fired_cracker days = 3600 }
+			}
+		}
+
 		# Exterminatus Achievement
 		if = {
 			limit = { is_capital = yes }
@@ -173,89 +199,91 @@ planet_event = {
 					}
 				}
 			}
-		}
-		else_if = {
-			limit = {
-				exists = owner
-				owner = { is_country_type = primitive }
-			}
-			# modifier for allies + those upset by genocide
-			every_country = {
+			if = {
 				limit = {
-					NOT = { is_same_empire = from.owner }
-					OR = {
-						has_communications = from.owner
-						has_communications = root.owner
+					exists = owner
+					owner = { is_country_type = primitive }
+				}
+				# modifier for allies + those upset by genocide
+				every_country = {
+					limit = {
+						NOT = { is_same_empire = from.owner }
+						OR = {
+							has_communications = from.owner
+							has_communications = root.owner
+						}
+						OR = {
+							has_ai_personality = awakened_fallen_empire_xenophile
+							AND = {
+								is_country_type = default
+								NOR = {
+									is_xenophobe = yes
+									is_homicidal = yes
+									is_xenophile = yes
+								}
+							}
+						}
 					}
-					OR = {
-						#has_ai_personality = awakened_fallen_empire_xenophile
-						AND = {
-							is_country_type = default
-							NOR = {
-								is_xenophobe = yes
-								is_homicidal = yes
+					add_opinion_modifier = {
+						modifier = opinion_cracked_a_primitive_world
+						who = from.owner
+					}
+				}
+				every_country = {
+					limit = {
+						NOT = { is_same_empire = from.owner }
+						OR = {
+							has_communications = from.owner
+							has_communications = root.owner
+						}
+						OR = {
+							has_ai_personality = awakened_fallen_empire_xenophile
+							AND = {
+								is_country_type = default
 								is_xenophile = yes
 							}
 						}
 					}
-				}
-				add_opinion_modifier = {
-					modifier = opinion_cracked_a_primitive_world
-					who = from.owner
-				}
-			}
-			every_country = {
-				limit = {
-					NOT = { is_same_empire = from.owner }
-					OR = {
-						has_communications = from.owner
-						has_communications = root.owner
+					add_opinion_modifier = {
+						modifier = opinion_cracked_a_primitive_world_phile
+						who = from.owner
 					}
-					OR = {
-						has_ai_personality = awakened_fallen_empire_xenophile
-						AND = {
-							is_country_type = default
-							is_xenophile = yes
-						}
-					}
-				}
-				add_opinion_modifier = {
-					modifier = opinion_cracked_a_primitive_world_phile
-					who = from.owner
 				}
 			}
 		}
-		# Add war exhaustion to planet owner 
+		# Add war exhaustion to planet owner
 		if = {
 			limit = {
 				exists = owner
 			}
 			owner = {
-				add_static_war_exhaustion = {
-					attacker = from.fleet.owner
-					location = root
-					value_for_planet_destruction = 1.0
+				if = {
+					limit = { #isn't the case when the crisis bombards planets, for instance
+						is_at_war_with = from.fleet.owner
+					}
+					add_static_war_exhaustion = {
+						attacker = from.fleet.owner
+						location = root
+						value_for_planet_destruction = 1.0
+					}
 				}
-			}			
+			}
 		}
 		every_owned_pop = {
 			kill_pop = yes
 		}
-		every_tile = {
-			limit = { has_building = yes }
-			remove_building = yes
-		}
+		remove_all_buildings = yes
 		# destroy habitats and ringworlds
 		if = {
 			limit = {
 				is_planet_class = pc_habitat
 			}
 			spawn_habitat_cracker_effect = yes
-			remove_planet = yes
+			ariphaos_patch_remove_habitat = yes
 		}
 		else_if = {
 			limit = {
-				is_planet_class = pc_ringworld_habitable
+				is_ringworld = yes
 			}
 			spawn_ringworld_cracker_effect = yes
 			change_pc = pc_ringworld_habitable_damaged
@@ -264,26 +292,20 @@ planet_event = {
 			limit = { habitable_planet = yes }
 			change_pc = pc_shattered
 			clear_deposits = yes
-			orbital_deposit_tile = {
-				random_list = {
-					1 = {
-						add_deposit = d_immense_mineral_deposit
-						add_deposit = d_immense_mineral_deposit
-						add_deposit = d_immense_mineral_deposit
-						add_deposit = d_immense_mineral_deposit
-					}
-					1 = {
-						add_deposit = d_immense_mineral_deposit
-						add_deposit = d_immense_mineral_deposit
-						add_deposit = d_immense_mineral_deposit
-					}
-					1 = {
-						add_deposit = d_immense_mineral_deposit
-						add_deposit = d_immense_mineral_deposit
-					}
-					1 = {
-						add_deposit = d_immense_mineral_deposit
-					}
+			random_list = {
+				1 = {
+					add_deposit = d_minerals_10
+					add_deposit = d_minerals_6
+				}
+				1 = {
+					add_deposit = d_minerals_10
+					add_deposit = d_minerals_2
+				}
+				1 = {
+					add_deposit = d_minerals_8
+				}
+				1 = {
+					add_deposit = d_minerals_4
 				}
 			}
 		}
@@ -301,7 +323,7 @@ country_event = {
 	picture = GFX_evt_exploding_planet
 	show_sound = event_super_explosion
 	location = from
-	
+
 
 	is_triggered_only = yes
 
@@ -350,7 +372,7 @@ country_event = {
 	picture = GFX_evt_exploding_planet
 	show_sound = event_super_explosion
 	location = from
-	
+
 
 	is_triggered_only = yes
 
@@ -419,7 +441,7 @@ planet_event = {
 			50 = {
 				solar_system = { save_event_target_as = sol_sys }
 				from.owner = { country_event = { id = planet_destruction.111 } }
-			}		
+			}
 		}
 	}
 }
@@ -486,10 +508,20 @@ planet_event = {
 			}
 		}
 
+		#Dismantle observation post
+		if = {
+			limit = {
+				has_observation_outpost = yes
+			}
+			observation_outpost_owner = {
+				country_event = { id = planet_destruction.1000 days = 1 }
+			}
+		}
+
 		# Contingency Machine World
 		if = {
-			limit = { 
-				is_planet_class = pc_ai 
+			limit = {
+				is_planet_class = pc_ai
 				NOT = { has_planet_flag = machine_lair }
 			}
 			set_planet_flag = destroyed_by_colossus
@@ -499,12 +531,13 @@ planet_event = {
 
 		# Contingency Final Machine World
 		if = {
-			limit = { 
-				is_planet_class = pc_ai 
+			limit = {
+				is_planet_class = pc_ai
 				has_planet_flag = machine_lair
 			}
 			set_planet_flag = destroyed_by_colossus
 			set_planet_flag = planet_shielded
+			stop_crisis_sound = yes
 			from.owner = { save_event_target_as = final_machine_world_destroyer }
 			planet_event = { id = crisis.2046 }
 		}
@@ -512,6 +545,7 @@ planet_event = {
 		# Swarm Situation Log counter
 		if = {
 			limit = {
+				exists = owner
 				owner = { is_country_type = swarm }
 			}
 			every_playable_country = {
@@ -519,12 +553,12 @@ planet_event = {
 				add_event_chain_counter = {
 					event_chain = "prethoryn_scourge_chain"
 					counter = "infested_worlds"
-					amount = -1 
+					amount = -1
 				}
 				add_event_chain_counter = {
 					event_chain = "prethoryn_scourge_chain"
 					counter = "infested_worlds_cleansed"
-					amount = 1 
+					amount = 1
 				}
 			}
 		}
@@ -595,12 +629,17 @@ planet_event = {
 		}
 		# Pandora's World Achievement
 		from.owner = { country_event = { id = achievement.3 } }
-		# Add war exhaustion to planet owner 
+		# Add war exhaustion to planet owner
 		owner = {
-			add_static_war_exhaustion = {
-				attacker = from.fleet.owner
-				location = root
-				value_for_planet_destruction = 1.0
+			if = {
+				limit = { #isn't the case when the crisis bombards planets, for instance
+					is_at_war_with = from.fleet.owner
+				}
+				add_static_war_exhaustion = {
+					attacker = from.fleet.owner
+					location = root
+					value_for_planet_destruction = 1.0
+				}
 			}
 		}
 		if = {
@@ -625,13 +664,8 @@ planet_event = {
 				inherit_entity = yes
 			}
 		}
-		orbital_deposit_tile = {
-			clear_deposits = yes
-			add_deposit = d_vast_society_deposit
-			add_deposit = d_vast_society_deposit
-			add_deposit = d_vast_society_deposit
-			add_deposit = d_society_deposit
-		}
+		clear_deposits = yes
+		add_deposit = d_society_10
 	}
 }
 
@@ -660,7 +694,22 @@ country_event = {
 			}
 		}
 	}
-	picture = GFX_evt_shielded_planet
+	picture = {
+		trigger = {
+			from = {
+				NOT = { is_planet_class = pc_habitat_shielded }
+			}
+		}
+		picture = GFX_evt_shielded_planet
+	}
+	picture = {
+		trigger = {
+			from = {
+				is_planet_class = pc_habitat_shielded
+			}
+		}
+		picture = GFX_evt_strategic_coordination_center
+	}
 	show_sound = event_mystic_reveal
 	location = from
 
@@ -717,9 +766,20 @@ planet_event = {
 			}
 		}
 
+		#Dismantle observation post
+		if = {
+			limit = {
+				has_observation_outpost = yes
+			}
+			observation_outpost_owner = {
+				country_event = { id = planet_destruction.1000 days = 1 }
+			}
+		}
+
 		# Swarm Situation Log counter
 		if = {
 			limit = {
+				exists = owner
 				owner = { is_country_type = swarm }
 			}
 			every_playable_country = {
@@ -727,13 +787,26 @@ planet_event = {
 				add_event_chain_counter = {
 					event_chain = "prethoryn_scourge_chain"
 					counter = "infested_worlds"
-					amount = -1 
+					amount = -1
 				}
 				add_event_chain_counter = {
 					event_chain = "prethoryn_scourge_chain"
 					counter = "infested_worlds_cleansed"
-					amount = 1 
+					amount = 1
 				}
+			}
+		}
+
+		if = {
+			limit = {
+				OR = {
+					is_active_resolution = "resolution_rulesofwar_independent_tribunals"
+					is_active_resolution = "resolution_rulesofwar_last_resort_doctrine"
+					is_active_resolution = "resolution_rulesofwar_demobilization_initiative"
+				}
+			}
+			from.owner = {
+				set_timed_country_flag = { flag = resolution_breached_fired_neutron days = 3600 }
 			}
 		}
 
@@ -847,19 +920,32 @@ planet_event = {
 				}
 			}
 		}
-		# Add war exhaustion to planet owner 
+		# Add war exhaustion to planet owner
 		owner = {
-			add_static_war_exhaustion = {
-				attacker = from.fleet.owner
-				location = root
-				value_for_planet_destruction = 1.0
+			if = {
+				limit = { #isn't the case when the crisis bombards planets, for instance
+					is_at_war_with = from.fleet.owner
+				}
+				add_static_war_exhaustion = {
+					attacker = from.fleet.owner
+					location = root
+					value_for_planet_destruction = 1.0
+				}
+			}
+		}
+		every_owned_pop = {
+			from.owner = {
+				if = {
+					limit = { has_ascension_perk = ap_become_the_crisis }
+					complete_crisis_objective = crisobj_purge_pops
+				}
 			}
 		}
 		destroy_colony = yes
 		add_modifier = {
 			modifier = neutron_bombarded
 			days = 3600
-		}		
+		}
 		# Special graphics for Habitats and Ring Worlds
 		if = {
 			limit = {
@@ -882,18 +968,7 @@ planet_event = {
 			# nothing
 		}
 		else = {
-			switch = {
-				trigger = is_planet_class
-				pc_desert = { change_pc = pc_desert }
-				pc_arid = { change_pc = pc_arid }
-				pc_savannah = { change_pc = pc_savannah }
-				pc_ocean = { change_pc = pc_ocean }
-				pc_continental = { change_pc = pc_continental }
-				pc_tropical = { change_pc = pc_tropical }
-				pc_tundra = { change_pc = pc_tundra }
-				pc_arctic = { change_pc = pc_arctic }
-				pc_alpine = { change_pc = pc_alpine }
-			}
+			change_pc = this
 		}
 		# For Infested worlds
 		if = {
@@ -915,7 +990,7 @@ country_event = {
 		trigger = {
 			from = {
 				NOR = {
-						is_planet_class = pc_infested 
+						is_planet_class = pc_infested
 						is_planet_class = pc_barren
 						is_planet_class = pc_barren_cold
 }
@@ -940,7 +1015,7 @@ country_event = {
 		trigger = {
 			from = {
 				OR = {
-					is_planet_class = pc_infested 
+					is_planet_class = pc_infested
 					is_planet_class = pc_barren
 					is_planet_class = pc_barren_cold
 				}
@@ -950,7 +1025,7 @@ country_event = {
 	picture = GFX_evt_planet_beam
 	show_sound = event_solar_fusion
 	location = from
-	
+
 
 	is_triggered_only = yes
 
@@ -999,6 +1074,7 @@ planet_event = {
 	immediate = {
 		if = {
 			limit = {
+				NOT = { is_planet_class = pc_ai }
 				exists = owner
 				owner = { NOT = { is_same_empire = from.owner } }
 			}
@@ -1006,8 +1082,75 @@ planet_event = {
 				country_event = { id = planet_destruction.401 }
 			}
 		}
+
+		# Contingency Machine World
 		if = {
 			limit = {
+				is_planet_class = pc_ai
+				NOT = { has_planet_flag = machine_lair }
+			}
+			set_planet_flag = destroyed_by_colossus
+			set_planet_flag = planet_godrayed
+			planet_event = { id = crisis.2040 }
+			create_ambient_object = {
+				location = this
+				type = habitat_cracker_object
+				duration = 5
+
+				use_3d_location = yes
+				base_angle_towards = star
+				entity_face_object = star
+
+				entity_offset = { min = 0 max = 0 }
+
+				entity_scale_to_size = yes
+				scale = 0.5
+			}
+		}
+
+		# Contingency Final Machine World
+		if = {
+			limit = {
+				is_planet_class = pc_ai
+				has_planet_flag = machine_lair
+			}
+			set_planet_flag = destroyed_by_colossus
+			set_planet_flag = planet_godrayed
+			from.owner = { save_event_target_as = final_machine_world_destroyer }
+			stop_crisis_sound = yes
+			planet_event = { id = crisis.2046 }
+			create_ambient_object = {
+				location = this
+				type = habitat_cracker_object
+				duration = 5
+
+				use_3d_location = yes
+				base_angle_towards = star
+				entity_face_object = star
+
+				entity_offset = { min = 0 max = 0 }
+
+				entity_scale_to_size = yes
+				scale = 0.5
+			}
+		}
+
+		if = {
+			limit = {
+				OR = {
+					is_active_resolution = "resolution_rulesofwar_independent_tribunals"
+					is_active_resolution = "resolution_rulesofwar_last_resort_doctrine"
+					is_active_resolution = "resolution_rulesofwar_demobilization_initiative"
+				}
+			}
+			from.owner = {
+				set_timed_country_flag = { flag = resolution_breached_fired_godray days = 3600 }
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = { is_planet_class = pc_ai }
 				exists = owner
 				owner = {
 					NOT = { is_same_empire = from.owner }
@@ -1069,12 +1212,17 @@ planet_event = {
 					}
 				}
 			}
-			# Add war exhaustion to planet owner 
+			# Add war exhaustion to planet owner
 			owner = {
-				add_static_war_exhaustion = {
-					attacker = from.fleet.owner
-					location = root
-					value_for_planet_destruction = 1.0
+				if = {
+					limit = { #isn't the case when the crisis bombards planets, for instance
+						is_at_war_with = from.fleet.owner
+					}
+					add_static_war_exhaustion = {
+						attacker = from.fleet.owner
+						location = root
+						value_for_planet_destruction = 1.0
+					}
 				}
 			}
 		}
@@ -1084,6 +1232,8 @@ planet_event = {
 					has_trait = trait_mechanical
 					has_trait = trait_machine_unit
 					has_trait = trait_hive_mind
+					is_species_class = ROBOT
+					is_species_class = MACHINE
 					has_living_standard = { # Bio-trophies die without care
 						country = root.owner
 						type = living_standard_organic_trophy
@@ -1091,6 +1241,12 @@ planet_event = {
 				}
 			}
 			kill_pop = yes
+			from.owner = {
+				if = {
+					limit = { has_ascension_perk = ap_become_the_crisis }
+					complete_crisis_objective = crisobj_purge_pops
+				}
+			}
 		}
 		every_owned_pop = {
 			limit = {
@@ -1128,18 +1284,7 @@ planet_event = {
 			# nothing
 		}
 		else = {
-			switch = {
-				trigger = is_planet_class
-				pc_desert = { change_pc = pc_desert }
-				pc_arid = { change_pc = pc_arid }
-				pc_savannah = { change_pc = pc_savannah }
-				pc_ocean = { change_pc = pc_ocean }
-				pc_continental = { change_pc = pc_continental }
-				pc_tropical = { change_pc = pc_tropical }
-				pc_tundra = { change_pc = pc_tundra }
-				pc_arctic = { change_pc = pc_arctic }
-				pc_alpine = { change_pc = pc_alpine }
-			}
+			change_pc = this
 		}
 		add_modifier = {
 			modifier = god_rayed
@@ -1166,7 +1311,7 @@ country_event = {
 	picture = GFX_evt_planet_beam
 	show_sound = event_mystic_reveal
 	location = from
-	
+
 	is_triggered_only = yes
 
 	trigger = {
@@ -1194,6 +1339,20 @@ planet_event = {
 
 	immediate = { # remove hive mind?
 		from.owner = { country_event = { id = planet_destruction.501 } }
+
+		if = {
+			limit = {
+				OR = {
+					is_active_resolution = "resolution_rulesofwar_independent_tribunals"
+					is_active_resolution = "resolution_rulesofwar_last_resort_doctrine"
+					is_active_resolution = "resolution_rulesofwar_demobilization_initiative"
+				}
+			}
+			from.owner = {
+				set_timed_country_flag = { flag = resolution_breached_fired_assimilator days = 3600 }
+			}
+		}
+
 		if = {
 			limit = {
 				exists = owner
@@ -1303,12 +1462,17 @@ planet_event = {
 				}
 			}
 		}
-		# Add war exhaustion to planet owner 
+		# Add war exhaustion to planet owner
 		owner = {
-			add_static_war_exhaustion = {
-				attacker = from.fleet.owner
-				location = root
-				value_for_planet_destruction = 1.0
+			if = {
+				limit = { #isn't the case when the crisis bombards planets, for instance
+					is_at_war_with = from.fleet.owner
+				}
+				add_static_war_exhaustion = {
+					attacker = from.fleet.owner
+					location = root
+					value_for_planet_destruction = 1.0
+				}
 			}
 		}
 		if = {
@@ -1376,18 +1540,7 @@ planet_event = {
 			# nothing
 		}
 		else = {
-			switch = {
-				trigger = is_planet_class
-				pc_desert = { change_pc = pc_desert }
-				pc_arid = { change_pc = pc_arid }
-				pc_savannah = { change_pc = pc_savannah }
-				pc_ocean = { change_pc = pc_ocean }
-				pc_continental = { change_pc = pc_continental }
-				pc_tropical = { change_pc = pc_tropical }
-				pc_tundra = { change_pc = pc_tundra }
-				pc_arctic = { change_pc = pc_arctic }
-				pc_alpine = { change_pc = pc_alpine }
-			}
+			change_pc = this
 		}
 	}
 }
@@ -1399,7 +1552,7 @@ country_event = {
 	picture = GFX_evt_circuitry_modification
 	show_sound = event_mystic_reveal
 	location = from
-	
+
 	is_triggered_only = yes
 
 	trigger = {
@@ -1585,6 +1738,427 @@ country_event = {
 			name = "NAME_Holy_World_War"
 			# "[This.MainAttacker.GetAdj] Holy World War"
 			attacker_war_goal = wg_subjugation
+		}
+	}
+}
+
+
+
+# Deluge
+planet_event = {
+	id = planet_destruction.700
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		from.owner = { country_event = { id = planet_destruction.701 } }
+
+		if = {
+			limit = {
+				exists = owner
+				owner = {
+					NOT = { is_same_empire = from.owner }
+				}
+				OR = {
+					is_active_resolution = "resolution_rulesofwar_independent_tribunals"
+					is_active_resolution = "resolution_rulesofwar_last_resort_doctrine"
+					is_active_resolution = "resolution_rulesofwar_demobilization_initiative"
+				}
+			}
+			from.owner = {
+				set_timed_country_flag = { flag = resolution_breached_fired_deluge days = 3600 }
+			}
+		}
+		if = { #you've basically shortcutted terraforming. Yep, that's a breach
+			limit = {
+				exists = space_owner
+				space_owner = {
+					is_same_empire = from.owner
+				}
+				OR = {
+					NOT = { exists = owner }
+					is_owned_by = from.owner
+				}
+				OR = {
+					is_active_resolution = "resolution_ecology_environmental_control_board"
+					is_active_resolution = "resolution_ecology_paradise_initiative"
+				}
+			}
+			from.owner = {
+				set_timed_country_flag = { flag = resolution_breached_terraformed days = 3600 }
+			}
+		}
+
+		if = {
+			limit = {
+				exists = owner
+				owner = {
+					NOT = { is_same_empire = from.owner }
+					OR = {
+						is_country_type = default
+						is_fallen_empire = yes
+					}
+				}
+			}
+			# Generate threat
+			add_threat = { who = from.owner amount = 3 }
+			# modifier for allies + those upset by robots
+			every_country = {
+				limit = {
+					NOR = {
+						is_same_empire = from.owner
+						is_same_empire = root.owner
+						AND = {
+							has_federation = yes
+							is_in_federation_with = from.owner
+						}
+					}
+					OR = {
+						has_communications = from.owner
+						has_communications = root.owner
+					}
+				}
+				add_opinion_modifier = {
+					modifier = opinion_drenched_a_world
+					who = from.owner
+				}
+			}
+			# modifiers for victim
+			owner = {
+				add_opinion_modifier = {
+					modifier = opinion_drenched_my_world
+					who = from.owner
+				}
+				if = {
+					limit = { NOT = { has_ethic = ethic_gestalt_consciousness } }
+					add_modifier = {
+						modifier = colossus_victim
+						days = 10800 # 30 years
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = owner
+				owner = { is_country_type = primitive }
+			}
+			# modifier for allies + those upset by genocide
+			every_country = {
+				limit = {
+					NOR = { is_same_empire = from.owner }
+					OR = {
+						has_communications = from.owner
+						has_communications = root.owner
+					}
+					is_country_type = default
+					NOR = {
+						is_xenophobe = yes
+						is_homicidal = yes
+						is_xenophile = yes
+					}
+				}
+				add_opinion_modifier = {
+					modifier = opinion_drenched_a_primitive_world
+					who = from.owner
+				}
+			}
+			every_country = {
+				limit = {
+					NOR = { is_same_empire = from.owner }
+					OR = {
+						has_communications = from.owner
+						has_communications = root.owner
+					}
+					OR = {
+						has_ai_personality = awakened_fallen_empire_xenophile
+						AND = {
+							is_country_type = default
+							is_xenophile = yes
+						}
+					}
+				}
+				add_opinion_modifier = {
+					modifier = opinion_drenched_a_primitive_world_phile
+					who = from.owner
+				}
+			}
+		}
+		# Add war exhaustion to planet owner
+		if = {
+			limit = {
+				exists = owner
+				owner = { NOT = { is_same_empire = from.owner } }
+			}
+			owner = {
+				if = {
+					limit = { #isn't the case when the crisis bombards planets, for instance
+						is_at_war_with = from.owner
+					}
+					add_static_war_exhaustion = {
+						attacker = from.owner
+						location = root
+						value_for_planet_destruction = 1.0
+					}
+				}
+			}
+		}
+
+		every_owned_pop = {
+			limit = {
+				NOT = { has_trait = trait_aquatic }
+			}
+			kill_pop = yes
+			from.owner = {
+				if = {
+					limit = { has_ascension_perk = ap_become_the_crisis }
+					complete_crisis_objective = crisobj_purge_pops
+				}
+			}
+		}
+		if = {
+			limit = { #were there any Aquatic pops? If so, the ownership needs to be flipped
+				any_owned_pop = {
+					is_scope_valid = yes
+					exists = this
+				}
+				owner = {
+					NOT = { is_same_empire = from.owner }
+				}
+			}
+			set_owner = from.owner
+		}
+		change_pc = pc_ocean
+
+		# from = { #feedback suggests this isn't fun, but leaving it here in case we need it
+		# 	ice_mining_depletion_effect = yes
+
+		# 	if = {
+		# 		limit = {
+		# 			root = { has_planet_flag = temp_ice_mine_exhausted_flag }
+		# 		}
+		# 		event_target:mined_system.starbase = {
+		# 			remove_starbase_building = {
+		# 				building = ice_mining_station
+		# 			}
+		# 		}
+		# 		create_message = {
+		# 			type = DELUGE_EXHAUSTED_ICE
+		# 			localization = DELUGE_EXHAUSTED_ICE_DESC
+		# 			days = 20
+		# 			target = root
+		# 			variable = {
+		# 				type = name
+		# 				localization = SYSTEM
+		# 				scope = event_target:mined_system
+		# 			}
+		# 		}
+		# 	}
+		# }
+	}
+}
+
+country_event = {
+	id = planet_destruction.701
+	title = planet_destruction.701.name
+	desc = planet_destruction.701.desc
+	picture = GFX_evt_death_from_above
+	show_sound = event_mystic_reveal
+	location = from
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = fired_deluge }
+	}
+
+	immediate = {
+		set_country_flag = fired_deluge
+	}
+
+	option = {
+		name = EXCELLENT
+		from = {
+			custom_tooltip = planet_destruction.701.tooltip
+		}
+	}
+}
+
+# # Deluge Queued
+# planet_event = {
+# 	id = planet_destruction.705
+# 	hide_window = yes
+
+# 	is_triggered_only = yes
+
+# 	immediate = {
+# 		from.owner = {
+# 			random_owned_starbase = {
+# 				limit = {
+# 					has_starbase_building = ice_mining_station
+# 					solar_system = {
+# 						NOT = { has_star_flag = ice_mining_in_progress }
+# 					}
+# 				}
+# 				solar_system = {
+# 					set_star_flag = ice_mining_in_progress
+# 					set_star_flag = ice_mining@root.from
+# 				}
+# 			}
+# 		}
+# 	}
+# }
+
+# # Deluge Unqueued or Cancelled
+# planet_event = {
+# 	id = planet_destruction.710
+# 	hide_window = yes
+
+# 	is_triggered_only = yes
+
+# 	immediate = {
+# 		from.owner = {
+# 			random_owned_starbase = {
+# 				limit = {
+# 					solar_system = {
+# 						has_star_flag = ice_mining@root.from
+# 					}
+# 				}
+# 				solar_system = {
+# 					remove_star_flag = ice_mining@root.from
+# 					remove_star_flag = ice_mining_in_progress
+# 				}
+# 			}
+# 		}
+# 	}
+# }
+
+
+#Notification for dismantled outpost
+country_event = {
+	id = planet_destruction.1000
+	title = planet_destruction.1000.name
+	desc = {
+		trigger = {
+			is_same_empire = fromfrom.owner
+		}
+		text = planet_destruction.1000.desc.self
+	}
+	desc = {
+		trigger = {
+			NOT = { is_same_empire = fromfrom.owner }
+			from = {
+				OR = {
+					is_planet_class = pc_shattered
+					is_planet_class = pc_shattered_2
+				}
+			}
+		}
+		text = planet_destruction.1000.desc.shatter
+	}
+	desc = {
+		trigger = {
+			NOT = { is_same_empire = fromfrom.owner }
+			from = {
+				OR = {
+					is_planet_class = pc_shielded
+					is_planet_class = pc_ringworld_shielded
+					is_planet_class = pc_habitat_shielded
+				}
+			}
+		}
+		text = planet_destruction.1000.desc.shield
+	}
+	desc = {
+		trigger = {
+			NOT = { is_same_empire = fromfrom.owner }
+			from = {
+				NOR = {
+					is_planet_class = pc_shattered
+					is_planet_class = pc_shattered_2
+					is_planet_class = pc_shielded
+					is_planet_class = pc_ringworld_shielded
+					is_planet_class = pc_habitat_shielded
+				}
+			}
+		}
+		text = planet_destruction.1000.desc.neutron
+	}
+	picture = {
+		trigger = {
+			from = {
+				is_planet_class = pc_shielded
+			}
+		}
+		picture = GFX_evt_shielded_planet
+	}
+	picture = {
+		trigger = {
+			from = {
+				NOR = {
+					is_planet_class = pc_shielded
+					is_planet_class = pc_ringworld_shielded
+					is_planet_class = pc_habitat_shielded
+				}
+			}
+		}
+		picture = GFX_evt_exploding_planet
+	}
+	trigger = {
+		from = {
+			has_observation_outpost = yes
+		}
+	}
+
+	is_triggered_only = yes
+
+	option = {
+		name = planet_destruction.1000.A
+		trigger = {
+			OR = {
+				NOR = {
+					is_homicidal = yes
+					is_xenophobe = yes
+				}
+				NOT = {
+					from = {
+						OR = {
+							is_planet_class = pc_shattered
+							is_planet_class = pc_shattered_2
+						}
+					}
+				}
+			}
+		}
+		from = {
+			observation_outpost = {
+				dismantle = yes
+			}
+		}
+	}
+	option = {
+		name = planet_destruction.1000.B
+		trigger = {
+			OR = {
+				is_homicidal = yes
+				is_xenophobe = yes
+			}
+			from = {
+				OR = {
+					is_planet_class = pc_shattered
+					is_planet_class = pc_shattered_2
+				}
+			}
+		}
+		from = {
+			observation_outpost = {
+				dismantle = yes
+			}
+		}
+		add_monthly_resource_mult = {
+			resource = unity
+			value = 2
 		}
 	}
 }

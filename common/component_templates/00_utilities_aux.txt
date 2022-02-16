@@ -8,13 +8,23 @@ utility_component_template = {
 	icon_frame = 1
 	power = 20
 	cost = 5
-	
+	resources = {
+		category = ship_components
+		cost = {
+			alloys = 5
+		}
+	}
+
 	prerequisites = { "tech_reactor_boosters_1" }
 	component_set = "REACTOR_BOOSTER_1"
 	upgrades_to = "REACTOR_BOOSTER_2"
-	
+
 	ai_weight = {
-		weight = 1
+		weight = 3
+		modifier = {
+			factor = 5
+			not = { has_technology = tech_fusion_power }
+		}
 	}
 }
 
@@ -25,13 +35,27 @@ utility_component_template = {
 	icon_frame = 1
 	power = 50
 	cost = 10
-	
+	resources = {
+		category = ship_components
+		cost = {
+			alloys = 10
+		}
+	}
+
 	prerequisites = { "tech_reactor_boosters_2" }
 	component_set = "REACTOR_BOOSTER_2"
 	upgrades_to = "REACTOR_BOOSTER_3"
 
 	ai_weight = {
-		weight = 3
+		weight = 5
+		modifier = {
+			factor = 10
+			not = { has_technology = tech_fusion_power }
+		}
+		modifier = {
+			factor = 5
+			not = { has_technology = tech_cold_fusion_power }
+		}
 	}
 }
 
@@ -42,12 +66,26 @@ utility_component_template = {
 	icon_frame = 1
 	power = 100
 	cost = 15
-	
+	resources = {
+		category = ship_components
+		cost = {
+			alloys = 15
+		}
+	}
+
 	prerequisites = { "tech_reactor_boosters_3" }
 	component_set = "REACTOR_BOOSTER_3"
 
 	ai_weight = {
-		weight = 5
+		weight = 9
+		modifier = {
+			factor = 5
+			not = { has_technology = tech_antimatter_power }
+		}
+		modifier = {
+			factor = 10
+			not = { has_technology = tech_cold_fusion_power }
+		}
 	}
 }
 
@@ -62,19 +100,33 @@ utility_component_template = {
 	icon_frame = 1
 	power = -20
 	cost = 10
-	
+	resources = {
+		category = ship_components
+		cost = {
+			alloys = 10
+			exotic_gases = 1
+		}
+	}
+
 	prerequisites = { "tech_shield_rechargers_1" }
 	component_set = "SHIELD_BOOSTER"
-	
+
 	modifier = {
 		ship_shield_mult = 0.1
 	}
-	
+
 	ai_weight = {
 		weight = 10
 		modifier = {
 			factor = 2.0
 			is_preferred_weapons = weapon_type_energy
+			is_country_type = default
+			has_monthly_income = { resource = exotic_gases value > 0 }
+		}
+
+		modifier = {
+			factor = 0.0
+			no_resource_for_component = { RESOURCE = exotic_gases }
 		}
 	}
 }
@@ -90,26 +142,32 @@ utility_component_template = {
 	icon_frame = 1
 	power = 0
 	cost = 20
+	resources = {
+		category = ship_components
+		cost = {
+			alloys = 20
+		}
+	}
 
 	modifier = {
 		ship_hull_regen_add_static = 1
 		ship_armor_regen_add_static = 2
 	}
-	
+
 	prerequisites = { tech_regenerative_hull_tissue }
 	component_set = "AUTO_REPAIR"
-	
+
 	ai_weight = {
 		weight = 10
 		modifier = {
 			factor = 2.0
 			is_preferred_weapons = weapon_type_explosive
-		}		
+		}
 	}
 }
 
 #############################
-# Auxiliary Fire-control    #
+# Auxiliary Fire-control	#
 #############################
 
 utility_component_template = {
@@ -119,20 +177,30 @@ utility_component_template = {
 	icon_frame = 1
 	power = -10
 	cost = 10
+	resources = {
+		category = ship_components
+		cost = {
+			alloys = 10
+		}
+	}
 
 	ship_modifier = {
 		ship_accuracy_add = 5
 	}
-	
+
 	prerequisites = { tech_auxiliary_fire_control }
 	component_set = "FIRE_CONTROL_1"
-	
+
 	ai_weight = {
 		weight = 10
 		modifier = {
-			factor = 3.0
+			factor = 5.0
 			is_preferred_weapons = weapon_type_kinetic
-		}		
+		}
+		modifier = {
+			factor = 2.0
+			is_preferred_weapons = weapon_type_energy
+		}
 	}
 }
 

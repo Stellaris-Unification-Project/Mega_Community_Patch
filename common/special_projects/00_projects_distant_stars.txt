@@ -4,7 +4,7 @@ special_project = {
 	picture = GFX_evt_star_chart
 	icon = "gfx/interface/icons/situation_log/situation_log_scanning_beam.dds"
 	tech_department = physics_technology
-	days_to_research = 30 #TODO [DEE]
+	days_to_research = 30
 	timelimit = 150
 
 	event_scope = ship_event
@@ -35,7 +35,7 @@ special_project = {
 	picture = GFX_evt_robot_assembly_plant
 	icon = "gfx/interface/icons/situation_log/situation_log_engineering.dds"
 	tech_department = society_technology
-	days_to_research = 30 #TODO [DEE]
+	days_to_research = 30
 
 	event_scope = ship_event
 
@@ -50,14 +50,14 @@ special_project = {
 		ship_event = { id = distar.29 }
 	}
 	on_fail = {
-		
+
 	}
 }
 
 ## RETROVIRUS PROJECT
 special_project = {
 	key = "RETROVIRUS_PROJECT"
-	cost = 60
+	cost = 1000
 	tech_department = society_technology
 	picture = GFX_evt_burning_settlement
 	icon = "gfx/interface/icons/situation_log/situation_log_alert.dds"
@@ -69,17 +69,17 @@ special_project = {
 		planet_event = { id = distar.36 }
 	}
 	on_fail = {
-		
+
 	}
 
 	on_start = {
 		owner = { set_country_flag = started_retrovirus_project }
 	}
-	
+
 	on_progress_50 = {
 		planet_event = { id = distar.35 }
 	}
-	
+
 }
 
 ## DARK FLOW PROJECT
@@ -106,7 +106,7 @@ special_project = {
 	on_fail = {}
 
 	on_start = {}
-	
+
 }
 
 ## DISSECTION PROJECT
@@ -165,7 +165,7 @@ special_project = {
 
 	on_start = {
 	}
-	
+
 }
 
 special_project = {
@@ -194,7 +194,7 @@ special_project = {
 	}
 
 	abort_trigger = {
-	
+
 	}
 }
 
@@ -224,7 +224,7 @@ special_project = {
 	}
 
 	abort_trigger = {
-	
+
 	}
 }
 
@@ -280,9 +280,8 @@ special_project = {
 					}
 				}
 				NOT = {
-					any_tile = {
-						has_pop = yes
-						pop = { is_same_species = event_target:ratling_species }
+					any_owned_pop = {
+						is_same_species = event_target:ratling_species
 					}
 				}
 			}
@@ -344,9 +343,8 @@ special_project = {
 					}
 				}
 				NOT = {
-					any_tile = {
-						has_pop = yes
-						pop = { is_same_species = event_target:ratling_species }
+					any_owned_pop = {
+						is_same_species = event_target:ratling_species
 					}
 				}
 			}
@@ -408,9 +406,8 @@ special_project = {
 					}
 				}
 				NOT = {
-					any_tile = {
-						has_pop = yes
-						pop = { is_same_species = event_target:ratling_species }
+					any_owned_pop = {
+						is_same_species = event_target:ratling_species
 					}
 				}
 			}
@@ -472,9 +469,8 @@ special_project = {
 					}
 				}
 				NOT = {
-					any_tile = {
-						has_pop = yes
-						pop = { is_same_species = event_target:ratling_species }
+					any_owned_pop = {
+						is_same_species = event_target:ratling_species
 					}
 				}
 			}
@@ -536,9 +532,8 @@ special_project = {
 					}
 				}
 				NOT = {
-					any_tile = {
-						has_pop = yes
-						pop = { is_same_species = event_target:ratling_species }
+					any_owned_pop = {
+						is_same_species = event_target:ratling_species
 					}
 				}
 			}
@@ -600,9 +595,8 @@ special_project = {
 					}
 				}
 				NOT = {
-					any_tile = {
-						has_pop = yes
-						pop = { is_same_species = event_target:ratling_species }
+					any_owned_pop = {
+						is_same_species = event_target:ratling_species
 					}
 				}
 			}
@@ -623,7 +617,7 @@ special_project = {
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
-		skill = 4
+		#skill = 4
 	}
 
 	on_success = {
@@ -639,7 +633,6 @@ special_project = {
 	abort_trigger = { #Handled in distar.254
 	}
 }
-
 
 #	on_fail
 #	this = country (project owner)
@@ -716,7 +709,7 @@ special_project = {
 special_project = {
 	key = "impossible_organism_project_1"
 	tech_department = society_technology
-	cost = 1000
+	cost = 3000
 	location = no
 	picture = GFX_evt_microscopic_life
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
@@ -727,14 +720,20 @@ special_project = {
 	}
 
 	on_success = {
-		from = { country_event = { id = distar.3011 } }
+		if = {	# compatibility code
+			limit = { is_same_value = from }
+			owner = { country_event = { id = distar.3011 } }
+		}
+		else = {
+			from = { country_event = { id = distar.3011 } }
+		}
 	}
 }
 
 special_project = {
 	key = "impossible_organism_project_2"
 	tech_department = society_technology
-	cost = 2000
+	cost = 5000
 	location = no
 	picture = GFX_evt_microscopic_life
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
@@ -745,8 +744,12 @@ special_project = {
 	}
 
 	on_success = {
-		from = {
-			country_event = { id = distar.3012 }
+		if = {	# compatibility code
+			limit = { is_same_value = from }
+			owner = { country_event = { id = distar.3012 } }
+		}
+		else = {
+			from = { country_event = { id = distar.3012 } }
 		}
 	}
 }
@@ -792,7 +795,7 @@ special_project = {
 special_project = {
 	key = "molluscoid_miners_project_2"
 	tech_department = society_technology
-	cost = 1500
+	cost = 3000
 	location = no
 	picture = GFX_evt_colony_settlement
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
@@ -812,7 +815,7 @@ special_project = {
 special_project = {
 	key = "molluscoid_miners_project_3"
 	tech_department = physics_technology
-	cost = 1000
+	cost = 2000
 	location = no
 	picture = GFX_evt_physics_research
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
@@ -833,7 +836,7 @@ special_project = {
 special_project = {
 	key = "speed_demon_open_box_project"
 	tech_department = physics_technology
-	cost = 1200
+	cost = 2000
 	location = no
 	picture = GFX_evt_physics_research
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
@@ -853,7 +856,7 @@ special_project = {
 special_project = {
 	key = "speed_demon_learn_more_project"
 	tech_department = physics_technology
-	cost = 600
+	cost = 1000
 	location = no
 	picture = GFX_evt_physics_research
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
@@ -873,8 +876,8 @@ special_project = {
 ### Breathing Rift ###
 special_project = {
 	key = "breathing_rift_project"
-	#tech_department = physics_technology
-	days_to_research = 180
+	tech_department = physics_technology
+	cost = 1000
 	timelimit = -1
 	location = no
 	picture = GFX_evt_wormhole
@@ -922,7 +925,7 @@ special_project = {
 				has_planet_flag = ldragon_recruited
 				AND = {
 					solar_system = {
-						any_ship_in_system = {
+						any_fleet_in_system = {
 							exists = owner
 							owner = { is_country_type = ldragon_country }
 							is_in_combat = yes
@@ -943,21 +946,21 @@ special_project = {
 	tech_department = engineering_technology
 	picture = GFX_evt_ship_in_orbit
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	
+
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 2
 	}
-	
+
 	on_success = {
 		owner = {
 			country_event = { id = distar.1001 }
 		}
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -969,21 +972,21 @@ special_project = {
 	tech_department = society_technology
 	picture = GFX_evt_ship_in_orbit
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	
+
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 2
 	}
-	
+
 	on_success = {
 		owner = {
 			country_event = { id = distar.1003 }
 		}
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -996,19 +999,19 @@ special_project = {
 	tech_department = engineering_technology
 	picture = GFX_evt_star_pulsar
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	
+
 	requirements = {
 		shipclass_constructor = 1
 	}
-	
+
 	on_success = {
 		owner = {
 			country_event = { id = distar.1021 }
 		}
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -1019,7 +1022,7 @@ special_project = {
 	tech_department = physics_technology
 	picture = GFX_evt_engineering_research
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
 
 	requirements = {
@@ -1027,13 +1030,13 @@ special_project = {
 		leader = scientist
 		#skill = 3
 	}
-	
+
 	on_success = {
 		owner = {
 			country_event = { id = distar.1022 }
 		}
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -1046,21 +1049,21 @@ special_project = {
 	tech_department = engineering_technology
 	picture = GFX_evt_ship_in_orbit
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	
+
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 3
 	}
-	
+
 	on_success = {
 		owner = {
 			country_event = { id = distar.1031 }
 		}
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -1073,21 +1076,21 @@ special_project = {
 	tech_department = engineering_technology
 	picture = GFX_evt_ship_in_orbit
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	
+
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 3
 	}
-	
+
 	on_success = {
 		owner = {
 			country_event = { id = distar.1056 }
 		}
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -1100,15 +1103,15 @@ special_project = {
 	tech_department = physics_technology
 	picture = GFX_evt_ship_in_orbit_2
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	
+
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 3
 	}
-	
+
 	on_success = {
 		if = {
 			limit = {
@@ -1137,7 +1140,7 @@ special_project = {
 			}
 		}
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -1146,25 +1149,25 @@ special_project = {
 
 special_project = {
 	key = ICE_ALIEN
-	cost = 200
+	cost = 1000
 	tech_department = society_technology
 	picture = GFX_evt_society_research
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
-	event_scope = ship_event
-	
+
+	event_scope = planet_event
+
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 3
 	}
-	
+
 	on_success = {
 		owner = {
 			country_event = { id = distar.1081 }
 		}
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -1178,21 +1181,21 @@ special_project = {
 	tech_department = physics_technology
 	picture = GFX_evt_engineering_research
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	
+
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 3
 	}
-	
+
 	on_success = {
 		owner = {
 			country_event = { id = distar.2006 }
 		}
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -1206,21 +1209,21 @@ special_project = {
 	tech_department = engineering_technology
 	picture = GFX_evt_shielded_planet
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	
+
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 3
 	}
-	
+
 	on_success = {
 		owner = {
 			country_event = { id = distar.2031 }
 		}
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -1231,15 +1234,15 @@ special_project = {
 	tech_department = physics_technology
 	picture = GFX_evt_shielded_planet
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	
+
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 3
 	}
-	
+
 	on_success = {
 		random_list = {
 			50 = {
@@ -1267,7 +1270,7 @@ special_project = {
 # ENIGMATIC CACHE
 special_project = {
 	key = ENIGMATIC_CACHE_PROJECT
-	cost = 200
+	cost = 2500
 	tech_department = engineering_technology
 	timelimit = -1
 	picture = GFX_evt_circuitry_modification
@@ -1287,6 +1290,110 @@ special_project = {
 	}
 }
 
+# ENIGMATIC UPLIFTING
+special_project = {
+	key = ENIGMATIC_UPLIFTING
+	days_to_research = 730
+	tech_department = society_technology
+	timelimit = -1
+	picture = GFX_evt_circuitry_modification
+	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
+
+	event_scope = ship_event
+
+	requirements = {
+		shipclass_science_ship = 1
+		leader = scientist
+		#skill = 1
+	}
+
+	on_start = {
+		from.owner = {
+			country_event = { id = distar.5066 } # triggers uplifting dreams
+			country_event = { id = distar.5076 } # triggers uplifting resumed
+		}
+	}
+
+	on_cancel = {
+		country_event = { id = distar.5075 }
+	}
+
+	on_success = {
+		random_list = {
+			60 = { # previously unintelligent players may become unhappy
+				modifier = {
+					factor = 0
+					owner = { has_country_flag = enigmatic_cache_broken }
+					owner_species = {
+						OR = {
+							has_trait = trait_intelligent
+							has_trait = trait_quick_learners
+						}
+					}
+				}
+				owner = { country_event = { id = distar.5068 } }
+			}
+
+			20 = { # a succesful uplifting
+				modifier = {
+					factor = 0
+					owner = { has_country_flag = enigmatic_cache_broken }
+				}
+				owner = { country_event = { id = distar.5063 } }
+			}
+
+			100 = { # the cache breaks
+				modifier = {
+					factor = 0
+					owner = { NOT = { has_country_flag = enigmatic_cache_broken } }
+				}
+				owner = { country_event = { id = distar.5074 } }
+			}
+		}
+	}
+}
+
+# ENIGMATIC REPAIR
+
+special_project = {
+	key = ENIGMATIC_REPAIR
+	days_to_research = 180
+	tech_department = engineering_technology
+	timelimit = 360
+	picture = GFX_evt_circuitry_modification
+	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
+	location = no
+
+	event_scope = ship_event
+
+	abort_trigger = {
+		OR = {
+			has_country_flag = aborted_enigmatic_uplift
+			capital_scope = {
+				NOT = {
+					solar_system = {
+						any_fleet_in_system = {
+							has_fleet_flag = enigmatic_cache_fleet
+							exists = orbit
+							orbit = { is_same_value = root.capital_scope }
+							exists = owner
+							is_owned_by = event_target:enigmatic_cache_country
+						}
+					}
+				}
+			}
+		}
+	}
+
+	requirements = {
+		shipclass_constructor = 1
+	}
+
+	on_success = {
+		owner = { country_event = { id = distar.5073 } } # triggers repairs complete
+	}
+}
+
 # INVISIBLE DEATH ( CLUENOMALY )
 
 special_project = {
@@ -1296,19 +1403,18 @@ special_project = {
 	picture = GFX_evt_dead_city
 
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	# TODO requirements
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 2
 	}
-	
+
 	on_success = {
 		ship_event = { id = distar.2041 }
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -1321,19 +1427,18 @@ special_project = {
 	picture = GFX_evt_drifting_gateway
 
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	# TODO requirements
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 2
 	}
-	
+
 	on_success = {
 		ship_event = { id = distar.2046 }
 	}
-	
+
 	on_fail = {
 	}
 }
@@ -1348,21 +1453,121 @@ special_project = {
 	tech_department = society_technology
 	picture = GFX_evt_toxic
 	icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"
-	
+
 	event_scope = ship_event
-	# TODO requirements
 	requirements = {
 		shipclass_science_ship = 1
 		leader = scientist
 		#skill = 3
 	}
-	
+
 	on_success = {
 		owner = {
 			country_event = { id = distar.5012 }
 		}
 	}
-	
+
 	on_fail = {
+	}
+}
+
+special_project = {
+	key = "REANIMATE_TIYANKI_MATRIARCH"
+	cost = 10000
+	tech_department = society_technology
+	picture = GFX_evt_ancient_tiyanki
+	timelimit = 1080
+
+	event_scope = ship_event
+
+	requirements = {
+		shipclass_science_ship = 1
+		leader = scientist
+	}
+
+	abort_trigger = {
+		NOT = { has_civic = civic_reanimated_armies }
+	}
+
+	on_success = {
+		owner = {
+			country_event = { id = distar.218 }
+		}
+	}
+
+	on_fail = {
+	}
+}
+
+special_project = {
+	key = "REANIMATE_VOIDSPAWN"
+	cost = 10000
+	tech_department = society_technology
+	picture = GFX_evt_voidspawn
+	timelimit = 1080
+
+	event_scope = ship_event
+
+	requirements = {
+		shipclass_science_ship = 1
+		leader = scientist
+	}
+
+	abort_trigger = {
+		NOT = { has_civic = civic_reanimated_armies }
+	}
+
+	on_success = {
+		owner = {
+			country_event = { id = distar.5016 }
+		}
+	}
+
+	on_fail = {
+	}
+}
+
+special_project = {
+	key = "REANIMATE_LOST_AMOEBA"
+	cost = 5000
+	tech_department = society_technology
+	picture = GFX_evt_friendly_amoeba
+	timelimit = 1080
+
+	event_scope = ship_event
+
+	desc = {
+		trigger = {
+			exists = event_target:amoeba_finding_scientist
+		}
+		text = REANIMATE_LOST_AMOEBA_DESC_SCIENCE
+	}
+
+	desc = {
+		trigger = {
+			NOT = { exists = event_target:amoeba_finding_scientist }
+		}
+		text = REANIMATE_LOST_AMOEBA_DESC
+	}
+
+	requirements = {
+		shipclass_science_ship = 1
+		leader = scientist
+	}
+
+	abort_trigger = {
+		NOT = { has_civic = civic_reanimated_armies }
+	}
+
+	on_success = {
+		owner = {
+			country_event = { id = distar.59 }
+		}
+	}
+
+	on_fail = {
+		owner = {
+			country_event = { id = distar.345 } #kills lost amoeba if you fail the event
+		}
 	}
 }

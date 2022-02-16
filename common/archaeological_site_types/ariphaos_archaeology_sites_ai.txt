@@ -1,0 +1,294 @@
+
+
+# AI site type 0
+site_ariphaos_ai_0 = {
+	desc = "ariphaos_ai_archaeology_site"
+	picture = GFX_evt_ancient_alien_temple
+	max_instances = 9999
+	stages = 5
+	weight = {
+		base = 0
+		modifier = {
+			add = 400
+			exists = solar_system.starbase
+			solar_system.starbase.owner = { is_ai = yes }
+			NOT = { mid_game_years_passed > 0 }
+		}
+		modifier = {
+			add = 400
+			exists = solar_system.starbase
+			solar_system.starbase.owner = { is_ai = yes }
+			NOT = { end_game_years_passed > 0 }
+		}
+	}
+
+	allow = {
+		exists = leader
+		leader = { leader_class = scientist }
+	}
+
+	visible = {
+		default_site_visible_trigger = yes
+		is_ai = yes
+	}
+
+	on_visible = {
+	}
+
+	stage = {
+		difficulty = 1
+		icon = GFX_archaeology_runes_C1
+		event = ariphaos_archaeology.10
+	}
+
+	stage = {
+		difficulty = 1
+		icon = GFX_archaeology_runes_C2
+		event = ariphaos_archaeology.10
+	}
+
+	stage = {
+		difficulty = 2
+		icon = GFX_archaeology_runes_C3
+		event = ariphaos_archaeology.11
+	}
+
+	stage = {
+		difficulty = 3
+		icon = GFX_archaeology_runes_C4
+		event = ariphaos_archaeology.12
+	}
+
+	stage = {
+		difficulty = 4
+		icon = GFX_archaeology_runes_C5
+		event = ariphaos_archaeology.20
+	}
+
+	#stage = {
+	#	difficulty = 5
+	#	icon = GFX_archaeology_runes_C6
+	#	event = ariphaos_archaeology.20
+	#}
+
+	on_roll_failed = {
+		from = {
+			standard_archaeological_site_on_roll_failed = { RANDOM_EVENTS = site_ariphaos_archaeology_random_events_easy }
+		}
+	}
+}
+
+# AI site type 1
+site_ariphaos_ai_1 = {
+	desc = "ariphaos_ai_archaeology_site"
+	picture = GFX_evt_ancient_alien_temple
+	max_instances = 9999
+	stages = 6
+	weight = {
+		base = 0
+		modifier = {
+			add = 200
+			exists = solar_system.starbase
+			solar_system.starbase.owner = { is_ai = yes }
+		}
+	}
+
+	allow = {
+		exists = leader
+		leader = { leader_class = scientist }
+	}
+
+	visible = {
+		default_site_visible_trigger = yes
+		is_ai = yes
+	}
+
+	on_visible = {
+	}
+
+	stage = {
+		difficulty = 2
+		icon = GFX_archaeology_runes_C1
+		event = ariphaos_archaeology.10
+	}
+
+	stage = {
+		difficulty = 3
+		icon = GFX_archaeology_runes_C2
+		event = ariphaos_archaeology.10
+	}
+
+	stage = {
+		difficulty = 4
+		icon = GFX_archaeology_runes_C3
+		event = ariphaos_archaeology.11
+	}
+
+	stage = {
+		difficulty = 5
+		icon = GFX_archaeology_runes_C4
+		event = ariphaos_archaeology.11
+	}
+
+	stage = {
+		difficulty = 6
+		icon = GFX_archaeology_runes_C5
+		event = ariphaos_archaeology.12
+	}
+
+	stage = {
+		difficulty = 7
+		icon = GFX_archaeology_runes_C6
+		event = ariphaos_archaeology.20
+	}
+
+	on_roll_failed = {
+		from = {
+			standard_archaeological_site_on_roll_failed = { RANDOM_EVENTS = site_ariphaos_archaeology_random_events_standard }
+		}
+	}
+}
+
+# AI site type 2
+site_ariphaos_ai_2 = {
+	desc = "ariphaos_ai_archaeology_site"
+	picture = GFX_evt_ancient_alien_temple
+	max_instances = 9999
+	stages = 6
+	weight = {
+		base = 0
+		modifier = {
+			add = 200
+			exists = solar_system.starbase
+			solar_system.starbase.owner = { is_ai = yes }
+			mid_game_years_passed > 0
+		}
+	}
+
+	allow = {
+		exists = leader
+		leader = { leader_class = scientist }
+	}
+
+	visible = {
+		default_site_visible_trigger = yes
+		is_ai = yes
+	}
+
+	on_visible = {
+	}
+
+	stage = {
+		difficulty = 3
+		icon = GFX_archaeology_runes_C1
+		event = ariphaos_archaeology.11
+	}
+
+	stage = {
+		difficulty = 4
+		icon = GFX_archaeology_runes_C2
+		event = ariphaos_archaeology.11
+	}
+
+	stage = {
+		difficulty = 5
+		icon = GFX_archaeology_runes_C3
+		event = ariphaos_archaeology.11
+	}
+
+	stage = {
+		difficulty = 6
+		icon = GFX_archaeology_runes_C4
+		event = ariphaos_archaeology.12
+	}
+
+	stage = {
+		difficulty = 7
+		icon = GFX_archaeology_runes_C5
+		event = ariphaos_archaeology.20
+	}
+
+	stage = {
+		difficulty = 8
+		icon = GFX_archaeology_runes_C6
+		event = ariphaos_archaeology.21
+	}
+
+	on_roll_failed = {
+		from = {
+			standard_archaeological_site_on_roll_failed = { RANDOM_EVENTS = site_ariphaos_archaeology_random_events_hard }
+		}
+	}
+}
+
+# AI site type 3
+site_ariphaos_ai_3 = {
+	desc = "ariphaos_ai_archaeology_site"
+	picture = GFX_evt_ancient_alien_temple
+	max_instances = 9999
+	stages = 6
+	weight = {
+		base = 0
+		modifier = {
+			add = 100
+			exists = solar_system.starbase
+			solar_system.starbase.owner = { is_ai = yes }
+			end_game_years_passed > 0
+		}
+	}
+
+	allow = {
+		exists = leader
+		leader = { leader_class = scientist }
+	}
+
+	visible = {
+		default_site_visible_trigger = yes
+		is_ai = yes
+	}
+
+	on_visible = {
+	}
+
+	stage = {
+		difficulty = 4
+		icon = GFX_archaeology_runes_C1
+		event = ariphaos_archaeology.11
+	}
+
+	stage = {
+		difficulty = 5
+		icon = GFX_archaeology_runes_C2
+		event = ariphaos_archaeology.11
+	}
+
+	stage = {
+		difficulty = 6
+		icon = GFX_archaeology_runes_C3
+		event = ariphaos_archaeology.11
+	}
+
+	stage = {
+		difficulty = 7
+		icon = GFX_archaeology_runes_C4
+		event = ariphaos_archaeology.12
+	}
+
+	stage = {
+		difficulty = 8
+		icon = GFX_archaeology_runes_C5
+		event = ariphaos_archaeology.13
+	}
+
+	stage = {
+		difficulty = 9
+		icon = GFX_archaeology_runes_C6
+		event = ariphaos_archaeology.22
+	}
+
+	on_roll_failed = {
+		from = {
+			standard_archaeological_site_on_roll_failed = { RANDOM_EVENTS = site_ariphaos_archaeology_random_events_hard }
+		}
+	}
+}

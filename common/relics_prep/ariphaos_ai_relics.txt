@@ -1,0 +1,125 @@
+
+
+
+r_ariphaos_ai_chosen_purifier = {
+	activation_duration = 7200
+	portrait = "GFX_relic_dragon_trophy"
+	sound = "relic_activation_ether_drake_trophy"
+
+	resources = {
+		category = relics
+		# Activation cost
+		cost = {
+			influence = 500
+		}
+		produces = {
+			physics_research = 50
+			society_research = 50
+			engineering_research = 50
+			alloys = 50
+			consumer_goods = 50
+			energy = 50
+			food = 50
+			minerals = 50
+			minor_artifacts = 1
+			influence = 3
+		}
+	}
+	
+	ai_weight = {
+		weight = 10000
+	}
+	
+	triggered_country_modifier = {
+		potential = {
+			always = yes
+		}
+		pop_ethic_xenophobe_attraction_mult = 1.0
+		BIOLOGICAL_species_trait_points_add = 1
+		colony_start_num_pops_add = 1
+	}
+
+	score = 10000
+
+	active_effect = {
+		add_modifier = {
+			modifier = "ariphaos_ai_relic_chosen_purifier" 
+			days = 7200
+		}
+		custom_tooltip = relic_triumph_cooldown
+		hidden_effect = {
+			add_modifier = {
+				modifier = "relic_activation_cooldown" 
+				days = 7200
+			}		
+		}
+	}
+
+	# Possible check for activation
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_relic_no_cooldown"
+			NOT = { has_modifier = relic_activation_cooldown }
+		}
+	}
+}
+
+r_ariphaos_ai_chosen_devourer = {
+	activation_duration = 7200
+	portrait = "GFX_relic_dragon_trophy"
+	sound = "relic_activation_ether_drake_trophy"
+
+	resources = {
+		category = relics
+		# Activation cost
+		cost = {
+			influence = 500
+		}
+		produces = {
+			physics_research = 50
+			society_research = 50
+			engineering_research = 50
+			alloys = 50
+			energy = 50
+			minerals = 50
+			minor_artifacts = 1
+			influence = 3
+		}
+	}
+	
+	ai_weight = {
+		weight = 10000
+	}
+	
+	triggered_country_modifier = {
+		potential = {
+			always = yes
+		}
+		BIOLOGICAL_species_trait_points_add = 1
+		colony_start_num_pops_add = 1
+	}
+
+	score = 10000
+
+	active_effect = {
+		add_modifier = {
+			modifier = "ariphaos_ai_relic_chosen_devourer" 
+			days = 7200
+		}
+		custom_tooltip = relic_triumph_cooldown
+		hidden_effect = {
+			add_modifier = {
+				modifier = "relic_activation_cooldown" 
+				days = 7200
+			}		
+		}
+	}
+
+	# Possible check for activation
+	possible = {
+		custom_tooltip = {
+			fail_text = "requires_relic_no_cooldown"
+			NOT = { has_modifier = relic_activation_cooldown }
+		}
+	}
+}

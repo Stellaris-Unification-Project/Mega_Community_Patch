@@ -1,18 +1,39 @@
 ############################################
-# HORIZON SIGNAL - THE WORM-IN-WAITING	   #
-# Written and designed by Alexis Kennedy   #
+# HORIZON SIGNAL - THE WORM-IN-WAITING		#
+# Written and designed by Alexis Kennedy	#
 # Scripted and edited by Maximilian Olbers #
 ############################################
 
 namespace = akx
 
+# Designate Horizon Signal system
+event = {
+	id = akx.8000
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		random_system = {
+			limit = {
+				is_star_class = sc_black_hole
+				is_fe_cluster = no
+				NOR = {
+					exists = starbase
+					has_star_flag = guardian
+					has_star_flag = empire_cluster
+				}
+			}
+			set_star_flag = horizonsignal_spawn
+		}
+	}
+}
+
+# debug
 fleet_event = {
 	id = akx.8888
 	title = akx.9000.name
 	desc = {
 		trigger = {
-			text = "DEBUG"
-			text = newline
 			text = akx.9000.desc
 		}
 	}
@@ -39,7 +60,7 @@ fleet_event = {
 		solar_system = {
 			star = {
 				enable_special_project = {
-					name  = HORIZON_SIGNAL_PROJECT
+					name = HORIZON_SIGNAL_PROJECT
 					location = this
 					owner = root.owner
 				}
@@ -72,6 +93,7 @@ fleet_event = {
 		from = { # solar system scope
 			is_star_class = sc_black_hole
 			NOT = { has_star_flag = guardian }
+			has_star_flag = horizonsignal_spawn
 		}
 		exists = leader
 		leader = {
@@ -88,6 +110,7 @@ fleet_event = {
 			}
 			save_global_event_target_as = horizonsignal_system
 		}
+		owner = { observer_event = { id = observer.70 } }
 	}
 
 	option = {
@@ -95,7 +118,7 @@ fleet_event = {
 		from = {
 			star = {
 				enable_special_project = {
-					name  = HORIZON_SIGNAL_PROJECT
+					name = HORIZON_SIGNAL_PROJECT
 					location = this
 					owner = root.owner
 				}
@@ -372,7 +395,7 @@ country_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		
+
 	}
 
 	after = {
@@ -457,6 +480,10 @@ ship_event = {
 				}
 			}
 			else = {
+				add_tech_progress = {
+					tech = tech_akx_worm_1
+					progress = 0.1
+				}
 				if = {
 					limit = {
 						NOT = {
@@ -464,10 +491,6 @@ ship_event = {
 						}
 					}
 					add_research_option = tech_akx_worm_1
-				}
-				add_tech_progress = {
-					tech = tech_akx_worm_1
-					progress = 0.1
 				}
 			}
 		}
@@ -585,6 +608,10 @@ country_event = {
 			}
 		}
 		else = {
+			add_tech_progress = {
+				tech = tech_akx_worm_1
+				progress = 0.10
+			}
 			if = {
 				limit = {
 					NOT = {
@@ -592,10 +619,6 @@ country_event = {
 					}
 				}
 				add_research_option = tech_akx_worm_1
-			}
-			add_tech_progress = {
-				tech = tech_akx_worm_1
-				progress = 0.10
 			}
 		}
 		# physics bump
@@ -617,6 +640,7 @@ country_event = {
 					target = event_target:horizonsignal_black_hole
 					distance = 50
 				}
+				set_fleet_stance = evasive
 			}
 		}
 	}
@@ -918,7 +942,7 @@ fleet_event = {
 			location = from
 		}
 		last_created_ambient_object = {
-			save_event_target_as = horizon_pod	
+			save_event_target_as = horizon_pod
 		}
 	}
 
@@ -1004,18 +1028,17 @@ country_event = {
 			limit = {
 				has_technology = tech_genome_mapping
 			}
-			break = yes
 		}
 		else = {
+			add_tech_progress = {
+				tech = tech_genome_mapping
+				progress = 0.15
+			}
 			if = {
 				limit = {
 					NOT = { has_tech_option = tech_genome_mapping }
 				}
 				add_research_option = tech_genome_mapping
-			}
-			add_tech_progress = {
-				tech = tech_genome_mapping
-				progress = 0.15
 			}
 		}
 	}
@@ -1436,6 +1459,7 @@ fleet_event = {
 			NOT = { has_country_flag = syzygy_encountered }
 			any_owned_leader = {
 				leader_class = admiral
+				is_same_species = root.owner
 			}
 		}
 	}
@@ -1446,6 +1470,7 @@ fleet_event = {
 			random_owned_leader = {
 				limit = {
 					leader_class = admiral
+					is_same_species = root.owner
 				}
 				save_global_event_target_as = mirrored_syzygy_admiral
 			}
@@ -1457,10 +1482,12 @@ fleet_event = {
 		name = akx.9300.a.admiralabsent
 		custom_tooltip = akx.9300.a.admiralabsent.tooltip
 		trigger = {
-			NAND = {
-				exists = leader
-				leader = {
-					is_same_value = event_target:mirrored_syzygy_admiral
+			OR = {
+				NOT = { exists = leader }
+				NOT = {
+					leader = {
+						is_same_value = event_target:mirrored_syzygy_admiral
+					}
 				}
 			}
 		}
@@ -1496,7 +1523,7 @@ country_event = {
 	title = akx.9310.name
 	desc = akx.9310.desc
 	diplomatic = yes
-	
+
 	is_triggered_only = yes
 
 	picture_event_data = {
@@ -1744,8 +1771,8 @@ country_event = {
 	}
 
 	option = {
-		name = akx.9310.e.fanaticcollectivist
-		#response_text = akx.9310.e.fanaticccollectivist.response		
+		name = akx.9310.e
+		#response_text = akx.9310.e.fanaticauthoritarian.response
 		trigger = {
 			has_ethic = ethic_fanatic_authoritarian
 		}
@@ -1765,7 +1792,6 @@ country_event = {
 	option = {
 		name = akx.9310.f
 		custom_tooltip = akx.9310.f.tooltip
-		default_hide_option = yes
 		hidden_effect = {
 			if = {
 				limit = {
@@ -1783,10 +1809,10 @@ country_event = {
 country_event = {
 	id = akx.9312
 	title = akx.9310.name
-	desc = akx.9310.e.fanaticcollectivist.response
+	desc = akx.9310.e.response
 
 	is_triggered_only = yes
-	
+
 	diplomatic = yes
 
 	picture_event_data = {
@@ -1795,7 +1821,7 @@ country_event = {
 	}
 
 	option = {
-		name = "..."
+		name = DOTDOTDOT
 		hidden_effect = {
 			country_event = { id = akx.9315 }
 		}
@@ -2073,10 +2099,10 @@ ship_event = {
 planet_event = {
 	id = akx.9399
 	hide_window = yes
-	
+
 	trigger = {
 		has_observation_outpost = yes
-		exists = owner
+		has_owner = yes
 		owner = {
 			is_country_type = primitive
 			OR = {
@@ -2084,7 +2110,7 @@ planet_event = {
 				has_country_flag = steam_age
 				has_country_flag = industrial_age
 				has_country_flag = machine_age
-				has_country_flag = atomic_age 
+				has_country_flag = atomic_age
 				has_country_flag = early_space_age
 			}
 		}
@@ -2094,7 +2120,7 @@ planet_event = {
 			NOT = { has_country_flag = coils_of_god }
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 600
 	}
@@ -2282,9 +2308,12 @@ country_event = {
 			limit = {
 				has_technology = tech_akx_worm_2
 			}
-			break = yes
 		}
 		else = {
+			add_tech_progress = {
+				tech = tech_akx_worm_2
+				progress = 0.1
+			}
 			if = {
 				limit = {
 					NOT = {
@@ -2292,10 +2321,6 @@ country_event = {
 					}
 				}
 				add_research_option = tech_akx_worm_2
-			}
-			add_tech_progress = {
-				tech = tech_akx_worm_2
-				progress = 0.1
 			}
 		}
 	}
@@ -2331,9 +2356,12 @@ country_event = {
 			limit = {
 				has_technology = tech_akx_worm_2
 			}
-			break = yes
 		}
 		else = {
+			add_tech_progress = {
+				tech = tech_akx_worm_2
+				progress = 0.1
+			}
 			if = {
 				limit = {
 					NOT = {
@@ -2341,10 +2369,6 @@ country_event = {
 					}
 				}
 				add_research_option = tech_akx_worm_2
-			}
-			add_tech_progress = {
-				tech = tech_akx_worm_2
-				progress = 0.1
 			}
 		}
 	}
@@ -2398,6 +2422,10 @@ country_event = {
 			break = yes
 		}
 		else = {
+			add_tech_progress = {
+				tech = tech_akx_worm_2
+				progress = 0.1
+			}
 			if = {
 				limit = {
 					NOT = {
@@ -2405,10 +2433,6 @@ country_event = {
 					}
 				}
 				add_research_option = tech_akx_worm_2
-			}
-			add_tech_progress = {
-				tech = tech_akx_worm_2
-				progress = 0.1
 			}
 		}
 	}
@@ -2471,6 +2495,10 @@ country_event = {
 			}
 		}
 		else = {
+			add_tech_progress = {
+				tech = tech_akx_worm_2
+				progress = 0.3
+			}
 			if = {
 				limit = {
 					NOT = {
@@ -2478,10 +2506,6 @@ country_event = {
 					}
 				}
 				add_research_option = tech_akx_worm_2
-			}
-			add_tech_progress = {
-				tech = tech_akx_worm_2
-				progress = 0.3
 			}
 		}
 	}
@@ -2557,12 +2581,16 @@ country_event = {
 planet_event = {
 	id = akx.9499
 	hide_window = yes
-	
+
 	is_triggered_only = yes
 
 	trigger = {
-		is_artificial = no
-		exists = owner
+		NOR = {
+			is_artificial = yes
+			is_planet_class = pc_city
+			is_planet_class = pc_relic
+		}
+		has_owner = yes
 		owner = {
 			has_country_flag = worm_events_available
 			NOT = {
@@ -2590,43 +2618,21 @@ planet_event = {
 
 	immediate = {
 		save_global_event_target_as = waiting_world
-		while = {
-			count = 2
-			random_tile = {
-				limit = {
-					has_building = no
-					has_blocker = no
-					OR = {
-						has_deposit = no
-						has_resource = { type = food amount > 0 }
-					}
-				}
-				set_building = building_worm_farm
-				set_ruined = yes
-			}
-			random_tile = {
-				limit = {
-					has_building = no
-					has_blocker = no
-					OR = {
-						has_deposit = no
-						has_resource = { type = minerals amount > 0 }
-					}
-				}
-				set_building = building_worm_mine
-				set_ruined = yes
-			}
-		}
+		add_deposit = d_mothballed_facilities
 	}
 
 	option = {
 		name = akx.9500.a
-		trigger = {
+		allow = {
 			owner = {
-				minerals > 100
+				resource_stockpile_compare = { resource = minerals value >= 100 }
 			}
 		}
-		owner = { add_minerals = -100 }
+		owner = { add_resource = { minerals = -100 } }
+		random_deposit = {
+			limit = { is_deposit_type = d_mothballed_facilities }
+			clear_blocker = yes
+		}
 		hidden_effect = {
 			every_tile = {
 				limit = {
@@ -2642,7 +2648,10 @@ planet_event = {
 	option = {
 		name = akx.9500.b
 		custom_tooltip = akx.9500.b.tooltip
-		hidden_effect = { planet_event = { id = akx.9505 } }
+		hidden_effect = {
+			remove_deposit = d_mothballed_facilities
+			planet_event = { id = akx.9505 }
+		}
 	}
 }
 
@@ -2668,6 +2677,7 @@ planet_event = {
 	}
 
 	after = {
+		tooltip = { remove_deposit = d_mothballed_facilities }
 		add_modifier = {
 			modifier = waiting_world_ruins
 			days = -1
@@ -2723,26 +2733,21 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		free_pop_tiles > 1
+		#free_housing > 0
 	}
 
 	immediate = {
-		if = {
+		random_owned_pop = {
 			limit = {
-				free_pop_tiles > 1
+				exists = planet
+				planet = { is_same_value = root }
 			}
-			random_owned_pop = {
-				limit = {
-					exists = planet
-					planet = { is_same_value = root }
-				}
-				root = {
-					best_tile_for_pop = {
-						create_pop = { 
-							species = prevprev
-						}
-					}
-				}
+			save_event_target_as = waiting_world_species
+		}
+		while = {
+			count = 3
+			create_pop = {
+				species = event_target:waiting_world_species
 			}
 		}
 	}
@@ -2773,31 +2778,21 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		free_pop_tiles > 1
+		#free_housing > 0
 	}
 
 	immediate = {
-		if = {
+		random_owned_pop = {
 			limit = {
-				free_pop_tiles > 1
+				exists = planet
+				planet = { is_same_value = root }
 			}
-			random_owned_pop = {
-				limit = {
-					exists = planet
-					planet = { is_same_value = root }
-				}
-				root = {
-					best_tile_for_pop = {
-						create_pop = { 
-							species = prevprev
-						}
-					}
-					best_tile_for_pop = {
-						create_pop = { 
-							species = prevprev
-						}
-					}
-				}
+			save_event_target_as = waiting_world_species
+		}
+		while = {
+			count = 5
+			create_pop = {
+				species = event_target:waiting_world_species
 			}
 		}
 	}
@@ -2832,23 +2827,11 @@ planet_event = {
 	is_triggered_only = yes
 
 	after = {
-		hidden_effect = {
-			every_tile = {
-				if = {
-					limit = {
-						has_building = yes
-					}
-					remove_building = yes
-				}
-				if = {
-					limit = { has_growing_pop = yes }
-					kill_pop = yes
-				}
-			}
-			every_owned_pop = {
-				kill_pop = yes
-			}
+		every_owned_pop = {
+			kill_pop = yes
 		}
+		remove_all_districts = yes
+		remove_all_buildings = yes
 	}
 
 	option = {
@@ -2900,9 +2883,13 @@ ship_event = {
 				limit = {
 					has_technology = tech_akx_worm_1
 				}
-				break = yes
+				# nothing
 			}
 			else = {
+				add_tech_progress = {
+					tech = tech_akx_worm_1
+					progress = 0.1
+				}
 				if = {
 					limit = {
 						NOT = {
@@ -2910,10 +2897,6 @@ ship_event = {
 						}
 					}
 					add_research_option = tech_akx_worm_1
-				}
-				add_tech_progress = {
-					tech = tech_akx_worm_1
-					progress = 0.1
 				}
 			}
 		}
@@ -3015,7 +2998,7 @@ planet_event = {
 				}
 				OR = {
 					is_country_type = default
-					has_ai_personality = awakened_fallen_empire_xenophile		
+					has_ai_personality = awakened_fallen_empire_xenophile
 				}
 			}
 			add_opinion_modifier = { who = root.owner modifier = opinion_genocidal }
@@ -3031,17 +3014,14 @@ planet_event = {
 	}
 
 	after = {
-		every_tile = {
-			if = {
-				limit = { has_building = yes }
-				remove_building = yes
-			}
-			if = {
-				limit = { has_growing_pop = yes }
+		hidden_effect = {
+			every_owned_pop = {
 				kill_pop = yes
 			}
+			remove_all_districts = yes
+			remove_all_buildings = yes
+			destroy_colony = yes
 		}
-		destroy_colony = yes
 	}
 
 	option = {
@@ -3092,9 +3072,13 @@ planet_event = {
 				limit = {
 					has_technology = tech_akx_worm_1
 				}
-				break = yes
+				# nothing
 			}
 			else = {
+				add_tech_progress = {
+					tech = tech_akx_worm_1
+					progress = 0.1
+				}
 				if = {
 					limit = {
 						NOT = {
@@ -3102,10 +3086,6 @@ planet_event = {
 						}
 					}
 					add_research_option = tech_akx_worm_1
-				}
-				add_tech_progress = {
-					tech = tech_akx_worm_1
-					progress = 0.1
 				}
 			}
 		}
@@ -3135,7 +3115,7 @@ fleet_event = {
 			is_ai = no
 			has_country_flag = worm_events_available
 			from = {
-				any_ship_in_system = {
+				any_fleet_in_system = {
 					exists = owner
 					owner = {
 						is_country_type = guardian_sphere
@@ -3183,13 +3163,15 @@ fleet_event = {
 		name = akx.9600.c
 		allow = {
 			owner = {
-				energy > 800
-				minerals > 800
+				resource_stockpile_compare = { resource = energy value >= 800 }
+				resource_stockpile_compare = { resource = minerals value >= 800 }
 			}
 		}
 		owner = {
-			add_energy = -800
-			add_minerals = -800
+			add_resource = {
+				energy = -800
+				minerals = -800
+			}
 		}
 		hidden_effect = {
 			fleet_event = { id = akx.9620 }
@@ -3269,13 +3251,15 @@ fleet_event = {
 		name = akx.9600.c
 		allow = {
 			owner = {
-				energy > 800
-				minerals > 800
+				resource_stockpile_compare = { resource = energy value >= 800 }
+				resource_stockpile_compare = { resource = minerals value >= 800 }
 			}
 		}
 		owner = {
-			add_energy = -800
-			add_minerals = -800
+			add_resource = {
+				energy = -800
+				minerals = -800
+			}
 		}
 		hidden_effect = {
 			fleet_event = { id = akx.9620 }
@@ -3348,13 +3332,15 @@ fleet_event = {
 		name = akx.9600.c
 		allow = {
 			owner = {
-				energy > 800
-				minerals > 800
+				resource_stockpile_compare = { resource = energy value >= 800 }
+				resource_stockpile_compare = { resource = minerals value >= 800 }
 			}
 		}
 		owner = {
-			add_energy = -800
-			add_minerals = -800
+			add_resource = {
+				energy = -800
+				minerals = -800
+			}
 		}
 		hidden_effect = {
 			fleet_event = { id = akx.9620 }
@@ -3396,7 +3382,7 @@ fleet_event = {
 
 	trigger = {
 		from = {
-			any_ship_in_system = {
+			any_fleet_in_system = {
 				exists = owner
 				owner = {
 					is_country_type = guardian_sphere
@@ -3420,13 +3406,15 @@ fleet_event = {
 		name = akx.9610.a
 		allow = {
 			owner = {
-				energy > 800
-				minerals > 800
+				resource_stockpile_compare = { resource = energy value >= 800 }
+				resource_stockpile_compare = { resource = minerals value >= 800 }
 			}
 		}
 		owner = {
-			add_energy = -800
-			add_minerals = -800
+			add_resource = {
+				energy = -800
+				minerals = -800
+			}
 		}
 		hidden_effect = {
 			fleet_event = { id = akx.9620 }
@@ -3482,9 +3470,7 @@ fleet_event = {
 			}
 		}
 		event_target:hole_pets = {
-			orbital_deposit_tile = {
-				add_deposit = d_worm_deposit
-			}
+			add_deposit = d_society_10
 		}
 	}
 }
@@ -3509,9 +3495,7 @@ planet_event = {
 			has_event_chain = WORM_CHAIN_1
 			NOT = { has_country_flag = alignment_built }
 		}
-		from = {
-			has_building = building_akx_worm_3
-		}
+		has_building = building_akx_worm_3
 	}
 
 	immediate = {
@@ -3592,9 +3576,10 @@ planet_event = {
 							days = -1
 						}
 						establish_communications_no_message = root.owner
+						establish_contact = { who = root.owner location = root }
 						save_global_event_target_as = worm_enemy
 						create_fleet = {
-							name = "TIME IS SIGHT GRAVITY IS DESIRE"
+							name = "NAME_TIME_IS_SIGHT_GRAVITY_IS_DESIRE"
 							settings = { spawn_debris = no }
 							effect = {
 								set_owner = event_target:worm_enemy
@@ -3614,6 +3599,7 @@ planet_event = {
 					}
 				}
 			}
+			owner = { observer_event = { id = observer.72 } }
 		}
 	}
 }
@@ -3634,18 +3620,21 @@ planet_event = {
 		solar_system = {
 			every_system_planet = {
 				limit = {
-					OR = {
-						is_planet_class = pc_desert
-						is_planet_class = pc_arid
-						is_planet_class = pc_savannah
-						is_planet_class = pc_tropical
-						is_planet_class = pc_continental
-						is_planet_class = pc_ocean
-						is_planet_class = pc_tundra
-						is_planet_class = pc_arctic
-						is_planet_class = pc_alpine
-						is_planet_class = pc_nuked
-						is_planet_class = pc_gaia
+					NOR = {
+						is_planet_class = pc_gas_giant
+						is_planet_class = pc_ringworld_habitable
+						is_planet_class = pc_ringworld_habitable_damaged
+						is_planet_class = pc_ringworld_tech
+						is_planet_class = pc_ringworld_tech_damaged
+						is_planet_class = pc_ringworld_seam
+						is_planet_class = pc_ringworld_seam_damaged
+						is_planet_class = pc_shattered_ring_habitable
+						is_planet_class = pc_habitat
+						is_planet_class = pc_asteroid
+						is_planet_class = pc_ice_asteroid
+						is_planet_class = pc_city
+						is_planet_class = pc_relic
+						is_star = yes
 					}
 				}
 				every_owned_pop = {
@@ -3654,17 +3643,44 @@ planet_event = {
 						is_sapient = yes
 					}
 					if = {
-						limit = {
-							NOT = { has_trait = trait_natural_physicists }
+						limit = { NOT = { has_trait = trait_natural_physicists } }
+						# remove opposite traits
+						if = {
+							limit = { has_trait = trait_natural_engineers }
+							modify_species = {
+								species = this
+								remove_trait = trait_natural_engineers
+							}
 						}
+						if = {
+							limit = { has_trait = trait_natural_sociologists }
+							modify_species = {
+								species = this
+								remove_trait = trait_natural_sociologists
+							}
+						}
+						if = {
+							limit = { has_trait = trait_nerve_stapled }
+							modify_species = {
+								species = this
+								remove_trait = trait_nerve_stapled
+							}
+						}
+						# add trait
 						modify_species = {
 							species = this
 							add_trait = trait_natural_physicists
 						}
 					}
 					if = {
-						limit = {
-							NOT = { has_trait = trait_repugnant }
+						limit = { NOT = { has_trait = trait_repugnant } }
+						# remove opposite traits
+						if = {
+							limit = { has_trait = trait_charismatic }
+							modify_species = {
+								species = this
+								remove_trait = trait_charismatic
+							}
 						}
 						modify_species = {
 							species = this
@@ -3790,24 +3806,20 @@ planet_event = {
 					}
 					modify_species = {
 						species = this
-						add_trait = trait_pc_nuked_preference
+						ideal_planet_class = pc_nuked
 					}
 				}
-				change_pc = pc_nuked
-				set_planet_flag = event_converted
-			}
-			every_system_planet = {
-				limit = {
-					OR = {
-						is_planet_class = pc_barren
-						is_planet_class = pc_barren_cold
-						is_planet_class = pc_toxic
-						is_planet_class = pc_frozen
-						is_planet_class = pc_shielded
-						is_planet_class = pc_molten
-					}
+				if = {
+					limit = { habitable_planet = yes }
+					change_pc = pc_nuked
+					set_planet_flag = nuked_planet_anomalies_disabled
 				}
-				worm_magic = yes 		# extended scripted effect
+				else = {
+					change_pc = pc_nuked
+					set_planet_flag = nuked_planet_anomalies_disabled
+					reroll_planet = yes
+				}
+				
 			}
 		#	every_system_planet = {
 		#		limit = { is_planet_class = pc_ringworld_habitable }
@@ -3815,7 +3827,7 @@ planet_event = {
 		#		change_pc = pc_ringworld_habitable_damaged
 		#	}
 			every_system_planet = {
-				limit = { is_planet_class = pc_infested }
+				limit = { is_star = yes }
 				destroy_colony = yes
 				change_pc = pc_barren_cold
 				planet_event = { id = crisis.216 }
@@ -3823,8 +3835,11 @@ planet_event = {
 			star = {
 				# explosion ambient object
 				change_pc = pc_black_hole
+				reroll_planet = yes
 			}
+			set_star_class = sc_black_hole
 		}
+		owner = { observer_event = { id = observer.71 } }
 	}
 
 	after = {
@@ -3848,7 +3863,7 @@ country_event = {
 	id = akx.10030
 	title = akx.10021.name
 	desc = akx.10021.desc
-	picture = GFX_evt_metropolis
+	picture = GFX_evt_crisis_defeated
 	show_sound = event_celebration
 	location = root
 
@@ -3889,6 +3904,10 @@ country_event = {
 			value = 36
 			min = 1000
 			max = 8000
+		}
+		if = {
+			limit = { has_ancrel = yes }
+			add_relic = r_worm_scales
 		}
 	}
 }
