@@ -1,9 +1,0 @@
-opinion_envoy_murder_scandal = {
-    opinion = {
-        base = -100
-    }
-    accumulative = yes
-    decay = {
-        base = 2.5
-    }
-}

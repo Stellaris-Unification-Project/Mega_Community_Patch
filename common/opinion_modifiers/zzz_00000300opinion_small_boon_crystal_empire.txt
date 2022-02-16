@@ -1,5 +1,0 @@
-opinion_small_boon_crystal_empire = {
-    opinion = {
-        base = 10
-    }
-}

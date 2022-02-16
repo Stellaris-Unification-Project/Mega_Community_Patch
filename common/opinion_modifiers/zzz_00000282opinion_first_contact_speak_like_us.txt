@@ -1,8 +1,0 @@
-opinion_first_contact_speak_like_us = {
-    opinion = {
-        base = 50
-    }
-    decay = {
-        base = 1
-    }
-}

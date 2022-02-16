@@ -1,8 +1,0 @@
-opinion_war_diadochi = {
-    opinion = {
-        base = -150
-    }
-    decay = {
-        base = 1
-    }
-}

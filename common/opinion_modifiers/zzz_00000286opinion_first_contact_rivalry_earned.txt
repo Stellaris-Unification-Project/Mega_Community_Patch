@@ -1,8 +1,0 @@
-opinion_first_contact_rivalry_earned = {
-    opinion = {
-        base = -30
-    }
-    decay = {
-        base = 1
-    }
-}

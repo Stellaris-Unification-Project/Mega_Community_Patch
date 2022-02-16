@@ -1,5 +1,0 @@
-opinion_destroying_systems = {
-    opinion = {
-        base = -100
-    }
-}

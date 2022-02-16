@@ -1,8 +1,0 @@
-opinion_caught_hacking = {
-    opinion = {
-        base = -75
-    }
-    decay = {
-        base = 1
-    }
-}

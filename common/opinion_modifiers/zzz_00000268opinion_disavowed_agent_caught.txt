@@ -1,6 +1,0 @@
-opinion_disavowed_agent_caught = {
-    opinion = {
-        base = -80
-    }
-    decay = 1
-}
