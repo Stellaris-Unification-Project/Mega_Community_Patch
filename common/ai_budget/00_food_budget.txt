@@ -8,14 +8,8 @@ food_expenditure_buffer = { # Buffer, will not be spent
 	resource = food
 	type = expenditure
 	category = buffer
-
-	potential = {
-		always = yes
-	}
-
-	fraction = {
-		weight = 0.3
-	}
+	potential = { always = yes }
+	fraction = { weight = 0.3 }
 }
 
 food_expenditure_colonies_expand = {
@@ -35,13 +29,9 @@ food_expenditure_colonies_expand = {
 		}
 	}
 
-	fraction = {
-		weight = 2.0
-	}
+	fraction = { weight = 2.0 }
 
-	static_max = {
-		base = 550
-	}
+	static_max = { base = 550 }
 }
 
 food_expenditure_colonies_expand_tree = {
